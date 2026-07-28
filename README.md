@@ -2,7 +2,7 @@
 
 ```text
 document_status = DRAFT_FOR_OWNER_REVIEW
-repository_status = NOT_YET_CREATED
+repository_status = CREATED_PRIVATE
 authorization_effect = NONE
 ```
 
@@ -51,6 +51,6 @@ Files present in the repository do not independently authorize execution.
 ## Current draft status
 
 ```text
-current_lifecycle_state = PRE_C0_DRAFT_REVIEW
+current_lifecycle_state = C0_ACTIVE
 authorization_effect = NONE
 ```

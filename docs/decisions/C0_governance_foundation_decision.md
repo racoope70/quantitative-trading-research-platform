@@ -1,10 +1,12 @@
 # C0 Governance-Foundation Decision
 
 ```text
-document_status = DRAFT_FOR_OWNER_REVIEW
+document_status = ACCEPTED_FOR_C0_EXECUTION
 decision_id = GOV-DEC-0001
-decision_status = PROPOSED
-authorization_effect = NONE
+decision_status = ACCEPTED
+owner_acceptance_status = ACCEPTED
+effective_lifecycle_state = C0_ACTIVE
+authorization_effect = C0_SCOPE_ONLY
 ```
 
 ## 1. Decision

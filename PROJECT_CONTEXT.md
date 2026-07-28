@@ -1,13 +1,13 @@
 # Quantitative Trading Research Platform — Project Context
 ```text
-document_status = DRAFT_FOR_OWNER_REVIEW
-current_lifecycle_state = PRE_C0_DRAFT_REVIEW
-active_major_phase = NONE
-proposed_next_major_phase = C0_CANONICAL_GOVERNANCE_FOUNDATION_AND_LEGACY_MIGRATION_CHARTER
-phase_status = DRAFT_UNDER_OWNER_REVIEW
-authorization_effect = NONE
+document_status = ACTIVE_CURRENT_STATE
+current_lifecycle_state = C0_ACTIVE
+active_major_phase = C0_CANONICAL_GOVERNANCE_FOUNDATION_AND_LEGACY_MIGRATION_CHARTER
+proposed_next_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
+phase_status = ACTIVE
+authorization_effect = C0_SCOPE_ONLY
 working_repository_name = quantitative-trading-research-platform
-repository_creation_status = NOT_YET_CREATED
+repository_creation_status = CREATED_PRIVATE
 ```
 ## 1. Project
 Build a canonical, reproducible, leakage-controlled quantitative research and trading platform supporting:
@@ -35,8 +35,9 @@ PRE_C0_DRAFT_REVIEW
 ```
 Owner acceptance of the proposed C0 scope activates C0.
 ```text
-current_material_blocker = OWNER_ACCEPTANCE_OF_PROPOSED_C0_SCOPE
-authorization_effect = NONE
+current_material_blocker = NONE
+current_C0_status = INITIAL_PACKAGE_COMMITTED_REMAINING_C0_CONTROLS_AND_AUDIT_PENDING
+authorization_effect = C0_SCOPE_ONLY
 ```
 Repository creation and committed C0 deliverables are C0 activities, not activation preconditions.
 ## 4. Work authorized after C0 activation
