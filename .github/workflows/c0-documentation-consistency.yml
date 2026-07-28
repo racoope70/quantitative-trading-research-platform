@@ -1,0 +1,212 @@
+name: C0 Documentation Consistency
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate required files, CSV, and governance state
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv
+          from pathlib import Path
+
+          required_paths = [
+              "PROJECT_CONTEXT.md",
+              "README.md",
+              "CONTRIBUTING.md",
+              "docs/audits/C0_independent_governance_foundation_audit_instructions.md",
+              "docs/decisions/C0_governance_foundation_decision.md",
+              "docs/governance/repository_protection_conventions.md",
+              "docs/templates/C1_legacy_evidence_and_architecture_report_template.md",
+              "docs/templates/C1_legacy_evidence_retention_matrix_template.csv",
+              "docs/templates/C1_technical_migration_manifest_template.yaml",
+              "docs/workflows/future_validation_training_reference_map.md",
+              "docs/workflows/milestone_review_reference_map.md",
+          ]
+
+          missing_paths = [path for path in required_paths if not Path(path).is_file()]
+          if missing_paths:
+              raise SystemExit(f"Missing required C0 files: {missing_paths}")
+
+          csv_path = Path("docs/templates/C1_legacy_evidence_retention_matrix_template.csv")
+          expected_header = [
+              "evidence_id",
+              "legacy_section",
+              "legacy_2v_entry_or_range",
+              "source_repository",
+              "source_commit",
+              "record_path",
+              "record_type",
+              "materiality",
+              "what_it_establishes",
+              "what_it_does_not_establish",
+              "current_validity",
+              "superseded_by",
+              "durable_control",
+              "one_time_procedure",
+              "classification",
+              "consolidation_target",
+              "future_phase",
+              "curated_2v_reference",
+              "retention_rationale",
+              "owner_disposition",
+          ]
+
+          with csv_path.open(newline="", encoding="utf-8") as handle:
+              rows = list(csv.reader(handle))
+
+          if len(rows) != 1:
+              raise SystemExit(f"CSV template must contain exactly one header row; found {len(rows)} rows")
+
+          header = rows[0]
+          if len(header) != 20:
+              raise SystemExit(f"CSV template must contain exactly 20 columns; found {len(header)}")
+          if len(set(header)) != len(header):
+              raise SystemExit("CSV template contains duplicate column names")
+          if header != expected_header:
+              raise SystemExit("CSV template column order does not match the accepted schema")
+
+          required_lines = {
+              "PROJECT_CONTEXT.md": [
+                  "current_lifecycle_state = C0_ACTIVE",
+                  "active_major_phase = C0_CANONICAL_GOVERNANCE_FOUNDATION_AND_LEGACY_MIGRATION_CHARTER",
+                  "phase_status = ACTIVE",
+                  "authorization_effect = C0_SCOPE_ONLY",
+                  "repository_creation_status = CREATED_PRIVATE",
+              ],
+              "docs/decisions/C0_governance_foundation_decision.md": [
+                  "decision_status = ACCEPTED",
+                  "owner_acceptance_status = ACCEPTED",
+                  "effective_lifecycle_state = C0_ACTIVE",
+                  "authorization_effect = C0_SCOPE_ONLY",
+              ],
+              "README.md": [
+                  "repository_status = CREATED_PRIVATE",
+                  "current_lifecycle_state = C0_ACTIVE",
+                  "authorization_effect = NONE",
+              ],
+          }
+
+          for path, expected_lines in required_lines.items():
+              actual_lines = set(Path(path).read_text(encoding="utf-8").splitlines())
+              missing_lines = [line for line in expected_lines if line not in actual_lines]
+              if missing_lines:
+                  raise SystemExit(f"{path} is missing required governance-state lines: {missing_lines}")
+
+          print("Required C0 files, CSV schema, and governance state are consistent.")
+          PY
+
+      - name: Validate YAML template schema and safety
+        shell: bash
+        run: |
+          ruby <<'RUBY'
+          require "yaml"
+
+          path = "docs/templates/C1_technical_migration_manifest_template.yaml"
+          raw = File.read(path, encoding: "UTF-8")
+          data = YAML.safe_load(
+            raw,
+            permitted_classes: [],
+            permitted_symbols: [],
+            aliases: false
+          )
+
+          raise "YAML template root must be a mapping" unless data.is_a?(Hash)
+
+          required_metadata = {
+            "document_status" => "DRAFT_FOR_OWNER_REVIEW",
+            "template_phase" => "C0",
+            "completed_output_phase" => "C1",
+            "completed_output_path" => "docs/migration/technical_migration_manifest.yaml",
+            "authorization_effect" => "NONE",
+            "schema_name" => "technical_migration_manifest",
+            "schema_version" => "0.1-draft",
+          }
+
+          required_metadata.each do |key, expected_value|
+            actual_value = data[key]
+            raise "Missing or invalid YAML metadata field: #{key}" unless actual_value == expected_value
+          end
+
+          expected_required_fields = %w[
+            item_id
+            source_repository
+            source_commit
+            source_path
+            asset_type
+            historical_purpose
+            classification
+            canonical_responsibility
+            migration_action
+            required_changes
+            known_limitations
+            tests_required
+            destination_path
+            future_phase
+            owner_disposition
+          ]
+
+          raise "YAML required_fields does not match the accepted schema" unless data["required_fields"] == expected_required_fields
+
+          required_schema_keys = %w[
+            allowed_asset_types
+            allowed_classifications
+            allowed_migration_actions
+            allowed_owner_dispositions
+            rules
+            items
+          ]
+          missing_schema_keys = required_schema_keys.reject { |key| data.key?(key) }
+          raise "Missing YAML schema fields: #{missing_schema_keys.join(', ')}" unless missing_schema_keys.empty?
+
+          items = data["items"]
+          raise "YAML items must be a non-empty array" unless items.is_a?(Array) && !items.empty?
+          raise "YAML item template must be a mapping" unless items.first.is_a?(Hash)
+
+          missing_item_fields = expected_required_fields.reject { |field| items.first.key?(field) }
+          raise "YAML item template is missing fields: #{missing_item_fields.join(', ')}" unless missing_item_fields.empty?
+
+          forbidden_raw_patterns = {
+            "GitHub secret reference" => /\$\{\{\s*secrets\./i,
+            "private key material" => /-----BEGIN [A-Z ]*PRIVATE KEY-----/,
+            "executable command key" => /^\s*(?:run|shell|command|commands|exec|script)\s*:/i,
+          }
+          forbidden_raw_patterns.each do |label, pattern|
+            raise "YAML template contains #{label}" if raw.match?(pattern)
+          end
+
+          forbidden_value_keys = /\A(?:password|secret|token|api[_-]?key|credential|credentials)\z/i
+          walk = lambda do |node|
+            case node
+            when Hash
+              node.each do |key, value|
+                meaningful_value = !value.nil? && value != "" && value != [] && value != {}
+                if key.to_s.match?(forbidden_value_keys) && meaningful_value
+                  raise "YAML template contains a credential value for #{key}"
+                end
+                walk.call(value)
+              end
+            when Array
+              node.each { |value| walk.call(value) }
+            end
+          end
+          walk.call(data)
+
+          puts "YAML syntax, schema, and safety checks passed."
+          RUBY
