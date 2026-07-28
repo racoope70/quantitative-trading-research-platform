@@ -1,0 +1,85 @@
+document_status: DRAFT_FOR_OWNER_REVIEW
+template_phase: C0
+completed_output_phase: C1
+completed_output_path: docs/migration/technical_migration_manifest.yaml
+authorization_effect: NONE
+schema_name: technical_migration_manifest
+schema_version: "0.1-draft"
+
+required_fields:
+  - item_id
+  - source_repository
+  - source_commit
+  - source_path
+  - asset_type
+  - historical_purpose
+  - classification
+  - canonical_responsibility
+  - migration_action
+  - required_changes
+  - known_limitations
+  - tests_required
+  - destination_path
+  - future_phase
+  - owner_disposition
+
+allowed_asset_types:
+  - SOURCE_MODULE
+  - TEST_MODULE
+  - CONFIGURATION
+  - NOTEBOOK
+  - SCRIPT
+  - DATA_ARTIFACT
+  - MODEL_ARTIFACT
+  - BROKER_SAFETY_COMPONENT
+  - PROVENANCE_UTILITY
+  - BUILD_OR_CI_COMPONENT
+  - OTHER_TECHNICAL_ASSET
+
+allowed_classifications:
+  - CARRY_FORWARD
+  - SUMMARIZE_AND_REFERENCE
+  - HISTORICAL_ARCHIVE_ONLY
+  - OBSOLETE_OR_SUPERSEDED
+
+allowed_migration_actions:
+  - COPY_WITH_ATTRIBUTION
+  - REIMPLEMENT_WITH_ATTRIBUTION
+  - ADAPT_AND_TEST
+  - SUMMARIZE_AND_REFERENCE
+  - RETAIN_IN_HISTORICAL_REPOSITORY
+  - EXCLUDE_FROM_NEW_REPOSITORY
+  - DEFER_DECISION
+
+allowed_owner_dispositions:
+  - PENDING
+  - ACCEPTED
+  - ACCEPTED_WITH_CORRECTIONS
+  - DEFERRED
+  - REJECTED
+
+rules:
+  - Use immutable full source commit SHAs.
+  - Historical repositories must not become runtime dependencies.
+  - Historical authorization has no effect in the new repository.
+  - Historical artifacts do not become current candidates through migration.
+  - C1 recommends migration but does not execute it.
+  - Executable migration begins only after the canonical environment exists.
+  - Run records, reviews, audits, decisions, results, and governance records belong in the evidence retention matrix.
+
+items:
+  - item_id: null
+    source_repository: null
+    source_commit: null
+    source_path: null
+    asset_type: null
+    historical_purpose: null
+    classification: null
+    canonical_responsibility: null
+    migration_action: null
+    required_changes: []
+    known_limitations: []
+    tests_required: []
+    destination_path: null
+    future_phase: null
+    owner_disposition: PENDING
