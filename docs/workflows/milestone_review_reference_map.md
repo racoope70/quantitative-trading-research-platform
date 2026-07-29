@@ -1,7 +1,7 @@
 # Milestone Review Reference Map
 
 ```text
-document_status = DRAFT_FOR_OWNER_REVIEW
+document_status = ACTIVE_NON_AUTHORIZING_REFERENCE
 document_role = NON_AUTHORIZING_ROADMAP_AND_EVIDENCE_NAVIGATION
 authorization_effect = NONE
 controlling_current_state_document = PROJECT_CONTEXT.md
@@ -265,6 +265,26 @@ C1_authorization_effect = NONE
 The Markdown report at `docs/audits/C0_independent_governance_foundation_audit_report.md` is the canonical repository audit record. The attached PDF was the source used to create the Markdown record but is not represented as committed.
 
 The audit permits owner-controlled C0 closure documentation only. It does not itself complete C0 or authorize C1.
+
+### 2v.GOV.03 — Canonical C0 completion evidence
+
+```text
+2v_record = 2v.GOV.03
+record_type = C0_COMPLETION_AND_CLOSURE_DECISION
+record_path = docs/decisions/C0_completion_decision.md
+decision_id = GOV-DEC-0002
+owner_decision = ACCEPT_C0_CLOSURE
+owner_acceptance_status = ACCEPTED
+owner_disposition_record = PR_4_COMMENT_5117264967
+owner_disposition_head_commit = 061243b92df2bf9351a50618dc0f894be34570eb
+completion_decision_merge_commit = c4235e466e3a8248fb0a61b342265e3a50dde76a
+completion_decision_merge_push_workflow_run = 9
+completion_decision_merge_push_workflow_conclusion = SUCCESS
+C0_completion_effect = EFFECTIVE
+C1_authorization_effect = NONE
+```
+
+This record closes C0 when read with the aligned controlling state in `PROJECT_CONTEXT.md`. It does not authorize or activate C1.
 
 `2v.GOV.01` should link:
 
