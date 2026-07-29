@@ -32,6 +32,7 @@ jobs:
               "CONTRIBUTING.md",
               "docs/audits/C0_independent_governance_foundation_audit_instructions.md",
               "docs/decisions/C0_governance_foundation_decision.md",
+              "docs/decisions/C0_completion_decision.md",
               "docs/governance/repository_protection_conventions.md",
               "docs/templates/C1_legacy_evidence_and_architecture_report_template.md",
               "docs/templates/C1_legacy_evidence_retention_matrix_template.csv",
@@ -84,11 +85,12 @@ jobs:
 
           required_lines = {
               "PROJECT_CONTEXT.md": [
-                  "current_lifecycle_state = C0_ACTIVE",
-                  "active_major_phase = C0_CANONICAL_GOVERNANCE_FOUNDATION_AND_LEGACY_MIGRATION_CHARTER",
-                  "phase_status = ACTIVE",
-                  "authorization_effect = C0_SCOPE_ONLY",
+                  "current_lifecycle_state = C0_COMPLETED",
+                  "active_major_phase = NONE",
+                  "phase_status = C0_COMPLETED_AWAITING_C1_AUTHORIZATION",
+                  "authorization_effect = NONE",
                   "repository_creation_status = CREATED_PRIVATE",
+                  "C1_authorization_status = NOT_AUTHORIZED",
               ],
               "docs/decisions/C0_governance_foundation_decision.md": [
                   "decision_status = ACCEPTED",
@@ -96,10 +98,26 @@ jobs:
                   "effective_lifecycle_state = C0_ACTIVE",
                   "authorization_effect = C0_SCOPE_ONLY",
               ],
+              "docs/decisions/C0_completion_decision.md": [
+                  "decision_id = GOV-DEC-0002",
+                  "decision_status = ACCEPTED",
+                  "owner_acceptance_status = ACCEPTED",
+                  "owner_decision = ACCEPT_C0_CLOSURE",
+                  "C0_completion_effect = EFFECTIVE",
+                  "C1_authorization_effect = NONE",
+              ],
               "README.md": [
                   "repository_status = CREATED_PRIVATE",
-                  "current_lifecycle_state = C0_ACTIVE",
+                  "current_lifecycle_state = C0_COMPLETED",
+                  "active_major_phase = NONE",
+                  "C1_authorization_status = NOT_AUTHORIZED",
                   "authorization_effect = NONE",
+              ],
+              "docs/workflows/milestone_review_reference_map.md": [
+                  "2v_record = 2v.GOV.03",
+                  "owner_decision = ACCEPT_C0_CLOSURE",
+                  "C0_completion_effect = EFFECTIVE",
+                  "C1_authorization_effect = NONE",
               ],
           }
 

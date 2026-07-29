@@ -1,13 +1,15 @@
 # Quantitative Trading Research Platform — Project Context
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C0_ACTIVE
-active_major_phase = C0_CANONICAL_GOVERNANCE_FOUNDATION_AND_LEGACY_MIGRATION_CHARTER
+current_lifecycle_state = C0_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
-phase_status = ACTIVE
-authorization_effect = C0_SCOPE_ONLY
+phase_status = C0_COMPLETED_AWAITING_C1_AUTHORIZATION
+authorization_effect = NONE
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
+C1_authorization_status = NOT_AUTHORIZED
+C1_phase_status = NOT_STARTED
 ```
 ## 1. Project
 Build a canonical, reproducible, leakage-controlled quantitative research and trading platform supporting:
@@ -18,31 +20,32 @@ Build a canonical, reproducible, leakage-controlled quantitative research and tr
 - Publication-quality research, controlled paper trading, and possible later live-capital consideration under separate authorization.
 Historical repositories remain evidence and engineering sources, not runtime dependencies or sources of current authorization.
 ## 2. Controlling role
-This document controls only:
+This document is the sole controlling source for:
 - Lifecycle, active phase, and phase status.
 - Authorized and prohibited work.
 - Current material blocker or decision.
 - Dataset, model, environment, and access status.
 - Latest completed phase and next permitted phase.
 - Required maps and latest material records.
-It does not contain detailed chronology or a completed governance chain.
-Git history and VS Code verify implementation state. They do not establish current authorization.
-## 3. Lifecycle and current blocker
+It does not contain detailed chronology or a completed governance chain. Git history and VS Code verify implementation state; they do not establish current authorization.
+## 3. Lifecycle and current status
 ```text
 PRE_C0_DRAFT_REVIEW
 → C0_ACTIVE
 → C0_COMPLETED
 ```
-Owner acceptance of the proposed C0 scope activates C0.
+C0 is completed. No major phase is active. C1 is only the proposed next phase and requires a separate owner authorization decision.
 ```text
 current_material_blocker = NONE
-current_C0_status = C0_CONTROLS_COMPLETE_INDEPENDENT_AUDIT_PENDING
-independent_C0_audit_status = NOT_STARTED
-authorization_effect = C0_SCOPE_ONLY
+current_C0_status = COMPLETED
+independent_C0_audit_status = PASS
+owner_C0_closure_status = ACCEPTED
+C0_completion_record_status = ACCEPTED_AND_EFFECTIVE
+authorization_effect = NONE
 ```
-Repository creation and committed C0 deliverables are C0 activities, not activation preconditions.
-## 4. Work authorized after C0 activation
-C0 may include:
+No C1 review, migration, environment, data, model, provider, broker, or trading work is authorized.
+## 4. Completed C0 scope
+The completed C0 scope included:
 - Final repository-name review and private repository creation.
 - Minimal nontechnical package and documentation structure.
 - Creation, revision, and commit of the complete C0 package.
@@ -51,8 +54,8 @@ C0 may include:
 - Read-only historical inspection needed to finalize the C1 method.
 - One independent C0 audit and correction of material findings.
 - Preparation of the C0 completion decision.
-## 5. Work prohibited during C0
-C0 does not authorize:
+## 5. C0 prohibited scope and continuing non-authorization
+C0 did not authorize and its completion does not authorize:
 - Executable legacy-code migration or execution.
 - Dependency installation or environment reconstruction.
 - Provider acceptance, credentials, authenticated access, network/API testing, or market-data requests.
@@ -102,21 +105,30 @@ live_order_activity = NOT_AUTHORIZED
 public_release = NOT_AUTHORIZED
 ```
 ## 10. C0 completion conditions
-C0 closes when:
+C0 completion conditions are satisfied:
 1. The private repository and complete package are committed.
 2. Minimal structure and documentation-only CI are operational.
 3. Protections and contribution conventions exist.
-4. One independent audit passes after correction of material findings.
-5. The owner accepts closure.
-6. No prohibited technical execution occurred.
+4. One independent audit passed with no material findings requiring correction.
+5. The owner accepted closure.
+6. No prohibited technical execution was detected in the reviewed repository and GitHub evidence.
+```text
+C0_completion_conditions_status = SATISFIED
+owner_closure_acceptance = ACCEPTED
+completion_decision = docs/decisions/C0_completion_decision.md
+completion_decision_id = GOV-DEC-0002
+owner_disposition_record = PR_4_COMMENT_5117264967
+completion_decision_merge_commit = c4235e466e3a8248fb0a61b342265e3a50dde76a
+```
+The prohibited-activity conclusion remains limited to reviewed repository and GitHub evidence. That evidence cannot independently prove the absence of unrecorded activity outside the repository.
 ## 11. Major milestone pointers
 ```text
-latest_completed_major_milestone = NONE_IN_NEW_REPOSITORY
-latest_completion_record = NONE
-latest_independent_audit = NONE
-next_permitted_major_milestone = C0_CANONICAL_GOVERNANCE_FOUNDATION_AND_LEGACY_MIGRATION_CHARTER
+latest_completed_major_milestone = C0_CANONICAL_GOVERNANCE_FOUNDATION_AND_LEGACY_MIGRATION_CHARTER
+latest_completion_record = docs/decisions/C0_completion_decision.md
+latest_independent_audit = docs/audits/C0_independent_governance_foundation_audit_report.md
+next_permitted_major_milestone = C1_AUTHORIZATION_DECISION_ONLY
 ```
-After C0 completion, the proposed next phase is `C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN`.
+C1 remains the proposed next phase. It is not authorized or active.
 ## 12. Required reading and new-chat orientation
 A fresh project chat must:
 1. Read `PROJECT_CONTEXT.md`.
@@ -124,9 +136,9 @@ A fresh project chat must:
 3. Read the applicable Future Map section.
 4. Inspect Git history and VS Code to verify accepted implementation and completed work.
 ```text
-latest_material_decision = docs/decisions/C0_governance_foundation_decision.md
-latest_material_completion_record = NONE
-latest_material_independent_audit = NONE
+latest_material_decision = docs/decisions/C0_completion_decision.md
+latest_material_completion_record = docs/decisions/C0_completion_decision.md
+latest_material_independent_audit = docs/audits/C0_independent_governance_foundation_audit_report.md
 ```
 ## 13. Maintenance guidance
 ```text

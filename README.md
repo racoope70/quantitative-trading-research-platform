@@ -1,7 +1,7 @@
 # Quantitative Trading Research Platform
 
 ```text
-document_status = DRAFT_FOR_OWNER_REVIEW
+document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
 authorization_effect = NONE
 ```
@@ -48,9 +48,14 @@ A fresh project chat should read `PROJECT_CONTEXT.md`, the applicable Milestone 
 
 Files present in the repository do not independently authorize execution.
 
-## Current draft status
+## Current repository status
 
 ```text
-current_lifecycle_state = C0_ACTIVE
+current_lifecycle_state = C0_COMPLETED
+active_major_phase = NONE
+proposed_next_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
+C1_authorization_status = NOT_AUTHORIZED
 authorization_effect = NONE
 ```
+
+C0 is completed. C1 has not been authorized.
