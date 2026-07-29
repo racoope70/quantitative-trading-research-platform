@@ -36,7 +36,8 @@ PRE_C0_DRAFT_REVIEW
 Owner acceptance of the proposed C0 scope activates C0.
 ```text
 current_material_blocker = NONE
-current_C0_status = INITIAL_PACKAGE_COMMITTED_REMAINING_C0_CONTROLS_AND_AUDIT_PENDING
+current_C0_status = C0_CONTROLS_COMPLETE_INDEPENDENT_AUDIT_PENDING
+independent_C0_audit_status = NOT_STARTED
 authorization_effect = C0_SCOPE_ONLY
 ```
 Repository creation and committed C0 deliverables are C0 activities, not activation preconditions.
