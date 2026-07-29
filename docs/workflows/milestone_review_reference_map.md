@@ -238,12 +238,13 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.LIVE.*      = Live-capital consideration
 ```
 
-## 8. Initial C0 curated lookup
+## 8. Initial C0 and C1 curated lookup
 
 ```text
 2v.GOV.01 — Accepted C0 governance-foundation decision and package
 2v.GOV.02 — Independent C0 governance-foundation audit
 2v.GOV.03 — C0 completion decision
+2v.GOV.04 — C1 phase authorization decision
 ```
 
 ### 2v.GOV.02 — Canonical independent-audit evidence
@@ -285,6 +286,29 @@ C1_authorization_effect = NONE
 ```
 
 This record closes C0 when read with the aligned controlling state in `PROJECT_CONTEXT.md`. It does not authorize or activate C1.
+
+### 2v.GOV.04 — Canonical C1 authorization evidence
+
+```text
+2v_record = 2v.GOV.04
+record_type = C1_PHASE_AUTHORIZATION_DECISION
+record_path = docs/decisions/C1_authorization_decision.md
+decision_id = GOV-DEC-0003
+owner_decision = AUTHORIZE_C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
+owner_acceptance_status = ACCEPTED
+owner_disposition_record = PR_6_COMMENT_5120803290
+owner_disposition_head_commit = 18351d71fa0eedfb8ebdaa2ed9b33d051fd9829a
+authorization_decision_merge_commit = 593f8b79246688dc9e17ee961a726f641b4d433e
+authorization_decision_pr_validation_run = 12
+authorization_decision_pr_validation_conclusion = SUCCESS
+authorization_decision_merge_push_workflow_run = 13
+authorization_decision_merge_push_workflow_conclusion = SUCCESS
+C1_authorization_effect = EFFECTIVE
+C1_activation_effect = EFFECTIVE_WHEN_READ_WITH_ALIGNED_PROJECT_CONTEXT
+C2_authorization_effect = NONE
+```
+
+This map does not independently authorize or activate C1. `2v.GOV.04` records the accepted C1 authorization evidence; effectiveness arises from `GOV-DEC-0003` read with the aligned controlling state in `PROJECT_CONTEXT.md`. C2 remains unauthorized.
 
 `2v.GOV.01` should link:
 

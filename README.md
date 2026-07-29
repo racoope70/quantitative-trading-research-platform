@@ -3,7 +3,7 @@
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
-authorization_effect = NONE
+authorization_effect = C1_SCOPE_ONLY
 ```
 
 ## Mission
@@ -51,11 +51,13 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
-current_lifecycle_state = C0_COMPLETED
-active_major_phase = NONE
-proposed_next_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
-C1_authorization_status = NOT_AUTHORIZED
-authorization_effect = NONE
+current_lifecycle_state = C1_ACTIVE
+active_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
+proposed_next_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+C1_authorization_status = AUTHORIZED
+C1_phase_status = ACTIVE
+C2_authorization_status = NOT_AUTHORIZED
+authorization_effect = C1_SCOPE_ONLY
 ```
 
-C0 is completed. C1 has not been authorized.
+C1 is active only for bounded read-only repository inspection, proportional evidence review, documentation-only evidence classification and architecture design, preparation and revision of the three accepted C1 outputs, documentation checks, review, correction, independent audit, and completion governance. C2 and all executable migration, environment, provider, data, model, holdout, broker, and trading activity remain unauthorized.

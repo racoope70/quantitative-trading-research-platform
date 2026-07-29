@@ -1,15 +1,16 @@
 # Quantitative Trading Research Platform — Project Context
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C0_COMPLETED
-active_major_phase = NONE
-proposed_next_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
-phase_status = C0_COMPLETED_AWAITING_C1_AUTHORIZATION
-authorization_effect = NONE
+current_lifecycle_state = C1_ACTIVE
+active_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
+proposed_next_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+phase_status = ACTIVE
+authorization_effect = C1_SCOPE_ONLY
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
-C1_authorization_status = NOT_AUTHORIZED
-C1_phase_status = NOT_STARTED
+C1_authorization_status = AUTHORIZED
+C1_phase_status = ACTIVE
+C2_authorization_status = NOT_AUTHORIZED
 ```
 ## 1. Project
 Build a canonical, reproducible, leakage-controlled quantitative research and trading platform supporting:
@@ -25,45 +26,68 @@ This document is the sole controlling source for:
 - Authorized and prohibited work.
 - Current material blocker or decision.
 - Dataset, model, environment, and access status.
-- Latest completed phase and next permitted phase.
+- Latest completed phase, active milestone, and next permitted workstream.
 - Required maps and latest material records.
 It does not contain detailed chronology or a completed governance chain. Git history and VS Code verify implementation state; they do not establish current authorization.
-## 3. Lifecycle and current status
+## 3. Lifecycle, entry gate, and current status
 ```text
 PRE_C0_DRAFT_REVIEW
 → C0_ACTIVE
 → C0_COMPLETED
+→ C1_ACTIVE
 ```
-C0 is completed. No major phase is active. C1 is only the proposed next phase and requires a separate owner authorization decision.
+C0 is completed. C1 is active only within the accepted bounded read-only and documentation-only scope. C2 remains proposed and unauthorized. No technical execution follows from C1 activation.
 ```text
 current_material_blocker = NONE
-current_C0_status = COMPLETED
-independent_C0_audit_status = PASS
-owner_C0_closure_status = ACCEPTED
-C0_completion_record_status = ACCEPTED_AND_EFFECTIVE
-authorization_effect = NONE
+C0_status = COMPLETED
+C1_authorization_decision = docs/decisions/C1_authorization_decision.md
+C1_authorization_decision_id = GOV-DEC-0003
+owner_disposition_record = PR_6_COMMENT_5120803290
+owner_disposition_head_commit = 18351d71fa0eedfb8ebdaa2ed9b33d051fd9829a
+authorized_merge_method = SQUASH
+C1_authorization_decision_merge_commit = 593f8b79246688dc9e17ee961a726f641b4d433e
+C1_authorization_pr_validation_run = 12
+C1_authorization_pr_validation_conclusion = SUCCESS
+C1_authorization_merge_push_validation_run = 13
+C1_authorization_merge_push_validation_conclusion = SUCCESS
+C1_activation_status = ACTIVE
 ```
-No C1 review, migration, environment, data, model, provider, broker, or trading work is authorized.
-## 4. Completed C0 scope
-The completed C0 scope included:
-- Final repository-name review and private repository creation.
-- Minimal nontechnical package and documentation structure.
-- Creation, revision, and commit of the complete C0 package.
-- README, contribution, and repository-protection conventions.
-- Documentation-only repository-consistency CI.
-- Read-only historical inspection needed to finalize the C1 method.
-- One independent C0 audit and correction of material findings.
-- Preparation of the C0 completion decision.
-## 5. C0 prohibited scope and continuing non-authorization
-C0 did not authorize and its completion does not authorize:
-- Executable legacy-code migration or execution.
-- Dependency installation or environment reconstruction.
-- Provider acceptance, credentials, authenticated access, network/API testing, or market-data requests.
-- Dataset generation or modification.
-- Model training, validation, qualification, artifacts, or holdout access.
-- Broker access or paper/live orders.
-- Final ticker-universe selection.
-- Profitability, promotion, deployment-readiness, or public-release claims.
+## 4. Active C1 authorized scope
+C1 authorizes read-only inspection of:
+```text
+racoope70/exploratory-daytrading
+racoope70/quant-trading-model-validation
+racoope70/ppo-trading-pipeline
+racoope70/quantitative-trading-research-platform
+```
+Authorized C1 work is limited to:
+- Proportional review of the fifteen sections in `C1_BOUNDED_HISTORICAL_SECTION_INVENTORY`.
+- Documentation-only evidence classification and architecture design.
+- Preparation and revision of the three accepted C1 outputs.
+- Documentation-only consistency checks.
+- Owner review and correction of material C1 documentation findings.
+- One risk-proportional independent C1 audit.
+- C1 completion-decision preparation and owner-controlled completion governance.
+The three accepted C1 outputs are:
+```text
+docs/migration/legacy_evidence_retention_matrix.csv
+docs/migration/technical_migration_manifest.yaml
+docs/reports/C1_legacy_evidence_and_architecture_report.md
+```
+## 5. C1 prohibited scope
+C1 does not authorize:
+- Editing any historical repository.
+- Executable legacy-code migration or adaptation.
+- Executing historical or canonical source code, tests, notebooks, or scripts.
+- Training, validation, or backtest execution.
+- Dependency installation or Python-environment creation.
+- Provider selection or acceptance.
+- Credentials, authenticated access, network/API activity, or market-data requests.
+- Dataset generation, reconstruction, download, modification, imputation, or acceptance.
+- Model implementation, training, retraining, validation, qualification, promotion, artifact creation, or final-holdout access.
+- Broker-account access, paper orders, live orders, or trading activity.
+- C2 or any later-phase work.
+- Automatic acceptance of any historical asset or conclusion.
 ## 6. Current material decisions
 ```text
 proposed_repository_visibility = PRIVATE
@@ -92,7 +116,7 @@ xgboost_gate_status = FUTURE_PHASE
 current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
-Historical models do not become current candidates through migration.
+Historical models do not become current candidates through review or migration recommendation.
 ## 9. Environment and access status
 ```text
 dependency_installation = NOT_AUTHORIZED
@@ -104,31 +128,26 @@ paper_order_activity = NOT_AUTHORIZED
 live_order_activity = NOT_AUTHORIZED
 public_release = NOT_AUTHORIZED
 ```
-## 10. C0 completion conditions
-C0 completion conditions are satisfied:
-1. The private repository and complete package are committed.
-2. Minimal structure and documentation-only CI are operational.
-3. Protections and contribution conventions exist.
-4. One independent audit passed with no material findings requiring correction.
-5. The owner accepted closure.
-6. No prohibited technical execution was detected in the reviewed repository and GitHub evidence.
+## 10. Completed C0 evidence
+C0 remains the latest completed major milestone. Its accepted completion decision and independent audit remain controlling historical evidence.
 ```text
 C0_completion_conditions_status = SATISFIED
 owner_closure_acceptance = ACCEPTED
 completion_decision = docs/decisions/C0_completion_decision.md
 completion_decision_id = GOV-DEC-0002
-owner_disposition_record = PR_4_COMMENT_5117264967
+completion_owner_disposition_record = PR_4_COMMENT_5117264967
 completion_decision_merge_commit = c4235e466e3a8248fb0a61b342265e3a50dde76a
+independent_C0_audit = docs/audits/C0_independent_governance_foundation_audit_report.md
+independent_C0_audit_status = PASS
 ```
-The prohibited-activity conclusion remains limited to reviewed repository and GitHub evidence. That evidence cannot independently prove the absence of unrecorded activity outside the repository.
+No prohibited technical execution was detected in the reviewed repository and GitHub evidence. That conclusion remains limited to reviewed repository and GitHub evidence; such evidence cannot independently prove the absence of unrecorded activity outside the repository.
 ## 11. Major milestone pointers
 ```text
 latest_completed_major_milestone = C0_CANONICAL_GOVERNANCE_FOUNDATION_AND_LEGACY_MIGRATION_CHARTER
-latest_completion_record = docs/decisions/C0_completion_decision.md
-latest_independent_audit = docs/audits/C0_independent_governance_foundation_audit_report.md
-next_permitted_major_milestone = C1_AUTHORIZATION_DECISION_ONLY
+active_major_milestone = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
+latest_authorization_decision = docs/decisions/C1_authorization_decision.md
+next_permitted_workstream = C1_BOUNDED_READ_ONLY_REVIEW_AND_DOCUMENTATION_OUTPUT_PREPARATION
 ```
-C1 remains the proposed next phase. It is not authorized or active.
 ## 12. Required reading and new-chat orientation
 A fresh project chat must:
 1. Read `PROJECT_CONTEXT.md`.
@@ -136,7 +155,7 @@ A fresh project chat must:
 3. Read the applicable Future Map section.
 4. Inspect Git history and VS Code to verify accepted implementation and completed work.
 ```text
-latest_material_decision = docs/decisions/C0_completion_decision.md
+latest_material_decision = docs/decisions/C1_authorization_decision.md
 latest_material_completion_record = docs/decisions/C0_completion_decision.md
 latest_material_independent_audit = docs/audits/C0_independent_governance_foundation_audit_report.md
 ```
