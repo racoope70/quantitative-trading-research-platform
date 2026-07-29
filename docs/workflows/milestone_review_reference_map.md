@@ -246,6 +246,26 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.03 — C0 completion decision
 ```
 
+### 2v.GOV.02 — Canonical independent-audit evidence
+
+```text
+2v_record = 2v.GOV.02
+record_type = INDEPENDENT_C0_GOVERNANCE_FOUNDATION_AUDIT
+record_path = docs/audits/C0_independent_governance_foundation_audit_report.md
+exact_commit_audited = 4f7ab457beb0cf75bcba446009a07f81b47847a0
+audit_conclusion = PASS
+correction_findings = NONE
+remediation_required = NO
+reaudit_required = NO
+authorization_effect = NONE
+C0_completion_effect = NONE
+C1_authorization_effect = NONE
+```
+
+The Markdown report at `docs/audits/C0_independent_governance_foundation_audit_report.md` is the canonical repository audit record. The attached PDF was the source used to create the Markdown record but is not represented as committed.
+
+The audit permits owner-controlled C0 closure documentation only. It does not itself complete C0 or authorize C1.
+
 `2v.GOV.01` should link:
 
 - `PROJECT_CONTEXT.md`
