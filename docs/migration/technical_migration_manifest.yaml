@@ -1,0 +1,2122 @@
+document_status: DRAFT_FOR_OWNER_REVIEW
+template_phase: C0
+completed_output_phase: C1
+completed_output_path: docs/migration/technical_migration_manifest.yaml
+authorization_effect: NONE
+schema_name: technical_migration_manifest
+schema_version: "0.1-draft"
+
+required_fields:
+  - item_id
+  - source_repository
+  - source_commit
+  - source_path
+  - asset_type
+  - historical_purpose
+  - classification
+  - canonical_responsibility
+  - migration_action
+  - required_changes
+  - known_limitations
+  - tests_required
+  - destination_path
+  - future_phase
+  - owner_disposition
+
+allowed_asset_types:
+  - SOURCE_MODULE
+  - TEST_MODULE
+  - CONFIGURATION
+  - NOTEBOOK
+  - SCRIPT
+  - DATA_ARTIFACT
+  - MODEL_ARTIFACT
+  - BROKER_SAFETY_COMPONENT
+  - PROVENANCE_UTILITY
+  - BUILD_OR_CI_COMPONENT
+  - OTHER_TECHNICAL_ASSET
+
+allowed_classifications:
+  - CARRY_FORWARD
+  - SUMMARIZE_AND_REFERENCE
+  - HISTORICAL_ARCHIVE_ONLY
+  - OBSOLETE_OR_SUPERSEDED
+
+allowed_migration_actions:
+  - COPY_WITH_ATTRIBUTION
+  - REIMPLEMENT_WITH_ATTRIBUTION
+  - ADAPT_AND_TEST
+  - SUMMARIZE_AND_REFERENCE
+  - RETAIN_IN_HISTORICAL_REPOSITORY
+  - EXCLUDE_FROM_NEW_REPOSITORY
+  - DEFER_DECISION
+
+allowed_owner_dispositions:
+  - PENDING
+  - ACCEPTED
+  - ACCEPTED_WITH_CORRECTIONS
+  - DEFERRED
+  - REJECTED
+
+rules:
+  - Use immutable full source commit SHAs.
+  - Historical repositories must not become runtime dependencies.
+  - Historical authorization has no effect in the new repository.
+  - Historical artifacts do not become current candidates through migration.
+  - C1 recommends migration but does not execute it.
+  - Executable migration begins only after the canonical environment exists.
+  - Run records, reviews, audits, decisions, results, and governance records belong in the evidence retention matrix.
+
+items:
+  - item_id: C1-TM-001
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: Feature_Engineering_Trading.ipynb
+    asset_type: NOTEBOOK
+    historical_purpose: Explore technical indicators, named leakage exclusions, Random Forest fitting, and preliminary evaluation.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Preserve feature-definition provenance and leakage-safe transformation requirements.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Remove Colab, Google Drive, installation, and environment-repair cells.
+    - Define explicit input and output schemas.
+    - Separate feature construction from model training and evaluation.
+    - Use train-fitted transformations only.
+    - Replace randomized train_test_split with chronological or walk-forward partitioning.
+    - Define embargo or gap rules where feature and target horizons require them.
+    - Do not carry the historical split implementation forward directly.
+    known_limitations:
+    - Randomized 70/30 train/test split on time-series observations.
+    - No explicit chronological boundary and no shuffle=False.
+    - Hard-coded paths and unstable RAPIDS environment.
+    - Incomplete proof of feature-timing safety.
+    - Notebook coupling of data, features, training, and evaluation.
+    tests_required:
+    - Feature-window unit tests.
+    - Split-order and chronological-boundary tests.
+    - Walk-forward partition tests.
+    - No-lookahead and embargo or horizon-overlap tests.
+    - Null and infinity handling tests.
+    - Deterministic feature-output and schema tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-002
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: Model_Selector_v4.ipynb
+    asset_type: NOTEBOOK
+    historical_purpose: Rank heterogeneous model families and explore safety, resource, incumbent, and significance gates.
+    classification: SUMMARIZE_AND_REFERENCE
+    canonical_responsibility: Provide requirements input for future candidate comparison and promotion governance.
+    migration_action: SUMMARIZE_AND_REFERENCE
+    required_changes:
+    - Replace exploratory weighted scores with a frozen common-evaluation contract.
+    - Fail closed when no candidate passes.
+    - Prohibit comparison of materially noncomparable metrics.
+    - Separate candidate evaluation from selection.
+    - Freeze all selection rules before shared final-holdout access.
+    known_limitations:
+    - Heterogeneous metrics.
+    - Fallback may retain candidates after all gates fail.
+    - Google Drive dependencies.
+    - No accepted common holdout.
+    tests_required:
+    - Gate-failure tests.
+    - Metric-comparability tests.
+    - Deterministic tie tests.
+    - Incumbent-switch tests.
+    - No-eligible-candidate tests.
+    destination_path: null
+    future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    owner_disposition: PENDING
+  - item_id: C1-TM-003
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: multi_stock_trading_dataset_pipeline.ipynb
+    asset_type: NOTEBOOK
+    historical_purpose: Explore multi-symbol acquisition, preparation, feature generation, and labeling.
+    classification: SUMMARIZE_AND_REFERENCE
+    canonical_responsibility: Provide historical input to provider, calendar, universe, and dataset-contract decisions.
+    migration_action: DEFER_DECISION
+    required_changes:
+    - Wait for the C5 provider and universe decisions.
+    - Wait for the C6 dataset contract.
+    - Remove direct downloads.
+    - Add immutable provenance.
+    - Add calendar normalization and missingness rules.
+    - Add explicit acceptance checks.
+    known_limitations:
+    - Provider not accepted.
+    - Universe not governed.
+    - Notebook dependency conflicts.
+    - No canonical provenance manifest.
+    tests_required:
+    - Deferred until C5 and C6.
+    - Later schema, calendar, missingness, adjustment, and reproducibility tests.
+    destination_path: null
+    future_phase: C6_DATASET_CONTRACT_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-004
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: initial_day_trading_apple.ipynb
+    asset_type: NOTEBOOK
+    historical_purpose: Record the first single-symbol hourly-data acquisition and normalization experiment.
+    classification: HISTORICAL_ARCHIVE_ONLY
+    canonical_responsibility: Preserve provenance and educational history only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Direct yfinance dependency.
+    - Historical 720-day constraint.
+    - No accepted provider.
+    - No dataset contract.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-005
+    source_repository: racoope70/quant-trading-model-validation
+    source_commit: 0a9c203bc322f6821c04074cb4c28498ab2ab38f
+    source_path: ppo_research_pipeline/ppo_multi_stock_training_pipeline.py
+    asset_type: SCRIPT
+    historical_purpose: Combine data acquisition, feature generation, PPO training, same-window evaluation, inference, artifact export, and deployment preparation.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Preserve historical provenance and negative design evidence only.
+    migration_action: EXCLUDE_FROM_NEW_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Same-window training and evaluation.
+    - Monolithic data, model, evaluation, inference, and deployment coupling.
+    - Ad hoc Colab and CUDA management.
+    - Direct provider access.
+    - Unsafe or ambiguous feature manifests.
+    - Best-Sharpe top-window selection.
+    - Hard-coded Google Drive paths.
+    tests_required: []
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-006
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/train.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Provide modular PPO training, chronological evaluation, safe-feature environments, artifact persistence, and run summaries.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Preserve PPO training responsibilities as design input for a governed reimplementation.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Propagate frozen train fraction, embargo, minimum-row values, and random seed into every training call.
+    - Record configured and applied values and fail closed on mismatch.
+    - Use the dedicated VecNormalize copy-and-lock helper and assert evaluation normalization remains locked.
+    - Replace best-Sharpe-only and top-N retention.
+    - Bind runs to immutable dataset, configuration, code, feature, seed, environment, and artifact identities.
+    - Keep final holdout outside the training function.
+    known_limitations:
+    - Configured embargo was not applied.
+    - Several split values were hard-coded rather than propagated.
+    - Configuration-to-execution alignment was incomplete.
+    - Direct normalization-stat assignment was used instead of the stronger helper.
+    - Top-N windows were ranked by Sharpe.
+    - Historical provider and path assumptions remain.
+    tests_required:
+    - Configuration-propagation and mismatch tests.
+    - Chronological split and embargo tests.
+    - VecNormalize copy, lock, and mutation tests.
+    - Seed-determinism tests.
+    - Artifact-identity tests.
+    - No-final-holdout-access tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS; C9_PPO_V2_TRAINING_VALIDATION_QUALIFICATION_AND_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-007
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/training_splits.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Define chronological train and evaluation boundaries, embargo rows, and minimum-row checks.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Implement a versioned, deterministic temporal split contract and manifest.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Bind every split to immutable dataset and calendar identities.
+    - Record exact boundaries, embargo, exclusions, and minimum-row rules.
+    - Emit a checksummed split manifest.
+    - Reject implicit or mismatched split parameters.
+    known_limitations:
+    - The helper alone does not bind a dataset, calendar, feature contract, or immutable manifest.
+    - Historical callers did not consistently propagate the configured embargo.
+    tests_required:
+    - Boundary-order tests.
+    - Embargo and minimum-row tests.
+    - Deterministic split-manifest tests.
+    - Dataset and split identity mismatch tests.
+    destination_path: null
+    future_phase: C6_DATASET_CONTRACT_FREEZE; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-008
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/feature_manifest.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Record ordered model features and reject named unsafe columns.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Implement a versioned ordered feature contract with timing, dtype, and identity controls.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Define exact names, order, dtypes, formulas, and causal timing.
+    - Add a feature-manifest checksum.
+    - Reject missing, extra, reordered, forbidden, or semantically leaking features.
+    - Bind the manifest to dataset, source, and preprocessing identities.
+    known_limitations:
+    - A name list alone does not prove causal timing or leakage safety.
+    - Historical feature definitions and preprocessing identity were not immutably bound.
+    tests_required:
+    - Exact-order and dtype tests.
+    - Missing, extra, and reordered feature tests.
+    - Forbidden and semantic-leakage tests.
+    - Manifest-checksum mismatch tests.
+    destination_path: null
+    future_phase: C6_DATASET_CONTRACT_FREEZE; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-009
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/vecnormalize_utils.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Copy training normalization statistics into evaluation environments and lock evaluation updates.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide train-only normalization identity and immutable locked evaluation behavior.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Bind normalization state to exact dataset, split, feature, source, and environment identities.
+    - Hash the normalization state.
+    - Prevent evaluation mutation.
+    - Fail closed on shape, feature, or identity mismatch.
+    known_limitations:
+    - The utility does not establish that every historical training path used it.
+    - Historical normalization artifacts were not consistently checksum-bound.
+    tests_required:
+    - Copy-and-lock tests.
+    - Evaluation-mutation tests.
+    - Shape and feature mismatch tests.
+    - Normalization checksum and identity tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS; C9_PPO_V2_TRAINING_VALIDATION_QUALIFICATION_AND_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-010
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/alpaca_ppo_retraining_config.py
+    asset_type: CONFIGURATION
+    historical_purpose: Define historical PPO retraining parameters, universe, paths, split values, and safety defaults.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide design input for an explicit, versioned, checksummed PPO configuration.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Remove hard-coded provider, universe, and local-path assumptions.
+    - Require every material value explicitly.
+    - Add schema version and configuration checksum.
+    - Bind exact dataset, split, feature, preprocessing, seed, environment, and artifact identities.
+    - Prove exact configuration propagation into the execution consumer.
+    known_limitations:
+    - Historical configuration-to-execution propagation was incomplete.
+    - Provider, universe, paths, and defaults were historically implicit or fixed.
+    tests_required:
+    - Configuration schema and checksum tests.
+    - Explicit-field and unsupported-default tests.
+    - Propagation and mismatch tests.
+    - No-execution and no-import-side-effect tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS; C9_PPO_V2_TRAINING_VALIDATION_QUALIFICATION_AND_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-011
+    source_repository: racoope70/quant-trading-model-validation
+    source_commit: 0a9c203bc322f6821c04074cb4c28498ab2ab38f
+    source_path: ppo_rf_research_pipeline/ppo_rf_hybrid_trading_system.py
+    asset_type: SCRIPT
+    historical_purpose: Combine PPO training, Random Forest gate training, evaluation, selection, and deployment-oriented analysis.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Preserve hybrid-design provenance and negative design evidence for a future governed reimplementation.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Start only from a separately qualified and frozen PPO candidate.
+    - Use causally available gate features and train-only statistics.
+    - Freeze gate labels, threshold tuning, and validation rules before independent evaluation.
+    - Bind data, split, PPO, gate, feature, configuration, and result identities.
+    - Use the shared final holdout only after all eligible families are frozen.
+    known_limitations:
+    - The PPO and gate were developed contemporaneously.
+    - Gate features contain unresolved causal leakage.
+    - Threshold tuning was not independently qualified.
+    - No independent common final evaluation was established.
+    tests_required:
+    - Feature-causality tests.
+    - Split and label-horizon tests.
+    - Gate-direction semantics tests.
+    - PPO-freeze and identity tests.
+    - Ablation and independent-validation tests.
+    destination_path: null
+    future_phase: C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-012
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO RF Models QC Top/ppo_TXN_window2_gate_features.json
+    asset_type: CONFIGURATION
+    historical_purpose: Record the thirteen Random Forest gate input features for one selected historical window.
+    classification: SUMMARIZE_AND_REFERENCE
+    canonical_responsibility: Provide historical input to a future causal Random Forest feature contract.
+    migration_action: SUMMARIZE_AND_REFERENCE
+    required_changes:
+    - Reassess every feature for causal availability.
+    - Exclude full-window statistics.
+    - Version feature definitions and timing.
+    - Bind ordered features to dataset and code checksums.
+    known_limitations:
+    - Vol_Ref and Vol_Gate use full-window statistics.
+    - Denoised_Close is not established as causal.
+    - Chop may inherit full-window fallback thresholds.
+    tests_required:
+    - Feature-timing tests.
+    - Train-only statistic tests.
+    - Ordered-manifest checksum tests.
+    - Missing and extra feature failure tests.
+    destination_path: null
+    future_phase: C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-013
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO RF Models QC Top/ppo_TXN_window2_gate_config.json
+    asset_type: CONFIGURATION
+    historical_purpose: Record Random Forest model type, 0.40 threshold, five-bar horizon, 0.5 percent label threshold, and no-scaler setting.
+    classification: SUMMARIZE_AND_REFERENCE
+    canonical_responsibility: Provide historical gate-contract design input only.
+    migration_action: SUMMARIZE_AND_REFERENCE
+    required_changes:
+    - Do not reuse the historical 0.40 threshold.
+    - Define direction-aware or explicitly direction-neutral gate semantics.
+    - Freeze tuning rules before independent validation.
+    - Bind configuration to immutable PPO, data, split, feature, gate, and result identities.
+    known_limitations:
+    - The threshold has no established independent tuning package.
+    - The positive-upside target does not represent short opportunity.
+    - No independent final evaluation was established.
+    tests_required:
+    - Configuration schema tests.
+    - Threshold-freeze tests.
+    - Label-horizon boundary tests.
+    - Direction-semantics tests.
+    destination_path: null
+    future_phase: C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-014
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO RF Models QC Top/ppo_TXN_window2_gate_model.pkl
+    asset_type: MODEL_ARTIFACT
+    historical_purpose: Preserve the historical TXN Random Forest gate for selected window 2.
+    classification: HISTORICAL_ARCHIVE_ONLY
+    canonical_responsibility: Serve as historical research-fixture and reproducibility evidence only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Depends on an unqualified contemporaneously trained PPO.
+    - Uses feature definitions with unresolved causal leakage.
+    - Threshold and selection are not independently qualified.
+    - Cannot become a current candidate through migration.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-015
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO RF Models QC Top/ppo_TXN_window2_model.zip
+    asset_type: MODEL_ARTIFACT
+    historical_purpose: Preserve the PPO policy used by the representative selected historical hybrid.
+    classification: HISTORICAL_ARCHIVE_ONLY
+    canonical_responsibility: Serve as a historical hybrid-reproduction fixture only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - The PPO was not independently qualified and frozen before Random Forest development.
+    - Historical feature and selection limitations apply.
+    - Final governance blocks hybrid eligibility.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-016
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO RF Models QC Top/ppo_TXN_window2_vecnorm.pkl
+    asset_type: MODEL_ARTIFACT
+    historical_purpose: Preserve the VecNormalize state paired with the representative historical PPO policy.
+    classification: HISTORICAL_ARCHIVE_ONLY
+    canonical_responsibility: Serve as historical artifact-set completeness and reproduction evidence.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Valid only with the exact historical PPO feature order and environment.
+    - Does not establish train-only normalization correctness for every run.
+    - Cannot be paired with a future PPO or Random Forest candidate.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-017
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO RF Models QC Top/ppo_TXN_window2_features.json
+    asset_type: CONFIGURATION
+    historical_purpose: Preserve the ordered PPO feature manifest paired with the representative historical hybrid.
+    classification: HISTORICAL_ARCHIVE_ONLY
+    canonical_responsibility: Serve as historical artifact-set and feature-order evidence only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Tied to the exact historical model and environment.
+    - Does not establish causal feature timing.
+    - Cannot authorize current model use.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-018
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO RF Models QC Top/ppo_TXN_window2_probability_config.json
+    asset_type: CONFIGURATION
+    historical_purpose: Preserve the historical PPO probability configuration paired with the representative hybrid.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Serve as superseded artifact-provenance evidence only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - No qualified calibration or threshold identity.
+    - Not valid for current inference or candidate use.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-019
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/adapters/quantconnect.py
+    asset_type: SCRIPT
+    historical_purpose: Convert local PPO predictions into QuantConnect-compatible JSON and optionally publish the payload.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a broker-neutral, versioned external-signal producer.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Add schema version and strict validation.
+    - Add producer commit and model and artifact checksums.
+    - Preserve exact prediction and decision timestamps.
+    - Add publication and availability timestamps.
+    - Remove direct public-Gist dependency.
+    - Use atomic authenticated storage with immutable run records.
+    - Add duplicate and symbol-alias policies.
+    known_limitations:
+    - No checksum or schema version.
+    - Gist publication can be mutable.
+    - No exact source-prediction identity.
+    - One payload-level validity window rather than per-signal timing.
+    tests_required:
+    - Schema contract tests.
+    - Timestamp and timezone tests.
+    - Duplicate-symbol tests.
+    - Stale and future-signal tests.
+    - Checksum identity tests.
+    - Empty and malformed fail-closed tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-020
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: quantconnect/ExternalSignalConsumer.py
+    asset_type: SCRIPT
+    historical_purpose: Poll external PPO JSON and map signals to long-only QuantConnect holdings.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a reference design for a governed execution-platform consumer.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Add strict payload and row schema validation.
+    - Require version, checksum, model identity, and decision timestamps.
+    - Reject duplicate symbols.
+    - Define bar-open, bar-close, and next-bar execution semantics.
+    - Add exchange-calendar and DST handling.
+    - Bind brokerage, fee, spread, and slippage assumptions.
+    - Separate backtest, paper, and live modes with fail-closed permissions.
+    known_limitations:
+    - Mutable URL transport.
+    - Implicit duplicate resolution.
+    - No source checksums.
+    - Long-only SELL means liquidation rather than short.
+    - Same-bar timing not explicitly prohibited.
+    tests_required:
+    - Contract tests.
+    - Duplicate rejection tests.
+    - Market-open and calendar tests.
+    - Next-bar execution tests.
+    - Broker-mode authorization tests.
+    - Rebalance idempotency tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-021
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/model_selection/quantconnect_execution_retest.py
+    asset_type: SCRIPT
+    historical_purpose: Compare deterministic external-signal payloads and execution intent locally without cloud execution.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide an offline parity harness for producer and consumer contracts.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Bind the harness to a versioned payload schema and exact identities.
+    - Test duplicate, stale, future, malformed, and missing signals.
+    - Require explicit next-bar semantics and deterministic target mapping.
+    - Separate parity evidence from platform-readiness claims.
+    known_limitations:
+    - Local parity does not establish LEAN cloud behavior, native PPO inference, brokerage behavior, or paper or live readiness.
+    tests_required:
+    - Deterministic parity tests.
+    - Invalid and duplicate payload tests.
+    - Stale and future-signal tests.
+    - Next-bar target-mapping tests.
+    - Identity mismatch tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-022
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/export_dynamic_lean_signals.py
+    asset_type: SCRIPT
+    historical_purpose: Export time-indexed dynamic signal payloads for historical LEAN replay.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Preserve exporter requirements while replacing the historical synthetic-timestamp implementation.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Use exact source prediction timestamps and immutable prediction identity.
+    - Add schema, checksums, source commit, model identity, and deterministic ordering.
+    - Remove artificial timestamp construction and mutable publication assumptions.
+    - Fail closed on duplicate, missing, stale, or future signals.
+    known_limitations:
+    - Historical timestamps were artificially generated.
+    - No immutable source-prediction identity.
+    - Payload and storage identities were weak.
+    tests_required:
+    - Source-timestamp tests.
+    - Schema and checksum tests.
+    - Duplicate and ordering tests.
+    - Stale and future-signal tests.
+    - Deterministic export tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-023
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: quantconnect/lean_unh_xom_dynamic_signal_backtest.py
+    asset_type: SCRIPT
+    historical_purpose: Consume time-indexed PPO signals from Object Store and submit simulated LEAN holdings changes.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a historical reference for offline-signal replay and temporal guards.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Add strict schema and checksum verification.
+    - Require next-bar execution.
+    - Configure brokerage, commissions, spread, slippage, and liquidity assumptions.
+    - Generalize symbols through a validated manifest.
+    - Add explicit duplicate and missing-signal policy.
+    - Record machine-readable run identity and metrics.
+    known_limitations:
+    - Same-bar eligibility.
+    - No explicit brokerage or slippage configuration.
+    - Only UNH and XOM.
+    - Short controlled window.
+    - Source timestamps were artificially generated.
+    tests_required:
+    - Future and stale rejection tests.
+    - Same-bar versus next-bar tests.
+    - Duplicate-order prevention tests.
+    - Target-clipping tests.
+    - Malformed Object Store payload tests.
+    - Missing-key fail-closed tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-024
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: quantconnect_lightgbm_backtest.ipynb
+    asset_type: NOTEBOOK
+    historical_purpose: Explore direct feature building, LightGBM retraining, inference, sizing, and order logic inside QuantConnect.
+    classification: HISTORICAL_ARCHIVE_ONLY
+    canonical_responsibility: Serve as a historical native-model integration reference only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Model-family quality is outside this item.
+    - Notebook-centered implementation.
+    - No immutable backtest-result package.
+    - Potential training and evaluation leakage was not audited.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-025
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: clean_scaler_quantconnect.ipynb
+    asset_type: NOTEBOOK
+    historical_purpose: Create a pickle scaler believed to be easier to load for QuantConnect conversion.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Preserve negative evidence only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Scaler fitted to random dummy data.
+    - No feature identity.
+    - No training-data identity.
+    - No valid model relationship.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-026
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/adapters/alpaca.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Construct Alpaca clients and provide account, bar, position, order, submit, cancel, and flatten helpers.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a provider-boundary Alpaca adapter with a paper-safe typed interface.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Replace string endpoint checks with an explicit paper-host allowlist.
+    - Use typed authentication, permission, timeout, network, schema, and rate-limit errors.
+    - Do not convert position or order endpoint failures into flat or empty states.
+    - Add explicit timeouts, telemetry, bounded retry rules, and rate-limit handling.
+    - Add idempotent client-order IDs and ambiguous-submit reconciliation.
+    - Separate submit acknowledgment, terminal status, fill, and position reconciliation.
+    - Require clock and market-session checks before submit.
+    known_limitations:
+    - Broad exception suppression in position and order reads.
+    - No idempotent order identity.
+    - No general retry or backoff contract.
+    - Immediate submit response is not fill confirmation.
+    - Simple flatten helper does not confirm terminal flat state.
+    - The adapter alone does not establish execution safety.
+    tests_required:
+    - Paper-endpoint rejection tests.
+    - Missing and invalid credential tests.
+    - Account, position, order, and clock failure tests.
+    - Timeout and rate-limit tests.
+    - Idempotent submission and ambiguous-response tests.
+    - Partial-fill, terminal-status, and flatten-confirmation tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-027
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/data/alpaca_historical_data.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Request and normalize historical bars through the Alpaca data interface.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a provider-boundary historical-data loader after separate provider acceptance.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Use typed request and response contracts.
+    - Add explicit timeouts, bounded retries, rate-limit handling, and provenance.
+    - Bind provider, feed, adjustment, calendar, session, timeframe, and request identity.
+    - Reject partial, duplicate, malformed, or silently filled coverage.
+    - Keep network access separately authorized.
+    known_limitations:
+    - Provider and feed were not accepted.
+    - Historical network and coverage assumptions were environment-specific.
+    - The loader alone does not establish dataset acceptance.
+    tests_required:
+    - Mocked request and schema tests.
+    - Timeout, rate-limit, and retry tests.
+    - Calendar and coverage tests.
+    - Duplicate and partial-response tests.
+    - No-network default tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+    owner_disposition: PENDING
+  - item_id: C1-TM-028
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/paper_trade_dry_run.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Produce a no-submit decision package from broker observations and model outputs.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a deterministic broker-connected no-submit decision-package producer.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Separate broker reads, inference, decision construction, and evidence publication.
+    - Bind exact model, data, feature, preprocessing, configuration, clock, and broker-snapshot identities.
+    - Keep order submission absent.
+    - Fail closed when broker or evidence state is incomplete.
+    - Emit immutable checksummed decision packages.
+    known_limitations:
+    - Historical broker state and package identity were incomplete.
+    - No-submit output did not itself prove model quality or execution readiness.
+    tests_required:
+    - No-submit invariant tests.
+    - Missing broker-state tests.
+    - Model and feature identity mismatch tests.
+    - Deterministic package-hash tests.
+    - No-network unit tests with mocked adapters.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-029
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/execution.py
+    asset_type: BROKER_SAFETY_COMPONENT
+    historical_purpose: Translate target positions into execution intents and submit paper orders through the adapter boundary.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide deterministic execution-plan construction and a separately authorized submission boundary.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Separate pure plan construction from broker submission.
+    - Add immutable intent and client-order identities.
+    - Define rounding, notional, short, flatten, and crossing-zero policies.
+    - Require idempotency and ambiguous-submit reconciliation.
+    - Reconcile every order to terminal status and resulting position.
+    known_limitations:
+    - Immediate submit responses were not authoritative fill confirmation.
+    - Historical execution identity and reconciliation were incomplete.
+    - Broker behavior was coupled to plan construction.
+    tests_required:
+    - Long, short, flatten, and crossing-zero tests.
+    - Invalid price and equity tests.
+    - Pure-function determinism tests.
+    - Idempotency and ambiguous-submit tests.
+    - Partial-fill and terminal-reconciliation tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-030
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/paper_trade_loop.py
+    asset_type: BROKER_SAFETY_COMPONENT
+    historical_purpose: Validate reviewed plans, require submit opt-in, build broker risk context, submit paper orders, and record before and after state.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide an offline-tested guarded execution coordinator.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Require a successful broker-enabled checklist atomically in submit mode.
+    - Fail when account, position, order, or clock state is unavailable.
+    - Require active paper account and verified market session.
+    - Require idempotent intent and client-order identities.
+    - Reconcile every order to terminal state and resulting position.
+    - Preserve stale-plan and run-directory confirmation controls.
+    known_limitations:
+    - Broker-state exceptions can produce unavailable values.
+    - Risk checks may skip unavailable broker fields.
+    - No mandatory clock check.
+    - No atomic preflight-to-submit transaction.
+    - No built-in fill reconciliation.
+    tests_required:
+    - Missing broker-state fail-closed tests.
+    - Clock unavailable and market-closed tests.
+    - Stale-plan and wrong-run-directory tests.
+    - Duplicate-submit and ambiguous-response tests.
+    - Partial-fill and post-submit reconciliation tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-031
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/risk_controls.py
+    asset_type: BROKER_SAFETY_COMPONENT
+    historical_purpose: Validate execution-plan shape, exposures, notionals, prior-order state, broker context, and plan age.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a fail-closed provider-neutral execution-risk validator.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Require every broker-context field in submit mode.
+    - Fail rather than skip when broker values are unavailable.
+    - Reject timezone-naive timestamps instead of localizing them.
+    - Require clock and market-session evidence.
+    - Bind every report to the immutable plan and configuration.
+    known_limitations:
+    - Falls back from missing account equity to plan equity.
+    - Skips some broker checks when values are unavailable.
+    - No clock or market-session field.
+    tests_required:
+    - Missing account, positions, and orders failure tests.
+    - Stale, future, missing, malformed, and naive timestamp tests.
+    - Exposure and notional-boundary tests.
+    - Immutable plan-identity tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-032
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/pre_trade_checklist.py
+    asset_type: BROKER_SAFETY_COMPONENT
+    historical_purpose: Validate no-order chain outputs and optionally inspect account, positions, open orders, and broker snapshot errors.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a mandatory preflight gate for any future separately authorized paper submission.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Make broker checks mandatory for submit eligibility.
+    - Require clock and market-session state.
+    - Reject timezone-naive timestamps.
+    - Require exact plan and configuration checksums.
+    - Integrate directly with the guarded executor.
+    known_limitations:
+    - Broker checks are optional.
+    - Naive timestamps are treated as UTC.
+    - Separate CLI use permits procedural gaps.
+    tests_required:
+    - Missing broker-state tests.
+    - Broker snapshot error tests.
+    - Open-order and unexpected-position tests.
+    - Clock, calendar, stale, and future timestamp tests.
+    - Atomic executor-gate tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-033
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/logging_utils.py
+    asset_type: PROVENANCE_UTILITY
+    historical_purpose: Summarize run files and optional account, position, and order snapshots into one JSON audit record.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a checksummed execution-evidence and broker-state record builder.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Add file-content hashes rather than path, size, and row count only.
+    - Record clock, calendar, client, environment, and API version.
+    - Capture immutable intent, client-order, broker-order, and fill identities.
+    - Redact account identifiers.
+    - Treat snapshot errors as explicit failed evidence.
+    - Use append-only evidence storage.
+    known_limitations:
+    - Generated logs were generally excluded from Git.
+    - No complete fills or activity ledger.
+    - No source-file checksums in the first implementation.
+    tests_required:
+    - Redaction tests.
+    - Stable serialization tests.
+    - File-checksum tests.
+    - Broker-error preservation tests.
+    - Order and fill identity tests.
+    - Append-only write tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-034
+    source_repository: racoope70/quant-trading-model-validation
+    source_commit: 0a9c203bc322f6821c04074cb4c28498ab2ab38f
+    source_path: config/paper_trading_six_ticker_manifest.json
+    asset_type: CONFIGURATION
+    historical_purpose: Configure a historical six-symbol no-order dry run, artifact patterns, feed, timeframe, sizing, and credential-variable aliases.
+    classification: SUMMARIZE_AND_REFERENCE
+    canonical_responsibility: Provide design input for a future versioned broker-observation manifest.
+    migration_action: SUMMARIZE_AND_REFERENCE
+    required_changes:
+    - Do not carry selected legacy models forward.
+    - Replace wildcard artifact discovery with immutable checksums.
+    - Remove zero-fill feature compatibility.
+    - Bind feed, adjustment, calendar, model, features, preprocessing, configuration, and evidence identities.
+    - Separate credentials from the manifest.
+    known_limitations:
+    - Historical selected-model prefixes.
+    - Wildcard artifact discovery.
+    - Historical IEX and six-symbol defaults.
+    - Referenced binary artifacts were not immutably established.
+    tests_required:
+    - Manifest schema tests.
+    - Artifact checksum and ambiguity tests.
+    - Model and feature mismatch tests.
+    - No-legacy-candidate and no-secret tests.
+    destination_path: null
+    future_phase: C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-035
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: ppo_alpaca_paper_trading_v7.ipynb
+    asset_type: NOTEBOOK
+    historical_purpose: Record a monolithic historical Alpaca paper-trading notebook and its operational evolution.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Preserve historical operational and provenance evidence only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Notebook-centered dependency, credential, provider, model, execution, and analysis coupling.
+    - No immutable complete execution-evidence package.
+    - Historical paper activity does not authorize current use.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-036
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/__init__.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Establish the top-level Python package boundary for the modular repository.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a minimal canonical package boundary without import-time execution.
+    migration_action: COPY_WITH_ATTRIBUTION
+    required_changes:
+    - Retain only package-boundary behavior.
+    - Remove any import-time side effects if introduced during migration.
+    known_limitations:
+    - Package presence does not establish runtime correctness or architectural completeness.
+    tests_required:
+    - Package import test.
+    - No-import-side-effect test.
+    destination_path: null
+    future_phase: C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION; C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-037
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/adapters/__init__.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Establish the provider-adapter package boundary.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a minimal adapter namespace without provider access or import-time execution.
+    migration_action: COPY_WITH_ATTRIBUTION
+    required_changes:
+    - Retain only package-boundary behavior.
+    - Keep provider-specific imports lazy and side-effect free.
+    known_limitations:
+    - Package presence does not establish provider acceptance or adapter correctness.
+    tests_required:
+    - Package import test.
+    - No-network and no-import-side-effect tests.
+    destination_path: null
+    future_phase: C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION; C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-038
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paths.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Centralize historical repository and artifact path resolution.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide explicit, configurable, platform-neutral path resolution.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Remove historical repository-root and local-directory assumptions.
+    - Use typed configuration and explicit base paths.
+    - Do not create directories or mutate state on import.
+    known_limitations:
+    - Historical paths were tied to one local repository layout.
+    - Path resolution did not establish artifact identity.
+    tests_required:
+    - Cross-platform path tests.
+    - Missing-base-path tests.
+    - No-import-side-effect tests.
+    destination_path: null
+    future_phase: C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION; C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-039
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: .gitignore
+    asset_type: CONFIGURATION
+    historical_purpose: Exclude credentials, local environments, datasets, models, generated runs, and temporary files from the historical repository.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a canonical exclusion baseline while preserving required immutable evidence through governed artifact storage.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Reconcile ignore rules with canonical evidence and artifact-retention requirements.
+    - Prevent secrets and local environments from entering Git.
+    - Do not let ignore rules silently hide required manifests, checksums, or publication evidence.
+    known_limitations:
+    - Historical rules excluded model and execution bytes whose immutable provenance was later missing.
+    - Ignore rules alone are not an artifact-retention policy.
+    tests_required:
+    - Secret and environment exclusion checks.
+    - Required-manifest and checksum visibility checks.
+    - Repository hygiene checks.
+    destination_path: null
+    future_phase: C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-040
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/config.py
+    asset_type: CONFIGURATION
+    historical_purpose: Provide shared historical runtime, data, model, and path constants.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a typed, versioned, checksummed canonical configuration boundary.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Replace module globals and implicit defaults with reviewed configuration.
+    - Separate provider, environment, data, model, validation, and execution settings.
+    - Add schema version and checksum.
+    - Reject missing, unsupported, or contradictory values.
+    - Keep secrets outside configuration files.
+    known_limitations:
+    - Historical values were environment-specific and could diverge from execution.
+    - No complete configuration identity was established.
+    tests_required:
+    - Schema and checksum tests.
+    - Missing and contradictory value tests.
+    - Override and propagation tests.
+    - No-secret and no-import-side-effect tests.
+    destination_path: null
+    future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION; C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-041
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/data_download.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Orchestrate historical market-data acquisition and local persistence.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide provider-neutral acquisition orchestration behind a separately accepted adapter and authorization boundary.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Separate request construction, provider access, normalization, validation, and persistence.
+    - Require immutable request and response provenance.
+    - Bind provider, feed, adjustment, calendar, universe, and timeframe.
+    - Do not perform network or file activity on import.
+    - Fail closed on partial or ambiguous coverage.
+    known_limitations:
+    - Historical provider and network assumptions were not canonically accepted.
+    - Local persistence did not establish dataset acceptance.
+    tests_required:
+    - Mocked request tests.
+    - No-network default tests.
+    - Partial and malformed response tests.
+    - Provenance and deterministic request tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+    owner_disposition: PENDING
+  - item_id: C1-TM-042
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: requirements.txt
+    asset_type: CONFIGURATION
+    historical_purpose: Declare historical Python dependencies, including alpaca-py and the pinned exchange-calendars version.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide the starting dependency inventory for canonical C3 dependency reconstruction.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Replace unpinned alpaca-py with an owner-approved exact version or bounded compatibility decision.
+    - Produce a lockfile or fully constrained resolved dependency set.
+    - Record the approved package source.
+    - Add dependency hashes where practical.
+    - Align local and CI dependency resolution.
+    - Remove implicit latest-version resolution.
+    known_limitations:
+    - alpaca-py is unpinned.
+    - Several other dependencies are unpinned.
+    - No lockfile or environment hash is established.
+    - Historical entries do not prove compatibility.
+    tests_required:
+    - Clean-environment build test.
+    - Dependency-resolution repeatability test.
+    - Offline import-contract smoke tests.
+    - Local and CI environment-equivalence check.
+    destination_path: null
+    future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+    owner_disposition: PENDING
+  - item_id: C1-TM-043
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: .env.example
+    asset_type: CONFIGURATION
+    historical_purpose: Document historical environment-variable names for credentials and runtime settings.
+    classification: SUMMARIZE_AND_REFERENCE
+    canonical_responsibility: Provide deferred input to the canonical secret and environment-variable interface.
+    migration_action: DEFER_DECISION
+    required_changes:
+    - Wait for C3 environment reconstruction and C5 provider selection.
+    - Retain names only when required by an accepted adapter.
+    - Separate secrets from nonsecret configuration.
+    - Document required, optional, and prohibited variables without values.
+    known_limitations:
+    - Historical variable names reflect unaccepted providers and runtime assumptions.
+    - The file does not establish secret storage, permissions, or provider readiness.
+    tests_required:
+    - Deferred until C3 and C5.
+    - Later variable-schema, missing-secret, redaction, and no-secret-in-Git tests.
+    destination_path: null
+    future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION; C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+    owner_disposition: PENDING
+  - item_id: C1-TM-044
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: pytest.ini
+    asset_type: CONFIGURATION
+    historical_purpose: Configure historical pytest discovery and repository test behavior.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a minimal canonical offline-test configuration baseline.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Align paths and markers with the canonical package.
+    - Define explicit no-network, no-credential, no-provider, no-training, and no-order markers.
+    - Fail when prohibited tests run in ordinary CI.
+    known_limitations:
+    - Historical configuration reflects the legacy repository layout and test population.
+    tests_required:
+    - Pytest discovery self-test.
+    - Marker-enforcement tests.
+    - No-network default test.
+    destination_path: null
+    future_phase: C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION; C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-045
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_cli_utils.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test historical command-line parsing and fail-closed utility behavior.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline CLI contract tests for migrated canonical commands.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Replace historical command and path assumptions with canonical interfaces.
+    - Test explicit configuration identity and authorization boundaries.
+    - Keep all tests network-free and side-effect free.
+    known_limitations:
+    - Historical tests cover legacy CLI surfaces and do not establish canonical command design.
+    tests_required:
+    - Valid and invalid argument tests.
+    - Missing configuration tests.
+    - Authorization-boundary tests.
+    - No-network and no-side-effect tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-046
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_paper_trading_artifact_manifest.py
+    asset_type: TEST_MODULE
+    historical_purpose: Exercise complete and incomplete historical paper-artifact manifest cases using temporary files.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline tests for the canonical artifact-family and manifest contract.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Require exact paths and component identities.
+    - Add checksums, complete artifact-family schema, duplicate rejection, and provenance checks.
+    - Remove wildcard first-match assumptions.
+    - Keep model loading, provider access, and broker access absent.
+    known_limitations:
+    - Historical tests checked a minimum three-file contract.
+    - They did not establish binary provenance, checksums, uniqueness, or full five-file quality evidence.
+    tests_required:
+    - Complete, missing, extra, duplicate, and ambiguous artifact tests.
+    - Checksum and provenance mismatch tests.
+    - Manifest schema and exact-path tests.
+    - No-model-load and no-network tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-047
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: .github/workflows/tests.yml
+    asset_type: BUILD_OR_CI_COMPONENT
+    historical_purpose: Configure historical repository tests under Python 3.12 and install requirements plus alpaca-py.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a baseline for canonical CI while enforcing the C3-selected Python, lockfile, and dependency identities.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Bind CI to the C3-selected Python policy.
+    - Install only from the canonical locked dependency set.
+    - Remove duplicate unpinned alpaca-py installation.
+    - Add lock and dependency-integrity checks.
+    - Add exact offline import-surface tests.
+    - Verify CI and local environment alignment.
+    - Prevent provider, credential, network, and market-data access during C3 tests.
+    known_limitations:
+    - Python patch is floating.
+    - alpaca-py is unpinned.
+    - CI can resolve a different package from local environments.
+    - Green CI did not establish local environment identity.
+    tests_required:
+    - CI clean-build reproducibility.
+    - Lockfile integrity test.
+    - Dependency hash validation where used.
+    - Import-contract test.
+    - No-network test.
+    - Local and CI manifest comparison.
+    destination_path: null
+    future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION; C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-048
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/prepare_data.py
+    asset_type: SCRIPT
+    historical_purpose: Orchestrate historical local data preparation, feature creation, and output writing.
+    classification: SUMMARIZE_AND_REFERENCE
+    canonical_responsibility: Preserve preparation responsibilities as input to a governed reimplementation.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Separate acquisition from transformation.
+    - Bind versioned dataset, calendar, feature, and split contracts.
+    - Add immutable input and output provenance, staging, atomic publication, and rejection states.
+    - Remove historical provider, path, and implicit execution assumptions.
+    known_limitations:
+    - Mixed acquisition, transformation, and local persistence responsibilities.
+    - No complete immutable dataset or configuration identity.
+    - Historical output did not establish canonical acceptance.
+    tests_required:
+    - Schema and deterministic transformation tests.
+    - No-network transformation tests.
+    - Calendar, missingness, and feature tests.
+    - Atomic output and failure-cleanup tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE; C7_DATASET_GENERATION_AND_ACCEPTANCE
+    owner_disposition: PENDING
+  - item_id: C1-TM-049
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/features.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Compute historical model features in the modular repository.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a deterministic versioned canonical feature engine.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Freeze formulas, windows, input timing, dtypes, and output order.
+    - Use train-only fitted statistics.
+    - Bind feature code and manifest checksums.
+    - Reject lookahead, missing, infinite, reordered, or semantically unsafe outputs.
+    known_limitations:
+    - Historical feature timing and leakage safety were not fully established.
+    - Feature identity was not immutably bound to every artifact.
+    tests_required:
+    - Formula-fixture tests.
+    - No-lookahead tests.
+    - Train-only statistic tests.
+    - Deterministic output and manifest tests.
+    - Null, infinity, order, and dtype tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-050
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/env.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Define the historical PPO trading environment and observation, action, reward, and portfolio transitions.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide design input for a deterministic canonical research environment after contracts are frozen.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Make observation, action, reward, cost, slippage, position, and risk definitions explicit.
+    - Remove hidden global and provider assumptions.
+    - Bind exact feature, data, configuration, seed, and environment identities.
+    - Fail closed on invalid state and prevent lookahead.
+    known_limitations:
+    - Historical environment behavior depends on legacy feature, reward, and portfolio assumptions.
+    - Environment presence does not establish model quality.
+    tests_required:
+    - Observation and action invariant tests.
+    - Reward and cost fixture tests.
+    - Seed-determinism tests.
+    - No-lookahead and invalid-state tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-051
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/artifacts.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Define historical artifact paths, discovery, and persistence helpers.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide exact immutable artifact-family construction, validation, and publication.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Replace wildcard and first-match discovery with exact manifest paths.
+    - Hash every component and the manifest.
+    - Bind source, environment, data, split, feature, preprocessing, configuration, run, and evaluation identities.
+    - Reject duplicate, ambiguous, missing, or extra artifacts.
+    - Use staged atomic writes and readback validation.
+    known_limitations:
+    - Historical local and ignored artifact bytes were not immutably established.
+    - Artifact contracts differed across components.
+    - Wildcard discovery could select ambiguous files.
+    tests_required:
+    - Exact-path and duplicate-rejection tests.
+    - Component and manifest checksum tests.
+    - Missing and extra component tests.
+    - Atomic publication and failure-cleanup tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS; C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-052
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/predict.py
+    asset_type: SCRIPT
+    historical_purpose: Load historical artifacts and generate model predictions.
+    classification: SUMMARIZE_AND_REFERENCE
+    canonical_responsibility: Preserve inference responsibilities as input to a deterministic reimplementation.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Require exact model, feature, preprocessing, environment, data, configuration, and source identities.
+    - Remove wildcard and mutable local-path loading.
+    - Emit checksummed prediction records with exact timestamps.
+    - Keep provider and broker activity outside inference.
+    - Fail closed on every identity mismatch.
+    known_limitations:
+    - Historical mutable paths and artifact discovery.
+    - No complete immutable inference package.
+    - Inference presence does not establish candidate qualification.
+    tests_required:
+    - Artifact and feature mismatch tests.
+    - Deterministic prediction tests.
+    - Timestamp and record-checksum tests.
+    - No-provider, no-broker, and no-import-side-effect tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-053
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/diagnostics.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Provide historical data, model, and run diagnostic helpers.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide small deterministic offline diagnostic utilities with structured evidence output.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Remove historical path and environment assumptions.
+    - Use typed inputs and structured versioned results.
+    - Add checksums and explicit failed or inconclusive states.
+    - Keep network, provider, training, and broker side effects absent.
+    known_limitations:
+    - Historical diagnostics were tied to legacy files and did not always preserve immutable evidence.
+    tests_required:
+    - Deterministic diagnostic tests.
+    - Malformed and missing input tests.
+    - Structured result and checksum tests.
+    - No-network and no-side-effect tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+    owner_disposition: PENDING
+  - item_id: C1-TM-054
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/training_utils.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Provide shared historical PPO training and evaluation helpers.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide explicit deterministic training utilities behind governed configuration and data contracts.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Replace implicit globals with typed parameters.
+    - Bind seeds, configuration, data, split, features, and environment identities.
+    - Separate pure utilities from training execution.
+    - Fail closed on unsupported or inconsistent values.
+    known_limitations:
+    - Historical utilities inherit legacy training and environment assumptions.
+    - Utility presence does not prove correct propagation or qualification.
+    tests_required:
+    - Pure-function unit tests.
+    - Seed and parameter propagation tests.
+    - Identity mismatch tests.
+    - No-import-side-effect tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-055
+    source_repository: racoope70/exploratory-daytrading
+    source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+    source_path: exploratory-results/promoted-to-validation/ppo-model-2024-09/ppo_multi_stock_training_pipeline.py
+    asset_type: SCRIPT
+    historical_purpose: Preserve the exploratory monolithic PPO pipeline that preceded modular migration.
+    classification: HISTORICAL_ARCHIVE_ONLY
+    canonical_responsibility: Serve as historical migration provenance only.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes: []
+    known_limitations:
+    - Notebook-era and monolithic coupling.
+    - Superseded by later modular and governed designs.
+    - Does not establish current candidate eligibility.
+    tests_required: []
+    destination_path: null
+    future_phase: C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-056
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/artifact_manifest.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Parse the selected symbol-to-prefix manifest and check expected local artifact files without broker access or model loading.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a versioned exact artifact-manifest validator.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Require exact component paths, schema version, checksums, and immutable provenance.
+    - Define one complete artifact-family contract.
+    - Reject wildcard first-match, duplicate, ambiguous, missing, and extra components.
+    - Keep model loading, provider access, and broker access absent.
+    known_limitations:
+    - Historical minimum contract checked only model, VecNormalize, and features.
+    - Referenced local artifact bytes were not immutably established.
+    - No checksum or uniqueness contract.
+    tests_required:
+    - Complete and incomplete manifest tests.
+    - Duplicate, ambiguous, missing, and extra component tests.
+    - Checksum and provenance mismatch tests.
+    - No-model-load and no-network tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-057
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/alpaca_ppo_holdout_validation.py
+    asset_type: SCRIPT
+    historical_purpose: Evaluate historical PPO candidates on a PPO-specific final holdout.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Preserve evaluator requirements while replacing the historical candidate-ranking and holdout-access sequence.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Require all eligible candidate families to be qualified and frozen before access.
+    - Use one common immutable dataset, split, metrics, benchmark, cost, and environment identity.
+    - Prohibit tuning, ranking, or candidate changes from holdout results.
+    - Log one-time access and produce explicit qualified, rejected, no-candidate, or inconclusive outcomes.
+    - Keep holdout unavailable to ordinary training and selection code.
+    known_limitations:
+    - Historical PPO holdout could be opened before Random Forest and XGBoost freezes.
+    - Holdout results were used in candidate ranking and selection.
+    - No candidate-family-independent shared final holdout.
+    tests_required:
+    - Candidate-freeze and access-control tests.
+    - Common dataset and metric identity tests.
+    - No-ranking and no-retuning tests.
+    - One-time access and audit-log tests.
+    - Explicit terminal-outcome tests.
+    destination_path: null
+    future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    owner_disposition: PENDING
+  - item_id: C1-TM-058
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/model_selection/select_alpaca_ppo_candidates.py
+    asset_type: SCRIPT
+    historical_purpose: Select historical PPO candidates using final-holdout evidence.
+    classification: OBSOLETE_OR_SUPERSEDED
+    canonical_responsibility: Preserve selection requirements while replacing holdout-driven candidate selection with pre-holdout qualification and freeze.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Select and freeze eligible candidates before shared final-holdout access.
+    - Use predeclared qualification rules and immutable validation evidence only.
+    - Support explicit no-candidate and inconclusive outcomes.
+    - Prohibit final-holdout metrics as selector inputs.
+    - Bind every decision to exact evidence and rule identities.
+    known_limitations:
+    - Historical selector ranked or selected candidates using final-holdout results.
+    - Selection rules and common candidate-family comparison were not fully isolated.
+    tests_required:
+    - No-holdout-input tests.
+    - Frozen-rule and deterministic selection tests.
+    - No-candidate and inconclusive outcome tests.
+    - Evidence and rule identity mismatch tests.
+    destination_path: null
+    future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    owner_disposition: PENDING
+  - item_id: C1-TM-059
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_alpaca_ppo_holdout_validation.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test the historical PPO-specific holdout-validation contract.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline tests for the canonical shared final-holdout evaluator and access boundary.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Replace historical PPO-only sequence assumptions.
+    - Add candidate-family freeze, common dataset, one-time access, no-ranking, and terminal-outcome cases.
+    - Keep final-holdout bytes synthetic and tests offline.
+    known_limitations:
+    - Historical tests reflect a PPO-specific holdout sequence and cannot establish canonical shared-holdout governance.
+    tests_required:
+    - Freeze and access tests.
+    - Common identity tests.
+    - No-ranking and no-retuning tests.
+    - Qualified, rejected, no-candidate, and inconclusive outcome tests.
+    destination_path: null
+    future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    owner_disposition: PENDING
+  - item_id: C1-TM-060
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_select_alpaca_ppo_candidates.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test the historical PPO candidate-selection implementation.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline tests for pre-holdout qualification, candidate freeze, and explicit no-candidate behavior.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Remove final-holdout metrics from all selection fixtures.
+    - Add immutable rule and evidence identities.
+    - Test deterministic ties, rejection, no-candidate, and inconclusive outcomes.
+    - Verify frozen candidate sets cannot change after holdout access.
+    known_limitations:
+    - Historical tests encode holdout-driven PPO selection assumptions.
+    tests_required:
+    - No-holdout-input tests.
+    - Deterministic tie and rejection tests.
+    - No-candidate and inconclusive tests.
+    - Post-freeze mutation rejection tests.
+    destination_path: null
+    future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    owner_disposition: PENDING
+  - item_id: C1-TM-061
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/evaluate_dry_run.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Evaluate historical no-submit decision packages and produce acceptance-oriented summaries.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a deterministic offline decision-package evaluator that does not imply model quality or order authorization.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Bind the evaluator to an immutable package schema and checksum.
+    - Fail closed on missing, malformed, stale, or identity-mismatched evidence.
+    - Separate operational checks from economic qualification.
+    - Emit explicit pass, fail, and inconclusive reasons without broker submission.
+    known_limitations:
+    - Historical evaluation fields and thresholds were tied to the legacy dry-run package.
+    - A dry-run pass does not establish candidate quality or execution readiness.
+    tests_required:
+    - Malformed and missing package tests.
+    - Stale and checksum mismatch tests.
+    - Deterministic reason-code tests.
+    - No-network and no-order tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-062
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/build_execution_plan.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Translate approved decisions and current positions into planned order intents without submitting them.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a pure deterministic execution-plan builder.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Bind exact decision, position, price, sizing, configuration, and timestamp identities.
+    - Define rounding, notional, long, short, flatten, and crossing-zero rules.
+    - Generate immutable idempotent intent identifiers.
+    - Keep broker submission absent.
+    known_limitations:
+    - Historical plan logic inherited account, price, and sizing assumptions.
+    - Plan construction alone does not establish submit safety.
+    tests_required:
+    - Long, short, flatten, and crossing-zero tests.
+    - Rounding and notional-boundary tests.
+    - Invalid price and equity tests.
+    - Deterministic plan and intent-ID tests.
+    - No-broker tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-063
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/paper_trading/filter_execution_plan.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Filter or reject planned execution intents under historical safety constraints.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a pure fail-closed execution-plan filter with structured rejection reasons.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Bind the exact plan and risk configuration checksums.
+    - Make every gate explicit and deterministic.
+    - Reject missing or ambiguous inputs.
+    - Preserve stable structured reason codes and idempotent output ordering.
+    known_limitations:
+    - Historical filters inherit legacy plan schema and safety assumptions.
+    - Filtering does not replace broker-state, market-clock, or pre-trade gates.
+    tests_required:
+    - Every-gate pass and failure tests.
+    - Missing and ambiguous input tests.
+    - Order-invariance and deterministic-reason tests.
+    - Plan and configuration checksum tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C14_CONTROLLED_PAPER_TRADING
+    owner_disposition: PENDING
+  - item_id: C1-TM-064
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_retraining_config.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Define non-executing PPO v2 defaults, safety flags, path isolation, forbidden inputs, and empty execution commands.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a non-executing configuration and authorization-boundary foundation.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Remove accepted-source and universe assumptions.
+    - Require versioned configuration.
+    - Eliminate implicit production defaults.
+    - Add configuration checksum.
+    - Separate authorization from parameter content.
+    - Remove standalone final-holdout policy.
+    - Link exact contract, feature, split, preprocessing, and artifact identities.
+    known_limitations:
+    - Hard-coded Alpaca label, six-symbol universe, local paths, seed, costs, slippage, and holdout-use string.
+    - No external configuration identity.
+    tests_required:
+    - Default non-execution tests.
+    - Absent-command tests.
+    - Configuration-version and checksum mismatch tests.
+    - Prohibited provider and universe assumption tests.
+    - Artifact isolation and authorization-separation tests.
+    - No-import-side-effect tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-065
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_data_contract.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Validate raw bars, observation columns, temporal boundaries, embargo, holdout-use labels, preprocessing-fit labels, and later reconstruction rules.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Implement the versioned canonical dataset, feature, provenance, split, calendar, leakage, and reconstruction contract.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Separate historical contract versions.
+    - Require exact dtypes, UTC, finite values, provider, feed, adjustment, calendar, and session identity.
+    - Require full-symbol and per-split coverage, minimum rows, immutable dataset checksum, split and feature manifests, and raw lineage.
+    - Replace standalone holdout policy with the shared-final-holdout policy.
+    - Remove unaccepted provider, symbol, date, and tolerance assumptions.
+    - Prevent later reconstruction constants from becoming implicit canonical assumptions.
+    known_limitations:
+    - Original validator accepted subsets of symbols, lacked exact dtypes, used observed-range missing-bar measurement, and had no checksums or provider identity.
+    - The later source mixes multiple historical contract stages and does not by itself validate a complete artifact package.
+    tests_required:
+    - Contract-version isolation tests.
+    - Exact schema, dtype, UTC, DST, finite-value, duplicate, and missing-slot tests.
+    - All-symbol, calendar, early-close, and per-split coverage tests.
+    - Feature order, semantic leakage, split manifest, raw checksum, and shared-holdout tests.
+    - No model or provider side-effect tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE; C7_DATASET_GENERATION_AND_ACCEPTANCE; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-066
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_data_preparation_interface.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Validate already-loaded data and assign deterministic train, evaluation, and holdout DataFrames.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Create a deterministic provider-neutral preparation result from an immutable dataset package and temporal split manifest.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Accept immutable dataset references.
+    - Verify checksums.
+    - Require versioned contract and feature manifests.
+    - Record exact excluded rows.
+    - Enforce per-symbol minimums.
+    - Keep final holdout outside ordinary preparation output.
+    - Emit checksummed provenance.
+    - Reject mutable or identity-mismatched inputs.
+    known_limitations:
+    - Mutable DataFrame input and output.
+    - No checksums.
+    - Common boundaries only.
+    - No actual preprocessing.
+    - Holdout returned alongside train and evaluation.
+    tests_required:
+    - Input immutability tests.
+    - Deterministic package-hash tests.
+    - Split identity and per-symbol coverage tests.
+    - Exclusion accounting tests.
+    - No-holdout-exposure tests.
+    - Invalid checksum and feature-manifest mismatch tests.
+    - No network or filesystem side-effect tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-067
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_data_preparation_integration.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Coordinate the in-memory preparation interface under dry-run or validation-only modes and preserve fail-closed metadata.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Coordinate versioned preparation stages without introducing provider, storage, training, or artifact side effects.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Replace free-form run ID with immutable package identity.
+    - Bind source commit, contract, dataset, split, feature, and preprocessing identities.
+    - Add a structured stage-result schema.
+    - Reject stale or mismatched upstream results.
+    - Preserve no-provider, no-storage, and no-training boundaries.
+    known_limitations:
+    - Thin in-memory wrapper.
+    - No provenance checksum.
+    - No package lifecycle.
+    - No isolation from caller mutation.
+    tests_required:
+    - Stage identity tests.
+    - Checksum mismatch and stale upstream-result tests.
+    - Deterministic metadata tests.
+    - Unsupported-mode tests.
+    - No I/O or execution-hook tests.
+    - Mutation-isolation tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-068
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_training_input_handoff.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Pass valid in-memory train, evaluation, holdout, and observation-column objects to a future training-configuration boundary.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Produce an immutable, identity-complete training package containing only authorized non-final training and evaluation inputs.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Remove final holdout from the normal handoff.
+    - Include exact dataset, split, feature, preprocessing, seed, environment, source, and configuration identities and checksums.
+    - Use immutable copies or content-addressed references.
+    - Reject every identity mismatch.
+    - Withhold the candidate-family-independent holdout pointer until C12.
+    known_limitations:
+    - Mutable object pass-through.
+    - Free-form run ID.
+    - No checksums.
+    - No seed or preprocessing identity.
+    - Holdout exposed in ordinary handoff.
+    tests_required:
+    - No-holdout-payload tests.
+    - Immutable-reference and mutation tests.
+    - Every identity-mismatch test.
+    - Missing package-component and forbidden-column tests.
+    - Deterministic handoff-hash tests.
+    - No I/O or training-hook tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS; C9_PPO_V2_TRAINING_VALIDATION_QUALIFICATION_AND_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-069
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_training_configuration.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Validate PPO hyperparameters, handoff status, safe columns, artifact policy, and unauthorized execution requests without training.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Create a versioned, explicit, traceable PPO v2 configuration for separately authorized training.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Require all material values from a reviewed configuration file.
+    - Add schema version and configuration checksum.
+    - Link dataset, split, feature, preprocessing, costs, slippage, reward, risk, walk-forward, benchmark, seed, and environment identities.
+    - Use typed early-stop policy and no silent defaults.
+    - Support explicit no-candidate outcome.
+    - Require the execution consumer to attest the exact configuration identity.
+    known_limitations:
+    - Numerous implicit defaults.
+    - No split identity.
+    - No costs or slippage.
+    - Reward and risk are string names.
+    - Arbitrary early-stop mapping.
+    - No execution consumer.
+    tests_required:
+    - Missing explicit field and unsupported-default tests.
+    - Schema-version and checksum tests.
+    - Data and configuration mismatch tests.
+    - Typed reward, risk, and early-stop tests.
+    - Exact propagation into a mocked non-executing consumer.
+    - Unauthorized-request and no-side-effect tests.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS; C9_PPO_V2_TRAINING_VALIDATION_QUALIFICATION_AND_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-070
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_retraining_config.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test the historical non-executing PPO v2 configuration scaffold.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline tests for the canonical fail-closed PPO v2 configuration boundary.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add schema-version, checksum, explicit-field, provider and universe assumption, artifact-isolation, and authorization-separation cases.
+    known_limitations:
+    - Historical tests validate scaffolding only and do not establish executable readiness.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, data-generation-free, training-free, final-holdout-free, and order-free.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-071
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_data_contract.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test historical PPO v2 schema, split, embargo, and invariant checks.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline deterministic tests for the versioned canonical data and split contract.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add exact dtype, UTC, calendar, full-symbol, checksum, semantic-leakage, contract-version, and shared-holdout cases.
+    known_limitations:
+    - Historical tests did not establish a complete accepted dataset package or provider identity.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, data-generation-free, training-free, final-holdout-free, and order-free.
+    destination_path: null
+    future_phase: C6_DATASET_CONTRACT_FREEZE; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-072
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_data_preparation_interface.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test the historical in-memory data-preparation interface.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline tests for immutable dataset-package preparation and holdout isolation.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add immutable-reference, checksum, per-symbol coverage, exclusion-accounting, feature-manifest, and no-holdout-exposure cases.
+    known_limitations:
+    - Historical tests used mutable in-memory objects and reflected the old holdout exposure.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, data-generation-free, training-free, final-holdout-free, and order-free.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-073
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_data_preparation_integration.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test the historical preparation-integration scaffold and fail-closed modes.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline tests for versioned preparation-stage orchestration and identity propagation.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add package-identity, stale-stage, checksum, mutation-isolation, unsupported-mode, and no-side-effect cases.
+    known_limitations:
+    - Historical tests covered a thin in-memory scaffold, not a complete package lifecycle.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, data-generation-free, training-free, final-holdout-free, and order-free.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C8_PPO_V2_IMPLEMENTATION_READINESS
+    owner_disposition: PENDING
+  - item_id: C1-TM-074
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_training_input_handoff.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test the historical training-input handoff boundary.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline tests for immutable non-final training and evaluation package handoff.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Remove holdout payload fixtures and add exact identity, checksum, mutation, missing-component, and deterministic-hash cases.
+    known_limitations:
+    - Historical tests reflected mutable object pass-through and ordinary holdout exposure.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, data-generation-free, training-free, final-holdout-free, and order-free.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS; C9_PPO_V2_TRAINING_VALIDATION_QUALIFICATION_AND_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-075
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_training_configuration.py
+    asset_type: TEST_MODULE
+    historical_purpose: Test the historical non-executing PPO v2 training-configuration boundary.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline tests for explicit versioned configuration and exact propagation.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add required-field, unsupported-default, schema, checksum, data mismatch, typed policy, propagation, and unauthorized-request cases.
+    known_limitations:
+    - Historical tests did not establish a real execution consumer or configuration-to-training propagation.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, data-generation-free, training-free, final-holdout-free, and order-free.
+    destination_path: null
+    future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS; C9_PPO_V2_TRAINING_VALIDATION_QUALIFICATION_AND_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-076
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_dataset_reconstruction.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Bind the governed Alpaca request literals and fail closed for unauthorized fetching and dataset generation.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide a committed deterministic noninteractive reconstruction orchestrator after separate provider, contract, and generation authorization.
+    migration_action: REIMPLEMENT_WITH_ATTRIBUTION
+    required_changes:
+    - Implement explicit input-package loading and raw-hash verification.
+    - Implement calendar slots, feature formulas, final validation, staging, atomic publication, manifest, checksum, cleanup, provenance, and rejected-dataset outcomes.
+    - Keep network acquisition separate from transformation.
+    - Preserve no-training and no-order boundaries.
+    known_limitations:
+    - The module is inert.
+    - No feature engine or dataset generator.
+    - No manifest or checksum writer.
+    - No atomic output transaction.
+    tests_required:
+    - No-import-side-effect tests.
+    - Exact recipe binding and raw-hash mismatch tests.
+    - Deterministic feature and calendar tests.
+    - Expected-slot and final-schema tests.
+    - Staging, atomic rename, manifest and checksum transaction, and failure-cleanup tests.
+    - No network during transformation, no training, and no orders.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE; C7_DATASET_GENERATION_AND_ACCEPTANCE
+    owner_disposition: PENDING
+  - item_id: C1-TM-077
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_market_calendar.py
+    asset_type: SOURCE_MODULE
+    historical_purpose: Load a pinned XNYS calendar lazily and derive whole-interval hourly slots.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide deterministic calendar and expected-slot generation behind a versioned calendar contract.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Parameterize the accepted calendar and bar resolution.
+    - Record dependency and calendar identity.
+    - Cover schedule breaks, early closes, DST, full date ranges, provider timestamp semantics, and deterministic manifest emission.
+    known_limitations:
+    - Historically fixed to XNYS 4.13.2 and one-hour whole-interval slots.
+    - Does not establish provider alignment or canonical calendar acceptance.
+    tests_required:
+    - Pinned-version mismatch tests.
+    - UTC awareness, holiday, DST, early-close, schedule-break, full-session, empty-session, multi-session determinism, bar-resolution, and provider-alignment tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION; C6_DATASET_CONTRACT_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-078
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: src/ppo_v2_parquet_writer.py
+    asset_type: PROVENANCE_UTILITY
+    historical_purpose: Define an explicit PyArrow schema and writer profile while keeping writes unauthorized.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Publish validated datasets, manifests, and checksums atomically under an accepted versioned writer contract.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add controlled staging, fsync where applicable, atomic rename, and existing-output protection.
+    - Publish dataset, manifest, and checksum as one transaction.
+    - Add post-write readback, checksum verification, failure cleanup, source, configuration, and environment linkage, and explicit rejected-publication state.
+    known_limitations:
+    - The writer is inert and cannot prove atomicity, cleanup after mid-write failure, manifest consistency, or checksum consistency.
+    tests_required:
+    - Exact-schema and writer-literal tests.
+    - Staged-write and atomic-rename tests.
+    - Failure injection at every publication step.
+    - Existing-output rejection, readback checksum, manifest mismatch, cleanup, and deterministic repeated-serialization tests.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE; C7_DATASET_GENERATION_AND_ACCEPTANCE; C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
+  - item_id: C1-TM-079
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_dataset_reconstruction_contract.py
+    asset_type: TEST_MODULE
+    historical_purpose: Verify historical reconstruction request literals, path restrictions, schema, gap rules, and fail-closed execution stubs.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline deterministic tests for the canonical reconstruction orchestrator and contract.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add feature-formula fixtures, all-symbol cases, raw-hash and manifest tests, property-based ordering, package identity, rejected-dataset state, and end-to-end offline reconstruction from a small committed synthetic fixture.
+    known_limitations:
+    - Historical tests were part of a 14-case mocked package.
+    - They did not test feature formulas or complete dataset publication.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, training-free, and order-free.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE; C7_DATASET_GENERATION_AND_ACCEPTANCE
+    owner_disposition: PENDING
+  - item_id: C1-TM-080
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_market_calendar_contract.py
+    asset_type: TEST_MODULE
+    historical_purpose: Verify historical calendar-slot helper and expected-slot behavior.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline deterministic tests for the versioned canonical market-calendar contract.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add full date-range fixtures, holidays, DST, early closes, schedule breaks, bar-resolution changes, provider alignment, dependency identity, and deterministic manifest cases.
+    known_limitations:
+    - Historical tests covered a narrow pinned calendar and did not establish provider alignment or canonical acceptance.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, training-free, and order-free.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION; C6_DATASET_CONTRACT_FREEZE
+    owner_disposition: PENDING
+  - item_id: C1-TM-081
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: tests/test_ppo_v2_parquet_writer_contract.py
+    asset_type: TEST_MODULE
+    historical_purpose: Verify the historical writer schema, profile, and fail-closed write stubs.
+    classification: CARRY_FORWARD
+    canonical_responsibility: Provide offline deterministic tests for atomic canonical dataset, manifest, and checksum publication.
+    migration_action: ADAPT_AND_TEST
+    required_changes:
+    - Add staging, atomic rename, existing-output rejection, readback checksum, manifest consistency, deterministic serialization, failure injection at every publication step, cleanup, and rejected-publication cases.
+    known_limitations:
+    - Historical tests did not exercise real or simulated complete dataset publication or mid-transaction failure.
+    tests_required:
+    - The adapted test module must remain network-free, credential-free, provider-free, training-free, and order-free.
+    destination_path: null
+    future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C6_DATASET_CONTRACT_FREEZE; C7_DATASET_GENERATION_AND_ACCEPTANCE
+    owner_disposition: PENDING
+  - item_id: C1-TM-082
+    source_repository: racoope70/ppo-trading-pipeline
+    source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+    source_path: artifacts/ppo_v2/package_preparation/v3_08_fresh_technical_diagnosis/commands/future_exact_diagnosis_command.txt
+    asset_type: SCRIPT
+    historical_purpose: Perform one-process guarded import probes with repository preflight checks, atomic execution-record updates, sanitized exception classes, and no-network controls.
+    classification: HISTORICAL_ARCHIVE_ONLY
+    canonical_responsibility: Serve as historical design evidence for atomic diagnostic records, bounded probes, and fail-closed controls, not as canonical executable code.
+    migration_action: RETAIN_IN_HISTORICAL_REPOSITORY
+    required_changes:
+    - Do not copy the script as executable canonical code.
+    - Reimplement only selected durable controls in a small tested C3 diagnostic utility.
+    - Correct the Sort import contract.
+    - Use result logic that distinguishes success from caught exception.
+    - Remove project-specific hard-coded commit and workflow identities.
+    - Replace repository-parent interpreter assumptions with canonical environment resolution.
+    known_limitations:
+    - Sort target conflicts with committed source.
+    - Terminal classification increments success count on exceptions.
+    - Final execution classification required documentary correction.
+    - Relative interpreter path is workspace-specific.
+    - Command depends on exact tracked-Markdown worktree status.
+    - Artifact underwent multiple historical revisions.
+    tests_required:
+    - Unit tests for every terminal branch.
+    - Success-versus-exception classification tests.
+    - Import-target contract test.
+    - Atomic-write interruption test.
+    - Worktree-status parsing test.
+    - No-network and no-secret tests.
+    - Interpreter-identity test.
+    destination_path: null
+    future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION; C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION; C13_PUBLICATION_RELEASE
+    owner_disposition: PENDING
