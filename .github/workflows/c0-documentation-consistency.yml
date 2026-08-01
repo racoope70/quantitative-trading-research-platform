@@ -31,10 +31,15 @@ jobs:
               "README.md",
               "CONTRIBUTING.md",
               "docs/audits/C0_independent_governance_foundation_audit_instructions.md",
+              "docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md",
               "docs/decisions/C0_governance_foundation_decision.md",
               "docs/decisions/C0_completion_decision.md",
               "docs/decisions/C1_authorization_decision.md",
+              "docs/decisions/C1_completion_decision.md",
               "docs/governance/repository_protection_conventions.md",
+              "docs/migration/legacy_evidence_retention_matrix.csv",
+              "docs/migration/technical_migration_manifest.yaml",
+              "docs/reports/C1_legacy_evidence_and_architecture_report.md",
               "docs/templates/C1_legacy_evidence_and_architecture_report_template.md",
               "docs/templates/C1_legacy_evidence_retention_matrix_template.csv",
               "docs/templates/C1_technical_migration_manifest_template.yaml",
@@ -86,14 +91,14 @@ jobs:
 
           required_lines = {
               "PROJECT_CONTEXT.md": [
-                  "current_lifecycle_state = C1_ACTIVE",
-                  "active_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN",
-                  "phase_status = ACTIVE",
-                  "authorization_effect = C1_SCOPE_ONLY",
+                  "current_lifecycle_state = C1_COMPLETED",
+                  "active_major_phase = NONE",
+                  "phase_status = C1_COMPLETED_AWAITING_C2_AUTHORIZATION",
+                  "authorization_effect = NONE",
                   "repository_creation_status = CREATED_PRIVATE",
-                  "C1_authorization_status = AUTHORIZED",
-                  "C1_phase_status = ACTIVE",
+                  "C1_phase_status = COMPLETED",
                   "C2_authorization_status = NOT_AUTHORIZED",
+                  "C1_completion_effect = EFFECTIVE",
               ],
               "docs/decisions/C0_governance_foundation_decision.md": [
                   "decision_status = ACCEPTED",
@@ -118,14 +123,22 @@ jobs:
                   "C2_authorization_effect = NONE",
                   "repository_recording_status = RECORDED_AND_ALIGNED",
               ],
+              "docs/decisions/C1_completion_decision.md": [
+                  "decision_id = GOV-DEC-0004",
+                  "decision_status = ACCEPTED",
+                  "owner_completion_decision_status = ACCEPTED",
+                  "owner_decision = ACCEPT_C1_COMPLETION_DECISION",
+                  "C1_completion_effect = EFFECTIVE",
+                  "C2_authorization_effect = NONE",
+                  "repository_recording_status = RECORDED_AND_ALIGNED",
+              ],
               "README.md": [
                   "repository_status = CREATED_PRIVATE",
-                  "current_lifecycle_state = C1_ACTIVE",
-                  "active_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN",
-                  "C1_authorization_status = AUTHORIZED",
-                  "C1_phase_status = ACTIVE",
+                  "current_lifecycle_state = C1_COMPLETED",
+                  "active_major_phase = NONE",
+                  "C1_phase_status = COMPLETED",
                   "C2_authorization_status = NOT_AUTHORIZED",
-                  "authorization_effect = C1_SCOPE_ONLY",
+                  "authorization_effect = NONE",
               ],
               "docs/workflows/milestone_review_reference_map.md": [
                   "2v_record = 2v.GOV.03",
@@ -135,7 +148,14 @@ jobs:
                   "2v_record = 2v.GOV.04",
                   "decision_id = GOV-DEC-0003",
                   "C1_authorization_effect = EFFECTIVE",
+                  "2v_record = 2v.GOV.05",
+                  "decision_id = GOV-DEC-0004",
+                  "C1_completion_effect = EFFECTIVE",
                   "C2_authorization_effect = NONE",
+                  "2v_record = 2v.LEGACY.01",
+                  "2v_record = 2v.LEGACY.02",
+                  "2v_record = 2v.ARCH.01",
+                  "2v_record = 2v.ARCH.02",
               ],
           }
 
@@ -145,7 +165,7 @@ jobs:
               if missing_lines:
                   raise SystemExit(f"{path} is missing required governance-state lines: {missing_lines}")
 
-          print("Required governance files, CSV schema, and governance state are consistent.")
+          print("Required governance files, CSV schema, and completed C1 governance state are consistent.")
           PY
 
       - name: Validate YAML template schema and safety
