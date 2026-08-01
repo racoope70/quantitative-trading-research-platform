@@ -1,12 +1,13 @@
-# C1 Completion Decision — Draft for Owner Content Review
+# C1 Completion Decision
 
 ```text
-document_status = DRAFT_FOR_OWNER_CONTENT_REVIEW
+document_status = ACCEPTED_C1_COMPLETION_DECISION
 intended_repository_path = docs/decisions/C1_completion_decision.md
-decision_id = PENDING
+decision_id = GOV-DEC-0004
 decision_type = C1_COMPLETION_AND_CLOSURE
-decision_status = PROPOSED
-owner_completion_decision_status = PENDING
+decision_status = ACCEPTED
+owner_completion_decision_status = ACCEPTED
+owner_decision = ACCEPT_C1_COMPLETION_DECISION
 owner_package_acceptance_status = ACCEPTED
 owner_independent_audit_acceptance_status = ACCEPTED
 current_lifecycle_state = C1_ACTIVE
@@ -15,20 +16,27 @@ authorization_effect = C1_SCOPE_ONLY
 C1_completion_effect = NONE
 C2_authorization_effect = NONE
 C2_authorization_status = NOT_AUTHORIZED
-prior_committed_draft_repository_recording_status = COMMITTED_AND_PUSHED
-prior_committed_draft_commit = 6a60c5952b701199d9475dbae85f630f8b0861c0
-corrected_standalone_artifact_repository_recording_status = NOT_RECORDED
-accepted_completion_decision_repository_recording_status = PENDING
+prior_corrected_proposed_draft_repository_recording_status = COMMITTED_AND_PUSHED
+prior_corrected_proposed_draft_commit = 7b8af8fbe99a5394de72644b21943232181f6114
+accepted_completion_decision_artifact_repository_recording_status = RECORDED_BY_THIS_BRANCH_COMMIT
+accepted_completion_decision_artifact_remote_recording_status_at_branch_commit = NOT_YET_VERIFIED
 controlling_state_alignment_status = PENDING
 ```
 
 ## 1. Purpose and Present Status
 
-This draft records the evidence that may support a future owner decision on completion and closure of C1 — Legacy Evidence Classification and Architecture Migration Design.
+This decision records the owner’s explicit acceptance of the C1 completion decision for C1 — Legacy Evidence Classification and Architecture Migration Design.
 
-This artifact is prepared for owner content review only. It does not state or imply that C1 is already completed, closed, merged, accepted through a completion decision, or effective. The prior proposed draft has been committed and pushed for owner content review only. The corrected artifact was subsequently copied into the repository working tree through a separately authorized replacement step. That replacement alone did not accept the completion decision or create lifecycle effect.
+The owner issued:
 
-`PROJECT_CONTEXT.md` remains the sole controlling source of current project state and authorization. Its controlling state remains:
+```text
+owner_decision = ACCEPT_C1_COMPLETION_DECISION
+owner_completion_decision_status = ACCEPTED
+```
+
+The branch commit that introduces this version records the owner-accepted C1 completion decision on the C1 branch. That branch recording does not establish remote push verification, required validation success, merge or closure-workflow completion, `PROJECT_CONTEXT.md` alignment, C1 lifecycle effectiveness, or C2 authorization.
+
+`PROJECT_CONTEXT.md` remains unchanged and is the sole controlling source of current project state and authorization. Its controlling state remains:
 
 ```text
 current_lifecycle_state = C1_ACTIVE
@@ -37,7 +45,7 @@ C1_completion_effect = NONE
 C2_authorization_status = NOT_AUTHORIZED
 ```
 
-Preparation of this draft does not alter that state.
+Recording this accepted decision on the C1 branch does not alter that controlling state.
 
 ## 2. Canonical Repository and Decision Basis
 
@@ -51,7 +59,9 @@ independent_C1_audit_record = docs/audits/C1_independent_legacy_evidence_and_arc
 independent_C1_audit_classification = PASS
 exact_commit_audited = 0d0887404219e1ee5a8ba3747e8744d9cbf1f653
 completion_decision_intended_path = docs/decisions/C1_completion_decision.md
-completion_decision_owner_acceptance = PENDING
+owner_accepted_proposed_decision_commit = 7b8af8fbe99a5394de72644b21943232181f6114
+completion_decision_owner_acceptance = ACCEPTED
+owner_decision = ACCEPT_C1_COMPLETION_DECISION
 ```
 
 The supporting basis is:
@@ -65,9 +75,10 @@ The supporting basis is:
 4. `docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md`, which records the independent audit classification `PASS`.
 5. The owner decision accepting the final C1 recommendations and complete three-output package at commit `a4a7db8b1590904f0980182a888f808186349c22`.
 6. The owner decision approving `docs/decisions/C1_completion_decision.md` as the intended path for a future completion-decision record.
-7. `docs/decisions/C0_completion_decision.md`, used only as a proportionate structural and naming precedent.
+7. The owner’s explicit disposition `ACCEPT_C1_COMPLETION_DECISION` for the proposed decision represented by commit `7b8af8fbe99a5394de72644b21943232181f6114`.
+8. `docs/decisions/C0_completion_decision.md`, used only as a proportionate structural and naming precedent.
 
-No pull-request number, owner-disposition record, merge commit, workflow run, accepted completion-decision ID, or effective lifecycle transition is claimed because those future recording facts do not yet exist for this proposed decision.
+The permanent decision ID shown in this record was explicitly approved by the owner. No pull-request number, owner-disposition record identifier, merge method, merge commit, validation run, or controlling-state alignment commit is claimed because those facts have not yet been established through repository evidence.
 
 ## 3. Accepted C1 Package and Findings
 
@@ -138,23 +149,25 @@ The accepted C1 authorization decision states that C1 may close only when nine c
 | 6 | The C1 evidence and architecture report is complete and accepted. | `SATISFIED` | The report was independently audited, included in the accepted package, and accepted by the owner. |
 | 7 | No executable migration or other prohibited technical activity occurred. | `SATISFIED_ON_REVIEWED_REPOSITORY_AND_GITHUB_EVIDENCE` | The independent audit identified no prohibited technical execution in the reviewed C1 repository and GitHub evidence. Repository and GitHub evidence cannot prove the absence of unrecorded external activity. |
 | 8 | A risk-proportional independent C1 audit passes after correction of any material findings. | `SATISFIED` | The committed independent C1 audit classification is `PASS`, and the owner accepted the audit record. |
-| 9 | The owner accepts the C1 completion decision. | `PENDING` | The prior draft has been recorded as a proposed draft for owner content review, but the owner has not accepted the C1 completion decision and it has not been merged or made effective. The corrected artifact was subsequently copied into the repository working tree through a separately authorized replacement step, but that replacement did not constitute owner acceptance, merge, or effectiveness. |
+| 9 | The owner accepts the C1 completion decision. | `SATISFIED` | The owner explicitly issued `ACCEPT_C1_COMPLETION_DECISION` for the decision represented by commit `7b8af8fbe99a5394de72644b21943232181f6114`. |
 
-Additional effectiveness and recording conditions remain pending:
+All nine C1 completion conditions are satisfied at the decision-assessment level.
+
+Branch recording is completed by the commit that introduces this version. Additional effectiveness and closure conditions had not yet been established at that branch commit:
 
 ```text
-completion_decision_owner_review = PENDING
-completion_decision_owner_acceptance = PENDING
-prior_committed_draft_repository_recording = COMPLETED
-corrected_standalone_artifact_repository_recording = NOT_STARTED
-accepted_completion_decision_repository_recording = PENDING
-required_review_and_validation = PENDING
-authorized_merge_or_accepted_closure_workflow = PENDING
-PROJECT_CONTEXT_alignment = PENDING
+completion_decision_owner_review = SATISFIED
+completion_decision_owner_acceptance = SATISFIED
+prior_corrected_proposed_draft_repository_recording = COMPLETED
+accepted_completion_decision_artifact_repository_recording = COMPLETED_BY_THIS_BRANCH_COMMIT
+accepted_completion_decision_artifact_remote_recording_status_at_branch_commit = NOT_YET_VERIFIED
+required_review_and_validation_status_at_branch_commit = PENDING
+authorized_merge_or_accepted_closure_workflow_status_at_branch_commit = PENDING
+PROJECT_CONTEXT_alignment_status_at_branch_commit = PENDING
 C1_completion_effect = NONE
 ```
 
-The evidence supports preparation of this draft. It does not itself close C1.
+Decision-assessment satisfaction does not itself close C1 or create lifecycle effectiveness. The later status of remote recording, required validation, the closure workflow, and controlling-state alignment must be determined from subsequent repository evidence rather than inferred from this decision record.
 
 ## 5. Resolution of the Previous Report Recommendation
 
@@ -176,7 +189,7 @@ NO
 
 The prior recommendation therefore does not represent a continuing unidentified correction requirement.
 
-C1 nevertheless remains active because the owner has not yet accepted a C1 completion decision, an owner-accepted completion decision has not been recorded through the required closure workflow, and the sole controlling state in `PROJECT_CONTEXT.md` has not been aligned to a completed lifecycle state.
+C1 nevertheless remains active because branch recording of the owner-accepted completion decision does not by itself establish required validation, authorized merge or closure-workflow completion, or alignment of `PROJECT_CONTEXT.md` to `C1_COMPLETED`. Remote push status must be determined from subsequent repository evidence.
 
 ## 6. Preserved Boundaries and Limitations
 
@@ -244,27 +257,28 @@ That conclusion is limited to the reviewed repository and GitHub evidence. Repos
 
 ## 7. Conditional Future Closure Effect
 
-This proposed artifact may describe a future closure effect only conditionally.
+The owner has reviewed and explicitly accepted the C1 completion decision.
 
-C1 would become completed only after all of the following occur through authorized owner-controlled work:
+The branch commit that introduces this version records the accepted completion decision on the C1 branch.
 
-1. The owner reviews and explicitly accepts the C1 completion decision.
-2. The accepted completion decision is recorded in the canonical repository through an authorized workflow.
-3. Required review and validation of the recorded completion package succeed.
-4. The authorized merge or other accepted closure workflow completes.
-5. `PROJECT_CONTEXT.md`, as the sole controlling state, is separately reviewed and aligned to the effective completed lifecycle state.
+At the branch commit that introduces this version, the following closure actions had not yet been established. Their later status must be determined from subsequent repository evidence:
 
-Only after those conditions are satisfied may the controlling state record an effective transition equivalent to:
+1. Remote push and verification of the branch commit.
+2. Required review and validation of the recorded completion package.
+3. The authorized merge or other accepted closure workflow.
+4. Separate review and alignment of `PROJECT_CONTEXT.md` to the effective completed lifecycle state.
+
+Only after those remaining conditions are satisfied may the controlling state record an effective transition equivalent to:
 
 ```text
 C1_ACTIVE -> C1_COMPLETED
 ```
 
-This draft does not perform or make that transition effective.
-
-No automatic C2 effect follows:
+This accepted decision record does not perform or make that transition effective.
 
 ```text
+current_lifecycle_state = C1_ACTIVE
+C1_completion_effect = NONE
 future_C1_completion_effect = CONDITIONAL
 automatic_C2_authorization = NO
 automatic_C2_activation = NO
@@ -275,8 +289,9 @@ automatic_C2_activation = NO
 Current effect:
 
 ```text
-decision_status = PROPOSED
-owner_completion_decision_status = PENDING
+decision_status = ACCEPTED
+owner_completion_decision_status = ACCEPTED
+owner_decision = ACCEPT_C1_COMPLETION_DECISION
 current_lifecycle_state = C1_ACTIVE
 authorization_effect = C1_SCOPE_ONLY
 C1_completion_effect = NONE
@@ -284,10 +299,9 @@ C2_authorization_effect = NONE
 C2_authorization_status = NOT_AUTHORIZED
 ```
 
-Preparation of this artifact alone:
+Acceptance alone:
 
-- does not close C1;
-- does not make a completion decision accepted or effective;
+- does not make C1 closure effective;
 - does not change `PROJECT_CONTEXT.md`;
 - does not update `docs/workflows/milestone_review_reference_map.md`;
 - does not update `docs/workflows/future_validation_training_reference_map.md`;
@@ -301,34 +315,33 @@ Preparation of this artifact alone:
 - does not authorize final-holdout access;
 - does not authorize paper orders, live orders, or trading.
 
-## 9. Pending Future Recording Fields
+## 9. Repository Recording and Pending Closure-Workflow Fields
 
-The following fields must remain pending unless and until separately established through future authorized evidence:
+The branch commit that introduces this version establishes repository branch recording. The following fields record the status known at that branch commit. Their later status must be determined from subsequent authorized repository evidence:
 
 ```text
-decision_id = PENDING
-owner_completion_decision = PENDING
-owner_completion_decision_status = PENDING
+decision_id = GOV-DEC-0004
+owner_completion_decision = ACCEPT_C1_COMPLETION_DECISION
+owner_completion_decision_status = ACCEPTED
 owner_disposition_record = PENDING
 completion_decision_pull_request = PENDING
 authorized_merge_method = PENDING
 completion_decision_merge_commit = PENDING
 completion_decision_review_validation = PENDING
 completion_decision_merge_push_validation = PENDING
-prior_committed_draft_repository_recording_status = COMMITTED_AND_PUSHED
-prior_committed_draft_commit = 6a60c5952b701199d9475dbae85f630f8b0861c0
-corrected_standalone_artifact_repository_recording_status = NOT_RECORDED
-accepted_completion_decision_repository_recording_status = PENDING
+prior_corrected_proposed_draft_repository_recording_status = COMMITTED_AND_PUSHED
+prior_corrected_proposed_draft_commit = 7b8af8fbe99a5394de72644b21943232181f6114
+accepted_completion_decision_artifact_repository_recording_status = RECORDED_BY_THIS_BRANCH_COMMIT
+accepted_completion_decision_artifact_remote_recording_status_at_branch_commit = NOT_YET_VERIFIED
 controlling_state_alignment_commit = PENDING
 C1_completion_effect = NONE
 ```
 
-No value in this draft may be treated as a substitute for future owner acceptance, immutable repository recording, required validation, merge evidence, or controlling-state alignment.
+This branch commit establishes repository branch recording only. It does not substitute for subsequent repository evidence establishing remote push verification, required validation, merge or closure-workflow completion, or controlling-state alignment.
 
-## 10. No-Action Confirmation
+## 10. Historical and Current-State Confirmation
 
-The following block records only the initial standalone content-preparation
-action that occurred before the prior draft was copied into the repository:
+The following block records only the initial standalone content-preparation action that occurred before the prior draft was copied into the repository. It is a historical snapshot:
 
 ```text
 completion_decision_artifact_prepared_for_owner_content_review = YES
@@ -352,10 +365,7 @@ C2_activity = NO
 C2_authorized = NO
 ```
 
-The following block records the state that existed when the corrected
-standalone artifact was prepared and accepted for a later, separately
-authorized repository-replacement workflow. It is a historical snapshot, not
-a live repository-status record:
+The following block records the state that existed when the corrected standalone artifact was prepared and accepted for a later, separately authorized repository-replacement workflow. It is a historical snapshot, not a live repository-status record:
 
 ```text
 prior_draft_copied_into_repository = YES
@@ -381,17 +391,45 @@ C2_activity = NO
 C2_authorized = NO
 ```
 
-## 11. Proposed Decision Status
+The following block is a historical snapshot of the accepted standalone artifact before the branch commit that records this version. Its `NOT_RECORDED`, staging, commit, and push values describe that pre-recording preparation state only:
 
 ```text
-proposed_completion_disposition = PENDING_OWNER_REVIEW
-decision_status = PROPOSED
-owner_completion_decision_status = PENDING
+owner_completion_decision = ACCEPT_C1_COMPLETION_DECISION
+owner_completion_decision_status = ACCEPTED
+accepted_completion_decision_artifact_prepared = YES
+accepted_completion_decision_artifact_repository_recording_status = NOT_RECORDED
+repository_file_modified_during_accepted_artifact_preparation = NO
+staging = NO
+commit = NO
+push = NO
+branch_operation = NO
+merge = NO
+PROJECT_CONTEXT_modified = NO
+workflow_maps_modified = NO
+technical_execution = NO
+C1_closed = NO
+C1_completion_effect = NONE
+C2_activity = NO
+C2_authorized = NO
 ```
 
-The evidence summarized in this draft supports owner consideration of C1 closure, but the owner has not yet accepted this completion decision.
+## 11. Accepted Decision Status
 
-Until owner acceptance, authorized repository recording, required validation, closure workflow completion, and controlling-state alignment occur:
+```text
+accepted_completion_disposition = ACCEPT_C1_COMPLETION_DECISION
+decision_id = GOV-DEC-0004
+decision_status = ACCEPTED
+owner_completion_decision_status = ACCEPTED
+accepted_completion_decision_artifact_repository_recording_status = RECORDED_BY_THIS_BRANCH_COMMIT
+accepted_completion_decision_artifact_remote_recording_status_at_branch_commit = NOT_YET_VERIFIED
+current_lifecycle_state = C1_ACTIVE
+C1_completion_effect = NONE
+C2_authorization_status = NOT_AUTHORIZED
+```
+
+The accepted decision is recorded on the C1 branch by the commit that introduces this version. At that branch commit, remote push verification, required validation, authorized merge or closure-workflow completion, and controlling-state alignment had not yet been established. Their later status must be determined from subsequent repository evidence. The branch commit alone has no independent lifecycle effect.
+
+The branch commit alone does not make C1 completion effective. Effective completion requires subsequent repository evidence establishing required validation, closure-workflow completion, and controlling-state alignment. Remote push status must be verified separately from the branch commit.
 
 ```text
 current_lifecycle_state = C1_ACTIVE
@@ -399,4 +437,4 @@ C1_completion_effect = NONE
 C2_authorization_status = NOT_AUTHORIZED
 ```
 
-This draft creates no authorization and has no independent lifecycle effect.
+This accepted standalone artifact creates no technical authorization and does not authorize C2.
