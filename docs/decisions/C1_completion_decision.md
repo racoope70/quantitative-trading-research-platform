@@ -15,7 +15,10 @@ authorization_effect = C1_SCOPE_ONLY
 C1_completion_effect = NONE
 C2_authorization_effect = NONE
 C2_authorization_status = NOT_AUTHORIZED
-repository_recording_status = NOT_RECORDED
+prior_committed_draft_repository_recording_status = COMMITTED_AND_PUSHED
+prior_committed_draft_commit = 6a60c5952b701199d9475dbae85f630f8b0861c0
+corrected_standalone_artifact_repository_recording_status = NOT_RECORDED
+accepted_completion_decision_repository_recording_status = PENDING
 controlling_state_alignment_status = PENDING
 ```
 
@@ -23,7 +26,7 @@ controlling_state_alignment_status = PENDING
 
 This draft records the evidence that may support a future owner decision on completion and closure of C1 — Legacy Evidence Classification and Architecture Migration Design.
 
-This artifact is prepared for owner content review only. It does not state or imply that C1 is already completed, closed, recorded, merged, accepted through a completion decision, or effective.
+This artifact is prepared for owner content review only. It does not state or imply that C1 is already completed, closed, merged, accepted through a completion decision, or effective. The prior proposed draft has been committed and pushed for owner content review only. The corrected artifact was subsequently copied into the repository working tree through a separately authorized replacement step. That replacement alone did not accept the completion decision or create lifecycle effect.
 
 `PROJECT_CONTEXT.md` remains the sole controlling source of current project state and authorization. Its controlling state remains:
 
@@ -135,14 +138,16 @@ The accepted C1 authorization decision states that C1 may close only when nine c
 | 6 | The C1 evidence and architecture report is complete and accepted. | `SATISFIED` | The report was independently audited, included in the accepted package, and accepted by the owner. |
 | 7 | No executable migration or other prohibited technical activity occurred. | `SATISFIED_ON_REVIEWED_REPOSITORY_AND_GITHUB_EVIDENCE` | The independent audit identified no prohibited technical execution in the reviewed C1 repository and GitHub evidence. Repository and GitHub evidence cannot prove the absence of unrecorded external activity. |
 | 8 | A risk-proportional independent C1 audit passes after correction of any material findings. | `SATISFIED` | The committed independent C1 audit classification is `PASS`, and the owner accepted the audit record. |
-| 9 | The owner accepts the C1 completion decision. | `PENDING` | This artifact remains a proposed draft for owner content review and has not been accepted, recorded, merged, or made effective. |
+| 9 | The owner accepts the C1 completion decision. | `PENDING` | The prior draft has been recorded as a proposed draft for owner content review, but the owner has not accepted the C1 completion decision and it has not been merged or made effective. The corrected artifact was subsequently copied into the repository working tree through a separately authorized replacement step, but that replacement did not constitute owner acceptance, merge, or effectiveness. |
 
 Additional effectiveness and recording conditions remain pending:
 
 ```text
 completion_decision_owner_review = PENDING
 completion_decision_owner_acceptance = PENDING
-authorized_repository_recording = PENDING
+prior_committed_draft_repository_recording = COMPLETED
+corrected_standalone_artifact_repository_recording = NOT_STARTED
+accepted_completion_decision_repository_recording = PENDING
 required_review_and_validation = PENDING
 authorized_merge_or_accepted_closure_workflow = PENDING
 PROJECT_CONTEXT_alignment = PENDING
@@ -171,7 +176,7 @@ NO
 
 The prior recommendation therefore does not represent a continuing unidentified correction requirement.
 
-C1 nevertheless remains active because the owner has not yet accepted a C1 completion decision, the completion decision has not been recorded through an authorized repository workflow, and the sole controlling state in `PROJECT_CONTEXT.md` has not been aligned to a completed lifecycle state.
+C1 nevertheless remains active because the owner has not yet accepted a C1 completion decision, an owner-accepted completion decision has not been recorded through the required closure workflow, and the sole controlling state in `PROJECT_CONTEXT.md` has not been aligned to a completed lifecycle state.
 
 ## 6. Preserved Boundaries and Limitations
 
@@ -310,7 +315,10 @@ authorized_merge_method = PENDING
 completion_decision_merge_commit = PENDING
 completion_decision_review_validation = PENDING
 completion_decision_merge_push_validation = PENDING
-repository_recording_status = NOT_RECORDED
+prior_committed_draft_repository_recording_status = COMMITTED_AND_PUSHED
+prior_committed_draft_commit = 6a60c5952b701199d9475dbae85f630f8b0861c0
+corrected_standalone_artifact_repository_recording_status = NOT_RECORDED
+accepted_completion_decision_repository_recording_status = PENDING
 controlling_state_alignment_commit = PENDING
 C1_completion_effect = NONE
 ```
@@ -318,6 +326,9 @@ C1_completion_effect = NONE
 No value in this draft may be treated as a substitute for future owner acceptance, immutable repository recording, required validation, merge evidence, or controlling-state alignment.
 
 ## 10. No-Action Confirmation
+
+The following block records only the initial standalone content-preparation
+action that occurred before the prior draft was copied into the repository:
 
 ```text
 completion_decision_artifact_prepared_for_owner_content_review = YES
@@ -337,6 +348,35 @@ technical_execution = NO
 C1_closed = NO
 C1_completion_decision_accepted = NO
 C1_completion_effect = NONE
+C2_activity = NO
+C2_authorized = NO
+```
+
+The following block records the state that existed when the corrected
+standalone artifact was prepared and accepted for a later, separately
+authorized repository-replacement workflow. It is a historical snapshot, not
+a live repository-status record:
+
+```text
+prior_draft_copied_into_repository = YES
+prior_draft_staged = YES
+prior_draft_committed = YES
+prior_draft_commit = 6a60c5952b701199d9475dbae85f630f8b0861c0
+prior_draft_pushed = YES
+prior_draft_remote_recording_verified = YES
+
+corrected_standalone_artifact_copied_into_repository = NO
+corrected_standalone_artifact_staged = NO
+corrected_standalone_artifact_committed = NO
+corrected_standalone_artifact_pushed = NO
+corrected_standalone_artifact_repository_recording_status = NOT_RECORDED
+
+C1_completion_decision_accepted = NO
+C1_closed = NO
+C1_completion_effect = NONE
+PROJECT_CONTEXT_modified = NO
+workflow_maps_modified = NO
+technical_execution = NO
 C2_activity = NO
 C2_authorized = NO
 ```
