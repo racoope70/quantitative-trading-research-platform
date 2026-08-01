@@ -10,22 +10,30 @@ owner_completion_decision_status = ACCEPTED
 owner_decision = ACCEPT_C1_COMPLETION_DECISION
 owner_package_acceptance_status = ACCEPTED
 owner_independent_audit_acceptance_status = ACCEPTED
-current_lifecycle_state = C1_ACTIVE
-active_major_phase = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
-authorization_effect = C1_SCOPE_ONLY
-C1_completion_effect = NONE
+completion_decision_pull_request = 8
+owner_disposition_record = PR_8_COMMENT_5149557106
+owner_disposition_head_commit = f8a75447ad6819efa5fbef10fe0ff36f115f8185
+authorized_merge_method = SQUASH
+completion_decision_merge_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_pr_validation_run = 16
+completion_decision_pr_validation_conclusion = SUCCESS
+completion_decision_post_merge_manual_validation_run = 17
+completion_decision_post_merge_manual_validation_event = WORKFLOW_DISPATCH
+completion_decision_post_merge_manual_validation_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_post_merge_manual_validation_conclusion = SUCCESS
+completed_lifecycle_state = C1_COMPLETED
+active_major_phase = NONE
+authorization_effect = NONE
+C1_completion_effect = EFFECTIVE
 C2_authorization_effect = NONE
 C2_authorization_status = NOT_AUTHORIZED
-prior_corrected_proposed_draft_repository_recording_status = COMMITTED_AND_PUSHED
-prior_corrected_proposed_draft_commit = 7b8af8fbe99a5394de72644b21943232181f6114
-accepted_completion_decision_artifact_repository_recording_status = RECORDED_BY_THIS_BRANCH_COMMIT
-accepted_completion_decision_artifact_remote_recording_status_at_branch_commit = NOT_YET_VERIFIED
-controlling_state_alignment_status = PENDING
+repository_recording_status = RECORDED_AND_ALIGNED
+controlling_state_alignment_status = RECORDED_AND_ALIGNED
 ```
 
 ## 1. Purpose and Present Status
 
-This decision records the owner’s explicit acceptance of the C1 completion decision for C1 — Legacy Evidence Classification and Architecture Migration Design.
+This decision records the owner’s accepted completion and closure disposition for C1 — Legacy Evidence Classification and Architecture Migration Design.
 
 The owner issued:
 
@@ -34,18 +42,19 @@ owner_decision = ACCEPT_C1_COMPLETION_DECISION
 owner_completion_decision_status = ACCEPTED
 ```
 
-The branch commit that introduces this version records the owner-accepted C1 completion decision on the C1 branch. That branch recording does not establish remote push verification, required validation success, merge or closure-workflow completion, `PROJECT_CONTEXT.md` alignment, C1 lifecycle effectiveness, or C2 authorization.
+The earlier decision-record branch and merge established the accepted decision and its immutable completion evidence. They did not independently make C1 completion effective.
 
-`PROJECT_CONTEXT.md` remains unchanged and is the sole controlling source of current project state and authorization. Its controlling state remains:
+C1 completion becomes effective only through the separately reviewed and accepted controlling-state alignment merge that introduces this finalized decision, the aligned `PROJECT_CONTEXT.md`, the aligned `README.md`, the completed C1 curated evidence records, and the corresponding documentation-consistency controls to canonical `main`.
 
 ```text
-current_lifecycle_state = C1_ACTIVE
-authorization_effect = C1_SCOPE_ONLY
-C1_completion_effect = NONE
+completed_lifecycle_state = C1_COMPLETED
+active_major_phase = NONE
+authorization_effect = NONE
+C1_completion_effect = EFFECTIVE
 C2_authorization_status = NOT_AUTHORIZED
 ```
 
-Recording this accepted decision on the C1 branch does not alter that controlling state.
+The standalone preparation of this proposed replacement has no repository or lifecycle effect.
 
 ## 2. Canonical Repository and Decision Basis
 
@@ -58,8 +67,19 @@ C1_authorization_decision_id = GOV-DEC-0003
 independent_C1_audit_record = docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md
 independent_C1_audit_classification = PASS
 exact_commit_audited = 0d0887404219e1ee5a8ba3747e8744d9cbf1f653
-completion_decision_intended_path = docs/decisions/C1_completion_decision.md
 owner_accepted_proposed_decision_commit = 7b8af8fbe99a5394de72644b21943232181f6114
+accepted_completion_decision_branch_commit = f8a75447ad6819efa5fbef10fe0ff36f115f8185
+completion_decision_pull_request = 8
+owner_disposition_record = PR_8_COMMENT_5149557106
+owner_disposition_head_commit = f8a75447ad6819efa5fbef10fe0ff36f115f8185
+authorized_merge_method = SQUASH
+completion_decision_merge_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_pr_validation_run = 16
+completion_decision_pr_validation_conclusion = SUCCESS
+completion_decision_post_merge_manual_validation_run = 17
+completion_decision_post_merge_manual_validation_event = WORKFLOW_DISPATCH
+completion_decision_post_merge_manual_validation_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_post_merge_manual_validation_conclusion = SUCCESS
 completion_decision_owner_acceptance = ACCEPTED
 owner_decision = ACCEPT_C1_COMPLETION_DECISION
 ```
@@ -67,18 +87,16 @@ owner_decision = ACCEPT_C1_COMPLETION_DECISION
 The supporting basis is:
 
 1. `PROJECT_CONTEXT.md`, as the sole controlling source of current state and authorization.
-2. `docs/decisions/C1_authorization_decision.md`, which defines the C1 purpose, scope, prohibited activities, required outputs, and completion conditions.
+2. `docs/decisions/C1_authorization_decision.md`, which defined the C1 scope, prohibited activities, required outputs, and completion conditions.
 3. The accepted three-output C1 package:
    - `docs/migration/legacy_evidence_retention_matrix.csv`
    - `docs/migration/technical_migration_manifest.yaml`
    - `docs/reports/C1_legacy_evidence_and_architecture_report.md`
 4. `docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md`, which records the independent audit classification `PASS`.
-5. The owner decision accepting the final C1 recommendations and complete three-output package at commit `a4a7db8b1590904f0980182a888f808186349c22`.
-6. The owner decision approving `docs/decisions/C1_completion_decision.md` as the intended path for a future completion-decision record.
-7. The owner’s explicit disposition `ACCEPT_C1_COMPLETION_DECISION` for the proposed decision represented by commit `7b8af8fbe99a5394de72644b21943232181f6114`.
+5. The owner’s acceptance of the final C1 recommendations and complete three-output package at commit `a4a7db8b1590904f0980182a888f808186349c22`.
+6. The owner’s explicit disposition `ACCEPT_C1_COMPLETION_DECISION`.
+7. Pull request #8, owner-disposition comment `PR_8_COMMENT_5149557106`, the authorized squash merge, successful pull-request validation run 16, and successful post-merge manual workflow-dispatch validation run 17.
 8. `docs/decisions/C0_completion_decision.md`, used only as a proportionate structural and naming precedent.
-
-The permanent decision ID shown in this record was explicitly approved by the owner. No pull-request number, owner-disposition record identifier, merge method, merge commit, validation run, or controlling-state alignment commit is claimed because those facts have not yet been established through repository evidence.
 
 ## 3. Accepted C1 Package and Findings
 
@@ -114,7 +132,7 @@ unresolved_functional_2v_treatment = ACCEPTED
 no_direct_functional_2v_treatment = ACCEPTED
 ```
 
-The owner accepted the following proposed curated references for later non-authorizing navigation and evidence classification:
+The accepted non-authorizing curated references are:
 
 ```text
 2v.LEGACY.01 =
@@ -133,41 +151,42 @@ C1 legacy evidence and architecture report, retained architecture,
 provider boundary, and future-phase handoff
 ```
 
-These proposed references do not create current authorization and do not independently update either workflow map.
+These curated records provide evidence navigation only. They do not authorize C2 or technical work.
 
 ## 4. C1 Completion-Condition Assessment
 
 The accepted C1 authorization decision states that C1 may close only when nine conditions are satisfied.
 
-| No. | C1 completion condition | Current assessment | Basis |
+| No. | C1 completion condition | Final assessment | Basis |
 |---:|---|---|---|
 | 1 | Every bounded historical section has been reviewed proportionally. | `SATISFIED` | The accepted report and independent audit confirm `15_OF_15_CONFIRMED`. |
-| 2 | Exact applicable legacy 2v entries or ranges have been identified. | `SATISFIED_WITH_ACCEPTED_FUNCTIONAL_MAPPING_TREATMENT` | Direct, contextual, unresolved, and no-direct mappings were preserved; where a defensible contiguous historical range did not exist, the accepted outputs preserved that limitation rather than inventing endpoints. |
-| 3 | The evidence-retention matrix is complete and accepted. | `SATISFIED` | The completed retention matrix was content-audited, committed, pushed, included in the accepted package, and accepted by the owner. |
-| 4 | Durable controls, limitations, and superseding corrections are recorded. | `SATISFIED` | The accepted matrix and report distinguish durable controls from one-time procedures and accepted findings from unresolved limitations and corrections. |
-| 5 | The technical migration manifest is complete and accepted. | `SATISFIED` | The normalized 82-item manifest was content-audited, committed, pushed, remotely verified, included in the accepted package, and accepted by the owner. |
-| 6 | The C1 evidence and architecture report is complete and accepted. | `SATISFIED` | The report was independently audited, included in the accepted package, and accepted by the owner. |
-| 7 | No executable migration or other prohibited technical activity occurred. | `SATISFIED_ON_REVIEWED_REPOSITORY_AND_GITHUB_EVIDENCE` | The independent audit identified no prohibited technical execution in the reviewed C1 repository and GitHub evidence. Repository and GitHub evidence cannot prove the absence of unrecorded external activity. |
-| 8 | A risk-proportional independent C1 audit passes after correction of any material findings. | `SATISFIED` | The committed independent C1 audit classification is `PASS`, and the owner accepted the audit record. |
-| 9 | The owner accepts the C1 completion decision. | `SATISFIED` | The owner explicitly issued `ACCEPT_C1_COMPLETION_DECISION` for the decision represented by commit `7b8af8fbe99a5394de72644b21943232181f6114`. |
+| 2 | Exact applicable legacy 2v entries or ranges have been identified. | `SATISFIED_WITH_ACCEPTED_FUNCTIONAL_MAPPING_TREATMENT` | Direct, contextual, unresolved, and no-direct mappings were preserved without manufacturing unsupported contiguous ranges. |
+| 3 | The evidence-retention matrix is complete and accepted. | `SATISFIED` | The completed matrix was audited, committed, included in the accepted package, and accepted by the owner. |
+| 4 | Durable controls, limitations, and superseding corrections are recorded. | `SATISFIED` | The accepted matrix and report distinguish durable controls, one-time procedures, accepted findings, limitations, and corrections. |
+| 5 | The technical migration manifest is complete and accepted. | `SATISFIED` | The normalized 82-item manifest was audited, committed, included in the accepted package, and accepted by the owner. |
+| 6 | The C1 evidence and architecture report is complete and accepted. | `SATISFIED` | The report was independently audited and accepted. |
+| 7 | No executable migration or other prohibited technical activity occurred. | `SATISFIED_ON_REVIEWED_REPOSITORY_AND_GITHUB_EVIDENCE` | The independent audit identified no prohibited technical execution in the reviewed evidence. External unrecorded activity cannot be disproved by repository evidence. |
+| 8 | A risk-proportional independent C1 audit passes after correction of material findings. | `SATISFIED` | The committed independent audit classification is `PASS`. |
+| 9 | The owner accepts the C1 completion decision. | `SATISFIED` | The owner explicitly issued `ACCEPT_C1_COMPLETION_DECISION`. |
 
-All nine C1 completion conditions are satisfied at the decision-assessment level.
+All nine C1 completion conditions are satisfied.
 
-Branch recording is completed by the commit that introduces this version. Additional effectiveness and closure conditions had not yet been established at that branch commit:
+The accepted decision was recorded on the C1 branch, validated in pull request #8, squash-merged to `main`, and validated after merge:
 
 ```text
-completion_decision_owner_review = SATISFIED
-completion_decision_owner_acceptance = SATISFIED
-prior_corrected_proposed_draft_repository_recording = COMPLETED
-accepted_completion_decision_artifact_repository_recording = COMPLETED_BY_THIS_BRANCH_COMMIT
-accepted_completion_decision_artifact_remote_recording_status_at_branch_commit = NOT_YET_VERIFIED
-required_review_and_validation_status_at_branch_commit = PENDING
-authorized_merge_or_accepted_closure_workflow_status_at_branch_commit = PENDING
-PROJECT_CONTEXT_alignment_status_at_branch_commit = PENDING
-C1_completion_effect = NONE
+completion_decision_pull_request = 8
+owner_disposition_record = PR_8_COMMENT_5149557106
+authorized_merge_method = SQUASH
+completion_decision_pr_validation_run = 16
+completion_decision_pr_validation_conclusion = SUCCESS
+completion_decision_merge_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_post_merge_manual_validation_run = 17
+completion_decision_post_merge_manual_validation_event = WORKFLOW_DISPATCH
+completion_decision_post_merge_manual_validation_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_post_merge_manual_validation_conclusion = SUCCESS
 ```
 
-Decision-assessment satisfaction does not itself close C1 or create lifecycle effectiveness. The later status of remote recording, required validation, the closure workflow, and controlling-state alignment must be determined from subsequent repository evidence rather than inferred from this decision record.
+Those facts satisfy the closure-workflow evidence requirements. Lifecycle effectiveness arises only when the accepted controlling-state alignment package is merged to canonical `main`.
 
 ## 5. Resolution of the Previous Report Recommendation
 
@@ -177,7 +196,7 @@ The accepted C1 report recorded:
 previous_report_recommendation = REMAIN_IN_C1_FOR_CORRECTION
 ```
 
-The owner’s later decision accepting the final recommendations, corrected three-output package, and independent audit resolves that recommendation for final-package acceptance purposes.
+The owner’s later acceptance of the final recommendations, corrected three-output package, and independent audit resolved that recommendation for final-package acceptance purposes.
 
 ```text
 previous_report_recommendation_resolution =
@@ -187,21 +206,19 @@ continuing_unidentified_correction_requirement =
 NO
 ```
 
-The prior recommendation therefore does not represent a continuing unidentified correction requirement.
-
-C1 nevertheless remains active because branch recording of the owner-accepted completion decision does not by itself establish required validation, authorized merge or closure-workflow completion, or alignment of `PROJECT_CONTEXT.md` to `C1_COMPLETED`. Remote push status must be determined from subsequent repository evidence.
+The prior recommendation does not represent a continuing unidentified correction requirement.
 
 ## 6. Preserved Boundaries and Limitations
 
 ### 6.1 C1 and C2 authorization boundary
 
 ```text
-C1_SCOPE_ONLY = PRESERVED
+C1_COMPLETION = EFFECTIVE
 C2_NOT_AUTHORIZED = PRESERVED
 C2_authorization_effect = NONE
 ```
 
-Acceptance or future effectiveness of C1 closure would not automatically authorize or activate C2. Any C2 authorization must be separate and explicit.
+C1 completion does not automatically authorize or activate C2. Any C2 authorization must be separate and explicit.
 
 ### 6.2 Historical evidence and migration recommendations
 
@@ -227,7 +244,7 @@ current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-Neither C1 acceptance nor any migration recommendation creates a current candidate.
+Neither C1 completion nor any migration recommendation creates a current candidate.
 
 ### 6.4 TECH-PPO-02-07 immutable-provenance limitation
 
@@ -239,7 +256,7 @@ current_candidate_effect = NONE
 
 The referenced historical PPO ZIP, VecNormalize PKL, feature-manifest, probability-configuration, and model-information bytes were not established as immutable committed Git objects or as one checksum-bound immutable external package.
 
-This limitation remains unresolved and is not removed by C1 package acceptance.
+This limitation remains unresolved and is not removed by C1 completion.
 
 ### 6.5 C4 provider boundary
 
@@ -255,57 +272,50 @@ No prohibited technical execution was identified in the reviewed C1 repository a
 
 That conclusion is limited to the reviewed repository and GitHub evidence. Repository and GitHub evidence cannot prove the absence of unrecorded external activity.
 
-## 7. Conditional Future Closure Effect
+## 7. Effective Closure Through Controlling-State Alignment
 
-The owner has reviewed and explicitly accepted the C1 completion decision.
+The owner reviewed and accepted the C1 completion decision. The decision record and closure-workflow evidence are complete.
 
-The branch commit that introduces this version records the accepted completion decision on the C1 branch.
-
-At the branch commit that introduces this version, the following closure actions had not yet been established. Their later status must be determined from subsequent repository evidence:
-
-1. Remote push and verification of the branch commit.
-2. Required review and validation of the recorded completion package.
-3. The authorized merge or other accepted closure workflow.
-4. Separate review and alignment of `PROJECT_CONTEXT.md` to the effective completed lifecycle state.
-
-Only after those remaining conditions are satisfied may the controlling state record an effective transition equivalent to:
+The earlier completion-decision merge did not independently close C1. The effective transition occurs only through the accepted controlling-state alignment merge that introduces this finalized five-file alignment package to canonical `main`:
 
 ```text
 C1_ACTIVE -> C1_COMPLETED
 ```
 
-This accepted decision record does not perform or make that transition effective.
+Target aligned effect:
 
 ```text
-current_lifecycle_state = C1_ACTIVE
-C1_completion_effect = NONE
-future_C1_completion_effect = CONDITIONAL
+completed_lifecycle_state = C1_COMPLETED
+active_major_phase = NONE
+authorization_effect = NONE
+C1_completion_effect = EFFECTIVE
 automatic_C2_authorization = NO
 automatic_C2_activation = NO
+C2_authorization_status = NOT_AUTHORIZED
 ```
+
+The standalone preparation of this proposed file does not itself perform that transition.
 
 ## 8. Current Effect and Prohibited Interpretation
 
-Current effect:
+Aligned effect:
 
 ```text
 decision_status = ACCEPTED
 owner_completion_decision_status = ACCEPTED
 owner_decision = ACCEPT_C1_COMPLETION_DECISION
-current_lifecycle_state = C1_ACTIVE
-authorization_effect = C1_SCOPE_ONLY
-C1_completion_effect = NONE
+completed_lifecycle_state = C1_COMPLETED
+active_major_phase = NONE
+authorization_effect = NONE
+C1_completion_effect = EFFECTIVE
 C2_authorization_effect = NONE
 C2_authorization_status = NOT_AUTHORIZED
+repository_recording_status = RECORDED_AND_ALIGNED
+controlling_state_alignment_status = RECORDED_AND_ALIGNED
 ```
 
-Acceptance alone:
+C1 completion:
 
-- does not make C1 closure effective;
-- does not change `PROJECT_CONTEXT.md`;
-- does not update `docs/workflows/milestone_review_reference_map.md`;
-- does not update `docs/workflows/future_validation_training_reference_map.md`;
-- does not authorize recording, staging, commit, push, branch operation, or merge;
 - does not authorize C2;
 - does not authorize executable migration or adaptation;
 - does not authorize Python-environment or dependency work;
@@ -315,29 +325,33 @@ Acceptance alone:
 - does not authorize final-holdout access;
 - does not authorize paper orders, live orders, or trading.
 
-## 9. Repository Recording and Pending Closure-Workflow Fields
-
-The branch commit that introduces this version establishes repository branch recording. The following fields record the status known at that branch commit. Their later status must be determined from subsequent authorized repository evidence:
+## 9. Repository Recording and Finalized Closure-Workflow Fields
 
 ```text
 decision_id = GOV-DEC-0004
 owner_completion_decision = ACCEPT_C1_COMPLETION_DECISION
 owner_completion_decision_status = ACCEPTED
-owner_disposition_record = PENDING
-completion_decision_pull_request = PENDING
-authorized_merge_method = PENDING
-completion_decision_merge_commit = PENDING
-completion_decision_review_validation = PENDING
-completion_decision_merge_push_validation = PENDING
+completion_decision_pull_request = 8
+owner_disposition_record = PR_8_COMMENT_5149557106
+owner_disposition_head_commit = f8a75447ad6819efa5fbef10fe0ff36f115f8185
+authorized_merge_method = SQUASH
+completion_decision_merge_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_pr_validation_run = 16
+completion_decision_pr_validation_conclusion = SUCCESS
+completion_decision_post_merge_manual_validation_run = 17
+completion_decision_post_merge_manual_validation_event = WORKFLOW_DISPATCH
+completion_decision_post_merge_manual_validation_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_post_merge_manual_validation_conclusion = SUCCESS
 prior_corrected_proposed_draft_repository_recording_status = COMMITTED_AND_PUSHED
 prior_corrected_proposed_draft_commit = 7b8af8fbe99a5394de72644b21943232181f6114
-accepted_completion_decision_artifact_repository_recording_status = RECORDED_BY_THIS_BRANCH_COMMIT
-accepted_completion_decision_artifact_remote_recording_status_at_branch_commit = NOT_YET_VERIFIED
-controlling_state_alignment_commit = PENDING
-C1_completion_effect = NONE
+accepted_completion_decision_artifact_repository_recording_status = RECORDED_AND_MERGED
+repository_recording_status = RECORDED_AND_ALIGNED
+controlling_state_alignment_status = RECORDED_AND_ALIGNED
+C1_completion_effect = EFFECTIVE
+C2_authorization_effect = NONE
 ```
 
-This branch commit establishes repository branch recording only. It does not substitute for subsequent repository evidence establishing remote push verification, required validation, merge or closure-workflow completion, or controlling-state alignment.
+The accepted controlling-state alignment merge, not the earlier decision-record merge alone, establishes the effective completed lifecycle state.
 
 ## 10. Historical and Current-State Confirmation
 
@@ -391,7 +405,7 @@ C2_activity = NO
 C2_authorized = NO
 ```
 
-The following block is a historical snapshot of the accepted standalone artifact before the branch commit that records this version. Its `NOT_RECORDED`, staging, commit, and push values describe that pre-recording preparation state only:
+The following block is a historical snapshot of the accepted standalone artifact before the branch commit that recorded the accepted decision. Its `NOT_RECORDED`, staging, commit, and push values describe that pre-recording preparation state only:
 
 ```text
 owner_completion_decision = ACCEPT_C1_COMPLETION_DECISION
@@ -413,6 +427,16 @@ C2_activity = NO
 C2_authorized = NO
 ```
 
+The current aligned target state is:
+
+```text
+completed_lifecycle_state = C1_COMPLETED
+active_major_phase = NONE
+authorization_effect = NONE
+C1_completion_effect = EFFECTIVE
+C2_authorization_status = NOT_AUTHORIZED
+```
+
 ## 11. Accepted Decision Status
 
 ```text
@@ -420,21 +444,27 @@ accepted_completion_disposition = ACCEPT_C1_COMPLETION_DECISION
 decision_id = GOV-DEC-0004
 decision_status = ACCEPTED
 owner_completion_decision_status = ACCEPTED
-accepted_completion_decision_artifact_repository_recording_status = RECORDED_BY_THIS_BRANCH_COMMIT
-accepted_completion_decision_artifact_remote_recording_status_at_branch_commit = NOT_YET_VERIFIED
-current_lifecycle_state = C1_ACTIVE
-C1_completion_effect = NONE
+completion_decision_pull_request = 8
+owner_disposition_record = PR_8_COMMENT_5149557106
+owner_disposition_head_commit = f8a75447ad6819efa5fbef10fe0ff36f115f8185
+authorized_merge_method = SQUASH
+completion_decision_merge_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_pr_validation_run = 16
+completion_decision_pr_validation_conclusion = SUCCESS
+completion_decision_post_merge_manual_validation_run = 17
+completion_decision_post_merge_manual_validation_event = WORKFLOW_DISPATCH
+completion_decision_post_merge_manual_validation_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_post_merge_manual_validation_conclusion = SUCCESS
+completed_lifecycle_state = C1_COMPLETED
+active_major_phase = NONE
+authorization_effect = NONE
+C1_completion_effect = EFFECTIVE
+C2_authorization_effect = NONE
 C2_authorization_status = NOT_AUTHORIZED
+repository_recording_status = RECORDED_AND_ALIGNED
+controlling_state_alignment_status = RECORDED_AND_ALIGNED
 ```
 
-The accepted decision is recorded on the C1 branch by the commit that introduces this version. At that branch commit, remote push verification, required validation, authorized merge or closure-workflow completion, and controlling-state alignment had not yet been established. Their later status must be determined from subsequent repository evidence. The branch commit alone has no independent lifecycle effect.
+The accepted C1 completion decision is effective only through the accepted controlling-state alignment merge that introduces this finalized state to canonical `main`.
 
-The branch commit alone does not make C1 completion effective. Effective completion requires subsequent repository evidence establishing required validation, closure-workflow completion, and controlling-state alignment. Remote push status must be verified separately from the branch commit.
-
-```text
-current_lifecycle_state = C1_ACTIVE
-C1_completion_effect = NONE
-C2_authorization_status = NOT_AUTHORIZED
-```
-
-This accepted standalone artifact creates no technical authorization and does not authorize C2.
+This decision creates no technical authorization and does not authorize or activate C2.

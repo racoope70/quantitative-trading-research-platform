@@ -36,9 +36,9 @@ Git history and VS Code verify implementation and completion evidence. They do n
 
 | Phase | Purpose | Entry gate | Exit gate |
 |---|---|---|---|
-| C0 — Canonical Governance Foundation and Legacy Migration Charter | Create the private repository and establish governance, C1 templates, minimal structure, documentation-only controls, and audit instructions | Owner accepts the proposed C0 scope | Complete package committed; audit passes; owner accepts closure |
-| C1 — Legacy Evidence Classification and Architecture Migration Design | Review the bounded historical sections and material 2v evidence; recommend retained controls, canonical architecture, and migration | C0 completed and C1 authorized | Three C1 outputs accepted; risk-proportional audit passes; no executable migration occurred |
-| C2 — Canonical Repository Skeleton and Migration Preparation | Refine canonical package boundaries, interfaces, migration order, and verification plans without executable legacy migration | C1 recommendations accepted and C2 authorized | Migration-ready skeleton and preparation package accepted |
+| C0 — Canonical Governance Foundation and Legacy Migration Charter | Create the private repository and establish governance, C1 templates, minimal structure, documentation-only controls, and audit instructions | Owner accepts the proposed C0 scope | Complete package committed; audit passes; owner accepts closure; aligned controlling state records `C0_COMPLETED` |
+| C1 — Legacy Evidence Classification and Architecture Migration Design | Review the bounded historical sections and material 2v evidence; recommend retained controls, canonical architecture, and migration | C0 completed and C1 authorized | Three C1 outputs accepted; risk-proportional audit passes; owner accepts completion; no executable migration occurred; aligned controlling state records `C1_COMPLETED` |
+| C2 — Canonical Repository Skeleton and Migration Preparation | Refine canonical package boundaries, interfaces, migration order, and verification plans without executable legacy migration | C1 completed and C2 separately authorized | Migration-ready skeleton and preparation package accepted |
 | C3 — Python Environment and Dependency Reconstruction | Select the supported Python version and establish the reproducible canonical environment | C2 preparation accepted | Clean environment, lock, compatibility findings, and audit accepted |
 | C4 — Selected Code Migration, Adaptation, and Verification | Migrate approved technical assets into the canonical environment using offline verification and the provider boundary below | C3 environment accepted and C4 scope authorized | Selected migration, adaptation, offline tests, provenance, and audit accepted |
 | C5 — Data Source, Calendar, and Initial Universe Decision | Evaluate and accept provider strategy, licensing, permitted use, calendars, and universe criteria | C4 technical foundation accepted and C5 authorized | Data-source, calendar, and universe decision accepted and audited |
@@ -52,6 +52,14 @@ Git history and VS Code verify implementation and completion evidence. They do n
 | C13 — Publication Release | Produce a publication- or portfolio-ready research package, including negative or inconclusive findings where applicable | C12 disposition accepted and publication scope authorized | Claims, reproducibility, and publication audit pass |
 | C14 — Controlled Paper Trading | Evaluate a promoted candidate in controlled paper operation | Candidate promoted and broker-readiness audit accepted | Operational and economic evidence independently reviewed |
 | C15 — Possible Live-Capital Consideration | Decide whether limited live-capital consideration is justified | Sustained paper evidence and separate risk-review authorization | Explicit live-capital disposition; no automatic deployment |
+
+C1 phase-exit status:
+
+```text
+C1_phase_exit_status = ACCEPTED_AND_EFFECTIVE_THROUGH_ALIGNED_CONTROLLING_STATE
+C1_completion_effect = EFFECTIVE
+C2_authorization_effect = NONE
+```
 
 ## 4. Model-family branching and shared final holdout
 
@@ -203,21 +211,9 @@ C1_BOUNDED_HISTORICAL_SECTION_INVENTORY
 15. Governance-system development and lessons
 ```
 
-C1 must identify the exact historical 2v entry or range for each section during the review.
+The completed C1 review covered all fifteen bounded historical sections.
 
-A historical section may be added during C1 only when it is materially distinct from the existing bounded sections.
-
-The existence of another file, audit, review, commit, run record, or 2v entry is not sufficient by itself to create another historical section.
-
-Any added section must include:
-
-- The reason it is materially distinct.
-- The applicable historical repository.
-- The applicable legacy 2v range.
-- Owner acceptance of the scope amendment.
-- Inclusion in the C1 summary report.
-
-C1 does not require exhaustive classification of every minor file within a section. The material-record and proportional-review rules remain controlling.
+C1 did not require exhaustive classification of every minor file within a section. The material-record and proportional-review rules remained controlling.
 
 ## 7. Curated 2v purpose and namespaces
 
@@ -238,13 +234,18 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.LIVE.*      = Live-capital consideration
 ```
 
-## 8. Initial C0 and C1 curated lookup
+## 8. Canonical C0 and C1 curated lookup
 
 ```text
 2v.GOV.01 — Accepted C0 governance-foundation decision and package
 2v.GOV.02 — Independent C0 governance-foundation audit
 2v.GOV.03 — C0 completion decision
 2v.GOV.04 — C1 phase authorization decision
+2v.GOV.05 — C1 completion and closure decision
+2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
+2v.LEGACY.02 — C1 legacy evidence retention matrix
+2v.ARCH.01 — C1 technical migration manifest
+2v.ARCH.02 — C1 legacy evidence and architecture report
 ```
 
 ### 2v.GOV.02 — Canonical independent-audit evidence
@@ -262,10 +263,6 @@ authorization_effect = NONE
 C0_completion_effect = NONE
 C1_authorization_effect = NONE
 ```
-
-The Markdown report at `docs/audits/C0_independent_governance_foundation_audit_report.md` is the canonical repository audit record. The attached PDF was the source used to create the Markdown record but is not represented as committed.
-
-The audit permits owner-controlled C0 closure documentation only. It does not itself complete C0 or authorize C1.
 
 ### 2v.GOV.03 — Canonical C0 completion evidence
 
@@ -308,7 +305,73 @@ C1_activation_effect = EFFECTIVE_WHEN_READ_WITH_ALIGNED_PROJECT_CONTEXT
 C2_authorization_effect = NONE
 ```
 
-This map does not independently authorize or activate C1. `2v.GOV.04` records the accepted C1 authorization evidence; effectiveness arises from `GOV-DEC-0003` read with the aligned controlling state in `PROJECT_CONTEXT.md`. C2 remains unauthorized.
+This map does not independently authorize or activate C1. `2v.GOV.04` records the historical accepted C1 authorization evidence.
+
+### 2v.GOV.05 — Canonical C1 completion evidence
+
+```text
+2v_record = 2v.GOV.05
+record_type = C1_COMPLETION_AND_CLOSURE_DECISION
+record_path = docs/decisions/C1_completion_decision.md
+decision_id = GOV-DEC-0004
+owner_decision = ACCEPT_C1_COMPLETION_DECISION
+owner_acceptance_status = ACCEPTED
+owner_disposition_record = PR_8_COMMENT_5149557106
+owner_disposition_head_commit = f8a75447ad6819efa5fbef10fe0ff36f115f8185
+authorized_merge_method = SQUASH
+completion_decision_merge_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_pr_validation_run = 16
+completion_decision_pr_validation_conclusion = SUCCESS
+completion_decision_post_merge_manual_validation_run = 17
+completion_decision_post_merge_manual_validation_event = WORKFLOW_DISPATCH
+completion_decision_post_merge_manual_validation_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
+completion_decision_post_merge_manual_validation_conclusion = SUCCESS
+independent_C1_audit_record = docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md
+independent_C1_audit_classification = PASS
+bounded_section_coverage = 15_OF_15_CONFIRMED
+C1_completion_effect = EFFECTIVE
+C2_authorization_effect = NONE
+```
+
+This record closes C1 only when read with the accepted aligned controlling state in `PROJECT_CONTEXT.md`. It does not authorize or activate C2.
+
+### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
+
+```text
+2v_record = 2v.LEGACY.01
+record_type = C1_BOUNDED_HISTORICAL_INVENTORY_AND_FUNCTIONAL_CROSSWALK
+record_path = docs/reports/C1_legacy_evidence_and_architecture_report.md
+authorization_effect = NONE
+```
+
+### 2v.LEGACY.02 — C1 legacy evidence retention matrix
+
+```text
+2v_record = 2v.LEGACY.02
+record_type = C1_LEGACY_EVIDENCE_RETENTION_MATRIX
+record_path = docs/migration/legacy_evidence_retention_matrix.csv
+authorization_effect = NONE
+```
+
+### 2v.ARCH.01 — C1 technical migration manifest
+
+```text
+2v_record = 2v.ARCH.01
+record_type = C1_TECHNICAL_MIGRATION_MANIFEST
+record_path = docs/migration/technical_migration_manifest.yaml
+authorization_effect = NONE
+```
+
+### 2v.ARCH.02 — C1 legacy evidence and architecture report
+
+```text
+2v_record = 2v.ARCH.02
+record_type = C1_LEGACY_EVIDENCE_AND_ARCHITECTURE_REPORT
+record_path = docs/reports/C1_legacy_evidence_and_architecture_report.md
+authorization_effect = NONE
+```
+
+No curated record independently authorizes work.
 
 `2v.GOV.01` should link:
 
@@ -326,19 +389,21 @@ This map does not independently authorize or activate C1. `2v.GOV.04` records th
 
 ## 9. C1 review method
 
-For each bounded historical section, C1 must:
+For each bounded historical section, C1:
 
-1. Identify the exact legacy 2v entry or range and associated records.
-2. Determine materiality.
-3. Review decisive and materially supporting evidence.
-4. Identify superseding corrections.
-5. Separate durable controls from one-time procedures.
-6. Classify retained evidence.
-7. Determine consolidation targets and future-phase relevance.
-8. Propose curated new 2v references.
-9. Record technical migration recommendations separately.
+1. Identified applicable exact legacy 2v entries where defensible and otherwise
+   recorded direct, contextual, unresolved, or no-direct functional mappings
+   with the associated records.
+2. Determined materiality.
+3. Reviewed decisive and materially supporting evidence.
+4. Identified superseding corrections.
+5. Separated durable controls from one-time procedures.
+6. Classified retained evidence.
+7. Determined consolidation targets and future-phase relevance.
+8. Proposed curated new 2v references.
+9. Recorded technical migration recommendations separately.
 
-Required classifications:
+Required classifications were:
 
 ```text
 CARRY_FORWARD
@@ -346,8 +411,6 @@ SUMMARIZE_AND_REFERENCE
 HISTORICAL_ARCHIVE_ONLY
 OBSOLETE_OR_SUPERSEDED
 ```
-
-Administrative records may receive lower-depth inspection after their function, successor, and lack of unique durable conclusions are confirmed.
 
 ## 10. C1 templates and outputs
 
@@ -359,7 +422,7 @@ docs/templates/C1_technical_migration_manifest_template.yaml
 docs/templates/C1_legacy_evidence_and_architecture_report_template.md
 ```
 
-Future C1 completed outputs:
+Completed C1 outputs:
 
 ```text
 docs/migration/legacy_evidence_retention_matrix.csv
@@ -369,18 +432,27 @@ docs/reports/C1_legacy_evidence_and_architecture_report.md
 
 ## 11. C1 completion standard
 
-C1 closes when:
+C1 closed after:
 
-1. Every section in the accepted bounded inventory, including any accepted additions, has been reviewed.
-2. Exact legacy 2v ranges have been identified.
-3. Material evidence is recorded in the completed retention matrix.
-4. Durable controls, limitations, and consolidation decisions are captured.
-5. Material technical assets are recorded in the completed manifest.
-6. The curated 2v structure is proposed.
-7. One C1 summary report is completed.
-8. The owner accepts the recommendations.
-9. One risk-proportional independent C1 audit passes.
-10. No executable technical migration occurred.
+1. Every section in the accepted bounded inventory was reviewed.
+2. Applicable legacy 2v entries or functional mappings were identified.
+3. Material evidence was recorded in the completed retention matrix.
+4. Durable controls, limitations, and consolidation decisions were captured.
+5. Material technical assets were recorded in the completed manifest.
+6. The curated 2v structure was accepted.
+7. The C1 summary report was completed and accepted.
+8. The owner accepted the recommendations and completion decision.
+9. One risk-proportional independent C1 audit passed.
+10. No executable technical migration occurred in the reviewed repository and GitHub evidence.
+11. The accepted decision was validated and merged through pull request #8.
+12. The aligned controlling state recorded `C1_COMPLETED`.
+
+```text
+C1_phase_exit_status = ACCEPTED_AND_EFFECTIVE_THROUGH_ALIGNED_CONTROLLING_STATE
+C1_completion_effect = EFFECTIVE
+C2_authorization_status = NOT_AUTHORIZED
+C2_authorization_effect = NONE
+```
 
 ## 12. Chronology and verification
 
