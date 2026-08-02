@@ -58,7 +58,11 @@ C1 phase-exit status:
 ```text
 C1_phase_exit_status = ACCEPTED_AND_EFFECTIVE_THROUGH_ALIGNED_CONTROLLING_STATE
 C1_completion_effect = EFFECTIVE
-C2_authorization_effect = NONE
+C2_authorization_decision = docs/decisions/C2_authorization_decision.md
+C2_authorization_status = AUTHORIZED
+C2_activation_status = ACTIVE
+C2_authorization_effect = EFFECTIVE
+C3_authorization_effect = NONE
 ```
 
 ## 4. Model-family branching and shared final holdout
@@ -234,7 +238,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.LIVE.*      = Live-capital consideration
 ```
 
-## 8. Canonical C0 and C1 curated lookup
+## 8. Canonical C0, C1, and C2 curated lookup
 
 ```text
 2v.GOV.01 — Accepted C0 governance-foundation decision and package
@@ -242,6 +246,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.03 — C0 completion decision
 2v.GOV.04 — C1 phase authorization decision
 2v.GOV.05 — C1 completion and closure decision
+2v.GOV.06 — C2 phase authorization decision
 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 2v.LEGACY.02 — C1 legacy evidence retention matrix
 2v.ARCH.01 — C1 technical migration manifest
@@ -333,7 +338,29 @@ C1_completion_effect = EFFECTIVE
 C2_authorization_effect = NONE
 ```
 
-This record closes C1 only when read with the accepted aligned controlling state in `PROJECT_CONTEXT.md`. It does not authorize or activate C2.
+This record closes C1 only when read with the accepted aligned controlling state in `PROJECT_CONTEXT.md`. It does not independently authorize or activate C2.
+
+### 2v.GOV.06 — Canonical C2 authorization evidence
+
+```text
+2v_record = 2v.GOV.06
+record_type = C2_PHASE_AUTHORIZATION_DECISION
+record_path = docs/decisions/C2_authorization_decision.md
+decision_id = GOV-DEC-0005
+owner_decision = ACCEPT_GOV_DEC_0005_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_ACTIVATION_ALIGNMENT
+owner_acceptance_status = ACCEPTED
+decision_basis_commit = 8e8fe0d0fb66dddd2e73e5024add796c7004eab9
+manager_review_classification = PASS
+authorized_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+authorized_scope = C2_NON_OPERATIONAL_SKELETON_AND_MIGRATION_PREPARATION_ONLY
+accepted_C1_artifacts = IMMUTABLE
+authorized_recording_branch = c2-authorization-decision
+authorized_merge_method = SQUASH
+C2_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN
+C3_authorization_effect = NONE
+```
+
+This map does not independently authorize or activate C2. `2v.GOV.06` becomes effective only when read with the accepted decision and aligned controlling state on canonical `main`. It does not authorize C3 or any later phase.
 
 ### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 
@@ -450,8 +477,11 @@ C1 closed after:
 ```text
 C1_phase_exit_status = ACCEPTED_AND_EFFECTIVE_THROUGH_ALIGNED_CONTROLLING_STATE
 C1_completion_effect = EFFECTIVE
-C2_authorization_status = NOT_AUTHORIZED
-C2_authorization_effect = NONE
+C2_authorization_decision = docs/decisions/C2_authorization_decision.md
+C2_authorization_status = AUTHORIZED
+C2_activation_status = ACTIVE
+C2_authorization_effect = EFFECTIVE
+C3_authorization_effect = NONE
 ```
 
 ## 12. Chronology and verification

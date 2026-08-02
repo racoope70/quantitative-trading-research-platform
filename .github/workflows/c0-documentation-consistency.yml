@@ -36,6 +36,7 @@ jobs:
               "docs/decisions/C0_completion_decision.md",
               "docs/decisions/C1_authorization_decision.md",
               "docs/decisions/C1_completion_decision.md",
+              "docs/decisions/C2_authorization_decision.md",
               "docs/governance/repository_protection_conventions.md",
               "docs/migration/legacy_evidence_retention_matrix.csv",
               "docs/migration/technical_migration_manifest.yaml",
@@ -91,14 +92,19 @@ jobs:
 
           required_lines = {
               "PROJECT_CONTEXT.md": [
-                  "current_lifecycle_state = C1_COMPLETED",
-                  "active_major_phase = NONE",
-                  "phase_status = C1_COMPLETED_AWAITING_C2_AUTHORIZATION",
-                  "authorization_effect = NONE",
+                  "current_lifecycle_state = C2_ACTIVE",
+                  "active_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION",
+                  "phase_status = ACTIVE",
+                  "authorization_effect = C2_SCOPE_ONLY",
                   "repository_creation_status = CREATED_PRIVATE",
                   "C1_phase_status = COMPLETED",
-                  "C2_authorization_status = NOT_AUTHORIZED",
                   "C1_completion_effect = EFFECTIVE",
+                  "C2_authorization_status = AUTHORIZED",
+                  "C2_activation_status = ACTIVE",
+                  "C2_authorization_effect = EFFECTIVE",
+                  "C3_authorization_effect = NONE",
+                  "current_model_candidate = NONE",
+                  "current_deployment_candidate = NONE",
               ],
               "docs/decisions/C0_governance_foundation_decision.md": [
                   "decision_status = ACCEPTED",
@@ -132,13 +138,37 @@ jobs:
                   "C2_authorization_effect = NONE",
                   "repository_recording_status = RECORDED_AND_ALIGNED",
               ],
+              "docs/decisions/C2_authorization_decision.md": [
+                  "decision_id = GOV-DEC-0005",
+                  "decision_status = ACCEPTED",
+                  "owner_acceptance_status = ACCEPTED",
+                  "owner_decision = ACCEPT_GOV_DEC_0005_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_ACTIVATION_ALIGNMENT",
+                  "authorized_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION",
+                  "authorized_scope = C2_NON_OPERATIONAL_SKELETON_AND_MIGRATION_PREPARATION_ONLY",
+                  "authorization_effect = C2_SCOPE_ONLY",
+                  "C2_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN",
+                  "C3_authorization_effect = NONE",
+                  "manager_review_classification = PASS",
+                  "accepted_C1_artifacts = IMMUTABLE",
+                  "current_model_candidate = NONE",
+                  "current_deployment_candidate = NONE",
+                  "repository_recording_status = RECORDED_AND_ALIGNED",
+                  "authorized_recording_branch = c2-authorization-decision",
+                  "authorized_merge_method = SQUASH",
+                  "direct_push_to_main = NOT_AUTHORIZED",
+                  "force_push = NOT_AUTHORIZED",
+              ],
               "README.md": [
                   "repository_status = CREATED_PRIVATE",
-                  "current_lifecycle_state = C1_COMPLETED",
-                  "active_major_phase = NONE",
+                  "current_lifecycle_state = C2_ACTIVE",
+                  "active_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION",
                   "C1_phase_status = COMPLETED",
-                  "C2_authorization_status = NOT_AUTHORIZED",
-                  "authorization_effect = NONE",
+                  "C2_authorization_status = AUTHORIZED",
+                  "C2_activation_status = ACTIVE",
+                  "C3_authorization_effect = NONE",
+                  "authorization_effect = C2_SCOPE_ONLY",
+                  "current_model_candidate = NONE",
+                  "current_deployment_candidate = NONE",
               ],
               "docs/workflows/milestone_review_reference_map.md": [
                   "2v_record = 2v.GOV.03",
@@ -152,6 +182,13 @@ jobs:
                   "decision_id = GOV-DEC-0004",
                   "C1_completion_effect = EFFECTIVE",
                   "C2_authorization_effect = NONE",
+                  "2v_record = 2v.GOV.06",
+                  "decision_id = GOV-DEC-0005",
+                  "owner_decision = ACCEPT_GOV_DEC_0005_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_ACTIVATION_ALIGNMENT",
+                  "C2_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN",
+                  "C2_authorization_status = AUTHORIZED",
+                  "C2_authorization_effect = EFFECTIVE",
+                  "C3_authorization_effect = NONE",
                   "2v_record = 2v.LEGACY.01",
                   "2v_record = 2v.LEGACY.02",
                   "2v_record = 2v.ARCH.01",
@@ -165,7 +202,7 @@ jobs:
               if missing_lines:
                   raise SystemExit(f"{path} is missing required governance-state lines: {missing_lines}")
 
-          print("Required governance files, CSV schema, and completed C1 governance state are consistent.")
+          print("Required governance files, CSV schema, and active C2 authorization state are consistent.")
           PY
 
       - name: Validate YAML template schema and safety
@@ -265,4 +302,504 @@ jobs:
           walk.call(data)
 
           puts "YAML syntax, schema, and safety checks passed."
+          RUBY
+
+      - name: Validate bounded C2 package structure when present
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+
+          principal_paths = [
+              "docs/architecture/C2_canonical_repository_skeleton_and_boundaries.md",
+              "docs/migration/C2_migration_disposition_plan.yaml",
+              "docs/reports/C2_migration_preparation_and_C3_handoff.md",
+          ]
+
+          responsibility_paths = [
+              "src/quantitative_trading_research/README.md",
+              "src/quantitative_trading_research/config/README.md",
+              "src/quantitative_trading_research/data/README.md",
+              "src/quantitative_trading_research/features/README.md",
+              "src/quantitative_trading_research/models/README.md",
+              "src/quantitative_trading_research/evaluation/README.md",
+              "src/quantitative_trading_research/artifacts/README.md",
+              "src/quantitative_trading_research/execution/README.md",
+              "tests/README.md",
+          ]
+
+          marker_paths = [
+              "src/quantitative_trading_research/__init__.py",
+              "src/quantitative_trading_research/config/__init__.py",
+              "src/quantitative_trading_research/data/__init__.py",
+              "src/quantitative_trading_research/features/__init__.py",
+              "src/quantitative_trading_research/models/__init__.py",
+              "src/quantitative_trading_research/evaluation/__init__.py",
+              "src/quantitative_trading_research/artifacts/__init__.py",
+              "src/quantitative_trading_research/execution/__init__.py",
+          ]
+
+          all_paths = principal_paths + responsibility_paths + marker_paths
+          present_paths = [path for path in all_paths if Path(path).exists()]
+
+          if not present_paths:
+              print("C2 implementation package is not present; activation-only validation passed.")
+              raise SystemExit(0)
+
+          missing_paths = [path for path in all_paths if not Path(path).is_file()]
+          if missing_paths:
+              raise SystemExit(
+                  "Partial C2 package detected; missing authorized files: "
+                  f"{missing_paths}"
+              )
+
+          package_root = Path("src/quantitative_trading_research")
+          allowed_python_paths = {Path(path) for path in marker_paths}
+          unexpected_python_paths = sorted(
+              path.as_posix()
+              for path in package_root.rglob("*.py")
+              if path not in allowed_python_paths
+          )
+          if unexpected_python_paths:
+              raise SystemExit(
+                  "C2 contains unauthorized Python files: "
+                  f"{unexpected_python_paths}"
+              )
+
+          for marker_path in marker_paths:
+              path = Path(marker_path)
+              raw = path.read_text(encoding="utf-8")
+
+              if not raw.strip():
+                  continue
+
+              try:
+                  tree = ast.parse(raw, filename=marker_path)
+              except SyntaxError as exc:
+                  raise SystemExit(
+                      f"{marker_path} is not empty or a valid docstring-only module: {exc}"
+                  ) from exc
+
+              body = tree.body
+              valid_docstring_only = (
+                  len(body) == 1
+                  and isinstance(body[0], ast.Expr)
+                  and isinstance(body[0].value, ast.Constant)
+                  and isinstance(body[0].value.value, str)
+              )
+              if not valid_docstring_only:
+                  raise SystemExit(
+                      f"{marker_path} must be empty or contain one module docstring only"
+                  )
+
+          markdown_requirements = {
+              "docs/architecture/C2_canonical_repository_skeleton_and_boundaries.md": [
+                  "# C2 Canonical Repository Skeleton and Boundaries",
+                  "## Scope",
+                  "## Canonical Package and Subsystems",
+                  "## Responsibility Boundaries",
+                  "## Dependency Direction",
+                  "## Provider and Broker Boundaries",
+                  "## Prohibited Coupling",
+                  "## Future Phase Assignments",
+                  "## Future Verification Requirements",
+                  "## Non-Execution Confirmation",
+              ],
+              "docs/reports/C2_migration_preparation_and_C3_handoff.md": [
+                  "# C2 Migration Preparation and C3 Handoff",
+                  "## C2 Scope Performed",
+                  "## Skeleton Summary",
+                  "## All-82-Item Disposition Summary",
+                  "## C3/C4 Planning Summary",
+                  "## Migration-Wave Summary",
+                  "## Unresolved-Limitation Summary",
+                  "## C3 Handoff",
+                  "## Deferred Later-Phase Responsibilities",
+                  "## Evidence Limitations",
+                  "## Checks Performed",
+                  "## Prohibited Activity That Did Not Occur",
+                  "## Completion-Condition Assessment",
+                  "## C3 Non-Authorization Confirmation",
+              ],
+          }
+
+          for markdown_path, required_headings in markdown_requirements.items():
+              actual_lines = set(
+                  Path(markdown_path).read_text(encoding="utf-8").splitlines()
+              )
+              missing_headings = [
+                  heading for heading in required_headings
+                  if heading not in actual_lines
+              ]
+              if missing_headings:
+                  raise SystemExit(
+                      f"{markdown_path} is missing required sections: "
+                      f"{missing_headings}"
+                  )
+
+          responsibility_headings = [
+              "## Canonical Responsibility",
+              "## Permitted Future Contents",
+              "## Prohibited Coupling",
+              "## Dependency Direction",
+              "## Responsible Future Phase",
+              "## Required Future Verification",
+          ]
+
+          for responsibility_path in responsibility_paths:
+              text = Path(responsibility_path).read_text(encoding="utf-8")
+              lines = text.splitlines()
+
+              if not lines or not lines[0].startswith("# "):
+                  raise SystemExit(
+                      f"{responsibility_path} must begin with one level-one title"
+                  )
+
+              actual_lines = set(lines)
+              missing_headings = [
+                  heading for heading in responsibility_headings
+                  if heading not in actual_lines
+              ]
+              if missing_headings:
+                  raise SystemExit(
+                      f"{responsibility_path} is missing required sections: "
+                      f"{missing_headings}"
+                  )
+
+          print(
+              "Complete C2 skeleton, responsibility documents, and "
+              "empty/docstring-only package markers passed structural validation."
+          )
+          PY
+
+      - name: Validate bounded C2 migration-disposition schema when present
+        shell: bash
+        run: |
+          ruby <<'RUBY'
+          require "pathname"
+          require "set"
+          require "yaml"
+
+          path = "docs/migration/C2_migration_disposition_plan.yaml"
+
+          unless File.file?(path)
+            puts "C2 migration-disposition plan is not present; activation-only validation passed."
+            exit 0
+          end
+
+          raw = File.read(path, encoding: "UTF-8")
+          data = YAML.safe_load(
+            raw,
+            permitted_classes: [],
+            permitted_symbols: [],
+            aliases: false
+          )
+
+          raise "C2 plan root must be a mapping" unless data.is_a?(Hash)
+
+          expected_top_level_keys = %w[
+            items
+            unresolved_limitations
+          ]
+
+          unless data.keys == expected_top_level_keys
+            raise(
+              "C2 plan must contain exactly these case-sensitive top-level keys " \
+              "in order: #{expected_top_level_keys.join(', ')}"
+            )
+          end
+
+          items = data["items"]
+          limitations = data["unresolved_limitations"]
+
+          unless items.is_a?(Array) && items.length == 82
+            actual = items.is_a?(Array) ? items.length : items.class
+            raise "C2 items must contain exactly 82 entries; found #{actual}"
+          end
+
+          unless limitations.is_a?(Array)
+            raise "C2 unresolved_limitations must be an array"
+          end
+
+          item_keys = %w[
+            c1_item_id
+            source_repository
+            source_commit
+            source_path
+            c1_classification
+            canonical_responsibility
+            c2_disposition
+            proposed_destination_path
+            migration_wave
+            required_prerequisites
+            required_attribution
+            related_limitation_ids
+            future_verification_requirements
+            responsible_future_phase
+            owner_selection_status
+            notes
+          ]
+
+          limitation_keys = %w[
+            limitation_id
+            related_c1_item_ids
+            source_c1_evidence
+            limitation_statement
+            current_status
+            responsible_future_phase
+            future_verification_requirements
+            current_authorization_effect
+            resolution_claimed_during_c2
+            notes
+          ]
+
+          allowed_dispositions = Set.new(%w[
+            SELECT_FOR_C3_ENVIRONMENT_ANALYSIS
+            SELECT_FOR_C4_MIGRATION_PREPARATION
+            DEFER_TO_C5_PROVIDER_DECISION
+            DEFER_TO_C6_DATASET_CONTRACT
+            DEFER_TO_C7_DATASET_GENERATION
+            DEFER_TO_C8_MODEL_READINESS
+            DEFER_TO_C9_PPO_QUALIFICATION
+            DEFER_TO_C10_RF_GATE
+            DEFER_TO_C11_XGBOOST_GATE
+            DEFER_TO_C12_FINAL_HOLDOUT
+            DEFER_TO_C13_PUBLICATION
+            DEFER_TO_C14_PAPER_TRADING
+            DEFER_TO_C15_LIVE_CONSIDERATION
+            RETAIN_HISTORICAL_ONLY
+            REJECT_FROM_CANONICAL_MIGRATION
+            DEFER_PENDING_OWNER_DECISION
+            DEFER_PENDING_IMMUTABLE_PROVENANCE
+          ])
+
+          detailed_dispositions = Set.new(%w[
+            SELECT_FOR_C3_ENVIRONMENT_ANALYSIS
+            SELECT_FOR_C4_MIGRATION_PREPARATION
+          ])
+
+          nonempty_string = lambda do |value|
+            value.is_a?(String) && !value.strip.empty?
+          end
+
+          valid_relative_path = lambda do |value|
+            next false unless nonempty_string.call(value)
+
+            pathname = Pathname.new(value)
+            !pathname.absolute? && !pathname.each_filename.to_a.include?("..")
+          end
+
+          item_ids = []
+          limitation_ids = []
+          source_identities = []
+
+          items.each_with_index do |item, index|
+            raise "items[#{index}] must be a mapping" unless item.is_a?(Hash)
+
+            unless item.keys == item_keys
+              raise(
+                "items[#{index}] must contain exactly the normalized keys: " \
+                "#{item_keys.join(', ')}"
+              )
+            end
+
+            item_id = item["c1_item_id"]
+            raise "items[#{index}].c1_item_id must be non-empty" unless nonempty_string.call(item_id)
+            item_ids << item_id
+
+            %w[
+              source_repository
+              c1_classification
+              canonical_responsibility
+              responsible_future_phase
+              owner_selection_status
+            ].each do |key|
+              unless nonempty_string.call(item[key])
+                raise "items[#{index}].#{key} must be non-empty"
+              end
+            end
+
+            commit = item["source_commit"]
+            unless commit.is_a?(String) && commit.match?(/\A[0-9a-f]{40}\z/)
+              raise "items[#{index}].source_commit must be a full lowercase 40-character commit"
+            end
+
+            source_path = item["source_path"]
+            unless valid_relative_path.call(source_path)
+              raise "items[#{index}].source_path must be a safe relative path"
+            end
+
+            disposition = item["c2_disposition"]
+            unless allowed_dispositions.include?(disposition)
+              raise "items[#{index}].c2_disposition is not an accepted value"
+            end
+
+            %w[
+              required_prerequisites
+              related_limitation_ids
+              future_verification_requirements
+            ].each do |key|
+              raise "items[#{index}].#{key} must be an array" unless item[key].is_a?(Array)
+            end
+
+            unless item["related_limitation_ids"].all? { |value| nonempty_string.call(value) }
+              raise "items[#{index}].related_limitation_ids contains an invalid ID"
+            end
+
+            unless item["future_verification_requirements"].all? { |value| nonempty_string.call(value) }
+              raise "items[#{index}].future_verification_requirements contains an invalid entry"
+            end
+
+            if item["future_verification_requirements"].empty?
+              raise "items[#{index}].future_verification_requirements must not be empty"
+            end
+
+            if detailed_dispositions.include?(disposition)
+              unless valid_relative_path.call(item["proposed_destination_path"])
+                raise(
+                  "items[#{index}] requires a safe proposed_destination_path " \
+                  "for its C3/C4 disposition"
+                )
+              end
+
+              unless nonempty_string.call(item["migration_wave"])
+                raise "items[#{index}] requires migration_wave planning"
+              end
+            end
+
+            source_identities << [
+              item["source_repository"],
+              item["source_commit"],
+              item["source_path"],
+            ]
+          end
+
+          if item_ids.uniq.length != item_ids.length
+            raise "C2 plan contains duplicate c1_item_id values"
+          end
+
+          if source_identities.uniq.length != source_identities.length
+            raise "C2 plan contains duplicate immutable source identities"
+          end
+
+          limitations.each_with_index do |limitation, index|
+            unless limitation.is_a?(Hash)
+              raise "unresolved_limitations[#{index}] must be a mapping"
+            end
+
+            unless limitation.keys == limitation_keys
+              raise(
+                "unresolved_limitations[#{index}] must contain exactly the " \
+                "normalized keys: #{limitation_keys.join(', ')}"
+              )
+            end
+
+            limitation_id = limitation["limitation_id"]
+            unless nonempty_string.call(limitation_id)
+              raise "unresolved_limitations[#{index}].limitation_id must be non-empty"
+            end
+            limitation_ids << limitation_id
+
+            %w[
+              limitation_statement
+              responsible_future_phase
+            ].each do |key|
+              unless nonempty_string.call(limitation[key])
+                raise "unresolved_limitations[#{index}].#{key} must be non-empty"
+              end
+            end
+
+            %w[
+              related_c1_item_ids
+              source_c1_evidence
+              future_verification_requirements
+            ].each do |key|
+              unless limitation[key].is_a?(Array)
+                raise "unresolved_limitations[#{index}].#{key} must be an array"
+              end
+
+              unless limitation[key].all? { |value| nonempty_string.call(value) }
+                raise "unresolved_limitations[#{index}].#{key} contains an invalid entry"
+              end
+
+              if limitation[key].empty?
+                raise "unresolved_limitations[#{index}].#{key} must not be empty"
+              end
+            end
+
+            unless limitation["current_status"] == "UNRESOLVED"
+              raise "unresolved_limitations[#{index}].current_status must be UNRESOLVED"
+            end
+
+            unless limitation["current_authorization_effect"] == "NONE"
+              raise(
+                "unresolved_limitations[#{index}].current_authorization_effect " \
+                "must be NONE"
+              )
+            end
+
+            unless limitation["resolution_claimed_during_c2"] == "NO"
+              raise(
+                "unresolved_limitations[#{index}].resolution_claimed_during_c2 " \
+                "must be the string NO"
+              )
+            end
+          end
+
+          if limitation_ids.uniq.length != limitation_ids.length
+            raise "C2 plan contains duplicate limitation_id values"
+          end
+
+          item_id_set = item_ids.to_set
+          limitation_id_set = limitation_ids.to_set
+
+          items.each_with_index do |item, index|
+            item["related_limitation_ids"].each do |limitation_id|
+              unless limitation_id_set.include?(limitation_id)
+                raise(
+                  "items[#{index}] references unknown limitation_id " \
+                  "#{limitation_id}"
+                )
+              end
+
+              matching_limitation = limitations.find do |entry|
+                entry["limitation_id"] == limitation_id
+              end
+
+              unless matching_limitation["related_c1_item_ids"].include?(item["c1_item_id"])
+                raise(
+                  "Bidirectional reference missing: #{limitation_id} does not " \
+                  "reference #{item['c1_item_id']}"
+                )
+              end
+            end
+          end
+
+          limitations.each_with_index do |limitation, index|
+            limitation["related_c1_item_ids"].each do |item_id|
+              unless item_id_set.include?(item_id)
+                raise(
+                  "unresolved_limitations[#{index}] references unknown " \
+                  "c1_item_id #{item_id}"
+                )
+              end
+
+              matching_item = items.find do |entry|
+                entry["c1_item_id"] == item_id
+              end
+
+              unless matching_item["related_limitation_ids"].include?(limitation["limitation_id"])
+                raise(
+                  "Bidirectional reference missing: #{item_id} does not " \
+                  "reference #{limitation['limitation_id']}"
+                )
+              end
+            end
+          end
+
+          puts(
+            "C2 migration-disposition YAML passed exact schema, 82-item, " \
+            "identity, fixed-value, and bidirectional-reference validation."
+          )
           RUBY
