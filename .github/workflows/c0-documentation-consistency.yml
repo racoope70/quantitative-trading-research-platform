@@ -18,6 +18,97 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate bounded C2 completion-alignment changed-file scope
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          from pathlib import Path
+
+          decision_path = (
+              "docs/decisions/C2_completion_decision.md"
+          )
+
+          if not Path(decision_path).is_file():
+              print(
+                  "C2 completion decision is not present; "
+                  "completion-alignment scope validation is not applicable."
+              )
+              raise SystemExit(0)
+
+          base_sha = os.environ.get("BASE_SHA", "").strip()
+          zero_sha = "0" * 40
+
+          if not base_sha or base_sha == zero_sha:
+              print(
+                  "No comparison base is available for this event; "
+                  "content and governance-state validation will continue."
+              )
+              raise SystemExit(0)
+
+          subprocess.run(
+              ["git", "cat-file", "-e", f"{base_sha}^{{commit}}"],
+              check=True,
+          )
+
+          base_contains_decision = subprocess.run(
+              [
+                  "git",
+                  "cat-file",
+                  "-e",
+                  f"{base_sha}:{decision_path}",
+              ],
+              stdout=subprocess.DEVNULL,
+              stderr=subprocess.DEVNULL,
+              check=False,
+          ).returncode == 0
+
+          if base_contains_decision:
+              print(
+                  "The comparison base already contains the C2 completion "
+                  "decision; initial completion-alignment scope validation "
+                  "is not applicable."
+              )
+              raise SystemExit(0)
+
+          expected_paths = {
+              ".github/workflows/c0-documentation-consistency.yml",
+              "PROJECT_CONTEXT.md",
+              "README.md",
+              "docs/decisions/C2_completion_decision.md",
+              "docs/workflows/milestone_review_reference_map.md",
+          }
+
+          changed_output = subprocess.check_output(
+              ["git", "diff", "--name-only", base_sha, "HEAD"],
+              text=True,
+          )
+          changed_paths = {
+              line.strip()
+              for line in changed_output.splitlines()
+              if line.strip()
+          }
+
+          if changed_paths != expected_paths:
+              missing = sorted(expected_paths - changed_paths)
+              unauthorized = sorted(changed_paths - expected_paths)
+              raise SystemExit(
+                  "C2 completion-alignment changed-file scope mismatch; "
+                  f"missing authorized paths: {missing}; "
+                  f"unauthorized changed paths: {unauthorized}"
+              )
+
+          print(
+              "Exact five-file C2 completion-alignment "
+              "changed-file scope passed."
+          )
+          PY
 
       - name: Validate required files, CSV, and governance state
         shell: bash
@@ -37,6 +128,7 @@ jobs:
               "docs/decisions/C1_authorization_decision.md",
               "docs/decisions/C1_completion_decision.md",
               "docs/decisions/C2_authorization_decision.md",
+              "docs/decisions/C2_completion_decision.md",
               "docs/governance/repository_protection_conventions.md",
               "docs/migration/legacy_evidence_retention_matrix.csv",
               "docs/migration/technical_migration_manifest.yaml",
@@ -92,16 +184,23 @@ jobs:
 
           required_lines = {
               "PROJECT_CONTEXT.md": [
-                  "current_lifecycle_state = C2_ACTIVE",
-                  "active_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION",
-                  "phase_status = ACTIVE",
-                  "authorization_effect = C2_SCOPE_ONLY",
+                  "current_lifecycle_state = C2_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION",
+                  "phase_status = C2_COMPLETED_AWAITING_SEPARATE_C3_AUTHORIZATION",
+                  "authorization_effect = NONE",
                   "repository_creation_status = CREATED_PRIVATE",
                   "C1_phase_status = COMPLETED",
                   "C1_completion_effect = EFFECTIVE",
+                  "C2_phase_status = COMPLETED",
                   "C2_authorization_status = AUTHORIZED",
-                  "C2_activation_status = ACTIVE",
-                  "C2_authorization_effect = EFFECTIVE",
+                  "C2_completion_decision = docs/decisions/C2_completion_decision.md",
+                  "C2_completion_decision_id = GOV-DEC-0006",
+                  "C2_package_merge_commit = 87b3460f0b112314ec1dd2cb1faa847fa5572b6f",
+                  "C2_package_post_merge_validation_run = 24",
+                  "C2_package_post_merge_validation_conclusion = SUCCESS",
+                  "C2_completion_effect = EFFECTIVE",
+                  "C3_authorization_status = NOT_AUTHORIZED",
                   "C3_authorization_effect = NONE",
                   "current_model_candidate = NONE",
                   "current_deployment_candidate = NONE",
@@ -158,15 +257,61 @@ jobs:
                   "direct_push_to_main = NOT_AUTHORIZED",
                   "force_push = NOT_AUTHORIZED",
               ],
+            # These are final Stage 3 artifact values. Pull-request CI validates
+            # documentary consistency only and has no lifecycle effect.
+            # A canonical merge records the target, but effectiveness remains
+            # unverified until successful post-merge validation on that exact
+            # canonical alignment commit.
+            "docs/decisions/C2_completion_decision.md": [
+                "document_status = ACCEPTED_C2_COMPLETION_DECISION",
+                "decision_id = GOV-DEC-0006",
+                "decision_type = C2_COMPLETION_AND_CLOSURE",
+                "decision_status = ACCEPTED",
+                "owner_completion_decision_status = ACCEPTED",
+                "owner_decision = ACCEPT_GOV_DEC_0006_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_COMPLETION_ALIGNMENT",
+                "owner_package_acceptance_status = ACCEPTED",
+                "manager_review_status = PERFORMED",
+                "manager_review_classification = PASS",
+                "material_findings = NONE",
+                "required_corrections = NONE",
+                "independent_C2_audit_required = NO_CONDITIONAL_TRIGGER_IDENTIFIED",
+                "C2_completion_alignment_authorization_status = AUTHORIZED",
+                "repository_recording_status = RECORDED_AND_ALIGNED",
+                "controlling_state_alignment_status = RECORDED_AND_ALIGNED",
+                "C2_completion_effect = EFFECTIVE",
+                "C3_authorization_effect = NONE",
+                "pre_merge_lifecycle_effect = NONE",
+                "post_merge_pre_validation_completion_effect = NOT_YET_VERIFIED_EFFECTIVE",
+                "final_post_validation_C2_completion_effect = EFFECTIVE",
+                "canonical_main_lifecycle_state = C2_ACTIVE",
+                "effective_C2_completion = NONE",
+                "before_merge_effect = NONE",
+                "final_aligned_target_files_on_canonical_main = YES",
+                "post_merge_validation_status = PENDING_OR_UNVERIFIED",
+                "C2_completion_may_be_treated_as_effective = NO",
+                "after_merge_before_exact_post_merge_success = NOT_YET_VERIFIED_EFFECTIVE",
+                "current_lifecycle_state = C2_COMPLETED",
+                "after_exact_post_merge_success = EFFECTIVE",
+                "authorized_recording_branch = c2-completion-alignment",
+                "authorized_merge_method = SQUASH",
+                "direct_push_to_main = NOT_AUTHORIZED",
+                "force_push = NOT_AUTHORIZED",
+            ],
               "README.md": [
                   "repository_status = CREATED_PRIVATE",
-                  "current_lifecycle_state = C2_ACTIVE",
-                  "active_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION",
+                  "current_lifecycle_state = C2_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION",
+                  "phase_status = C2_COMPLETED_AWAITING_SEPARATE_C3_AUTHORIZATION",
+                  "authorization_effect = NONE",
                   "C1_phase_status = COMPLETED",
-                  "C2_authorization_status = AUTHORIZED",
-                  "C2_activation_status = ACTIVE",
+                  "C1_completion_effect = EFFECTIVE",
+                  "C2_phase_status = COMPLETED",
+                  "C2_completion_decision = docs/decisions/C2_completion_decision.md",
+                  "C2_completion_decision_id = GOV-DEC-0006",
+                  "C2_completion_effect = EFFECTIVE",
+                  "C3_authorization_status = NOT_AUTHORIZED",
                   "C3_authorization_effect = NONE",
-                  "authorization_effect = C2_SCOPE_ONLY",
                   "current_model_candidate = NONE",
                   "current_deployment_candidate = NONE",
               ],
@@ -187,7 +332,12 @@ jobs:
                   "owner_decision = ACCEPT_GOV_DEC_0005_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_ACTIVATION_ALIGNMENT",
                   "C2_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN",
                   "C2_authorization_status = AUTHORIZED",
-                  "C2_authorization_effect = EFFECTIVE",
+                  "2v_record = 2v.GOV.07",
+                  "decision_id = GOV-DEC-0006",
+                  "owner_decision = ACCEPT_GOV_DEC_0006_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_COMPLETION_ALIGNMENT",
+                  "C2_package_merge_commit = 87b3460f0b112314ec1dd2cb1faa847fa5572b6f",
+                  "C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION",
+                  "C3_authorization_status = NOT_AUTHORIZED",
                   "C3_authorization_effect = NONE",
                   "2v_record = 2v.LEGACY.01",
                   "2v_record = 2v.LEGACY.02",
@@ -202,7 +352,8 @@ jobs:
               if missing_lines:
                   raise SystemExit(f"{path} is missing required governance-state lines: {missing_lines}")
 
-          print("Required governance files, CSV schema, and active C2 authorization state are consistent.")
+          print("Required governance files, CSV schema, and C2 completion-alignment documentary fields are consistent.")
+          print("This workflow run does not itself establish C2 lifecycle effectiveness; exact post-merge success on canonical main is required.")
           PY
 
       - name: Validate YAML template schema and safety

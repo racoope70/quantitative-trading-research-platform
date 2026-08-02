@@ -3,8 +3,8 @@
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
-current_lifecycle_state = C2_ACTIVE
-authorization_effect = C2_SCOPE_ONLY
+current_lifecycle_state = C2_COMPLETED
+authorization_effect = NONE
 ```
 
 ## Mission
@@ -52,18 +52,23 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
-current_lifecycle_state = C2_ACTIVE
-active_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+current_lifecycle_state = C2_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+phase_status = C2_COMPLETED_AWAITING_SEPARATE_C3_AUTHORIZATION
+authorization_effect = NONE
 C1_phase_status = COMPLETED
-C2_authorization_status = AUTHORIZED
-C2_activation_status = ACTIVE
+C1_completion_effect = EFFECTIVE
+C2_phase_status = COMPLETED
+C2_completion_decision = docs/decisions/C2_completion_decision.md
+C2_completion_decision_id = GOV-DEC-0006
+C2_completion_effect = EFFECTIVE
+C3_authorization_status = NOT_AUTHORIZED
 C3_authorization_effect = NONE
-authorization_effect = C2_SCOPE_ONLY
 current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1 is completed. C2 is active only within the accepted non-operational repository-skeleton and migration-preparation scope in `docs/decisions/C2_authorization_decision.md`. C3 and every later phase remain unauthorized.
+C1 and C2 are completed. No major phase is active. C3 is identified only as the proposed next phase and remains unauthorized together with every later phase.
 
-C2 does not authorize executable migration, environment or dependency work, provider or network activity, market-data or dataset activity, model implementation or validation, qualification, final-holdout access, broker activity, paper orders, live orders, or trading activity.
+C2 completion does not authorize executable migration, environment or dependency work, provider or network activity, market-data or dataset activity, model implementation or validation, qualification, final-holdout access, broker activity, paper orders, live orders, or trading activity.

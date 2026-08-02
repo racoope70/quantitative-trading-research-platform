@@ -60,8 +60,11 @@ C1_phase_exit_status = ACCEPTED_AND_EFFECTIVE_THROUGH_ALIGNED_CONTROLLING_STATE
 C1_completion_effect = EFFECTIVE
 C2_authorization_decision = docs/decisions/C2_authorization_decision.md
 C2_authorization_status = AUTHORIZED
-C2_activation_status = ACTIVE
-C2_authorization_effect = EFFECTIVE
+C2_completion_decision = docs/decisions/C2_completion_decision.md
+C2_completion_decision_id = GOV-DEC-0006
+C2_phase_exit_status = ACCEPTED_AND_EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_STATE_AND_SUCCESSFUL_POST_MERGE_VALIDATION
+C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION
+C3_authorization_status = NOT_AUTHORIZED
 C3_authorization_effect = NONE
 ```
 
@@ -247,6 +250,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.04 — C1 phase authorization decision
 2v.GOV.05 — C1 completion and closure decision
 2v.GOV.06 — C2 phase authorization decision
+2v.GOV.07 — C2 completion and closure decision
 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 2v.LEGACY.02 — C1 legacy evidence retention matrix
 2v.ARCH.01 — C1 technical migration manifest
@@ -361,6 +365,39 @@ C3_authorization_effect = NONE
 ```
 
 This map does not independently authorize or activate C2. `2v.GOV.06` becomes effective only when read with the accepted decision and aligned controlling state on canonical `main`. It does not authorize C3 or any later phase.
+
+### 2v.GOV.07 — Canonical C2 completion evidence
+
+```text
+2v_record = 2v.GOV.07
+record_type = C2_COMPLETION_AND_CLOSURE_DECISION
+record_path = docs/decisions/C2_completion_decision.md
+decision_id = GOV-DEC-0006
+owner_decision = ACCEPT_GOV_DEC_0006_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_COMPLETION_ALIGNMENT
+owner_completion_decision_status = ACCEPTED
+manager_review_status = PERFORMED
+manager_review_classification = PASS
+material_findings = NONE
+required_corrections = NONE
+independent_C2_audit_required = NO_CONDITIONAL_TRIGGER_IDENTIFIED
+C2_package_pull_request = 11
+C2_package_reviewed_head_commit = c7f5f39c54eaa40788ba3fcd4a36abc724304d3c
+C2_package_merge_commit = 87b3460f0b112314ec1dd2cb1faa847fa5572b6f
+C2_package_post_merge_validation_run = 24
+C2_package_post_merge_validation_conclusion = SUCCESS
+authorized_recording_branch = c2-completion-alignment
+authorized_merge_method = SQUASH
+C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION
+C3_authorization_status = NOT_AUTHORIZED
+C3_authorization_effect = NONE
+```
+
+This map does not independently close C2. `2v.GOV.07` records the accepted
+completion decision and becomes effective only when read with the aligned
+controlling state on canonical `main` after successful validation of the exact
+completion-alignment squash commit.
+
+It does not authorize C3 or any later phase.
 
 ### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 
@@ -479,8 +516,11 @@ C1_phase_exit_status = ACCEPTED_AND_EFFECTIVE_THROUGH_ALIGNED_CONTROLLING_STATE
 C1_completion_effect = EFFECTIVE
 C2_authorization_decision = docs/decisions/C2_authorization_decision.md
 C2_authorization_status = AUTHORIZED
-C2_activation_status = ACTIVE
-C2_authorization_effect = EFFECTIVE
+C2_completion_decision = docs/decisions/C2_completion_decision.md
+C2_completion_decision_id = GOV-DEC-0006
+C2_phase_exit_status = ACCEPTED_AND_EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_STATE_AND_SUCCESSFUL_POST_MERGE_VALIDATION
+C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION
+C3_authorization_status = NOT_AUTHORIZED
 C3_authorization_effect = NONE
 ```
 
