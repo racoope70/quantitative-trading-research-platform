@@ -1,0 +1,3292 @@
+---
+items:
+- c1_item_id: C1-TM-001
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: Feature_Engineering_Trading.ipynb
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Preserve feature-definition provenance and leakage-safe
+    transformation requirements.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/features/technical_indicators.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path Feature_Engineering_Trading.ipynb.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-004
+  - C2-LIM-C4-009
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Feature-window unit tests.
+  - Split-order and chronological-boundary tests.
+  - Walk-forward partition tests.
+  - No-lookahead and embargo or horizon-overlap tests.
+  - Null and infinity handling tests.
+  - Deterministic feature-output and schema tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-002
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: Model_Selector_v4.ipynb
+  c1_classification: SUMMARIZE_AND_REFERENCE
+  canonical_responsibility: Provide requirements input for future candidate comparison
+    and promotion governance.
+  c2_disposition: DEFER_TO_C12_FINAL_HOLDOUT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    before implementation, execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path Model_Selector_v4.ipynb.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    using its accepted C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Gate-failure tests.
+  - Metric-comparability tests.
+  - Deterministic tie tests.
+  - Incumbent-switch tests.
+  - No-eligible-candidate tests.
+  responsible_future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-003
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: multi_stock_trading_dataset_pipeline.ipynb
+  c1_classification: SUMMARIZE_AND_REFERENCE
+  canonical_responsibility: Provide historical input to provider, calendar, universe,
+    and dataset-contract decisions.
+  c2_disposition: DEFER_TO_C6_DATASET_CONTRACT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C6_DATASET_CONTRACT_FREEZE before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path multi_stock_trading_dataset_pipeline.ipynb.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C6_DATASET_CONTRACT_FREEZE using its accepted C1 identity,
+    responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Deferred until C5 and C6.
+  - Later schema, calendar, missingness, adjustment, and reproducibility tests.
+  responsible_future_phase: C6_DATASET_CONTRACT_FREEZE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-004
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: initial_day_trading_apple.ipynb
+  c1_classification: HISTORICAL_ARCHIVE_ONLY
+  canonical_responsibility: Preserve provenance and educational history only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path initial_day_trading_apple.ipynb.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-005
+  source_repository: racoope70/quant-trading-model-validation
+  source_commit: 0a9c203bc322f6821c04074cb4c28498ab2ab38f
+  source_path: ppo_research_pipeline/ppo_multi_stock_training_pipeline.py
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Preserve historical provenance and negative design evidence
+    only.
+  c2_disposition: REJECT_FROM_CANONICAL_MIGRATION
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Keep the accepted C1 exclusion rationale effective pending owner acceptance of
+    the C2 disposition.
+  required_attribution: Preserve attribution to racoope70/quant-trading-model-validation
+    at 0a9c203bc322f6821c04074cb4c28498ab2ab38f and the exact accepted source path
+    ppo_research_pipeline/ppo_multi_stock_training_pipeline.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the excluded source is not copied, adapted, imported, or treated as canonical
+    implementation.
+  - Preserve the immutable source identity and exclusion rationale for auditability.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Rejected from canonical migration because the accepted C1 migration action
+    is EXCLUDE_FROM_NEW_REPOSITORY.
+- c1_item_id: C1-TM-006
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/train.py
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Preserve PPO training responsibilities as design input
+    for a governed reimplementation.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/train.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Configuration-propagation and mismatch tests.
+  - Chronological split and embargo tests.
+  - VecNormalize copy, lock, and mutation tests.
+  - Seed-determinism tests.
+  - Artifact-identity tests.
+  - No-final-holdout-access tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-007
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/training_splits.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Implement a versioned, deterministic temporal split contract
+    and manifest.
+  c2_disposition: DEFER_TO_C6_DATASET_CONTRACT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C6_DATASET_CONTRACT_FREEZE before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/training_splits.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C6_DATASET_CONTRACT_FREEZE using its accepted C1 identity,
+    responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Boundary-order tests.
+  - Embargo and minimum-row tests.
+  - Deterministic split-manifest tests.
+  - Dataset and split identity mismatch tests.
+  responsible_future_phase: C6_DATASET_CONTRACT_FREEZE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-008
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/feature_manifest.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Implement a versioned ordered feature contract with timing,
+    dtype, and identity controls.
+  c2_disposition: DEFER_TO_C6_DATASET_CONTRACT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C6_DATASET_CONTRACT_FREEZE before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/feature_manifest.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C6_DATASET_CONTRACT_FREEZE using its accepted C1 identity,
+    responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Exact-order and dtype tests.
+  - Missing, extra, and reordered feature tests.
+  - Forbidden and semantic-leakage tests.
+  - Manifest-checksum mismatch tests.
+  responsible_future_phase: C6_DATASET_CONTRACT_FREEZE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-009
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/vecnormalize_utils.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide train-only normalization identity and immutable
+    locked evaluation behavior.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/vecnormalize_utils.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Copy-and-lock tests.
+  - Evaluation-mutation tests.
+  - Shape and feature mismatch tests.
+  - Normalization checksum and identity tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-010
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/alpaca_ppo_retraining_config.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide design input for an explicit, versioned, checksummed
+    PPO configuration.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/alpaca_ppo_retraining_config.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Configuration schema and checksum tests.
+  - Explicit-field and unsupported-default tests.
+  - Propagation and mismatch tests.
+  - No-execution and no-import-side-effect tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-011
+  source_repository: racoope70/quant-trading-model-validation
+  source_commit: 0a9c203bc322f6821c04074cb4c28498ab2ab38f
+  source_path: ppo_rf_research_pipeline/ppo_rf_hybrid_trading_system.py
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Preserve hybrid-design provenance and negative design
+    evidence for a future governed reimplementation.
+  c2_disposition: DEFER_TO_C10_RF_GATE
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+    before implementation, execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/quant-trading-model-validation
+    at 0a9c203bc322f6821c04074cb4c28498ab2ab38f and the exact accepted source path
+    ppo_rf_research_pipeline/ppo_rf_hybrid_trading_system.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION using
+    its accepted C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Feature-causality tests.
+  - Split and label-horizon tests.
+  - Gate-direction semantics tests.
+  - PPO-freeze and identity tests.
+  - Ablation and independent-validation tests.
+  responsible_future_phase: C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-012
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_gate_features.json
+  c1_classification: SUMMARIZE_AND_REFERENCE
+  canonical_responsibility: Provide historical input to a future causal Random Forest
+    feature contract.
+  c2_disposition: DEFER_TO_C10_RF_GATE
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+    before implementation, execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_gate_features.json.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION using
+    its accepted C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Feature-timing tests.
+  - Train-only statistic tests.
+  - Ordered-manifest checksum tests.
+  - Missing and extra feature failure tests.
+  responsible_future_phase: C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-013
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_gate_config.json
+  c1_classification: SUMMARIZE_AND_REFERENCE
+  canonical_responsibility: Provide historical gate-contract design input only.
+  c2_disposition: DEFER_TO_C10_RF_GATE
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+    before implementation, execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_gate_config.json.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION using
+    its accepted C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Configuration schema tests.
+  - Threshold-freeze tests.
+  - Label-horizon boundary tests.
+  - Direction-semantics tests.
+  responsible_future_phase: C10_RANDOM_FOREST_GATE_DEVELOPMENT_AND_VALIDATION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-014
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_gate_model.pkl
+  c1_classification: HISTORICAL_ARCHIVE_ONLY
+  canonical_responsibility: Serve as historical research-fixture and reproducibility
+    evidence only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_gate_model.pkl.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-015
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_model.zip
+  c1_classification: HISTORICAL_ARCHIVE_ONLY
+  canonical_responsibility: Serve as a historical hybrid-reproduction fixture only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_model.zip.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-016
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_vecnorm.pkl
+  c1_classification: HISTORICAL_ARCHIVE_ONLY
+  canonical_responsibility: Serve as historical artifact-set completeness and reproduction
+    evidence.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_vecnorm.pkl.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-017
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_features.json
+  c1_classification: HISTORICAL_ARCHIVE_ONLY
+  canonical_responsibility: Serve as historical artifact-set and feature-order evidence
+    only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_features.json.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-018
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_probability_config.json
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Serve as superseded artifact-provenance evidence only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path exploratory-results/promoted-to-validation/ppo-rf-hybrid-2026-05/PPO
+    RF Models QC Top/ppo_TXN_window2_probability_config.json.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-019
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/adapters/quantconnect.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a broker-neutral, versioned external-signal producer.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/quantconnect_signal_producer.py
+  migration_wave: C4-WAVE-05-MOCKED-PROVIDER-AND-PLATFORM-ADAPTERS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/adapters/quantconnect.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-005
+  - C2-LIM-C4-006
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Schema contract tests.
+  - Timestamp and timezone tests.
+  - Duplicate-symbol tests.
+  - Stale and future-signal tests.
+  - Checksum identity tests.
+  - Empty and malformed fail-closed tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-020
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: quantconnect/ExternalSignalConsumer.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a reference design for a governed execution-platform
+    consumer.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/quantconnect_signal_consumer.py
+  migration_wave: C4-WAVE-05-MOCKED-PROVIDER-AND-PLATFORM-ADAPTERS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path quantconnect/ExternalSignalConsumer.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-005
+  - C2-LIM-C4-006
+  - C2-LIM-C4-007
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Contract tests.
+  - Duplicate rejection tests.
+  - Market-open and calendar tests.
+  - Next-bar execution tests.
+  - Broker-mode authorization tests.
+  - Rebalance idempotency tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-021
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/model_selection/quantconnect_execution_retest.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide an offline parity harness for producer and consumer
+    contracts.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/evaluation/quantconnect_signal_parity.py
+  migration_wave: C4-WAVE-05-MOCKED-PROVIDER-AND-PLATFORM-ADAPTERS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/model_selection/quantconnect_execution_retest.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-006
+  - C2-LIM-C4-009
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Deterministic parity tests.
+  - Invalid and duplicate payload tests.
+  - Stale and future-signal tests.
+  - Next-bar target-mapping tests.
+  - Identity mismatch tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-022
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/export_dynamic_lean_signals.py
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Preserve exporter requirements while replacing the historical
+    synthetic-timestamp implementation.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/quantconnect_signal_export.py
+  migration_wave: C4-WAVE-05-MOCKED-PROVIDER-AND-PLATFORM-ADAPTERS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/export_dynamic_lean_signals.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-005
+  - C2-LIM-C4-006
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Source-timestamp tests.
+  - Schema and checksum tests.
+  - Duplicate and ordering tests.
+  - Stale and future-signal tests.
+  - Deterministic export tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-023
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: quantconnect/lean_unh_xom_dynamic_signal_backtest.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a historical reference for offline-signal replay
+    and temporal guards.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/evaluation/quantconnect_signal_replay.py
+  migration_wave: C4-WAVE-05-MOCKED-PROVIDER-AND-PLATFORM-ADAPTERS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path quantconnect/lean_unh_xom_dynamic_signal_backtest.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-006
+  - C2-LIM-C4-007
+  - C2-LIM-C4-009
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Future and stale rejection tests.
+  - Same-bar versus next-bar tests.
+  - Duplicate-order prevention tests.
+  - Target-clipping tests.
+  - Malformed Object Store payload tests.
+  - Missing-key fail-closed tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-024
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: quantconnect_lightgbm_backtest.ipynb
+  c1_classification: HISTORICAL_ARCHIVE_ONLY
+  canonical_responsibility: Serve as a historical native-model integration reference
+    only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path quantconnect_lightgbm_backtest.ipynb.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-025
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: clean_scaler_quantconnect.ipynb
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Preserve negative evidence only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path clean_scaler_quantconnect.ipynb.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-026
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/adapters/alpaca.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a provider-boundary Alpaca adapter with a paper-safe
+    typed interface.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/alpaca_adapter.py
+  migration_wave: C4-WAVE-05-MOCKED-PROVIDER-AND-PLATFORM-ADAPTERS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/adapters/alpaca.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-007
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Paper-endpoint rejection tests.
+  - Missing and invalid credential tests.
+  - Account, position, order, and clock failure tests.
+  - Timeout and rate-limit tests.
+  - Idempotent submission and ambiguous-response tests.
+  - Partial-fill, terminal-status, and flatten-confirmation tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-027
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/data/alpaca_historical_data.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a provider-boundary historical-data loader after
+    separate provider acceptance.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/data/alpaca_historical.py
+  migration_wave: C4-WAVE-05-MOCKED-PROVIDER-AND-PLATFORM-ADAPTERS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/data/alpaca_historical_data.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-003
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Mocked request and schema tests.
+  - Timeout, rate-limit, and retry tests.
+  - Calendar and coverage tests.
+  - Duplicate and partial-response tests.
+  - No-network default tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-028
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/paper_trade_dry_run.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a deterministic broker-connected no-submit decision-package
+    producer.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/no_submit_decision.py
+  migration_wave: C4-WAVE-04-OFFLINE-EXECUTION-CONTRACTS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/paper_trade_dry_run.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  - C2-LIM-C4-009
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - No-submit invariant tests.
+  - Missing broker-state tests.
+  - Model and feature identity mismatch tests.
+  - Deterministic package-hash tests.
+  - No-network unit tests with mocked adapters.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-029
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/execution.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide deterministic execution-plan construction and
+    a separately authorized submission boundary.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/submission.py
+  migration_wave: C4-WAVE-04-OFFLINE-EXECUTION-CONTRACTS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/execution.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Long, short, flatten, and crossing-zero tests.
+  - Invalid price and equity tests.
+  - Pure-function determinism tests.
+  - Idempotency and ambiguous-submit tests.
+  - Partial-fill and terminal-reconciliation tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-030
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/paper_trade_loop.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide an offline-tested guarded execution coordinator.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/coordinator.py
+  migration_wave: C4-WAVE-04-OFFLINE-EXECUTION-CONTRACTS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/paper_trade_loop.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Missing broker-state fail-closed tests.
+  - Clock unavailable and market-closed tests.
+  - Stale-plan and wrong-run-directory tests.
+  - Duplicate-submit and ambiguous-response tests.
+  - Partial-fill and post-submit reconciliation tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-031
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/risk_controls.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a fail-closed provider-neutral execution-risk
+    validator.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/risk_controls.py
+  migration_wave: C4-WAVE-04-OFFLINE-EXECUTION-CONTRACTS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/risk_controls.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Missing account, positions, and orders failure tests.
+  - Stale, future, missing, malformed, and naive timestamp tests.
+  - Exposure and notional-boundary tests.
+  - Immutable plan-identity tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-032
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/pre_trade_checklist.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a mandatory preflight gate for any future separately
+    authorized paper submission.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/pre_trade.py
+  migration_wave: C4-WAVE-04-OFFLINE-EXECUTION-CONTRACTS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/pre_trade_checklist.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Missing broker-state tests.
+  - Broker snapshot error tests.
+  - Open-order and unexpected-position tests.
+  - Clock, calendar, stale, and future timestamp tests.
+  - Atomic executor-gate tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-033
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/logging_utils.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a checksummed execution-evidence and broker-state
+    record builder.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/artifacts/execution_evidence.py
+  migration_wave: C4-WAVE-03-ARTIFACTS-INFERENCE-AND-DIAGNOSTICS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/logging_utils.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  - C2-LIM-C4-010
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Redaction tests.
+  - Stable serialization tests.
+  - File-checksum tests.
+  - Broker-error preservation tests.
+  - Order and fill identity tests.
+  - Append-only write tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-034
+  source_repository: racoope70/quant-trading-model-validation
+  source_commit: 0a9c203bc322f6821c04074cb4c28498ab2ab38f
+  source_path: config/paper_trading_six_ticker_manifest.json
+  c1_classification: SUMMARIZE_AND_REFERENCE
+  canonical_responsibility: Provide design input for a future versioned broker-observation
+    manifest.
+  c2_disposition: DEFER_TO_C14_PAPER_TRADING
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C14_CONTROLLED_PAPER_TRADING before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/quant-trading-model-validation
+    at 0a9c203bc322f6821c04074cb4c28498ab2ab38f and the exact accepted source path
+    config/paper_trading_six_ticker_manifest.json.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C14_CONTROLLED_PAPER_TRADING using its accepted C1 identity,
+    responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Manifest schema tests.
+  - Artifact checksum and ambiguity tests.
+  - Model and feature mismatch tests.
+  - No-legacy-candidate and no-secret tests.
+  responsible_future_phase: C14_CONTROLLED_PAPER_TRADING
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-035
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: ppo_alpaca_paper_trading_v7.ipynb
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Preserve historical operational and provenance evidence
+    only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path ppo_alpaca_paper_trading_v7.ipynb.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-036
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/__init__.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a minimal canonical package boundary without import-time
+    execution.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/__init__.py
+  migration_wave: C4-WAVE-01-PACKAGE-CONFIG-AND-OFFLINE-TEST-BOUNDARIES
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/__init__.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Package import test.
+  - No-import-side-effect test.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-037
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/adapters/__init__.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a minimal adapter namespace without provider access
+    or import-time execution.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/adapters/__init__.py
+  migration_wave: C4-WAVE-01-PACKAGE-CONFIG-AND-OFFLINE-TEST-BOUNDARIES
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/adapters/__init__.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Package import test.
+  - No-network and no-import-side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-038
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paths.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide explicit, configurable, platform-neutral path
+    resolution.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/config/paths.py
+  migration_wave: C4-WAVE-01-PACKAGE-CONFIG-AND-OFFLINE-TEST-BOUNDARIES
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paths.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Cross-platform path tests.
+  - Missing-base-path tests.
+  - No-import-side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-039
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: ".gitignore"
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a canonical exclusion baseline while preserving
+    required immutable evidence through governed artifact storage.
+  c2_disposition: DEFER_PENDING_OWNER_DECISION
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain an explicit owner disposition and any required changed-file-scope authorization
+    before future action.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path .gitignore.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify no file-scope expansion or migration occurs without an explicit owner decision.
+  - Reconcile the future disposition with canonical evidence-retention and repository-hygiene
+    requirements.
+  responsible_future_phase: C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+  owner_selection_status: PENDING_OWNER_DECISION
+  notes: The accepted responsibility remains relevant, but .gitignore is outside the
+    exact C2 changed-file scope. C2 does not create or modify it and claims no resolution.
+- c1_item_id: C1-TM-040
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/config.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a typed, versioned, checksummed canonical configuration
+    boundary.
+  c2_disposition: SELECT_FOR_C3_ENVIRONMENT_ANALYSIS
+  proposed_destination_path: src/quantitative_trading_research/config/settings.py
+  migration_wave: C3-WAVE-02-ENVIRONMENT_AND_CONFIGURATION_CONTRACT
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C3.
+  - C3-selected Python and dependency policy.
+  - Canonical separation of environment, provider, data, model, validation, and execution
+    settings.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/config.py.
+  related_limitation_ids:
+  - C2-LIM-C3-001
+  - C2-LIM-C3-004
+  future_verification_requirements:
+  - Verify a versioned typed configuration schema without import-time side effects.
+  - Verify configuration checksum generation and rejection of missing or contradictory
+    values.
+  - Verify secrets remain outside committed configuration.
+  - Verify configuration values propagate consistently after later implementation.
+  - Schema and checksum tests.
+  - Missing and contradictory value tests.
+  - Override and propagation tests.
+  - No-secret and no-import-side-effect tests.
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  owner_selection_status: PENDING_C3_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; no interpreter, dependency, environment, import remediation,
+    lock, or compatibility execution is authorized during C2.
+- c1_item_id: C1-TM-041
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/data_download.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide provider-neutral acquisition orchestration behind
+    a separately accepted adapter and authorization boundary.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/data/acquisition.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/data_download.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-003
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Mocked request tests.
+  - No-network default tests.
+  - Partial and malformed response tests.
+  - Provenance and deterministic request tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-042
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: requirements.txt
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide the starting dependency inventory for canonical
+    C3 dependency reconstruction.
+  c2_disposition: SELECT_FOR_C3_ENVIRONMENT_ANALYSIS
+  proposed_destination_path: pyproject.toml
+  migration_wave: C3-WAVE-01-INTERPRETER_AND_DEPENDENCY_INVENTORY
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C3.
+  - Owner selection of the supported Python policy.
+  - Complete historical dependency-source and conflict inventory.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path requirements.txt.
+  related_limitation_ids:
+  - C2-LIM-C3-001
+  - C2-LIM-C3-002
+  - C2-LIM-C3-003
+  future_verification_requirements:
+  - Verify repeatable clean-environment dependency resolution.
+  - Verify exact or otherwise owner-approved dependency constraints and package sources.
+  - Verify a lock or equivalently reproducible resolved dependency identity.
+  - Verify offline import-contract smoke tests under the selected environment.
+  - Verify local and CI environment equivalence.
+  - Clean-environment build test.
+  - Dependency-resolution repeatability test.
+  - Offline import-contract smoke tests.
+  - Local and CI environment-equivalence check.
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  owner_selection_status: PENDING_C3_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; no interpreter, dependency, environment, import remediation,
+    lock, or compatibility execution is authorized during C2.
+- c1_item_id: C1-TM-043
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: ".env.example"
+  c1_classification: SUMMARIZE_AND_REFERENCE
+  canonical_responsibility: Provide deferred input to the canonical secret and environment-variable
+    interface.
+  c2_disposition: SELECT_FOR_C3_ENVIRONMENT_ANALYSIS
+  proposed_destination_path: docs/configuration/environment_variables.md
+  migration_wave: C3-WAVE-02-ENVIRONMENT_AND_CONFIGURATION_CONTRACT
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C3.
+  - C3 environment-interface design.
+  - Later C5 provider decisions before retaining provider-specific variable names.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path .env.example.
+  related_limitation_ids:
+  - C2-LIM-C3-004
+  future_verification_requirements:
+  - Verify required, optional, prohibited, and deferred variables are explicitly distinguished.
+  - Verify secret values are never committed.
+  - Verify provider-specific variables remain deferred until the responsible provider
+    phase.
+  - Verify future missing-secret and redaction behavior fails closed.
+  - Deferred until C3 and C5.
+  - Later variable-schema, missing-secret, redaction, and no-secret-in-Git tests.
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  owner_selection_status: PENDING_C3_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; no interpreter, dependency, environment, import remediation,
+    lock, or compatibility execution is authorized during C2.
+- c1_item_id: C1-TM-044
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: pytest.ini
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a minimal canonical offline-test configuration
+    baseline.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: pytest.ini
+  migration_wave: C4-WAVE-01-PACKAGE-CONFIG-AND-OFFLINE-TEST-BOUNDARIES
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path pytest.ini.
+  related_limitation_ids:
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Pytest discovery self-test.
+  - Marker-enforcement tests.
+  - No-network default test.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-045
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_cli_utils.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline CLI contract tests for migrated canonical
+    commands.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: tests/test_cli_contracts.py
+  migration_wave: C4-WAVE-01-PACKAGE-CONFIG-AND-OFFLINE-TEST-BOUNDARIES
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_cli_utils.py.
+  related_limitation_ids:
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Valid and invalid argument tests.
+  - Missing configuration tests.
+  - Authorization-boundary tests.
+  - No-network and no-side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-046
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_paper_trading_artifact_manifest.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline tests for the canonical artifact-family
+    and manifest contract.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_paper_trading_artifact_manifest.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Complete, missing, extra, duplicate, and ambiguous artifact tests.
+  - Checksum and provenance mismatch tests.
+  - Manifest schema and exact-path tests.
+  - No-model-load and no-network tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-047
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: ".github/workflows/tests.yml"
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a baseline for canonical CI while enforcing the
+    C3-selected Python, lockfile, and dependency identities.
+  c2_disposition: SELECT_FOR_C3_ENVIRONMENT_ANALYSIS
+  proposed_destination_path: ".github/workflows/tests.yml"
+  migration_wave: C3-WAVE-03-REPRODUCIBLE-CI-AND-IMPORT-DIAGNOSTICS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C3.
+  - C3-selected Python policy.
+  - Canonical locked or equivalently reproducible dependency set.
+  - Defined offline import-smoke contract.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path .github/workflows/tests.yml.
+  related_limitation_ids:
+  - C2-LIM-C3-001
+  - C2-LIM-C3-002
+  - C2-LIM-C3-003
+  future_verification_requirements:
+  - Verify CI installs only from the accepted dependency identity.
+  - Verify Python and dependency identities match the approved local environment.
+  - Verify import-smoke checks remain offline and credential-free.
+  - Verify CI cannot access providers, brokers, market data, datasets, training, or
+    orders.
+  - Verify dependency and lock integrity.
+  - CI clean-build reproducibility.
+  - Lockfile integrity test.
+  - Dependency hash validation where used.
+  - Import-contract test.
+  - No-network test.
+  - Local and CI manifest comparison.
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  owner_selection_status: PENDING_C3_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; no interpreter, dependency, environment, import remediation,
+    lock, or compatibility execution is authorized during C2.
+- c1_item_id: C1-TM-048
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/prepare_data.py
+  c1_classification: SUMMARIZE_AND_REFERENCE
+  canonical_responsibility: Preserve preparation responsibilities as input to a governed
+    reimplementation.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/data/preparation.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/prepare_data.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-003
+  - C2-LIM-C4-004
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Schema and deterministic transformation tests.
+  - No-network transformation tests.
+  - Calendar, missingness, and feature tests.
+  - Atomic output and failure-cleanup tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-049
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/features.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a deterministic versioned canonical feature engine.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/features/engine.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/features.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-003
+  - C2-LIM-C4-004
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Formula-fixture tests.
+  - No-lookahead tests.
+  - Train-only statistic tests.
+  - Deterministic output and manifest tests.
+  - Null, infinity, order, and dtype tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-050
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/env.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide design input for a deterministic canonical research
+    environment after contracts are frozen.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/env.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Observation and action invariant tests.
+  - Reward and cost fixture tests.
+  - Seed-determinism tests.
+  - No-lookahead and invalid-state tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-051
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/artifacts.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide exact immutable artifact-family construction,
+    validation, and publication.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/artifacts.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Exact-path and duplicate-rejection tests.
+  - Component and manifest checksum tests.
+  - Missing and extra component tests.
+  - Atomic publication and failure-cleanup tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-052
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/predict.py
+  c1_classification: SUMMARIZE_AND_REFERENCE
+  canonical_responsibility: Preserve inference responsibilities as input to a deterministic
+    reimplementation.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/models/inference.py
+  migration_wave: C4-WAVE-03-ARTIFACTS-INFERENCE-AND-DIAGNOSTICS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/predict.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-009
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Artifact and feature mismatch tests.
+  - Deterministic prediction tests.
+  - Timestamp and record-checksum tests.
+  - No-provider, no-broker, and no-import-side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-053
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/diagnostics.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide small deterministic offline diagnostic utilities
+    with structured evidence output.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/evaluation/diagnostics.py
+  migration_wave: C4-WAVE-03-ARTIFACTS-INFERENCE-AND-DIAGNOSTICS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/diagnostics.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Deterministic diagnostic tests.
+  - Malformed and missing input tests.
+  - Structured result and checksum tests.
+  - No-network and no-side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-054
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/training_utils.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide explicit deterministic training utilities behind
+    governed configuration and data contracts.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/models/training_utils.py
+  migration_wave: C4-WAVE-03-ARTIFACTS-INFERENCE-AND-DIAGNOSTICS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/training_utils.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-004
+  - C2-LIM-C4-005
+  - C2-LIM-C4-008
+  - C2-LIM-C4-009
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Pure-function unit tests.
+  - Seed and parameter propagation tests.
+  - Identity mismatch tests.
+  - No-import-side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-055
+  source_repository: racoope70/exploratory-daytrading
+  source_commit: 2d6f354451515ff07ff6d022ea989ade2bc7574a
+  source_path: exploratory-results/promoted-to-validation/ppo-model-2024-09/ppo_multi_stock_training_pipeline.py
+  c1_classification: HISTORICAL_ARCHIVE_ONLY
+  canonical_responsibility: Serve as historical migration provenance only.
+  c2_disposition: RETAIN_HISTORICAL_ONLY
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Preserve the historical repository, immutable source identity, and attribution
+    reference.
+  required_attribution: Preserve attribution to racoope70/exploratory-daytrading at
+    2d6f354451515ff07ff6d022ea989ade2bc7574a and the exact accepted source path exploratory-results/promoted-to-validation/ppo-model-2024-09/ppo_multi_stock_training_pipeline.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Verify the historical source identity and retention rationale remain preserved.
+  - Verify the retained asset is not imported, executed, or represented as canonical
+    implementation.
+  responsible_future_phase: C13_PUBLICATION_RELEASE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Retained as historical evidence only; no canonical migration or execution
+    is proposed.
+- c1_item_id: C1-TM-056
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/artifact_manifest.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a versioned exact artifact-manifest validator.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/artifact_manifest.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Complete and incomplete manifest tests.
+  - Duplicate, ambiguous, missing, and extra component tests.
+  - Checksum and provenance mismatch tests.
+  - No-model-load and no-network tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-057
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/alpaca_ppo_holdout_validation.py
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Preserve evaluator requirements while replacing the historical
+    candidate-ranking and holdout-access sequence.
+  c2_disposition: DEFER_TO_C12_FINAL_HOLDOUT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    before implementation, execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/alpaca_ppo_holdout_validation.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    using its accepted C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Candidate-freeze and access-control tests.
+  - Common dataset and metric identity tests.
+  - No-ranking and no-retuning tests.
+  - One-time access and audit-log tests.
+  - Explicit terminal-outcome tests.
+  responsible_future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-058
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/model_selection/select_alpaca_ppo_candidates.py
+  c1_classification: OBSOLETE_OR_SUPERSEDED
+  canonical_responsibility: Preserve selection requirements while replacing holdout-driven
+    candidate selection with pre-holdout qualification and freeze.
+  c2_disposition: DEFER_TO_C12_FINAL_HOLDOUT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    before implementation, execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/model_selection/select_alpaca_ppo_candidates.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    using its accepted C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - No-holdout-input tests.
+  - Frozen-rule and deterministic selection tests.
+  - No-candidate and inconclusive outcome tests.
+  - Evidence and rule identity mismatch tests.
+  responsible_future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-059
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_alpaca_ppo_holdout_validation.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline tests for the canonical shared final-holdout
+    evaluator and access boundary.
+  c2_disposition: DEFER_TO_C12_FINAL_HOLDOUT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    before implementation, execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_alpaca_ppo_holdout_validation.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    using its accepted C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Freeze and access tests.
+  - Common identity tests.
+  - No-ranking and no-retuning tests.
+  - Qualified, rejected, no-candidate, and inconclusive outcome tests.
+  responsible_future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-060
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_select_alpaca_ppo_candidates.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline tests for pre-holdout qualification, candidate
+    freeze, and explicit no-candidate behavior.
+  c2_disposition: DEFER_TO_C12_FINAL_HOLDOUT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    before implementation, execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_select_alpaca_ppo_candidates.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+    using its accepted C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - No-holdout-input tests.
+  - Deterministic tie and rejection tests.
+  - No-candidate and inconclusive tests.
+  - Post-freeze mutation rejection tests.
+  responsible_future_phase: C12_ELIGIBLE_CANDIDATE_FREEZE_SHARED_FINAL_HOLDOUT_AND_PROMOTION_DECISION
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-061
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/evaluate_dry_run.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a deterministic offline decision-package evaluator
+    that does not imply model quality or order authorization.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/evaluation/no_submit_package.py
+  migration_wave: C4-WAVE-04-OFFLINE-EXECUTION-CONTRACTS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/evaluate_dry_run.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  - C2-LIM-C4-009
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Malformed and missing package tests.
+  - Stale and checksum mismatch tests.
+  - Deterministic reason-code tests.
+  - No-network and no-order tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-062
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/build_execution_plan.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a pure deterministic execution-plan builder.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/plan.py
+  migration_wave: C4-WAVE-04-OFFLINE-EXECUTION-CONTRACTS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/build_execution_plan.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Long, short, flatten, and crossing-zero tests.
+  - Rounding and notional-boundary tests.
+  - Invalid price and equity tests.
+  - Deterministic plan and intent-ID tests.
+  - No-broker tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-063
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/paper_trading/filter_execution_plan.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a pure fail-closed execution-plan filter with
+    structured rejection reasons.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/execution/plan_filter.py
+  migration_wave: C4-WAVE-04-OFFLINE-EXECUTION-CONTRACTS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - No broker connectivity, order submission, paper trading, or live trading is authorized.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/paper_trading/filter_execution_plan.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-005
+  - C2-LIM-C4-007
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Every-gate pass and failure tests.
+  - Missing and ambiguous input tests.
+  - Order-invariance and deterministic-reason tests.
+  - Plan and configuration checksum tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-064
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_retraining_config.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a non-executing configuration and authorization-boundary
+    foundation.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/config/ppo.py
+  migration_wave: C4-WAVE-01-PACKAGE-CONFIG-AND-OFFLINE-TEST-BOUNDARIES
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_retraining_config.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-004
+  - C2-LIM-C4-005
+  - C2-LIM-C4-008
+  - C2-LIM-C4-009
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Default non-execution tests.
+  - Absent-command tests.
+  - Configuration-version and checksum mismatch tests.
+  - Prohibited provider and universe assumption tests.
+  - Artifact isolation and authorization-separation tests.
+  - No-import-side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-065
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_data_contract.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Implement the versioned canonical dataset, feature, provenance,
+    split, calendar, leakage, and reconstruction contract.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/data/contracts.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_data_contract.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-003
+  - C2-LIM-C4-004
+  - C2-LIM-C4-005
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Contract-version isolation tests.
+  - Exact schema, dtype, UTC, DST, finite-value, duplicate, and missing-slot tests.
+  - All-symbol, calendar, early-close, and per-split coverage tests.
+  - Feature order, semantic leakage, split manifest, raw checksum, and shared-holdout
+    tests.
+  - No model or provider side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-066
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_data_preparation_interface.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Create a deterministic provider-neutral preparation result
+    from an immutable dataset package and temporal split manifest.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/data/preparation_contract.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_data_preparation_interface.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-003
+  - C2-LIM-C4-004
+  - C2-LIM-C4-005
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Input immutability tests.
+  - Deterministic package-hash tests.
+  - Split identity and per-symbol coverage tests.
+  - Exclusion accounting tests.
+  - No-holdout-exposure tests.
+  - Invalid checksum and feature-manifest mismatch tests.
+  - No network or filesystem side-effect tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-067
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_data_preparation_integration.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Coordinate versioned preparation stages without introducing
+    provider, storage, training, or artifact side effects.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/data/preparation_pipeline.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_data_preparation_integration.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-003
+  - C2-LIM-C4-004
+  - C2-LIM-C4-005
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Stage identity tests.
+  - Checksum mismatch and stale upstream-result tests.
+  - Deterministic metadata tests.
+  - Unsupported-mode tests.
+  - No I/O or execution-hook tests.
+  - Mutation-isolation tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-068
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_training_input_handoff.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Produce an immutable, identity-complete training package
+    containing only authorized non-final training and evaluation inputs.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_training_input_handoff.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - No-holdout-payload tests.
+  - Immutable-reference and mutation tests.
+  - Every identity-mismatch test.
+  - Missing package-component and forbidden-column tests.
+  - Deterministic handoff-hash tests.
+  - No I/O or training-hook tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-069
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_training_configuration.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Create a versioned, explicit, traceable PPO v2 configuration
+    for separately authorized training.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_training_configuration.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - Missing explicit field and unsupported-default tests.
+  - Schema-version and checksum tests.
+  - Data and configuration mismatch tests.
+  - Typed reward, risk, and early-stop tests.
+  - Exact propagation into a mocked non-executing consumer.
+  - Unauthorized-request and no-side-effect tests.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-070
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_retraining_config.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline tests for the canonical fail-closed PPO
+    v2 configuration boundary.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: tests/config/test_ppo_configuration.py
+  migration_wave: C4-WAVE-01-PACKAGE-CONFIG-AND-OFFLINE-TEST-BOUNDARIES
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_retraining_config.py.
+  related_limitation_ids:
+  - C2-LIM-C4-004
+  - C2-LIM-C4-008
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    data-generation-free, training-free, final-holdout-free, and order-free.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-071
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_data_contract.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline deterministic tests for the versioned
+    canonical data and split contract.
+  c2_disposition: DEFER_TO_C6_DATASET_CONTRACT
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C6_DATASET_CONTRACT_FREEZE before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_data_contract.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C6_DATASET_CONTRACT_FREEZE using its accepted C1 identity,
+    responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    data-generation-free, training-free, final-holdout-free, and order-free.
+  responsible_future_phase: C6_DATASET_CONTRACT_FREEZE
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-072
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_data_preparation_interface.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline tests for immutable dataset-package preparation
+    and holdout isolation.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: tests/data/test_preparation_contract.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_data_preparation_interface.py.
+  related_limitation_ids:
+  - C2-LIM-C4-003
+  - C2-LIM-C4-004
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    data-generation-free, training-free, final-holdout-free, and order-free.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-073
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_data_preparation_integration.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline tests for versioned preparation-stage
+    orchestration and identity propagation.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: tests/data/test_preparation_pipeline.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_data_preparation_integration.py.
+  related_limitation_ids:
+  - C2-LIM-C4-003
+  - C2-LIM-C4-004
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    data-generation-free, training-free, final-holdout-free, and order-free.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-074
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_training_input_handoff.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline tests for immutable non-final training
+    and evaluation package handoff.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_training_input_handoff.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    data-generation-free, training-free, final-holdout-free, and order-free.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-075
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_training_configuration.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline tests for explicit versioned configuration
+    and exact propagation.
+  c2_disposition: DEFER_TO_C8_MODEL_READINESS
+  proposed_destination_path: ''
+  migration_wave: ''
+  required_prerequisites:
+  - Obtain separate authorization for C8_PPO_V2_IMPLEMENTATION_READINESS before implementation,
+    execution, acceptance, or promotion.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_training_configuration.py.
+  related_limitation_ids: []
+  future_verification_requirements:
+  - Reassess this item under C8_PPO_V2_IMPLEMENTATION_READINESS using its accepted
+    C1 identity, responsibility, limitations, and evidence requirements.
+  - Do not treat the C2 deferral as implementation, validation, qualification, promotion,
+    or authorization.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    data-generation-free, training-free, final-holdout-free, and order-free.
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  owner_selection_status: PENDING_OWNER_ACCEPTANCE_OF_C2_DISPOSITION
+  notes: Explicitly deferred to the responsible future phase; C2 performs no implementation
+    or execution.
+- c1_item_id: C1-TM-076
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_dataset_reconstruction.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide a committed deterministic noninteractive reconstruction
+    orchestrator after separate provider, contract, and generation authorization.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/data/reconstruction.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_dataset_reconstruction.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-003
+  - C2-LIM-C4-005
+  - C2-LIM-C4-010
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - No-import-side-effect tests.
+  - Exact recipe binding and raw-hash mismatch tests.
+  - Deterministic feature and calendar tests.
+  - Expected-slot and final-schema tests.
+  - Staging, atomic rename, manifest and checksum transaction, and failure-cleanup
+    tests.
+  - No network during transformation, no training, and no orders.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-077
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_market_calendar.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide deterministic calendar and expected-slot generation
+    behind a versioned calendar contract.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/data/calendar.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_market_calendar.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-002
+  - C2-LIM-C4-003
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Pinned-version mismatch tests.
+  - UTC awareness, holiday, DST, early-close, schedule-break, full-session, empty-session,
+    multi-session determinism, bar-resolution, and provider-alignment tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-078
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: src/ppo_v2_parquet_writer.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Publish validated datasets, manifests, and checksums atomically
+    under an accepted versioned writer contract.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: src/quantitative_trading_research/artifacts/dataset_publication.py
+  migration_wave: C4-WAVE-03-ARTIFACTS-INFERENCE-AND-DIAGNOSTICS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path src/ppo_v2_parquet_writer.py.
+  related_limitation_ids:
+  - C2-LIM-C4-001
+  - C2-LIM-C4-003
+  - C2-LIM-C4-005
+  - C2-LIM-C4-010
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - Exact-schema and writer-literal tests.
+  - Staged-write and atomic-rename tests.
+  - Failure injection at every publication step.
+  - Existing-output rejection, readback checksum, manifest mismatch, cleanup, and
+    deterministic repeated-serialization tests.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-079
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_dataset_reconstruction_contract.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline deterministic tests for the canonical
+    reconstruction orchestrator and contract.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: tests/data/test_reconstruction.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_dataset_reconstruction_contract.py.
+  related_limitation_ids:
+  - C2-LIM-C4-003
+  - C2-LIM-C4-010
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    training-free, and order-free.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-080
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_market_calendar_contract.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline deterministic tests for the versioned
+    canonical market-calendar contract.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: tests/data/test_calendar.py
+  migration_wave: C4-WAVE-02-DATA-CONTRACTS-FEATURES-AND-PREPARATION
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Provider, feed, platform, and broker work must remain offline, mocked, credential-free,
+    and network-free.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_market_calendar_contract.py.
+  related_limitation_ids:
+  - C2-LIM-C4-002
+  - C2-LIM-C4-003
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    training-free, and order-free.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-081
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: tests/test_ppo_v2_parquet_writer_contract.py
+  c1_classification: CARRY_FORWARD
+  canonical_responsibility: Provide offline deterministic tests for atomic canonical
+    dataset, manifest, and checksum publication.
+  c2_disposition: SELECT_FOR_C4_MIGRATION_PREPARATION
+  proposed_destination_path: tests/artifacts/test_dataset_publication.py
+  migration_wave: C4-WAVE-03-ARTIFACTS-INFERENCE-AND-DIAGNOSTICS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C4.
+  - Completion or explicit acceptance of the separately authorized C3 environment
+    and dependency prerequisite.
+  - Availability of the accepted immutable source identity for item-level inspection
+    and attribution.
+  - Only synthetic or controlled offline fixtures may be used; no canonical dataset
+    or final holdout is accepted.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path tests/test_ppo_v2_parquet_writer_contract.py.
+  related_limitation_ids:
+  - C2-LIM-C4-003
+  - C2-LIM-C4-010
+  future_verification_requirements:
+  - Verify the future implementation against the accepted canonical responsibility
+    and immutable source identity.
+  - Verify every related limitation is resolved or remains explicitly blocking before
+    promotion.
+  - Verify deterministic offline behavior and the absence of prohibited provider,
+    data, model, holdout, broker, and trading side effects.
+  - The adapted test module must remain network-free, credential-free, provider-free,
+    training-free, and order-free.
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  owner_selection_status: PENDING_C4_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; the proposed destination and migration wave do not authorize
+    copying, adapting, importing, executing, or accepting historical source.
+- c1_item_id: C1-TM-082
+  source_repository: racoope70/ppo-trading-pipeline
+  source_commit: 072103f43d8b2488c3efca183f637ab0508a193a
+  source_path: artifacts/ppo_v2/package_preparation/v3_08_fresh_technical_diagnosis/commands/future_exact_diagnosis_command.txt
+  c1_classification: HISTORICAL_ARCHIVE_ONLY
+  canonical_responsibility: Serve as historical design evidence for atomic diagnostic
+    records, bounded probes, and fail-closed controls, not as canonical executable
+    code.
+  c2_disposition: SELECT_FOR_C3_ENVIRONMENT_ANALYSIS
+  proposed_destination_path: src/quantitative_trading_research/config/environment_diagnostics.py
+  migration_wave: C3-WAVE-03-REPRODUCIBLE-CI-AND-IMPORT-DIAGNOSTICS
+  required_prerequisites:
+  - C2 completion and separate owner authorization of C3.
+  - C3-selected interpreter and environment identity.
+  - Approved import targets derived from canonical interfaces rather than historical
+    assumptions.
+  required_attribution: Preserve attribution to racoope70/ppo-trading-pipeline at
+    072103f43d8b2488c3efca183f637ab0508a193a and the exact accepted source path artifacts/ppo_v2/package_preparation/v3_08_fresh_technical_diagnosis/commands/future_exact_diagnosis_command.txt.
+  related_limitation_ids:
+  - C2-LIM-C3-003
+  - C2-LIM-C3-005
+  future_verification_requirements:
+  - Verify every diagnostic terminal branch with unit tests.
+  - Verify successful imports and caught exceptions receive distinct classifications.
+  - Verify interpreter, environment, package, and import-target identities are recorded.
+  - Verify diagnostic evidence is written atomically and sanitized.
+  - Verify no network, credential, provider, broker, dataset, training, or order activity
+    occurs.
+  - Unit tests for every terminal branch.
+  - Success-versus-exception classification tests.
+  - Import-target contract test.
+  - Atomic-write interruption test.
+  - Worktree-status parsing test.
+  - No-network and no-secret tests.
+  - Interpreter-identity test.
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  owner_selection_status: PENDING_C3_OWNER_AUTHORIZATION_AND_SELECTION
+  notes: Planning only; no interpreter, dependency, environment, import remediation,
+    lock, or compatibility execution is authorized during C2.
+unresolved_limitations:
+- limitation_id: C2-LIM-C3-001
+  related_c1_item_ids:
+  - C1-TM-040
+  - C1-TM-042
+  - C1-TM-047
+  source_c1_evidence:
+  - E14-07
+  - E14-09
+  - MIG-06-I
+  limitation_statement: No supported canonical Python interpreter or reproducible
+    environment identity has been selected or established.
+  current_status: UNRESOLVED
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  future_verification_requirements:
+  - Select and record the supported Python version policy under separate C3 authorization.
+  - Construct a clean environment from the accepted dependency identity.
+  - Record interpreter, platform, dependency, package-source, and environment identities.
+  - Demonstrate repeatable local and CI environment construction.
+  - Run only separately authorized offline import and environment checks.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: C2 records the unresolved environment boundary only; it does not select Python,
+    create an environment, install dependencies, or execute compatibility checks.
+- limitation_id: C2-LIM-C3-002
+  related_c1_item_ids:
+  - C1-TM-042
+  - C1-TM-047
+  source_c1_evidence:
+  - E14-07
+  - MIG-06-I
+  limitation_statement: Dependency versions, package sources, resolved lock identity,
+    and local-to-CI equivalence remain unresolved.
+  current_status: UNRESOLVED
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  future_verification_requirements:
+  - Inventory every required direct and transitive dependency source.
+  - Resolve exact or otherwise owner-approved bounded dependency versions.
+  - Create and verify a lock or equivalently reproducible resolved dependency identity.
+  - Verify dependency integrity and repeatable clean-environment resolution.
+  - Verify local and CI dependency manifests are equivalent.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: Historical requirements and CI configuration are evidence inputs only and
+    do not establish compatible canonical dependencies.
+- limitation_id: C2-LIM-C3-003
+  related_c1_item_ids:
+  - C1-TM-042
+  - C1-TM-047
+  - C1-TM-082
+  source_c1_evidence:
+  - E14-03
+  - E14-05
+  - E14-06
+  - E14-09
+  limitation_statement: Historical package identities and import targets conflict
+    or remain unavailable, so no canonical import surface is established.
+  current_status: UNRESOLVED
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  future_verification_requirements:
+  - Identify the selected interpreter and installed package identities before import
+    testing.
+  - Define canonical import targets from accepted interfaces rather than historical
+    assumptions.
+  - Verify every required import in a clean offline environment.
+  - Distinguish package absence, incompatible version, invalid target, and other failures.
+  - Preserve structured sanitized evidence for every terminal diagnostic result.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: No historical import result is treated as proof of current package compatibility,
+    provider readiness, or successful remediation.
+- limitation_id: C2-LIM-C3-004
+  related_c1_item_ids:
+  - C1-TM-040
+  - C1-TM-043
+  source_c1_evidence:
+  - E14-09
+  - E13-08
+  - MIG-06-E
+  limitation_statement: Canonical configuration, environment-variable, secret, and
+    provider-specific setting boundaries remain undefined.
+  current_status: UNRESOLVED
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  future_verification_requirements:
+  - Define a typed and versioned configuration boundary with deterministic identity.
+  - Separate secrets from committed nonsecret configuration.
+  - Classify environment variables as required, optional, prohibited, or deferred.
+  - Reject missing, unsupported, contradictory, or identity-mismatched settings.
+  - Defer provider-specific variable acceptance to the responsible provider phase.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: C3 may define the general environment and configuration interface only; provider
+    acceptance and provider-specific operational settings remain C5 or later.
+- limitation_id: C2-LIM-C3-005
+  related_c1_item_ids:
+  - C1-TM-082
+  source_c1_evidence:
+  - E14-04
+  - E14-05
+  - E15-07
+  limitation_statement: The historical diagnostic command contains conflicting import
+    targets, incorrect terminal classification logic, and workspace-specific assumptions
+    and therefore cannot be accepted as canonical implementation.
+  current_status: UNRESOLVED
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  future_verification_requirements:
+  - Reimplement only selected durable diagnostic controls rather than copying the
+    historical command.
+  - Test every successful, failed, and inconclusive terminal branch.
+  - Verify exceptions cannot increment or otherwise produce a success classification.
+  - Verify interpreter, environment, package, and import-target identities are explicit.
+  - Verify atomic sanitized evidence writing and complete no-network and no-secret
+    behavior.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: The historical command remains archived evidence and is not selected as executable
+    canonical source.
+- limitation_id: C2-LIM-C4-001
+  related_c1_item_ids:
+  - C1-TM-001
+  - C1-TM-019
+  - C1-TM-020
+  - C1-TM-021
+  - C1-TM-022
+  - C1-TM-023
+  - C1-TM-026
+  - C1-TM-027
+  - C1-TM-028
+  - C1-TM-029
+  - C1-TM-030
+  - C1-TM-031
+  - C1-TM-032
+  - C1-TM-033
+  - C1-TM-036
+  - C1-TM-037
+  - C1-TM-038
+  - C1-TM-041
+  - C1-TM-048
+  - C1-TM-049
+  - C1-TM-052
+  - C1-TM-053
+  - C1-TM-054
+  - C1-TM-061
+  - C1-TM-062
+  - C1-TM-063
+  - C1-TM-064
+  - C1-TM-065
+  - C1-TM-066
+  - C1-TM-067
+  - C1-TM-076
+  - C1-TM-077
+  - C1-TM-078
+  source_c1_evidence:
+  - MIG-06-A
+  - MIG-06-C
+  - MIG-06-D
+  - MIG-06-F
+  - MIG-06-G
+  - MIG-06-H
+  limitation_statement: Historical notebooks, scripts, and modules have not demonstrated
+    behavioral parity with the proposed canonical responsibility boundaries and require
+    controlled reimplementation or adaptation.
+  current_status: UNRESOLVED
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  future_verification_requirements:
+  - Inspect each selected source against its accepted canonical responsibility.
+  - Separate reusable requirements from superseded or unsafe implementation behavior.
+  - Implement or adapt only under separate C4 authorization.
+  - Verify deterministic behavior, exact inputs and outputs, and absence of prohibited
+    side effects.
+  - Record source attribution and item-level parity or non-parity results.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: C2 proposes responsibilities and destinations only; it does not accept historical
+    behavior or authorize executable migration.
+- limitation_id: C2-LIM-C4-002
+  related_c1_item_ids:
+  - C1-TM-019
+  - C1-TM-020
+  - C1-TM-021
+  - C1-TM-022
+  - C1-TM-023
+  - C1-TM-026
+  - C1-TM-027
+  - C1-TM-028
+  - C1-TM-037
+  - C1-TM-041
+  - C1-TM-077
+  - C1-TM-080
+  source_c1_evidence:
+  - E13-06
+  - E13-07
+  - E13-08
+  - ALP-05-H
+  - QC-04-E
+  limitation_statement: No provider, feed, platform, broker, entitlement, or authenticated
+    integration is accepted; provider-specific assets remain limited to offline and
+    mocked treatment.
+  current_status: UNRESOLVED
+  responsible_future_phase: C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+  future_verification_requirements:
+  - Keep C4 provider-specific work offline, mocked, credential-free, and network-free.
+  - Verify provider-neutral contracts are separated from provider-specific adapters.
+  - Defer provider, feed, entitlement, licensing, calendar, universe, and permitted-use
+    acceptance to C5 or later.
+  - Verify no provider or broker implementation is treated as operationally accepted.
+  - Require separate authorization before authenticated access or network testing.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: C4 may prepare and test boundaries offline but cannot resolve provider or
+    broker acceptance.
+- limitation_id: C2-LIM-C4-003
+  related_c1_item_ids:
+  - C1-TM-027
+  - C1-TM-041
+  - C1-TM-048
+  - C1-TM-049
+  - C1-TM-065
+  - C1-TM-066
+  - C1-TM-067
+  - C1-TM-072
+  - C1-TM-073
+  - C1-TM-076
+  - C1-TM-077
+  - C1-TM-078
+  - C1-TM-079
+  - C1-TM-080
+  - C1-TM-081
+  source_c1_evidence:
+  - E11-01
+  - E11-02
+  - E11-03
+  - E11-04
+  - E11-05
+  - E11-06
+  - E12-01
+  - E12-02
+  - E12-06
+  - E10-03
+  limitation_statement: Dataset, raw-data provenance, schema, calendar, expected-slot,
+    coverage, and acceptance identities remain unresolved.
+  current_status: UNRESOLVED
+  responsible_future_phase: C6_DATASET_CONTRACT_FREEZE
+  future_verification_requirements:
+  - Define and freeze versioned dataset, schema, calendar, session, expected-slot,
+    and provenance contracts.
+  - Require immutable raw and derived data identities and checksums.
+  - Verify full-symbol and per-split coverage, duplicates, missingness, finite values,
+    and timestamp semantics.
+  - Preserve explicit rejected, failed, and inconclusive dataset outcomes.
+  - Do not treat historical or synthetic test data as an accepted canonical dataset.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: C4 may prepare offline interfaces and tests but cannot create, accept, or
+    remediate the canonical dataset.
+- limitation_id: C2-LIM-C4-004
+  related_c1_item_ids:
+  - C1-TM-001
+  - C1-TM-048
+  - C1-TM-049
+  - C1-TM-054
+  - C1-TM-064
+  - C1-TM-065
+  - C1-TM-066
+  - C1-TM-067
+  - C1-TM-070
+  - C1-TM-072
+  - C1-TM-073
+  source_c1_evidence:
+  - EXP-01-D
+  - EXP-01-D1
+  - EXP-01-D2
+  - MIG-06-F
+  - MIG-06-H
+  - E10-03
+  - E10-04
+  limitation_statement: Feature timing, chronological partitioning, embargo, train-only
+    preprocessing, leakage controls, and final-holdout isolation remain unverified.
+  current_status: UNRESOLVED
+  responsible_future_phase: C6_DATASET_CONTRACT_FREEZE
+  future_verification_requirements:
+  - Define exact feature formulas, windows, input timing, dtypes, and output ordering.
+  - Verify chronological splits, horizon-aware embargo, and no-lookahead behavior.
+  - Verify all fitted preprocessing uses training data only.
+  - Bind feature, split, and preprocessing identities to later artifacts and runs.
+  - Keep the shared final holdout inaccessible to ordinary preparation and development
+    flows.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: Historical feature and split logic is design evidence only and cannot establish
+    canonical leakage safety.
+- limitation_id: C2-LIM-C4-005
+  related_c1_item_ids:
+  - C1-TM-019
+  - C1-TM-020
+  - C1-TM-022
+  - C1-TM-028
+  - C1-TM-029
+  - C1-TM-030
+  - C1-TM-031
+  - C1-TM-032
+  - C1-TM-033
+  - C1-TM-038
+  - C1-TM-052
+  - C1-TM-053
+  - C1-TM-054
+  - C1-TM-061
+  - C1-TM-062
+  - C1-TM-063
+  - C1-TM-064
+  - C1-TM-065
+  - C1-TM-066
+  - C1-TM-067
+  - C1-TM-076
+  - C1-TM-078
+  source_c1_evidence:
+  - AUD-07-C
+  - PPO-02-I
+  - PPO-02-K
+  - MIG-06-G
+  - MIG-06-H
+  - E10-04
+  - E10-05
+  - E10-06
+  limitation_statement: Artifact, configuration, model, preprocessing, prediction,
+    execution-plan, and run identities remain incomplete, mutable, or insufficiently
+    checksummed.
+  current_status: UNRESOLVED
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  future_verification_requirements:
+  - Define versioned schemas and immutable identities for every canonical package
+    and handoff.
+  - Require checksums for source, configuration, data, features, preprocessing, models,
+    predictions, plans, and evidence.
+  - Reject missing, mutable, stale, contradictory, or mismatched identities.
+  - Verify deterministic serialization and reproducible identity generation.
+  - Preserve provenance from accepted historical source to later canonical implementation.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: Historical manifests and inventories do not establish immutable availability
+    of referenced bytes.
+- limitation_id: C2-LIM-C4-006
+  related_c1_item_ids:
+  - C1-TM-019
+  - C1-TM-020
+  - C1-TM-021
+  - C1-TM-022
+  - C1-TM-023
+  source_c1_evidence:
+  - QC-04-E
+  - QC-04-F
+  - QC-04-G
+  - QC-04-I
+  limitation_statement: External-signal schema, immutable source identity, timestamps,
+    duplicate handling, stale and future rejection, and replay timing semantics remain
+    unresolved.
+  current_status: UNRESOLVED
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  future_verification_requirements:
+  - Define a versioned external-signal schema with exact source, model, artifact,
+    prediction, and payload identities.
+  - Require explicit decision, publication, availability, and execution timestamps.
+  - Reject duplicate, malformed, missing, stale, and future signals.
+  - Define same-bar prohibition and deterministic next-bar or otherwise accepted execution
+    semantics.
+  - Verify producer, consumer, and replay parity entirely offline.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: Historical QuantConnect and external-signal evidence does not establish cloud,
+    brokerage, or deployment readiness.
+- limitation_id: C2-LIM-C4-007
+  related_c1_item_ids:
+  - C1-TM-020
+  - C1-TM-023
+  - C1-TM-026
+  - C1-TM-028
+  - C1-TM-029
+  - C1-TM-030
+  - C1-TM-031
+  - C1-TM-032
+  - C1-TM-033
+  - C1-TM-061
+  - C1-TM-062
+  - C1-TM-063
+  source_c1_evidence:
+  - E9-02
+  - E9-03
+  - E9-04
+  - E9-05
+  - E9-08
+  - ALP-05-C
+  - ALP-05-F
+  limitation_statement: Execution safety lacks complete fail-closed broker-state handling,
+    idempotency, ambiguous-submit resolution, terminal-status and fill reconciliation,
+    flatten confirmation, and immutable broker evidence.
+  current_status: UNRESOLVED
+  responsible_future_phase: C14_CONTROLLED_PAPER_TRADING
+  future_verification_requirements:
+  - Keep C4 execution work limited to pure logic, mocks, and offline contract tests.
+  - Require complete account, position, order, clock, calendar, and market-session
+    state before later submission.
+  - Define immutable intent and client-order identities with idempotent submission
+    behavior.
+  - Reconcile ambiguous responses, partial fills, terminal order states, resulting
+    positions, and flatten completion.
+  - Preserve append-only checksummed broker and execution evidence under later authorization.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: Neither C2 nor C4 authorizes broker connectivity, paper submission, or live
+    execution.
+- limitation_id: C2-LIM-C4-008
+  related_c1_item_ids:
+  - C1-TM-026
+  - C1-TM-027
+  - C1-TM-036
+  - C1-TM-037
+  - C1-TM-038
+  - C1-TM-044
+  - C1-TM-045
+  - C1-TM-053
+  - C1-TM-054
+  - C1-TM-064
+  - C1-TM-070
+  source_c1_evidence:
+  - MIG-06-E
+  - MIG-06-I
+  - E14-07
+  - E14-09
+  limitation_statement: C4 implementation and offline verification remain dependent
+    on a separately authorized C3 environment, dependency identity, import contract,
+    and reproducible test boundary.
+  current_status: UNRESOLVED
+  responsible_future_phase: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+  future_verification_requirements:
+  - Complete the separately authorized C3 interpreter and dependency decision before
+    C4 implementation.
+  - Provide a reproducible locked or equivalently constrained environment identity.
+  - Verify canonical package imports in a clean offline environment.
+  - Align local and CI Python, dependency, and package-source identities.
+  - Enforce no-network, no-credential, no-provider, no-training, no-holdout, and no-order
+    test boundaries.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: C2 records this dependency only; C3 and C4 remain separately authorized phases.
+- limitation_id: C2-LIM-C4-009
+  related_c1_item_ids:
+  - C1-TM-001
+  - C1-TM-021
+  - C1-TM-023
+  - C1-TM-028
+  - C1-TM-052
+  - C1-TM-054
+  - C1-TM-061
+  - C1-TM-064
+  source_c1_evidence:
+  - AUD-07-D
+  - AUD-07-E
+  - AUD-07-F
+  - PPO-02-F
+  - PPO-02-H
+  - ALP-05-F
+  limitation_statement: Historical training, inference, replay, dry-run, and operational
+    evidence does not establish model qualification, economic value, candidate status,
+    or deployment readiness.
+  current_status: UNRESOLVED
+  responsible_future_phase: C8_PPO_V2_IMPLEMENTATION_READINESS
+  future_verification_requirements:
+  - Keep technical migration evidence separate from model-quality and economic claims.
+  - Require accepted datasets, features, preprocessing, configuration, environment,
+    and artifact identities before readiness assessment.
+  - Require chronological validation and later candidate-family qualification under
+    the governing phase sequence.
+  - Preserve explicit rejected, inconclusive, and no-candidate outcomes.
+  - Do not treat migration, import, replay, dry-run, or paper-operational success
+    as economic qualification.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: Current model candidate and deployment candidate remain NONE.
+- limitation_id: C2-LIM-C4-010
+  related_c1_item_ids:
+  - C1-TM-033
+  - C1-TM-076
+  - C1-TM-078
+  - C1-TM-079
+  - C1-TM-081
+  source_c1_evidence:
+  - E11-03
+  - E11-04
+  - E11-06
+  - E12-06
+  - E9-08
+  limitation_statement: Atomic dataset and evidence publication, checksum transactionality,
+    failure cleanup, append-only retention, and reproducible publication identity
+    remain unverified.
+  current_status: UNRESOLVED
+  responsible_future_phase: C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+  future_verification_requirements:
+  - Define controlled staging and atomic publication behavior.
+  - Publish data or evidence, manifest, and checksum as one verified transaction.
+  - Reject existing-output collisions and incomplete or mismatched publication state.
+  - Test failure injection and cleanup at every publication stage.
+  - Verify deterministic serialization, readback, checksums, and append-only retention
+    where required.
+  current_authorization_effect: NONE
+  resolution_claimed_during_c2: 'NO'
+  notes: Historical narratives and local files do not establish complete immutable
+    publication packages.
