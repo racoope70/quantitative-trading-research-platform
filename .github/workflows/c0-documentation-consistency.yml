@@ -498,6 +498,44 @@ jobs:
 
           raise "C2 plan root must be a mapping" unless data.is_a?(Hash)
 
+          accepted_manifest_path = "docs/migration/technical_migration_manifest.yaml"
+
+          unless File.file?(accepted_manifest_path)
+            raise(
+              "Accepted C1 technical migration manifest is missing: "               "#{accepted_manifest_path}"
+            )
+          end
+
+          accepted_manifest_raw = File.read(
+            accepted_manifest_path,
+            encoding: "UTF-8"
+          )
+          accepted_manifest = YAML.safe_load(
+            accepted_manifest_raw,
+            permitted_classes: [],
+            permitted_symbols: [],
+            aliases: false
+          )
+
+          unless accepted_manifest.is_a?(Hash)
+            raise(
+              "Accepted C1 technical migration manifest root must be a mapping"
+            )
+          end
+
+          accepted_items = accepted_manifest["items"]
+
+          unless accepted_items.is_a?(Array) && accepted_items.length == 82
+            actual = (
+              accepted_items.is_a?(Array) ?
+              accepted_items.length :
+              accepted_items.class
+            )
+            raise(
+              "Accepted C1 technical migration manifest items must contain "               "exactly 82 records; found #{actual}"
+            )
+          end
+
           expected_top_level_keys = %w[
             items
             unresolved_limitations
@@ -590,6 +628,32 @@ jobs:
             !pathname.absolute? && !pathname.each_filename.to_a.include?("..")
           end
 
+          accepted_items_by_id = {}
+
+          accepted_items.each_with_index do |accepted_item, index|
+            unless accepted_item.is_a?(Hash)
+              raise(
+                "Accepted C1 manifest items[#{index}] must be a mapping"
+              )
+            end
+
+            accepted_item_id = accepted_item["item_id"]
+
+            unless nonempty_string.call(accepted_item_id)
+              raise(
+                "Accepted C1 manifest items[#{index}].item_id must be non-empty"
+              )
+            end
+
+            if accepted_items_by_id.key?(accepted_item_id)
+              raise(
+                "Accepted C1 manifest contains duplicate item_id "                 "#{accepted_item_id}"
+              )
+            end
+
+            accepted_items_by_id[accepted_item_id] = accepted_item
+          end
+
           item_ids = []
           limitation_ids = []
           source_identities = []
@@ -677,6 +741,43 @@ jobs:
 
           if item_ids.uniq.length != item_ids.length
             raise "C2 plan contains duplicate c1_item_id values"
+          end
+
+          accepted_item_id_set = accepted_items_by_id.keys.to_set
+          c2_item_id_set = item_ids.to_set
+
+          unless c2_item_id_set == accepted_item_id_set
+            missing_ids = (
+              accepted_item_id_set - c2_item_id_set
+            ).to_a.sort
+            additional_ids = (
+              c2_item_id_set - accepted_item_id_set
+            ).to_a.sort
+
+            raise(
+              "C2 c1_item_id set differs from the accepted C1 manifest "               "item_id set; missing accepted item IDs: #{missing_ids}; "               "additional or invented C2 item IDs: #{additional_ids}"
+            )
+          end
+
+          identity_field_map = {
+            "source_repository" => "source_repository",
+            "source_commit" => "source_commit",
+            "source_path" => "source_path",
+            "c1_classification" => "classification",
+            "canonical_responsibility" => "canonical_responsibility",
+          }
+
+          items.each do |item|
+            item_id = item["c1_item_id"]
+            accepted_item = accepted_items_by_id.fetch(item_id)
+
+            identity_field_map.each do |c2_field, c1_field|
+              next if item[c2_field] == accepted_item[c1_field]
+
+              raise(
+                "C2 identity mismatch for item #{item_id}, "                 "field #{c2_field} (accepted C1 field #{c1_field}): "                 "C2=#{item[c2_field].inspect}; "                 "C1=#{accepted_item[c1_field].inspect}"
+              )
+            end
           end
 
           if source_identities.uniq.length != source_identities.length
