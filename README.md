@@ -3,7 +3,8 @@
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
-authorization_effect = NONE
+current_lifecycle_state = C2_ACTIVE
+authorization_effect = C2_SCOPE_ONLY
 ```
 
 ## Mission
@@ -51,14 +52,18 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
-current_lifecycle_state = C1_COMPLETED
-active_major_phase = NONE
-proposed_next_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+current_lifecycle_state = C2_ACTIVE
+active_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
 C1_phase_status = COMPLETED
-C2_authorization_status = NOT_AUTHORIZED
-authorization_effect = NONE
+C2_authorization_status = AUTHORIZED
+C2_activation_status = ACTIVE
+C3_authorization_effect = NONE
+authorization_effect = C2_SCOPE_ONLY
+current_model_candidate = NONE
+current_deployment_candidate = NONE
 ```
 
-C1 is completed. No major phase is active. C2 is not authorized and may begin only through a separate future owner authorization decision.
+C1 is completed. C2 is active only within the accepted non-operational repository-skeleton and migration-preparation scope in `docs/decisions/C2_authorization_decision.md`. C3 and every later phase remain unauthorized.
 
-No executable migration, environment reconstruction, provider or network activity, dataset work, model work, final-holdout access, broker activity, paper orders, live orders, or trading activity is authorized.
+C2 does not authorize executable migration, environment or dependency work, provider or network activity, market-data or dataset activity, model implementation or validation, qualification, final-holdout access, broker activity, paper orders, live orders, or trading activity.

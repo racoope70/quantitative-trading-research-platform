@@ -1,15 +1,17 @@
 # Quantitative Trading Research Platform — Project Context
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C1_COMPLETED
-active_major_phase = NONE
-proposed_next_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
-phase_status = C1_COMPLETED_AWAITING_C2_AUTHORIZATION
-authorization_effect = NONE
+current_lifecycle_state = C2_ACTIVE
+active_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+phase_status = ACTIVE
+authorization_effect = C2_SCOPE_ONLY
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
 C1_phase_status = COMPLETED
-C2_authorization_status = NOT_AUTHORIZED
+C2_authorization_status = AUTHORIZED
+C2_activation_status = ACTIVE
+C3_authorization_effect = NONE
 ```
 
 ## 1. Project
@@ -45,9 +47,10 @@ PRE_C0_DRAFT_REVIEW
 → C0_COMPLETED
 → C1_ACTIVE
 → C1_COMPLETED
+→ C2_ACTIVE
 ```
 
-C0 and C1 are completed. No major phase is active. C2 is the proposed next phase, remains unauthorized, and may begin only through a separate future owner authorization decision.
+C0 and C1 are completed. C2 is active only within the accepted non-operational repository-skeleton and migration-preparation scope. C3 and every later phase remain unauthorized.
 
 ```text
 current_material_blocker = NONE
@@ -68,16 +71,34 @@ C1_completion_post_merge_manual_validation_event = WORKFLOW_DISPATCH
 C1_completion_post_merge_manual_validation_commit = 7a5ed69620a773a0a0941239bc568678be41fa9a
 C1_completion_post_merge_manual_validation_conclusion = SUCCESS
 C1_completion_effect = EFFECTIVE
-C2_authorization_status = NOT_AUTHORIZED
+C2_authorization_decision = docs/decisions/C2_authorization_decision.md
+C2_authorization_decision_id = GOV-DEC-0005
+C2_owner_decision = ACCEPT_GOV_DEC_0005_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_ACTIVATION_ALIGNMENT
+C2_Manager_Review_classification = PASS
+C2_authorization_status = AUTHORIZED
+C2_activation_status = ACTIVE
+C2_authorization_effect = EFFECTIVE
+C3_authorization_effect = NONE
 ```
 
-C1 completion becomes effective only through the accepted controlling-state alignment merge that introduces this completed-state package to canonical `main`. The earlier C1 completion-decision merge alone did not make C1 completion effective.
+C1 completion remains effective. C2 authorization becomes effective only through the controlling-state alignment merge that records the accepted decision and this aligned state on canonical `main`. A branch, commit, push, pull request, or pull-request validation alone does not activate C2.
 
-## 4. Completed C1 scope and evidence
+## 4. Active C2 scope and preserved C1 evidence
 
-C1 completed the accepted bounded read-only and documentation-only scope covering the fifteen sections in `C1_BOUNDED_HISTORICAL_SECTION_INVENTORY`.
+C2 is active only for the accepted non-operational repository-skeleton and migration-preparation scope.
 
-The three accepted C1 outputs are:
+Authorized C2 work is limited to:
+
+- Creating the three accepted C2 output documents.
+- Creating the approved `src/quantitative_trading_research/` responsibility-document skeleton.
+- Creating the exact approved empty or docstring-only package markers.
+- Providing high-level dispositions for all 82 accepted C1 manifest items.
+- Providing full destination, wave, limitation, and verification planning only for C3/C4-relevant items.
+- Maintaining the authoritative `items` and `unresolved_limitations` YAML collections.
+- Preparing a bounded C3 environment-reconstruction handoff.
+- Updating the existing documentation-consistency workflow with bounded document, structure, YAML, and referential-integrity validation.
+
+The accepted C1 outputs remain immutable:
 
 ```text
 docs/migration/legacy_evidence_retention_matrix.csv
@@ -85,7 +106,7 @@ docs/migration/technical_migration_manifest.yaml
 docs/reports/C1_legacy_evidence_and_architecture_report.md
 ```
 
-The accepted completion evidence includes:
+The accepted C1 completion evidence remains:
 
 ```text
 independent_C1_audit = docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md
@@ -94,37 +115,48 @@ bounded_section_coverage = 15_OF_15_CONFIRMED
 completion_decision = docs/decisions/C1_completion_decision.md
 completion_decision_id = GOV-DEC-0004
 completion_decision_owner_status = ACCEPTED
+accepted_C1_artifacts = IMMUTABLE
 ```
 
-Historical repositories remain evidence and engineering sources. The completed review did not migrate executable code, select a provider or dataset, create a current model candidate, or authorize later-phase work.
+Historical repositories remain read-only evidence and engineering sources. They are not runtime dependencies or sources of current authorization.
 
 ## 5. Continuing non-authorization
 
-C1 completion does not authorize:
+C2 does not authorize:
 
 - Editing any historical repository.
-- Executable legacy-code migration or adaptation.
-- Executing historical or canonical source code, tests, notebooks, or scripts.
-- Training, validation, backtest execution, qualification, promotion, or artifact creation.
-- Dependency installation or Python-environment creation.
-- Provider selection or acceptance.
+- Modifying accepted C1 artifacts.
+- Executable legacy-code migration, copying, adaptation, or reimplementation.
+- Creating abstract interface stubs.
+- Creating provider-specific or broker-specific implementation.
+- Importing or executing historical or canonical project source.
+- Running project tests, notebooks, scripts, CLIs, training, validation, evaluation, or backtests.
+- Selecting Python, installing dependencies, creating an environment, resolving imports, or creating a dependency lock.
+- Provider or feed selection or acceptance.
 - Credentials, authenticated access, network/API activity, entitlement checks, or market-data requests.
-- Dataset generation, reconstruction, download, modification, imputation, or acceptance.
+- Dataset selection, generation, reconstruction, modification, imputation, remediation, or acceptance.
 - Final ticker-universe selection.
-- Model implementation, training, retraining, validation, or final-holdout access.
-- Broker-account access, paper orders, live orders, or trading activity.
-- Profitability, deployment-readiness, publication, paper-trading, or live-capital claims.
-- C2 or any later-phase technical work.
-- Automatic acceptance of any historical asset or conclusion.
+- Model implementation, training, validation, qualification, freezing, rejection, promotion, or artifact creation.
+- Final-holdout access.
+- Broker-account access, paper orders, live orders, paper trading, or live trading.
+- Profitability, deployment-readiness, publication, or live-capital claims.
+- C3 or any later-phase work.
+- Automatic acceptance of any historical asset, result, model, dataset, or conclusion.
 
-Only a separate future owner authorization decision may authorize C2. No technical work is presently authorized.
+C2 workflow validation may execute only bounded workflow-contained standard-runner logic. It may not import or execute canonical or historical project source.
+
+C3 and every later phase require separate owner authorization.
 
 ## 6. Current material decisions
 
 ```text
 proposed_repository_visibility = PRIVATE
 presumptive_architecture_source = racoope70/ppo-trading-pipeline
+canonical_package_name = quantitative_trading_research
 automatic_module_acceptance = NO
+accepted_C1_artifacts = IMMUTABLE
+abstract_interface_stubs_during_C2 = NOT_AUTHORIZED
+provider_or_broker_specific_implementation_during_C2 = NOT_AUTHORIZED
 supported_python_version = TO_BE_SELECTED_DURING_C3
 final_ticker_universe = NOT_SELECTED
 ```
@@ -170,9 +202,9 @@ final_holdout_access = NOT_AUTHORIZED
 public_release = NOT_AUTHORIZED
 ```
 
-## 10. Completed governance evidence
+## 10. Completed governance evidence and active authorization
 
-C0 and C1 are completed major milestones.
+C0 and C1 are completed major milestones. C2 is the active authorized phase.
 
 ```text
 C0_completion_conditions_status = SATISFIED
@@ -184,18 +216,24 @@ C1_owner_completion_acceptance = ACCEPTED
 C1_completion_decision = docs/decisions/C1_completion_decision.md
 C1_completion_decision_id = GOV-DEC-0004
 C1_independent_audit_status = PASS
+C2_authorization_decision = docs/decisions/C2_authorization_decision.md
+C2_authorization_decision_id = GOV-DEC-0005
+C2_authorization_Manager_Review = PASS
+C2_owner_authorization_status = ACCEPTED
+C2_authorization_effect = EFFECTIVE
+C3_authorization_effect = NONE
 ```
 
-No prohibited technical execution was identified in the reviewed repository and GitHub evidence. That conclusion remains limited to reviewed repository and GitHub evidence; such evidence cannot independently prove the absence of unrecorded activity outside the repository.
+No prohibited technical execution was identified in the reviewed repository and GitHub evidence. That conclusion remains limited to reviewed repository and GitHub evidence; it cannot prove the absence of unrecorded external activity.
 
 ## 11. Major milestone pointers
 
 ```text
 latest_completed_major_milestone = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
-active_major_milestone = NONE
-latest_authorization_decision = docs/decisions/C1_authorization_decision.md
+active_major_milestone = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+latest_authorization_decision = docs/decisions/C2_authorization_decision.md
 latest_completion_record = docs/decisions/C1_completion_decision.md
-next_permitted_workstream = C2_AUTHORIZATION_DECISION_ONLY
+next_permitted_workstream = C2_AUTHORIZED_NON_OPERATIONAL_SKELETON_AND_MIGRATION_PREPARATION_ONLY
 ```
 
 ## 12. Required reading and new-chat orientation
@@ -208,7 +246,7 @@ A fresh project chat must:
 4. Inspect Git history and VS Code to verify accepted implementation and completed work.
 
 ```text
-latest_material_decision = docs/decisions/C1_completion_decision.md
+latest_material_decision = docs/decisions/C2_authorization_decision.md
 latest_material_completion_record = docs/decisions/C1_completion_decision.md
 latest_material_independent_audit = docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md
 ```
