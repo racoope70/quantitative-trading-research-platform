@@ -1,11 +1,11 @@
 # Quantitative Trading Research Platform — Project Context
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C2_COMPLETED
-active_major_phase = NONE
-proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
-phase_status = C2_COMPLETED_AWAITING_SEPARATE_C3_AUTHORIZATION
-authorization_effect = NONE
+current_lifecycle_state = C3_ACTIVE
+active_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+phase_status = ACTIVE
+authorization_effect = C3_SCOPE_ONLY
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
 C1_phase_status = COMPLETED
@@ -15,8 +15,16 @@ C2_authorization_status = AUTHORIZED
 C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
 C2_completion_effect = EFFECTIVE
-C3_authorization_status = NOT_AUTHORIZED
-C3_authorization_effect = NONE
+C3_authorization_decision = docs/decisions/C3_authorization_decision.md
+C3_authorization_decision_id = GOV-DEC-0007
+C3_owner_decision = ACCEPT_GOV_DEC_0007_WITH_ALL_PROPOSED_SELECTED_OPTIONS_IN_C3_OWNER_SELECTION_MATRIX_V1_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C3_ACTIVATION_ALIGNMENT
+C3_owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1
+C3_owner_selection_matrix_status = ACCEPTED
+C3_authorization_status = AUTHORIZED
+C3_authorization_effect = EFFECTIVE
+C3_activation_effect = EFFECTIVE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
+C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+C4_authorization_effect = NONE
 ```
 
 ## 1. Project
@@ -54,12 +62,13 @@ PRE_C0_DRAFT_REVIEW
 → C1_COMPLETED
 → C2_ACTIVE
 → C2_COMPLETED
+→ C3_ACTIVE
 ```
 
-C0, C1, and C2 are completed. No major phase is active. C3 is identified only as the proposed next phase and remains unauthorized together with every later phase.
+C0, C1, and C2 are completed. The accepted activation-alignment target records C3 as the active major phase. C4 is the proposed next major phase but remains unauthorized together with every later phase.
 
 ```text
-current_material_blocker = SEPARATE_C3_AUTHORIZATION_REQUIRED
+current_material_blocker = NONE
 C0_status = COMPLETED
 C1_status = COMPLETED
 C1_completion_decision = docs/decisions/C1_completion_decision.md
@@ -92,11 +101,18 @@ C2_completion_decision_id = GOV-DEC-0006
 C2_completion_owner_decision = ACCEPT_GOV_DEC_0006_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_COMPLETION_ALIGNMENT
 C2_completion_Manager_Review_classification = PASS
 C2_completion_effect = EFFECTIVE
-C3_authorization_status = NOT_AUTHORIZED
-C3_authorization_effect = NONE
+C3_authorization_decision = docs/decisions/C3_authorization_decision.md
+C3_authorization_decision_id = GOV-DEC-0007
+C3_owner_decision = ACCEPT_GOV_DEC_0007_WITH_ALL_PROPOSED_SELECTED_OPTIONS_IN_C3_OWNER_SELECTION_MATRIX_V1_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C3_ACTIVATION_ALIGNMENT
+C3_owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1
+C3_owner_selection_matrix_status = ACCEPTED
+C3_authorization_status = AUTHORIZED
+C3_authorization_effect = EFFECTIVE
+C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+C4_authorization_effect = NONE
 ```
 
-C1 completion remains effective. C2 completion is effective only when this aligned controlling state is present on canonical `main` and the exact completion-alignment squash commit has passed required post-merge validation. A branch, commit, push, pull request, review result, or successful pull-request validation does not independently make C2 completion effective. C3 remains unauthorized.
+C1 completion remains effective. C2 completion is effective only when this aligned controlling state is present on canonical `main` and the exact completion-alignment squash commit has passed required post-merge validation. A branch, commit, push, pull request, review result, successful pull-request validation, or merged but unvalidated canonical commit does not independently make C3 activation effective. The bounded C3 technical workstream may begin only after successful post-merge validation on the exact C3 activation-alignment squash commit.
 
 ## 4. Completed C2 scope and preserved C1 evidence
 
@@ -160,7 +176,7 @@ C2 does not authorize:
 
 C2 workflow validation may execute only bounded workflow-contained standard-runner logic. It may not import or execute canonical or historical project source.
 
-C3 and every later phase require separate owner authorization.
+C3 received separate owner authorization through `GOV-DEC-0007`; C4 and every later phase require separate owner authorization. The bounded C3 technical workstream may not begin until successful validation of the exact activation-alignment squash commit.
 
 ## 6. Current material decisions
 
@@ -206,7 +222,9 @@ Historical models do not become current candidates through review, classificatio
 ## 9. Environment and access status
 
 ```text
-dependency_installation = NOT_AUTHORIZED
+dependency_installation = C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+environment_construction = C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+package_source_access = EXACT_C3_ALLOWLIST_ONLY_DURING_DEPENDENCY_ACQUISITION_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
 network_or_api_testing = NOT_AUTHORIZED
 market_data_access = NOT_AUTHORIZED
 authenticated_provider_access = NOT_AUTHORIZED
@@ -217,9 +235,9 @@ final_holdout_access = NOT_AUTHORIZED
 public_release = NOT_AUTHORIZED
 ```
 
-## 10. Completed governance evidence and current non-authorization
+## 10. Completed governance evidence and current C3 authorization
 
-C0, C1, and C2 are completed major milestones. No major phase is active, and C3 remains unauthorized.
+C0, C1, and C2 are completed major milestones. The accepted activation-alignment target records C3 as active. The bounded C3 technical workstream may begin only after successful validation of the exact canonical activation-alignment squash commit.
 
 ```text
 C0_completion_conditions_status = SATISFIED
@@ -239,8 +257,15 @@ C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
 C2_owner_completion_acceptance = ACCEPTED
 C2_completion_effect = EFFECTIVE
-C3_authorization_status = NOT_AUTHORIZED
-C3_authorization_effect = NONE
+C3_authorization_decision = docs/decisions/C3_authorization_decision.md
+C3_authorization_decision_id = GOV-DEC-0007
+C3_owner_decision = ACCEPT_GOV_DEC_0007_WITH_ALL_PROPOSED_SELECTED_OPTIONS_IN_C3_OWNER_SELECTION_MATRIX_V1_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C3_ACTIVATION_ALIGNMENT
+C3_owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1
+C3_owner_selection_matrix_status = ACCEPTED
+C3_authorization_status = AUTHORIZED
+C3_authorization_effect = EFFECTIVE
+C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+C4_authorization_effect = NONE
 ```
 
 No prohibited technical execution was identified in the reviewed repository and GitHub evidence. That conclusion remains limited to reviewed repository and GitHub evidence; it cannot prove the absence of unrecorded external activity.
@@ -249,10 +274,10 @@ No prohibited technical execution was identified in the reviewed repository and 
 
 ```text
 latest_completed_major_milestone = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
-active_major_milestone = NONE
-latest_authorization_decision = docs/decisions/C2_authorization_decision.md
+active_major_milestone = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+latest_authorization_decision = docs/decisions/C3_authorization_decision.md
 latest_completion_record = docs/decisions/C2_completion_decision.md
-next_permitted_workstream = NONE_PENDING_SEPARATE_C3_AUTHORIZATION
+next_permitted_workstream = BOUNDED_C3_ENVIRONMENT_DEPENDENCY_CONFIGURATION_AND_OFFLINE_DIAGNOSTICS_ONLY
 ```
 
 ## 12. Required reading and new-chat orientation
@@ -265,8 +290,8 @@ A fresh project chat must:
 4. Inspect Git history and VS Code to verify accepted implementation and completed work.
 
 ```text
-latest_material_decision = docs/decisions/C2_authorization_decision.md
-latest_material_completion_record = docs/decisions/C1_completion_decision.md
+latest_material_decision = docs/decisions/C3_authorization_decision.md
+latest_material_completion_record = docs/decisions/C2_completion_decision.md
 latest_material_independent_audit = docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md
 ```
 
