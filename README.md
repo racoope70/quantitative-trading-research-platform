@@ -3,8 +3,8 @@
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
-current_lifecycle_state = C2_COMPLETED
-authorization_effect = NONE
+current_lifecycle_state = C3_ACTIVE
+authorization_effect = C3_SCOPE_ONLY
 ```
 
 ## Mission
@@ -52,23 +52,28 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
-current_lifecycle_state = C2_COMPLETED
-active_major_phase = NONE
-proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
-phase_status = C2_COMPLETED_AWAITING_SEPARATE_C3_AUTHORIZATION
-authorization_effect = NONE
+current_lifecycle_state = C3_ACTIVE
+active_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+phase_status = ACTIVE
+authorization_effect = C3_SCOPE_ONLY
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
 C2_phase_status = COMPLETED
 C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
 C2_completion_effect = EFFECTIVE
-C3_authorization_status = NOT_AUTHORIZED
-C3_authorization_effect = NONE
+C3_authorization_decision = docs/decisions/C3_authorization_decision.md
+C3_authorization_decision_id = GOV-DEC-0007
+C3_authorization_status = AUTHORIZED
+C3_authorization_effect = EFFECTIVE
+C3_activation_effect = EFFECTIVE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
+C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+C4_authorization_effect = NONE
 current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1 and C2 are completed. No major phase is active. C3 is identified only as the proposed next phase and remains unauthorized together with every later phase.
+C1 and C2 are completed. The accepted activation-alignment target records C3 as the active major phase. C4 is the proposed next major phase but remains unauthorized together with every later phase. The bounded C3 technical workstream may begin only after successful validation on the exact activation-alignment squash commit.
 
-C2 completion does not authorize executable migration, environment or dependency work, provider or network activity, market-data or dataset activity, model implementation or validation, qualification, final-holdout access, broker activity, paper orders, live orders, or trading activity.
+C3 authorizes only the bounded environment, dependency, configuration, and offline-diagnostics scope recorded in `GOV-DEC-0007` after effective activation. It does not authorize C4 application migration, provider or operational network activity, market-data or dataset activity, model implementation or validation, qualification, final-holdout access, broker activity, paper orders, live orders, or trading activity.

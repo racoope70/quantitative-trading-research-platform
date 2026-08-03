@@ -110,11 +110,101 @@ jobs:
           )
           PY
 
+      - name: Validate bounded C3 activation-alignment changed-file scope
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          from pathlib import Path
+
+          decision_path = (
+              "docs/decisions/C3_authorization_decision.md"
+          )
+
+          if not Path(decision_path).is_file():
+              print(
+                  "C3 authorization decision is not present; "
+                  "activation-alignment scope validation is not applicable."
+              )
+              raise SystemExit(0)
+
+          base_sha = os.environ.get("BASE_SHA", "").strip()
+          zero_sha = "0" * 40
+
+          if not base_sha or base_sha == zero_sha:
+              print(
+                  "No comparison base is available for this event; "
+                  "content and governance-state validation will continue."
+              )
+              raise SystemExit(0)
+
+          subprocess.run(
+              ["git", "cat-file", "-e", f"{base_sha}^{{commit}}"],
+              check=True,
+          )
+
+          base_contains_decision = subprocess.run(
+              [
+                  "git",
+                  "cat-file",
+                  "-e",
+                  f"{base_sha}:{decision_path}",
+              ],
+              stdout=subprocess.DEVNULL,
+              stderr=subprocess.DEVNULL,
+              check=False,
+          ).returncode == 0
+
+          if base_contains_decision:
+              print(
+                  "The comparison base already contains the C3 authorization "
+                  "decision; initial activation-alignment scope validation "
+                  "is not applicable."
+              )
+              raise SystemExit(0)
+
+          expected_paths = {
+              ".github/workflows/c0-documentation-consistency.yml",
+              "PROJECT_CONTEXT.md",
+              "README.md",
+              "docs/decisions/C3_authorization_decision.md",
+              "docs/workflows/milestone_review_reference_map.md",
+          }
+
+          changed_output = subprocess.check_output(
+              ["git", "diff", "--name-only", base_sha, "HEAD"],
+              text=True,
+          )
+          changed_paths = {
+              line.strip()
+              for line in changed_output.splitlines()
+              if line.strip()
+          }
+
+          if changed_paths != expected_paths:
+              missing = sorted(expected_paths - changed_paths)
+              unauthorized = sorted(changed_paths - expected_paths)
+              raise SystemExit(
+                  "C3 activation-alignment changed-file scope mismatch; "
+                  f"missing authorized paths: {missing}; "
+                  f"unauthorized changed paths: {unauthorized}"
+              )
+
+          print(
+              "Exact five-file C3 activation-alignment "
+              "changed-file scope passed."
+          )
+          PY
+
       - name: Validate required files, CSV, and governance state
         shell: bash
         run: |
           python3 - <<'PY'
           import csv
+          import re
           from pathlib import Path
 
           required_paths = [
@@ -129,6 +219,7 @@ jobs:
               "docs/decisions/C1_completion_decision.md",
               "docs/decisions/C2_authorization_decision.md",
               "docs/decisions/C2_completion_decision.md",
+              "docs/decisions/C3_authorization_decision.md",
               "docs/governance/repository_protection_conventions.md",
               "docs/migration/legacy_evidence_retention_matrix.csv",
               "docs/migration/technical_migration_manifest.yaml",
@@ -184,11 +275,11 @@ jobs:
 
           required_lines = {
               "PROJECT_CONTEXT.md": [
-                  "current_lifecycle_state = C2_COMPLETED",
-                  "active_major_phase = NONE",
-                  "proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION",
-                  "phase_status = C2_COMPLETED_AWAITING_SEPARATE_C3_AUTHORIZATION",
-                  "authorization_effect = NONE",
+                  "current_lifecycle_state = C3_ACTIVE",
+                  "active_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION",
+                  "proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "phase_status = ACTIVE",
+                  "authorization_effect = C3_SCOPE_ONLY",
                   "repository_creation_status = CREATED_PRIVATE",
                   "C1_phase_status = COMPLETED",
                   "C1_completion_effect = EFFECTIVE",
@@ -200,8 +291,20 @@ jobs:
                   "C2_package_post_merge_validation_run = 24",
                   "C2_package_post_merge_validation_conclusion = SUCCESS",
                   "C2_completion_effect = EFFECTIVE",
-                  "C3_authorization_status = NOT_AUTHORIZED",
-                  "C3_authorization_effect = NONE",
+                  "C3_authorization_decision = docs/decisions/C3_authorization_decision.md",
+                  "C3_authorization_decision_id = GOV-DEC-0007",
+                  "C3_owner_decision = ACCEPT_GOV_DEC_0007_WITH_ALL_PROPOSED_SELECTED_OPTIONS_IN_C3_OWNER_SELECTION_MATRIX_V1_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C3_ACTIVATION_ALIGNMENT",
+                  "C3_owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1",
+                  "C3_owner_selection_matrix_status = ACCEPTED",
+                  "C3_authorization_status = AUTHORIZED",
+                  "C3_authorization_effect = EFFECTIVE",
+                  "C3_activation_effect = EFFECTIVE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION",
+                  "C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION",
+                  "C4_authorization_effect = NONE",
+                  "current_material_blocker = NONE",
+                  "next_permitted_workstream = BOUNDED_C3_ENVIRONMENT_DEPENDENCY_CONFIGURATION_AND_OFFLINE_DIAGNOSTICS_ONLY",
+                  "latest_material_decision = docs/decisions/C3_authorization_decision.md",
+                  "latest_material_completion_record = docs/decisions/C2_completion_decision.md",
                   "current_model_candidate = NONE",
                   "current_deployment_candidate = NONE",
               ],
@@ -297,21 +400,59 @@ jobs:
                 "direct_push_to_main = NOT_AUTHORIZED",
                 "force_push = NOT_AUTHORIZED",
             ],
+              "docs/decisions/C3_authorization_decision.md": [
+                  "document_status = ACCEPTED_C3_AUTHORIZATION_DECISION",
+                  "decision_id = GOV-DEC-0007",
+                  "decision_type = C3_PHASE_AUTHORIZATION",
+                  "decision_status = ACCEPTED",
+                  "owner_acceptance_status = ACCEPTED",
+                  "owner_decision = ACCEPT_GOV_DEC_0007_WITH_ALL_PROPOSED_SELECTED_OPTIONS_IN_C3_OWNER_SELECTION_MATRIX_V1_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C3_ACTIVATION_ALIGNMENT",
+                  "manager_review_status = PERFORMED",
+                  "manager_review_classification = PASS",
+                  "material_findings = NONE",
+                  "required_corrections = NONE",
+                  "decision_basis_commit =",
+                  "fc360d1e57f04fb258e11821ffd3eb2c376828f2",
+                  "owner_selection_matrix_id =",
+                  "C3_OWNER_SELECTION_MATRIX_V1",
+                  "owner_selection_matrix_status = ACCEPTED",
+                  "remaining_material_owner_decisions = NONE",
+                  "C4_authorization_effect = NONE",
+                  "current_model_candidate = NONE",
+                  "current_deployment_candidate = NONE",
+                  "repository_recording_status =",
+                  "RECORDED_AND_ALIGNED",
+                  "C3_technical_work_may_begin =",
+                  "NO_UNTIL_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION",
+                  "focused_independent_C3_completion_audit_classification = PASS",
+                  "C1-TM-039 = EXCLUDED_FROM_C3",
+                  ".gitignore = NO_CHANGE_AUTHORIZED",
+                  "authorized_recording_branch =",
+                  "c3-authorization-activation-alignment",
+                  "authorized_merge_method = SQUASH",
+                  "direct_push_to_main = NOT_AUTHORIZED",
+                  "force_push = NOT_AUTHORIZED",
+              ],
               "README.md": [
                   "repository_status = CREATED_PRIVATE",
-                  "current_lifecycle_state = C2_COMPLETED",
-                  "active_major_phase = NONE",
-                  "proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION",
-                  "phase_status = C2_COMPLETED_AWAITING_SEPARATE_C3_AUTHORIZATION",
-                  "authorization_effect = NONE",
+                  "current_lifecycle_state = C3_ACTIVE",
+                  "active_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION",
+                  "proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "phase_status = ACTIVE",
+                  "authorization_effect = C3_SCOPE_ONLY",
                   "C1_phase_status = COMPLETED",
                   "C1_completion_effect = EFFECTIVE",
                   "C2_phase_status = COMPLETED",
                   "C2_completion_decision = docs/decisions/C2_completion_decision.md",
                   "C2_completion_decision_id = GOV-DEC-0006",
                   "C2_completion_effect = EFFECTIVE",
-                  "C3_authorization_status = NOT_AUTHORIZED",
-                  "C3_authorization_effect = NONE",
+                  "C3_authorization_decision = docs/decisions/C3_authorization_decision.md",
+                  "C3_authorization_decision_id = GOV-DEC-0007",
+                  "C3_authorization_status = AUTHORIZED",
+                  "C3_authorization_effect = EFFECTIVE",
+                  "C3_activation_effect = EFFECTIVE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION",
+                  "C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION",
+                  "C4_authorization_effect = NONE",
                   "current_model_candidate = NONE",
                   "current_deployment_candidate = NONE",
               ],
@@ -339,6 +480,22 @@ jobs:
                   "C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION",
                   "C3_authorization_status = NOT_AUTHORIZED",
                   "C3_authorization_effect = NONE",
+                  "2v_record = 2v.GOV.08",
+                  "record_type = C3_PHASE_AUTHORIZATION_DECISION",
+                  "record_path = docs/decisions/C3_authorization_decision.md",
+                  "decision_id = GOV-DEC-0007",
+                  "owner_decision = ACCEPT_GOV_DEC_0007_WITH_ALL_PROPOSED_SELECTED_OPTIONS_IN_C3_OWNER_SELECTION_MATRIX_V1_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C3_ACTIVATION_ALIGNMENT",
+                  "decision_basis_commit = fc360d1e57f04fb258e11821ffd3eb2c376828f2",
+                  "owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1",
+                  "owner_selection_matrix_status = ACCEPTED",
+                  "remaining_material_owner_decisions = NONE",
+                  "authorized_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION",
+                  "authorized_scope = BOUNDED_C3_ENVIRONMENT_DEPENDENCY_CONFIGURATION_AND_OFFLINE_DIAGNOSTICS_ONLY",
+                  "authorized_recording_branch = c3-authorization-activation-alignment",
+                  "C3_authorization_status = AUTHORIZED",
+                  "C3_authorization_effect = EFFECTIVE",
+                  "C3_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION",
+                  "C4_authorization_effect = NONE",
                   "2v_record = 2v.LEGACY.01",
                   "2v_record = 2v.LEGACY.02",
                   "2v_record = 2v.ARCH.01",
@@ -352,8 +509,201 @@ jobs:
               if missing_lines:
                   raise SystemExit(f"{path} is missing required governance-state lines: {missing_lines}")
 
-          print("Required governance files, CSV schema, and C2 completion-alignment documentary fields are consistent.")
-          print("This workflow run does not itself establish C2 lifecycle effectiveness; exact post-merge success on canonical main is required.")
+          c3_decision_path = Path(
+              "docs/decisions/C3_authorization_decision.md"
+          )
+          c3_decision_text = c3_decision_path.read_text(encoding="utf-8")
+
+          def bounded_section(start_heading, end_heading):
+              start = c3_decision_text.find(start_heading)
+              if start == -1:
+                  raise SystemExit(
+                      f"C3 decision is missing section heading: {start_heading}"
+                  )
+
+              end = c3_decision_text.find(
+                  end_heading,
+                  start + len(start_heading),
+              )
+              if end == -1:
+                  raise SystemExit(
+                      f"C3 decision is missing section boundary: {end_heading}"
+                  )
+
+              return c3_decision_text[start:end]
+
+          def first_text_fence(section, label):
+              fence_start = section.find("```text")
+              if fence_start == -1:
+                  raise SystemExit(
+                      f"{label} is missing its exact text inventory"
+                  )
+
+              content_start = section.find("\n", fence_start)
+              fence_end = section.find("```", content_start + 1)
+              if content_start == -1 or fence_end == -1:
+                  raise SystemExit(
+                      f"{label} contains an incomplete text inventory"
+                  )
+
+              return [
+                  line.strip()
+                  for line in section[
+                      content_start + 1:fence_end
+                  ].splitlines()
+                  if line.strip()
+              ]
+
+          expected_c3_item_ids = [
+              "C1-TM-040",
+              "C1-TM-042",
+              "C1-TM-043",
+              "C1-TM-047",
+              "C1-TM-082",
+          ]
+          item_inventory_section = bounded_section(
+              "## 6. Exact C3-selected identity inventory",
+              "### 6.1 `C1-TM-040`",
+          )
+          actual_c3_item_ids = re.findall(
+              r"^C1-TM-\d{3}$",
+              item_inventory_section,
+              flags=re.MULTILINE,
+          )
+          if actual_c3_item_ids != expected_c3_item_ids:
+              raise SystemExit(
+                  "C3 selected identity inventory mismatch; "
+                  f"expected {expected_c3_item_ids}; "
+                  f"found {actual_c3_item_ids}"
+              )
+
+          expected_c3_limitation_ids = [
+              "C2-LIM-C3-001",
+              "C2-LIM-C3-002",
+              "C2-LIM-C3-003",
+              "C2-LIM-C3-004",
+              "C2-LIM-C3-005",
+              "C2-LIM-C4-008",
+          ]
+          limitation_inventory_section = bounded_section(
+              "## 7. Exact C3-responsibility limitation inventory",
+              "### 7.1 `C2-LIM-C3-001`",
+          )
+          actual_c3_limitation_ids = re.findall(
+              r"^C2-LIM-C[34]-\d{3}$",
+              limitation_inventory_section,
+              flags=re.MULTILINE,
+          )
+          if actual_c3_limitation_ids != expected_c3_limitation_ids:
+              raise SystemExit(
+                  "C3 limitation inventory mismatch; "
+                  f"expected {expected_c3_limitation_ids}; "
+                  f"found {actual_c3_limitation_ids}"
+              )
+
+          expected_osm_status_lines = [
+              f"OSM_{index:02d}_status = ACCEPTED_SELECTED_OPTION"
+              for index in range(1, 20)
+          ]
+          for status_line in expected_osm_status_lines:
+              count = c3_decision_text.count(status_line)
+              if count != 1:
+                  raise SystemExit(
+                      "C3 owner-selection status occurrence mismatch; "
+                      f"{status_line!r} occurred {count} times"
+                  )
+
+          accepted_selection_count = c3_decision_text.count(
+              "selection_status = ACCEPTED_SELECTED_OPTION"
+          )
+          if accepted_selection_count != 19:
+              raise SystemExit(
+                  "C3 owner-selection matrix must contain exactly "
+                  "19 accepted selection entries; found "
+                  f"{accepted_selection_count}"
+              )
+
+          allowlist_section = bounded_section(
+              "## 10. Exact package-source allowlist",
+              "## 11. Dependency-acquisition boundary",
+          )
+          expected_allowlist_urls = [
+              "https://pypi.org:443/simple/",
+              "https://files.pythonhosted.org:443/packages/",
+          ]
+          actual_allowlist_urls = re.findall(
+              r"^https://\S+$",
+              allowlist_section,
+              flags=re.MULTILINE,
+          )
+          if actual_allowlist_urls != expected_allowlist_urls:
+              raise SystemExit(
+                  "C3 package-source allowlist mismatch; "
+                  f"expected {expected_allowlist_urls}; "
+                  f"found {actual_allowlist_urls}"
+              )
+
+          activation_scope_section = bounded_section(
+              "### 20.1 Authorization recording and activation alignment",
+              "#### `docs/decisions/C3_authorization_decision.md`",
+          )
+          expected_activation_scope = [
+              "docs/decisions/C3_authorization_decision.md",
+              "PROJECT_CONTEXT.md",
+              "README.md",
+              "docs/workflows/milestone_review_reference_map.md",
+              ".github/workflows/c0-documentation-consistency.yml",
+          ]
+          actual_activation_scope = first_text_fence(
+              activation_scope_section,
+              "C3 activation changed-file scope",
+          )
+          if actual_activation_scope != expected_activation_scope:
+              raise SystemExit(
+                  "C3 activation changed-file inventory mismatch; "
+                  f"expected {expected_activation_scope}; "
+                  f"found {actual_activation_scope}"
+              )
+
+          technical_scope_section = bounded_section(
+              "### 20.2 C3 technical package",
+              "### 20.3 Explicit exclusions",
+          )
+          expected_technical_scope = [
+              "pyproject.toml",
+              "requirements.lock",
+              "docs/configuration/environment_variables.md",
+              "docs/reports/C3_environment_and_dependency_manifest.yaml",
+              "docs/reports/C3_python_environment_and_dependency_reconstruction_report.md",
+              "src/quantitative_trading_research/config/settings.py",
+              "src/quantitative_trading_research/config/environment_diagnostics.py",
+              ".github/workflows/tests.yml",
+              "tests/config/test_settings.py",
+              "tests/config/test_environment_diagnostics.py",
+              "tests/environment/test_dependency_identity.py",
+              "tests/environment/test_import_contract.py",
+              "tests/environment/test_offline_boundary.py",
+          ]
+          actual_technical_scope = first_text_fence(
+              technical_scope_section,
+              "C3 technical changed-file scope",
+          )
+          if actual_technical_scope != expected_technical_scope:
+              raise SystemExit(
+                  "C3 technical changed-file inventory mismatch; "
+                  f"expected {expected_technical_scope}; "
+                  f"found {actual_technical_scope}"
+              )
+
+          print(
+              "Required governance files, CSV schema, accepted C3 decision, "
+              "and C3 activation-alignment documentary fields are consistent."
+          )
+          print(
+              "This workflow run does not itself establish C3 lifecycle "
+              "effectiveness; successful validation on the exact canonical "
+              "activation-alignment squash commit is required."
+          )
           PY
 
       - name: Validate YAML template schema and safety

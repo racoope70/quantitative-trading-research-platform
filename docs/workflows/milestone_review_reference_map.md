@@ -39,7 +39,7 @@ Git history and VS Code verify implementation and completion evidence. They do n
 | C0 — Canonical Governance Foundation and Legacy Migration Charter | Create the private repository and establish governance, C1 templates, minimal structure, documentation-only controls, and audit instructions | Owner accepts the proposed C0 scope | Complete package committed; audit passes; owner accepts closure; aligned controlling state records `C0_COMPLETED` |
 | C1 — Legacy Evidence Classification and Architecture Migration Design | Review the bounded historical sections and material 2v evidence; recommend retained controls, canonical architecture, and migration | C0 completed and C1 authorized | Three C1 outputs accepted; risk-proportional audit passes; owner accepts completion; no executable migration occurred; aligned controlling state records `C1_COMPLETED` |
 | C2 — Canonical Repository Skeleton and Migration Preparation | Refine canonical package boundaries, interfaces, migration order, and verification plans without executable legacy migration | C1 completed and C2 separately authorized | Migration-ready skeleton and preparation package accepted |
-| C3 — Python Environment and Dependency Reconstruction | Select the supported Python version and establish the reproducible canonical environment | C2 preparation accepted | Clean environment, lock, compatibility findings, and audit accepted |
+| C3 — Python Environment and Dependency Reconstruction | Select the supported Python version and establish the reproducible canonical environment | C2 preparation accepted and C3 separately authorized | Clean environment, lock, compatibility findings, and audit accepted |
 | C4 — Selected Code Migration, Adaptation, and Verification | Migrate approved technical assets into the canonical environment using offline verification and the provider boundary below | C3 environment accepted and C4 scope authorized | Selected migration, adaptation, offline tests, provenance, and audit accepted |
 | C5 — Data Source, Calendar, and Initial Universe Decision | Evaluate and accept provider strategy, licensing, permitted use, calendars, and universe criteria | C4 technical foundation accepted and C5 authorized | Data-source, calendar, and universe decision accepted and audited |
 | C6 — Dataset Contract Freeze | Define raw and processed dataset requirements before generation | C5 decision accepted | Dataset contracts frozen and independently audited |
@@ -64,8 +64,12 @@ C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
 C2_phase_exit_status = ACCEPTED_AND_EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_STATE_AND_SUCCESSFUL_POST_MERGE_VALIDATION
 C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION
-C3_authorization_status = NOT_AUTHORIZED
-C3_authorization_effect = NONE
+C3_authorization_decision = docs/decisions/C3_authorization_decision.md
+C3_authorization_decision_id = GOV-DEC-0007
+C3_authorization_status = AUTHORIZED
+C3_authorization_effect = EFFECTIVE
+C3_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
+C4_authorization_effect = NONE
 ```
 
 ## 4. Model-family branching and shared final holdout
@@ -241,7 +245,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.LIVE.*      = Live-capital consideration
 ```
 
-## 8. Canonical C0, C1, and C2 curated lookup
+## 8. Canonical C0, C1, C2, and C3 curated lookup
 
 ```text
 2v.GOV.01 — Accepted C0 governance-foundation decision and package
@@ -251,6 +255,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.05 — C1 completion and closure decision
 2v.GOV.06 — C2 phase authorization decision
 2v.GOV.07 — C2 completion and closure decision
+2v.GOV.08 — C3 phase authorization decision
 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 2v.LEGACY.02 — C1 legacy evidence retention matrix
 2v.ARCH.01 — C1 technical migration manifest
@@ -399,6 +404,38 @@ completion-alignment squash commit.
 
 It does not authorize C3 or any later phase.
 
+### 2v.GOV.08 — Canonical C3 authorization evidence
+
+```text
+2v_record = 2v.GOV.08
+record_type = C3_PHASE_AUTHORIZATION_DECISION
+record_path = docs/decisions/C3_authorization_decision.md
+decision_id = GOV-DEC-0007
+owner_decision = ACCEPT_GOV_DEC_0007_WITH_ALL_PROPOSED_SELECTED_OPTIONS_IN_C3_OWNER_SELECTION_MATRIX_V1_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C3_ACTIVATION_ALIGNMENT
+owner_acceptance_status = ACCEPTED
+decision_basis_commit = fc360d1e57f04fb258e11821ffd3eb2c376828f2
+manager_review_status = PERFORMED
+manager_review_classification = PASS
+material_findings = NONE
+required_corrections = NONE
+owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1
+owner_selection_matrix_status = ACCEPTED
+remaining_material_owner_decisions = NONE
+authorized_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+authorized_scope = BOUNDED_C3_ENVIRONMENT_DEPENDENCY_CONFIGURATION_AND_OFFLINE_DIAGNOSTICS_ONLY
+authorized_recording_branch = c3-authorization-activation-alignment
+authorized_merge_method = SQUASH
+C3_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
+C4_authorization_effect = NONE
+```
+
+This map does not independently authorize or activate C3. `2v.GOV.08`
+becomes effective only when read with the accepted decision and aligned
+controlling state on canonical `main` after successful validation of the exact
+activation-alignment squash commit.
+
+It does not authorize C4 or any later phase.
+
 ### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 
 ```text
@@ -520,8 +557,12 @@ C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
 C2_phase_exit_status = ACCEPTED_AND_EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_STATE_AND_SUCCESSFUL_POST_MERGE_VALIDATION
 C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION
-C3_authorization_status = NOT_AUTHORIZED
-C3_authorization_effect = NONE
+C3_authorization_decision = docs/decisions/C3_authorization_decision.md
+C3_authorization_decision_id = GOV-DEC-0007
+C3_authorization_status = AUTHORIZED
+C3_authorization_effect = EFFECTIVE
+C3_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
+C4_authorization_effect = NONE
 ```
 
 ## 12. Chronology and verification
