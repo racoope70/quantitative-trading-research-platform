@@ -1,16 +1,21 @@
 # Quantitative Trading Research Platform — Project Context
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C2_ACTIVE
-active_major_phase = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+current_lifecycle_state = C2_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
-phase_status = ACTIVE
-authorization_effect = C2_SCOPE_ONLY
+phase_status = C2_COMPLETED_AWAITING_SEPARATE_C3_AUTHORIZATION
+authorization_effect = NONE
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
 C1_phase_status = COMPLETED
+C1_completion_effect = EFFECTIVE
+C2_phase_status = COMPLETED
 C2_authorization_status = AUTHORIZED
-C2_activation_status = ACTIVE
+C2_completion_decision = docs/decisions/C2_completion_decision.md
+C2_completion_decision_id = GOV-DEC-0006
+C2_completion_effect = EFFECTIVE
+C3_authorization_status = NOT_AUTHORIZED
 C3_authorization_effect = NONE
 ```
 
@@ -48,12 +53,13 @@ PRE_C0_DRAFT_REVIEW
 → C1_ACTIVE
 → C1_COMPLETED
 → C2_ACTIVE
+→ C2_COMPLETED
 ```
 
-C0 and C1 are completed. C2 is active only within the accepted non-operational repository-skeleton and migration-preparation scope. C3 and every later phase remain unauthorized.
+C0, C1, and C2 are completed. No major phase is active. C3 is identified only as the proposed next phase and remains unauthorized together with every later phase.
 
 ```text
-current_material_blocker = NONE
+current_material_blocker = SEPARATE_C3_AUTHORIZATION_REQUIRED
 C0_status = COMPLETED
 C1_status = COMPLETED
 C1_completion_decision = docs/decisions/C1_completion_decision.md
@@ -74,20 +80,29 @@ C1_completion_effect = EFFECTIVE
 C2_authorization_decision = docs/decisions/C2_authorization_decision.md
 C2_authorization_decision_id = GOV-DEC-0005
 C2_owner_decision = ACCEPT_GOV_DEC_0005_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_ACTIVATION_ALIGNMENT
-C2_Manager_Review_classification = PASS
+C2_authorization_Manager_Review_classification = PASS
 C2_authorization_status = AUTHORIZED
-C2_activation_status = ACTIVE
-C2_authorization_effect = EFFECTIVE
+C2_package_pull_request = 11
+C2_package_reviewed_head_commit = c7f5f39c54eaa40788ba3fcd4a36abc724304d3c
+C2_package_merge_commit = 87b3460f0b112314ec1dd2cb1faa847fa5572b6f
+C2_package_post_merge_validation_run = 24
+C2_package_post_merge_validation_conclusion = SUCCESS
+C2_completion_decision = docs/decisions/C2_completion_decision.md
+C2_completion_decision_id = GOV-DEC-0006
+C2_completion_owner_decision = ACCEPT_GOV_DEC_0006_AND_AUTHORIZE_CONTROLLED_REPOSITORY_RECORDING_AND_C2_COMPLETION_ALIGNMENT
+C2_completion_Manager_Review_classification = PASS
+C2_completion_effect = EFFECTIVE
+C3_authorization_status = NOT_AUTHORIZED
 C3_authorization_effect = NONE
 ```
 
-C1 completion remains effective. C2 authorization becomes effective only through the controlling-state alignment merge that records the accepted decision and this aligned state on canonical `main`. A branch, commit, push, pull request, or pull-request validation alone does not activate C2.
+C1 completion remains effective. C2 completion is effective only when this aligned controlling state is present on canonical `main` and the exact completion-alignment squash commit has passed required post-merge validation. A branch, commit, push, pull request, review result, or successful pull-request validation does not independently make C2 completion effective. C3 remains unauthorized.
 
-## 4. Active C2 scope and preserved C1 evidence
+## 4. Completed C2 scope and preserved C1 evidence
 
-C2 is active only for the accepted non-operational repository-skeleton and migration-preparation scope.
+C2 completed the accepted non-operational repository-skeleton and migration-preparation scope.
 
-Authorized C2 work is limited to:
+The completed C2 package is limited to:
 
 - Creating the three accepted C2 output documents.
 - Creating the approved `src/quantitative_trading_research/` responsibility-document skeleton.
@@ -202,9 +217,9 @@ final_holdout_access = NOT_AUTHORIZED
 public_release = NOT_AUTHORIZED
 ```
 
-## 10. Completed governance evidence and active authorization
+## 10. Completed governance evidence and current non-authorization
 
-C0 and C1 are completed major milestones. C2 is the active authorized phase.
+C0, C1, and C2 are completed major milestones. No major phase is active, and C3 remains unauthorized.
 
 ```text
 C0_completion_conditions_status = SATISFIED
@@ -220,7 +235,11 @@ C2_authorization_decision = docs/decisions/C2_authorization_decision.md
 C2_authorization_decision_id = GOV-DEC-0005
 C2_authorization_Manager_Review = PASS
 C2_owner_authorization_status = ACCEPTED
-C2_authorization_effect = EFFECTIVE
+C2_completion_decision = docs/decisions/C2_completion_decision.md
+C2_completion_decision_id = GOV-DEC-0006
+C2_owner_completion_acceptance = ACCEPTED
+C2_completion_effect = EFFECTIVE
+C3_authorization_status = NOT_AUTHORIZED
 C3_authorization_effect = NONE
 ```
 
@@ -229,11 +248,11 @@ No prohibited technical execution was identified in the reviewed repository and 
 ## 11. Major milestone pointers
 
 ```text
-latest_completed_major_milestone = C1_LEGACY_EVIDENCE_CLASSIFICATION_AND_ARCHITECTURE_MIGRATION_DESIGN
-active_major_milestone = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+latest_completed_major_milestone = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
+active_major_milestone = NONE
 latest_authorization_decision = docs/decisions/C2_authorization_decision.md
-latest_completion_record = docs/decisions/C1_completion_decision.md
-next_permitted_workstream = C2_AUTHORIZED_NON_OPERATIONAL_SKELETON_AND_MIGRATION_PREPARATION_ONLY
+latest_completion_record = docs/decisions/C2_completion_decision.md
+next_permitted_workstream = NONE_PENDING_SEPARATE_C3_AUTHORIZATION
 ```
 
 ## 12. Required reading and new-chat orientation
