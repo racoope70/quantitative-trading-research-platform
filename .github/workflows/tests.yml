@@ -65,7 +65,26 @@ jobs:
     if: >-
       github.event_name == 'push' &&
       github.ref == 'refs/heads/c3-python-environment-dependency-reconstruction' &&
-      github.event.created == true &&
+      github.event.created == false &&
+      github.event.deleted == false &&
+      github.event.forced == false &&
+      github.event.before == '1abb61d43bb51dfa4a75dd700d2efebb6d3dcd87' &&
+      github.event.after == github.sha &&
+      github.event.commits[0].id != '' &&
+      github.event.commits[1].id != '' &&
+      github.event.commits[2].id == '' &&
+      github.event.commits[0].id != github.event.commits[1].id &&
+      github.sha != 'bfaf1a8dd136271848482d2c94ae73cba279ddf0' &&
+      (
+        (
+          github.event.commits[0].id == 'bfaf1a8dd136271848482d2c94ae73cba279ddf0' &&
+          github.event.commits[1].id == github.sha
+        ) ||
+        (
+          github.event.commits[1].id == 'bfaf1a8dd136271848482d2c94ae73cba279ddf0' &&
+          github.event.commits[0].id == github.sha
+        )
+      ) &&
       github.run_attempt == 1
     runs-on: ubuntu-24.04
     permissions: {}
@@ -101,7 +120,7 @@ jobs:
           }
 
           [ "$C3_EVENT_NAME" = "push" ] || fail EVENT_NOT_PUSH
-          [ "$C3_EVENT_CREATED" = "true" ] || fail REMOTE_BRANCH_NOT_CREATED
+          [ "$C3_EVENT_CREATED" = "false" ] || fail UNEXPECTED_BRANCH_CREATION_EVENT
           [ "$C3_EVENT_REF" = "refs/heads/c3-python-environment-dependency-reconstruction" ] \
             || fail UNEXPECTED_PROBE_BRANCH
           [ "${GITHUB_RUN_ATTEMPT:-}" = "1" ] \
