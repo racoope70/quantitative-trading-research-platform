@@ -1,0 +1,444 @@
+document_status: GATE_2_LOCAL_RECONSTRUCTION_COMPLETE_PENDING_GATE_3
+schema_name: C3_environment_and_dependency_manifest
+schema_version: C3_ENVIRONMENT_AND_DEPENDENCY_MANIFEST_V1
+phase: C3
+authorization_effect: NONE
+canonical_repository: racoope70/quantitative-trading-research-platform
+working_branch: c3-python-environment-dependency-reconstruction
+working_base_commit: 748159123dbb4944e090e7d8adeac9306a7bf0a8
+canonical_source_commit: UNBOUND
+C3_cycle_identity: C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+owner_selection_matrix_id: C3_OWNER_SELECTION_MATRIX_V1
+owner_selection_matrix_status: ACCEPTED
+C3_gate_1_status: AUTHORIZED
+C3_gate_2_status: PASS_COMPLETE
+C3_gate_3_status: NOT_AUTHORIZED
+C3_gate_4_status: NOT_AUTHORIZED
+C3_gate_5_status: NOT_AUTHORIZED
+C4_authorization_effect: NONE
+
+python:
+  selected_policy: PYTHON_3_12_ONLY
+  implementation: CPython
+  version_constraint: ">=3.12,<3.13"
+  accepted_minor: "3.12"
+  selected_evidence_patch: 3.12.2
+  selected_evidence_patch_classification: NONCANONICAL_RECONSTRUCTION_EVIDENCE
+  python_3_11_status: EVALUATED_COMPATIBLE_NOT_SELECTED
+  python_3_12_status: SELECTED_CANONICAL_LOCAL_RECONSTRUCTION_COMPLETE_PENDING_CI_VERIFICATION
+  local_exact_patch: 3.12.7
+  local_cache_tag: cpython-312
+  local_SOABI: cpython-312-darwin
+  local_platform_tag: macosx-13.0-x86_64
+  CI_exact_patch: PENDING_GATE_3_EXECUTION
+  CI_cache_tag: PENDING_GATE_3_EXECUTION
+  CI_SOABI: PENDING_GATE_3_EXECUTION
+  CI_platform_tag: PENDING_GATE_3_EXECUTION
+
+project_metadata:
+  canonical_distribution_name: quantitative-trading-research-platform
+  canonical_import_package_name: quantitative_trading_research
+  canonical_project_version: 0.0.0
+  version_classification: INTERNAL_BOOTSTRAP_METADATA
+  runtime_dependency_policy: STANDARD_LIBRARY_ONLY
+  third_party_runtime_dependency_count: 0
+  test_framework: unittest
+  third_party_test_dependency_count: 0
+  direct_project_dependencies: []
+  resolved_project_dependencies: []
+  direct_project_dependency_count: 0
+  resolved_project_dependency_count: 0
+
+configuration:
+  schema_version: C3_ENVIRONMENT_SETTINGS_V1
+  exact_accepted_field_count: 26
+  exact_accepted_fields:
+    - schema_version
+    - canonical_distribution_name
+    - canonical_import_package_name
+    - canonical_project_version
+    - python_implementation
+    - supported_python_minor
+    - supported_python_constraint
+    - runtime_dependency_policy
+    - third_party_runtime_dependency_count
+    - test_framework
+    - third_party_test_dependency_count
+    - package_manager_identity
+    - package_manager_version
+    - resolver_identity
+    - resolver_version
+    - build_backend
+    - build_backend_provider
+    - build_backend_provider_version
+    - build_frontend
+    - build_frontend_version
+    - dependency_source_allowlist_id
+    - approved_simple_index_url
+    - approved_artifact_url_prefix
+    - package_source_credentials_permitted
+    - lock_identity_path
+    - lock_integrity_standard
+  configuration_identity: C3_ENVIRONMENT_SETTINGS_V1:sha256:fc157ea345d1d14f3868ffb822e92199d5bacd88f9df457ada04018a71938bc1
+  configuration_checksum: fc157ea345d1d14f3868ffb822e92199d5bacd88f9df457ada04018a71938bc1
+  serialization:
+    format: JSON
+    encoding: UTF-8
+    sorted_keys: true
+    compact_separators: true
+    ensure_ASCII: true
+    allow_NaN: false
+    trailing_newline: false
+  construction: EXPLICIT_TYPED_IN_MEMORY_MAPPING_ONLY
+  environment_lookup: PROHIBITED
+  file_lookup: PROHIBITED
+  network_activity: PROHIBITED
+  import_time_side_effects: PROHIBITED
+
+diagnostics:
+  schema_version: C3_ENVIRONMENT_DIAGNOSTIC_EVIDENCE_V1
+  environment_identity_schema_version: C3_CANONICAL_ENVIRONMENT_IDENTITY_V1
+  dependency_metadata_schema_version: C3_DEPENDENCY_METADATA_V1
+  local_diagnostic_evidence_identity: C3_ENVIRONMENT_DIAGNOSTIC_EVIDENCE_V1:sha256:23d77f462d8a8c86826d49baf96772eb77977f174b3e61bc5e02d9c938c6244d
+  CI_diagnostic_evidence_identity: PENDING_GATE_3_EXECUTION
+  atomic_write_contract: VERIFIED_GATE_2
+  default_destination: IN_MEMORY
+  persistent_destination: EXPLICIT_APPROVED_TEMPORARY_ROOT_OUTSIDE_REPOSITORY
+  raw_exception_recording: PROHIBITED
+  raw_traceback_recording: PROHIBITED
+  raw_secret_recording: PROHIBITED
+  diagnostic_execution_status: PASS
+
+tooling:
+  package_manager:
+    name: pip
+    version: 26.1.2
+  resolver:
+    name: pip-tools
+    version: 7.6.0
+  build_frontend:
+    name: build
+    version: 1.5.0
+  build_backend:
+    name: setuptools.build_meta
+    provider: setuptools
+    provider_version: 83.0.0
+  wheel:
+    name: wheel
+    version: 0.47.0
+  transitive_tooling_versions:
+    click: 8.4.2
+    packaging: "26.2"
+    pyproject-hooks: 1.2.0
+  artifact_inventory_status: PASS
+  artifact_inventory_checksum: 2e3a5399d2a313661f23e8c0a1364ac6fa6f394502ba5d507c93f4102a6257ff
+  artifacts:
+    - distribution: pip
+      version: 26.1.2
+      filename: pip-26.1.2-py3-none-any.whl
+      sha256: 382ff9f685ee3bc25864f820aa50505825f10f5458ffff07e30a6d96e5715cab
+      index_declared_sha256: 382ff9f685ee3bc25864f820aa50505825f10f5458ffff07e30a6d96e5715cab
+      byte_count: 1813144
+      simple_index_url: https://pypi.org:443/simple/pip/
+      artifact_url: https://files.pythonhosted.org:443/packages/5d/95/6b5cb3461ea5673ba0995989746db58eb18b91b54dbf331e72f569540946/pip-26.1.2-py3-none-any.whl
+      credentials_used: false
+    - distribution: pip-tools
+      version: 7.6.0
+      filename: pip_tools-7.6.0-py3-none-any.whl
+      sha256: 4bd99155b6d8de358a214b0865e1a2855a453570c1a83d40f7b564870b8657be
+      index_declared_sha256: 4bd99155b6d8de358a214b0865e1a2855a453570c1a83d40f7b564870b8657be
+      byte_count: 74337
+      simple_index_url: https://pypi.org:443/simple/pip-tools/
+      artifact_url: https://files.pythonhosted.org:443/packages/60/2f/5f434153d2bf85ae8f85826228707e694276b9e73d6d8040433a03ceeea9/pip_tools-7.6.0-py3-none-any.whl
+      credentials_used: false
+    - distribution: setuptools
+      version: 83.0.0
+      filename: setuptools-83.0.0-py3-none-any.whl
+      sha256: 29b23c360f22f414dc7336bb39178cc7bcbf6021ed2733cde173f09dba19abb3
+      index_declared_sha256: 29b23c360f22f414dc7336bb39178cc7bcbf6021ed2733cde173f09dba19abb3
+      byte_count: 1008090
+      simple_index_url: https://pypi.org:443/simple/setuptools/
+      artifact_url: https://files.pythonhosted.org:443/packages/5d/40/e1e72872c6354b306daef1703549e8e83b4d43cfea356311bf722a043752/setuptools-83.0.0-py3-none-any.whl
+      credentials_used: false
+    - distribution: build
+      version: 1.5.0
+      filename: build-1.5.0-py3-none-any.whl
+      sha256: 13f3eecb844759ab66efec90ca17639bbf14dc06cb2fdf37a9010322d9c50a6f
+      index_declared_sha256: 13f3eecb844759ab66efec90ca17639bbf14dc06cb2fdf37a9010322d9c50a6f
+      byte_count: 26018
+      simple_index_url: https://pypi.org:443/simple/build/
+      artifact_url: https://files.pythonhosted.org:443/packages/0d/fe/6bea5c9162869c5beba5d9c8abbed835ec85bf1ec1fba05a3822325c45f3/build-1.5.0-py3-none-any.whl
+      credentials_used: false
+    - distribution: wheel
+      version: 0.47.0
+      filename: wheel-0.47.0-py3-none-any.whl
+      sha256: 212281cab4dff978f6cedd499cd893e1f620791ca6ff7107cf270781e587eced
+      index_declared_sha256: 212281cab4dff978f6cedd499cd893e1f620791ca6ff7107cf270781e587eced
+      byte_count: 32218
+      simple_index_url: https://pypi.org:443/simple/wheel/
+      artifact_url: https://files.pythonhosted.org:443/packages/87/1b/9e33c09813d65e248f7f773119148a612516a4bea93e9c6f545f78455b7c/wheel-0.47.0-py3-none-any.whl
+      credentials_used: false
+    - distribution: click
+      version: 8.4.2
+      filename: click-8.4.2-py3-none-any.whl
+      sha256: e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76
+      index_declared_sha256: e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76
+      byte_count: 119243
+      simple_index_url: https://pypi.org:443/simple/click/
+      artifact_url: https://files.pythonhosted.org:443/packages/fb/e2/79c688af8b210d232694e31e59da9f6ec747bae31c3f5946e4e9b98860d5/click-8.4.2-py3-none-any.whl
+      credentials_used: false
+    - distribution: packaging
+      version: 26.2
+      filename: packaging-26.2-py3-none-any.whl
+      sha256: 5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e
+      index_declared_sha256: 5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e
+      byte_count: 100195
+      simple_index_url: https://pypi.org:443/simple/packaging/
+      artifact_url: https://files.pythonhosted.org:443/packages/df/b2/87e62e8c3e2f4b32e5fe99e0b86d576da1312593b39f47d8ceef365e95ed/packaging-26.2-py3-none-any.whl
+      credentials_used: false
+    - distribution: pyproject-hooks
+      version: 1.2.0
+      filename: pyproject_hooks-1.2.0-py3-none-any.whl
+      sha256: 9e5c6bfa8dcc30091c74b0cf803c81fdd29d94f01992a7707bc97babb1141913
+      index_declared_sha256: 9e5c6bfa8dcc30091c74b0cf803c81fdd29d94f01992a7707bc97babb1141913
+      byte_count: 10216
+      simple_index_url: https://pypi.org:443/simple/pyproject-hooks/
+      artifact_url: https://files.pythonhosted.org:443/packages/bd/24/12818598c362d7f300f18e74db45963dbcb85150324092410c8b49405e42/pyproject_hooks-1.2.0-py3-none-any.whl
+      credentials_used: false
+  exact_artifact_count: 8
+  tooling_environment_identity: C3_TOOLING_ENVIRONMENT_IDENTITY_V1:sha256:e788d6219f138f58121aee7199732ae23c4c2269fb13a65950066250d24d06fa
+  tooling_installation_result: PASS
+  pip_check_result: PASS
+
+package_sources:
+  allowlist_id: C3_DEPENDENCY_SOURCE_ALLOWLIST_V1
+  policy: DENY_ALL_EXCEPT_EXACT_LISTED_DESTINATIONS
+  credentials_permitted: false
+  package_manager_version_check: DISABLED_DURING_ACQUISITION
+  sources:
+    - source_id: C3-PKG-SOURCE-001
+      class: PUBLIC_PACKAGE_INDEX
+      role: SIMPLE_INDEX
+      scheme: https
+      hostname: pypi.org
+      port: 443
+      path_prefix: /simple/
+      normalized_url: https://pypi.org:443/simple/
+    - source_id: C3-PKG-SOURCE-002
+      class: PUBLIC_ARTIFACT_HOST
+      role: PACKAGE_ARTIFACT_DOWNLOAD
+      scheme: https
+      hostname: files.pythonhosted.org
+      port: 443
+      path_prefix: /packages/
+      normalized_url: https://files.pythonhosted.org:443/packages/
+  local_acquisition_result: PASS
+  CI_acquisition_result: NOT_EXECUTED
+  local_CI_source_identity_result: NOT_EXECUTED
+
+lock:
+  path: requirements.lock
+  canonical_generation_status: PASS_COMPLETE
+  canonical_checksum: 37f9e4eb0a6fe13ebf484cd0005d5913994514194a58bd79d19aa47895d36c08
+  checksum_algorithm: SHA256_OF_EXACT_REQUIREMENTS_LOCK_BYTES
+  resolver_invocation: python_-m_piptools_compile
+  resolver_version: 7.6.0
+  package_manager_version: 26.1.2
+  newline_policy: LF_ONLY
+  header_emission: REQUIRED
+  configuration_file_loading: PROHIBITED
+  expected_requirement_entry_count: 0
+  expected_artifact_hash_entry_count: 0
+  build_system_requirements_in_lock: false
+  construction_and_packaging_tooling_in_lock: false
+  experimental_checksum: 37f9e4eb0a6fe13ebf484cd0005d5913994514194a58bd79d19aa47895d36c08
+  experimental_checksum_classification: NONCANONICAL_EXPERIMENTAL_EVIDENCE_ONLY
+  experimental_checksum_reuse_as_canonical: PROHIBITED
+  local_repeat_generation_result: PASS_EXACT_BYTE_IDENTITY
+  Linux_repeat_generation_result: NOT_EXECUTED
+  local_to_Linux_byte_comparison: NOT_EXECUTED
+  committed_lock_integrity_result: PASS_WORKING_TREE_PENDING_GATE_4
+
+build:
+  project_wheel_status: PASS_BUILT_OUTSIDE_REPOSITORY
+  project_wheel_filename: quantitative_trading_research_platform-0.0.0-py3-none-any.whl
+  project_wheel_sha256: 1a720bdd51a99ee130b84f8f01c90c95368e081e611572b28df77086d72c3a46
+  normalized_wheel_metadata_checksum: 48bff38c314840e2c9a9310298b6b3b8c92e59ac0753ea7b86e942bb494fa035
+  accepted_source_requires_python: ">=3.12,<3.13"
+  wheel_metadata_requires_python: "<3.13,>=3.12"
+  requires_python_semantic_equivalence: PASS
+  requires_python_normalized_identity: PASS_EXACT_NORMALIZED_MATCH
+  local_build_result: PASS
+  CI_build_result: NOT_EXECUTED
+  normalized_local_CI_wheel_comparison: NOT_EXECUTED
+  wheel_byte_equality_required: false
+
+canonical_import_targets:
+  - quantitative_trading_research
+  - quantitative_trading_research.config
+  - quantitative_trading_research.config.settings
+  - quantitative_trading_research.config.environment_diagnostics
+
+local_reconstruction:
+  construction_1_status: PASS
+  construction_1_environment_identity: C3_CANONICAL_ENVIRONMENT_IDENTITY_V1:sha256:69b8a888eeed955dd63c3bc8d9607a20481afe3bd4a3397ee546edf3f1f12e99
+  construction_2_status: PASS
+  construction_2_environment_identity: C3_CANONICAL_ENVIRONMENT_IDENTITY_V1:sha256:69b8a888eeed955dd63c3bc8d9607a20481afe3bd4a3397ee546edf3f1f12e99
+  repeated_identity_result: PASS_EXACT_IDENTITY_MATCH
+  hash_enforced_lock_installation_result: PASS_ZERO_ENTRY_LOCK
+  import_result: PASS
+  configuration_test_result: PASS_11_TESTS
+  diagnostic_test_result: PASS_18_TESTS
+  ordinary_test_result: PASS_47_TESTS
+  local_offline_limit: PRIMARY_INTERPRETER_GUARD_WITHOUT_LINUX_NAMESPACE
+
+CI:
+  workflow_path: .github/workflows/tests.yml
+  workflow_status: STATIC_IMPLEMENTATION_COMPLETE_NOT_EXECUTED
+  runner_provider: GITHUB_HOSTED
+  runner_label: ubuntu-24.04
+  runner_label_classification: VERSION_SPECIFIC_STABLE_LABEL
+  runner_architecture: X64
+  runner_image_immutability_claim: PROHIBITED
+  checkout_action:
+    repository: actions/checkout
+    reference_tag: v7.0.1
+    full_commit_SHA: 3d3c42e5aac5ba805825da76410c181273ba90b1
+    persist_credentials: false
+  setup_python_action:
+    repository: actions/setup-python
+    reference_tag: v7.0.0
+    full_commit_SHA: 5fda3b95a4ea91299a34e894583c3862153e4b97
+    python_version_input: "3.12"
+    architecture_input: x64
+    check_latest: false
+    allow_prereleases: false
+    freethreaded: false
+    cache_input: OMITTED
+    pip_version_input: OMITTED
+  runner_image_identifier: PENDING_GATE_3_EXECUTION
+  runner_image_version: PENDING_GATE_3_EXECUTION
+  runner_software_version: NOT_YET_ESTABLISHED
+  setup_python_toolcache_outcome: PENDING_GATE_3_EXECUTION
+  setup_python_download_occurrence: PENDING_GATE_3_EXECUTION
+  setup_python_manifest_retrieval_classification: PENDING_GATE_3_EXECUTION
+  setup_python_artifact_provenance_result: PENDING_GATE_3_EXECUTION
+  runner_capability_result: PENDING_GATE_3_EXECUTION
+  namespace_and_privilege_result: PENDING_GATE_3_EXECUTION
+  canonical_construction_result: PENDING_GATE_3_EXECUTION
+  lock_comparison_result: PENDING_GATE_3_EXECUTION
+  network_denial_result: PENDING_GATE_3_EXECUTION
+  workflow_run_id: UNBOUND
+  workflow_job_ids: []
+  workflow_conclusion: NOT_EXECUTED
+
+offline_execution:
+  architecture_status: ACCEPTED_AS_MANAGER_CORRECTED
+  local_execution_status: PASS_WITH_ACCEPTED_MACOS_PRIMARY_INTERPRETER_LIMITATION
+  CI_execution_status: PENDING_GATE_3_EXECUTION
+  kernel_namespace_capability_status: NOT_YET_ESTABLISHED
+  privilege_drop_status: NOT_YET_ESTABLISHED
+  primary_python_audit_guard_status: PASS_SELFTEST_AND_ZERO_UNEXPECTED_EVENTS
+  credential_exclusion_result: PASS
+  proxy_exclusion_result: PASS
+  package_index_variable_exclusion_result: PASS
+  inherited_descriptor_result: PASS_ZERO_ABOVE_TWO_AT_CHILD_ENTRY
+  universal_native_attempt_count: NOT_ESTABLISHED
+  universal_DNS_request_count: NOT_ESTABLISHED
+  universal_network_syscall_attempt_count: NOT_ESTABLISHED
+
+negative_controls:
+  - control_id: C3_NET_NEG_DNS_001
+    class: DNS_GUARD
+    literal_identity: c3-offline-control.invalid
+    expected_stage: PYTHON_AUDIT_GUARD_BEFORE_OS_DNS_ACTIVITY
+    current_result: NOT_EXECUTED
+  - control_id: C3_NET_NEG_HTTPS_001
+    class: HTTPS_GUARD
+    literal_identity: https://c3-offline-control.invalid/
+    expected_stage: PYTHON_AUDIT_GUARD_BEFORE_OS_SOCKET_OR_HTTP_ACTIVITY
+    current_result: NOT_EXECUTED
+  - control_id: C3_NET_NEG_IPV4_001
+    class: IPv4_KERNEL_CONNECTION
+    literal_identity: 192.0.2.1
+    destination_port: 443
+    expected_stage: NETWORK_UNREACHABLE_INSIDE_ROUTE_FREE_NAMESPACE
+    current_result: NOT_EXECUTED
+  - control_id: C3_NET_NEG_IPV6_001
+    class: IPv6_KERNEL_CONNECTION
+    literal_identity: "2001:db8::1"
+    destination_port: 443
+    expected_stage: NETWORK_UNREACHABLE_INSIDE_ROUTE_FREE_NAMESPACE
+    current_result: NOT_EXECUTED
+
+local_to_CI_equivalence:
+  exact_match_fields:
+    - PYTHON_MINOR_POLICY
+    - LOCK_CHECKSUM
+    - PACKAGE_SOURCE_IDENTITIES
+  recorded_nonmatching_fields:
+    - EXACT_PYTHON_PATCH
+    - PLATFORM
+    - SOABI
+    - CACHE_TAG
+    - RUNNER_IMAGE
+    - WHEEL_ARCHIVE_SHA
+  dependency_metadata_checksum: 7acce244378b75e677c38feac945996845a441c34ebb3382d328426b70c5e489
+  local_environment_identity: C3_CANONICAL_ENVIRONMENT_IDENTITY_V1:sha256:69b8a888eeed955dd63c3bc8d9607a20481afe3bd4a3397ee546edf3f1f12e99
+  CI_environment_identity: UNBOUND
+  comparison_result: NOT_EXECUTED
+  cross_platform_lock_reproducibility: NOT_YET_ESTABLISHED
+
+related_limitation_ids:
+  - C2-LIM-C3-001
+  - C2-LIM-C3-002
+  - C2-LIM-C3-003
+  - C2-LIM-C3-004
+  - C2-LIM-C3-005
+  - C2-LIM-C4-008
+
+limitation_dispositions:
+  C2-LIM-C3-001: GATE_2_LOCAL_EVIDENCE_COMPLETE_PENDING_GATE_3
+  C2-LIM-C3-002: GATE_2_LOCAL_EVIDENCE_COMPLETE_PENDING_GATE_3
+  C2-LIM-C3-003: GATE_2_LOCAL_EVIDENCE_COMPLETE_PENDING_GATE_3
+  C2-LIM-C3-004: GATE_2_LOCAL_EVIDENCE_COMPLETE_PENDING_GATE_3
+  C2-LIM-C3-005: GATE_2_LOCAL_EVIDENCE_COMPLETE_PENDING_GATE_3
+  C2-LIM-C4-008: PRESERVED_C4_UNAUTHORIZED
+
+prohibited_activity_confirmation:
+  provider_access: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  broker_access: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  market_data_request: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  account_inspection: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  entitlement_inspection: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  dataset_access: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  model_execution: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  final_holdout_access: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  order_activity: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+  trading_activity: CONFIRMED_NOT_PERFORMED_DURING_GATE_2
+
+gate_2_repository_updates:
+  - update_id: C3-G2-EVID-001
+    path: docs/configuration/environment_variables.md
+    classification: GATE_2_EXECUTION_EVIDENCE_BINDING
+    rationale: LOCAL_ENVIRONMENT_AND_SECRET_EXCLUSION_RESULTS_RECORDED_FROM_COMPLETED_TRANSACTION
+    scope_expansion: false
+    authorization_boundary_change: false
+    verification_result: PASS
+  - update_id: C3-G2-CORR-001
+    path: tests/environment/test_import_contract.py
+    classification: SUBORDINATE_FALSE_POSITIVE_CORRECTION
+    rationale: CANONICAL_SETTINGS_IMPORT_NAMESPACE_EXEMPTED_FROM_SUBSTRING_PROHIBITION
+    scope_expansion: false
+    authorization_boundary_change: false
+    verification_result: PASS
+
+review_and_completion:
+  pull_request_validation: NOT_EXECUTED
+  manager_review: NOT_REQUESTED
+  focused_independent_audit: NOT_REQUESTED
+  owner_technical_outcome_decision: PENDING_GATE_5
+  completion_alignment: NOT_AUTHORIZED
+  post_merge_completion_validation: NOT_AUTHORIZED
+  C3_terminal_disposition: NOT_YET_ESTABLISHED
+  C3_completion_effect: NONE

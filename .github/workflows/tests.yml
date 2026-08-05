@@ -1,0 +1,3486 @@
+name: C3 Environment Verification
+
+'on':
+  push:
+    branches:
+      - c3-python-environment-dependency-reconstruction
+      - main
+    paths:
+      - pyproject.toml
+      - requirements.lock
+      - docs/configuration/environment_variables.md
+      - docs/reports/C3_environment_and_dependency_manifest.yaml
+      - docs/reports/C3_python_environment_and_dependency_reconstruction_report.md
+      - src/quantitative_trading_research/config/settings.py
+      - src/quantitative_trading_research/config/environment_diagnostics.py
+      - .github/workflows/tests.yml
+      - tests/config/test_settings.py
+      - tests/config/test_environment_diagnostics.py
+      - tests/environment/test_dependency_identity.py
+      - tests/environment/test_import_contract.py
+      - tests/environment/test_offline_boundary.py
+  pull_request:
+    branches:
+      - main
+    paths:
+      - pyproject.toml
+      - requirements.lock
+      - docs/configuration/environment_variables.md
+      - docs/reports/C3_environment_and_dependency_manifest.yaml
+      - docs/reports/C3_python_environment_and_dependency_reconstruction_report.md
+      - src/quantitative_trading_research/config/settings.py
+      - src/quantitative_trading_research/config/environment_diagnostics.py
+      - .github/workflows/tests.yml
+      - tests/config/test_settings.py
+      - tests/config/test_environment_diagnostics.py
+      - tests/environment/test_dependency_identity.py
+      - tests/environment/test_import_contract.py
+      - tests/environment/test_offline_boundary.py
+
+permissions: {}
+
+concurrency:
+  group: c3-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  C3_SELECTED_RUNNER_LABEL: ubuntu-24.04
+  C3_EXPECTED_RUNNER_ENVIRONMENT: github-hosted
+  C3_EXPECTED_RUNNER_OS: Linux
+  C3_EXPECTED_RUNNER_ARCH: X64
+  C3_EXPECTED_OS_ID: ubuntu
+  C3_EXPECTED_OS_VERSION_ID: "24.04"
+  C3_EXPECTED_CHECKOUT_SHA: 3d3c42e5aac5ba805825da76410c181273ba90b1
+  C3_EXPECTED_SETUP_PYTHON_SHA: 5fda3b95a4ea91299a34e894583c3862153e4b97
+  C3_EXPECTED_PYTHON_MINOR: "3.12"
+  C3_EXPECTED_PYTHON_CONSTRAINT: ">=3.12,<3.13"
+  C3_PACKAGE_SOURCE_ALLOWLIST_ID: C3_DEPENDENCY_SOURCE_ALLOWLIST_V1
+  C3_SIMPLE_INDEX_URL: https://pypi.org:443/simple/
+  C3_ARTIFACT_BASE_URL: https://files.pythonhosted.org:443/packages/
+  C3_ACCEPTED_PROBE_IDENTITY_B64: UNBOUND_PENDING_INDEPENDENT_REVIEW_AND_OWNER_SELECTION
+
+jobs:
+  runner-capability-probe:
+    name: Single-use runner capability probe
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/c3-python-environment-dependency-reconstruction' &&
+      github.event.created == true &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    permissions: {}
+    timeout-minutes: 15
+    steps:
+      - name: Verify runner identity and privileged launcher feasibility
+        shell: bash
+        env:
+          C3_EVENT_NAME: ${{ github.event_name }}
+          C3_EVENT_CREATED: ${{ github.event.created }}
+          C3_EVENT_REF: ${{ github.ref }}
+          C3_EVENT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          umask 077
+
+          fail() {
+            printf 'probe_terminal_result=FAIL_CONFIGURATION\n'
+            printf 'probe_failure_code=%s\n' "$1"
+            exit 1
+          }
+
+          identity_fail() {
+            printf 'probe_terminal_result=FAIL_IDENTITY_MISMATCH\n'
+            printf 'probe_failure_code=%s\n' "$1"
+            exit 1
+          }
+
+          inconclusive() {
+            printf 'probe_terminal_result=INCONCLUSIVE\n'
+            printf 'probe_limitation_code=%s\n' "$1"
+            exit 2
+          }
+
+          [ "$C3_EVENT_NAME" = "push" ] || fail EVENT_NOT_PUSH
+          [ "$C3_EVENT_CREATED" = "true" ] || fail REMOTE_BRANCH_NOT_CREATED
+          [ "$C3_EVENT_REF" = "refs/heads/c3-python-environment-dependency-reconstruction" ] \
+            || fail UNEXPECTED_PROBE_BRANCH
+          [ "${GITHUB_RUN_ATTEMPT:-}" = "1" ] \
+            || fail GITHUB_RUN_ATTEMPT_MUST_EQUAL_1
+
+          [ "${RUNNER_ENVIRONMENT:-}" = "$C3_EXPECTED_RUNNER_ENVIRONMENT" ] \
+            || fail RUNNER_ENVIRONMENT_MISMATCH
+          [ "${RUNNER_OS:-}" = "$C3_EXPECTED_RUNNER_OS" ] \
+            || fail RUNNER_OS_MISMATCH
+          [ "${RUNNER_ARCH:-}" = "$C3_EXPECTED_RUNNER_ARCH" ] \
+            || fail RUNNER_ARCH_MISMATCH
+
+          . /etc/os-release
+          [ "${ID:-}" = "$C3_EXPECTED_OS_ID" ] \
+            || fail OS_RELEASE_ID_MISMATCH
+          [ "${VERSION_ID:-}" = "$C3_EXPECTED_OS_VERSION_ID" ] \
+            || fail OS_RELEASE_VERSION_ID_MISMATCH
+
+          if [ -z "${ImageOS:-}" ] || [ -z "${ImageVersion:-}" ]; then
+            inconclusive RUNNER_IMAGE_METADATA_UNAVAILABLE
+          fi
+
+          printf 'probe_schema_version=C3_RUNNER_CAPABILITY_PROBE_V1\n'
+          printf 'workflow_runner_label=%s\n' "$C3_SELECTED_RUNNER_LABEL"
+          printf 'runner_environment=%s\n' "$RUNNER_ENVIRONMENT"
+          printf 'runner_os=%s\n' "$RUNNER_OS"
+          printf 'runner_arch=%s\n' "$RUNNER_ARCH"
+          printf 'os_release_id=%s\n' "$ID"
+          printf 'os_release_version_id=%s\n' "$VERSION_ID"
+          printf 'runner_image_identifier=%s\n' "$ImageOS"
+          printf 'runner_image_version=%s\n' "$ImageVersion"
+          printf 'workflow_commit_identity=%s\n' "$C3_EVENT_SHA"
+
+          required_commands=(
+            sudo
+            unshare
+            setpriv
+            ip
+            env
+            id
+            readlink
+            stat
+            sha256sum
+            python3
+          )
+
+          validate_command_owner_and_mode() {
+            local command_name="$1"
+            local owner_uid="$2"
+            local owner_gid="$3"
+            local mode="$4"
+
+            [ "$owner_uid" = "0" ] \
+              || identity_fail "COMMAND_OWNER_UID_UNAPPROVED_${command_name}"
+            [ "$owner_gid" = "0" ] \
+              || identity_fail "COMMAND_OWNER_GID_UNAPPROVED_${command_name}"
+
+            case "$command_name" in
+              sudo)
+                case "$mode" in
+                  4555|4755) ;;
+                  *) identity_fail "COMMAND_MODE_UNAPPROVED_${command_name}" ;;
+                esac
+                ;;
+              *)
+                case "$mode" in
+                  555|755) ;;
+                  *) identity_fail "COMMAND_MODE_UNAPPROVED_${command_name}" ;;
+                esac
+                ;;
+            esac
+          }
+
+          declare -A verified_command_paths=()
+
+          for command_name in "${required_commands[@]}"; do
+            command_path="$(command -v "$command_name" || true)"
+            [ -n "$command_path" ] || inconclusive "COMMAND_MISSING_${command_name}"
+            case "$command_path" in
+              /*) ;;
+              *) inconclusive "COMMAND_NOT_ABSOLUTE_${command_name}" ;;
+            esac
+
+            command_real="$(readlink -f "$command_path")"
+            [ -f "$command_real" ] || inconclusive "COMMAND_TARGET_INVALID_${command_name}"
+            [ -x "$command_real" ] || identity_fail "COMMAND_NOT_EXECUTABLE_${command_name}"
+
+            owner_uid="$(stat -c '%u' "$command_real")"
+            owner_gid="$(stat -c '%g' "$command_real")"
+            mode="$(stat -c '%a' "$command_real")"
+            checksum="$(sha256sum "$command_real" | awk '{print $1}')"
+
+            case "$command_name" in
+              sudo|unshare|setpriv|env|id|readlink|stat|sha256sum)
+                if ! version_output="$("$command_real" --version 2>&1)"; then
+                  inconclusive "COMMAND_VERSION_UNAVAILABLE_${command_name}"
+                fi
+                ;;
+              ip)
+                if ! version_output="$("$command_real" -Version 2>&1)"; then
+                  inconclusive "COMMAND_VERSION_UNAVAILABLE_${command_name}"
+                fi
+                ;;
+              python3)
+                if ! version_output="$("$command_real" -S -s -P -B -X utf8 --version 2>&1)"; then
+                  inconclusive "COMMAND_VERSION_UNAVAILABLE_${command_name}"
+                fi
+                ;;
+              *)
+                inconclusive "COMMAND_VERSION_RULE_MISSING_${command_name}"
+                ;;
+            esac
+            version_first_line="${version_output%%$'\n'*}"
+            [ -n "$version_first_line" ] \
+              || inconclusive "COMMAND_VERSION_EMPTY_${command_name}"
+            case "$version_first_line" in
+              *$'\r'*) inconclusive "COMMAND_VERSION_UNCLASSIFIABLE_${command_name}" ;;
+            esac
+
+            validate_command_owner_and_mode \
+              "$command_name" "$owner_uid" "$owner_gid" "$mode"
+
+            if [ -w "$command_real" ]; then
+              fail "COMMAND_WRITABLE_BY_RUNNER_${command_name}"
+            fi
+
+            printf 'command_%s_path=%s\n' "$command_name" "$command_real"
+            printf 'command_%s_sha256=%s\n' "$command_name" "$checksum"
+            printf 'command_%s_owner_uid=%s\n' "$command_name" "$owner_uid"
+            printf 'command_%s_owner_gid=%s\n' "$command_name" "$owner_gid"
+            printf 'command_%s_mode=%s\n' "$command_name" "$mode"
+            printf 'command_%s_runner_writable=false\n' "$command_name"
+            printf 'command_%s_version_first_line=%s\n' \
+              "$command_name" "$version_first_line"
+            printf 'command_%s_version_invocation=VERIFIED_ABSOLUTE_PATH_ONLY\n' \
+              "$command_name"
+            verified_command_paths["$command_name"]="$command_real"
+          done
+
+          SUDO="${verified_command_paths[sudo]}"
+          UNSHARE="${verified_command_paths[unshare]}"
+          SETPRIV="${verified_command_paths[setpriv]}"
+          IP="${verified_command_paths[ip]}"
+          ENV_CMD="${verified_command_paths[env]}"
+          ID_CMD="${verified_command_paths[id]}"
+          READLINK="${verified_command_paths[readlink]}"
+          STAT_CMD="${verified_command_paths[stat]}"
+          SHA256SUM="${verified_command_paths[sha256sum]}"
+          PYTHON3="${verified_command_paths[python3]}"
+
+          "$SUDO" -n true </dev/null \
+            || inconclusive NONINTERACTIVE_SUDO_UNAVAILABLE
+          printf 'noninteractive_sudo_result=PASS\n'
+
+          original_uid="$("$ID_CMD" -u)"
+          original_gid="$("$ID_CMD" -g)"
+          [ "$original_uid" -ne 0 ] || fail ORIGINAL_RUNNER_UID_IS_ROOT
+          [ "$original_gid" -ne 0 ] || fail ORIGINAL_RUNNER_GID_IS_ROOT
+
+          probe_temp_root="$(
+            "$PYTHON3" - "$RUNNER_TEMP" "${GITHUB_WORKSPACE:-}" <<'PY'
+          from pathlib import Path
+          import os
+          import sys
+          import tempfile
+
+          runner_temp = Path(sys.argv[1]).resolve()
+          workspace_text = sys.argv[2]
+          workspace = Path(workspace_text).resolve() if workspace_text else None
+          root = Path(
+              tempfile.mkdtemp(prefix="c3-capability-probe-", dir=runner_temp)
+          ).resolve()
+          if workspace is not None and (root == workspace or workspace in root.parents):
+              raise SystemExit("FAIL_CONFIGURATION:PROBE_TEMP_INSIDE_REPOSITORY")
+          home = root / "home"
+          temporary = root / "tmp"
+          home.mkdir(mode=0o700)
+          temporary.mkdir(mode=0o700)
+          os.chmod(root, 0o700)
+          print(root)
+          PY
+          )"
+          probe_home="$probe_temp_root/home"
+          probe_tmp="$probe_temp_root/tmp"
+
+          cleanup_probe_temp() {
+            "$PYTHON3" - "$probe_temp_root" <<'PY'
+          from pathlib import Path
+          import shutil
+          import sys
+
+          root = Path(sys.argv[1])
+          if root.is_absolute():
+              shutil.rmtree(root, ignore_errors=True)
+          PY
+          }
+          trap cleanup_probe_temp EXIT
+
+          parent_ns_before="$(
+            "$READLINK" /proc/self/ns/net |
+              "$SHA256SUM" |
+              awk '{print $1}'
+          )"
+
+          HARNESS="$(
+            cat <<'PY'
+          from __future__ import annotations
+
+          import ctypes
+          import errno
+          import hashlib
+          import http.client
+          import json
+          import os
+          from pathlib import Path
+          import socket
+          import subprocess
+          import sys
+
+          def _sanitized_unexpected_exception(
+              exception_type, exception_value, exception_traceback
+          ) -> None:
+              del exception_type, exception_value, exception_traceback
+              print(json.dumps(
+                  {
+                      "probe_child_terminal_result": "INCONCLUSIVE",
+                      "probe_child_terminal_code": "UNEXPECTED_EXCEPTION",
+                  },
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ))
+
+          sys.excepthook = _sanitized_unexpected_exception
+
+          PROBE_EXIT_CODES = {
+              "PASS": 0,
+              "FAIL_CONFIGURATION": 10,
+              "FAIL_IDENTITY_MISMATCH": 11,
+              "INCONCLUSIVE": 12,
+          }
+
+          def terminal(result: str, code: str) -> None:
+              print(json.dumps(
+                  {
+                      "probe_child_terminal_result": result,
+                      "probe_child_terminal_code": code,
+                  },
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ))
+              raise SystemExit(PROBE_EXIT_CODES[result])
+
+          if len(sys.argv) != 5:
+              terminal(
+                  "FAIL_CONFIGURATION",
+                  "PROBE_POSITIONAL_ARGUMENT_COUNT_MISMATCH",
+              )
+          (
+              execution_phase,
+              parent_namespace_checksum,
+              original_uid_text,
+              original_gid_text,
+          ) = sys.argv[1:]
+          if execution_phase != "RUNNER_CAPABILITY_PROBE":
+              terminal("FAIL_CONFIGURATION", "PROBE_PHASE_IDENTITY_MISMATCH")
+          if (
+              len(parent_namespace_checksum) != 64
+              or any(
+                  character not in "0123456789abcdef"
+                  for character in parent_namespace_checksum
+              )
+          ):
+              terminal(
+                  "FAIL_CONFIGURATION",
+                  "PARENT_NAMESPACE_CHECKSUM_INVALID",
+              )
+          if not original_uid_text.isdecimal():
+              terminal("FAIL_CONFIGURATION", "ORIGINAL_UID_INVALID")
+          if not original_gid_text.isdecimal():
+              terminal("FAIL_CONFIGURATION", "ORIGINAL_GID_INVALID")
+          original_uid = int(original_uid_text)
+          original_gid = int(original_gid_text)
+          if original_uid == 0 or original_gid == 0:
+              terminal("FAIL_CONFIGURATION", "ORIGINAL_IDENTITY_ROOT")
+
+          required_names = {
+              "HOME",
+              "TMPDIR",
+              "LANG",
+              "LC_ALL",
+              "TZ",
+              "PYTHONHASHSEED",
+              "PYTHONDONTWRITEBYTECODE",
+              "PYTHONNOUSERSITE",
+              "PYTHONSAFEPATH",
+              "PYTHONUTF8",
+          }
+          if set(os.environ) != required_names:
+              terminal("FAIL_CONFIGURATION", "CHILD_ENVIRONMENT_SET_MISMATCH")
+          expected_fixed_values = {
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "TZ": "UTC",
+              "PYTHONHASHSEED": "0",
+              "PYTHONDONTWRITEBYTECODE": "1",
+              "PYTHONNOUSERSITE": "1",
+              "PYTHONSAFEPATH": "1",
+              "PYTHONUTF8": "1",
+          }
+          for name, expected_value in expected_fixed_values.items():
+              if os.environ[name] != expected_value:
+                  terminal(
+                      "FAIL_CONFIGURATION",
+                      f"CHILD_ENVIRONMENT_VALUE_MISMATCH_{name}",
+                  )
+          home = Path(os.environ["HOME"])
+          temp_directory = Path(os.environ["TMPDIR"])
+          if not home.is_absolute() or not home.is_dir():
+              terminal("FAIL_CONFIGURATION", "CHILD_HOME_INVALID")
+          if not temp_directory.is_absolute() or not temp_directory.is_dir():
+              terminal("FAIL_CONFIGURATION", "CHILD_TMPDIR_INVALID")
+          if home == temp_directory:
+              terminal("FAIL_CONFIGURATION", "CHILD_HOME_TMPDIR_NOT_DISTINCT")
+
+          if sys.flags.no_site != 1:
+              terminal("FAIL_CONFIGURATION", "PYTHON_NO_SITE_MODE_NOT_SET")
+          if sys.flags.no_user_site != 1:
+              terminal("FAIL_CONFIGURATION", "PYTHON_NO_USER_SITE_MODE_NOT_SET")
+          if not getattr(sys.flags, "safe_path", False):
+              terminal("FAIL_CONFIGURATION", "PYTHON_SAFE_PATH_NOT_SET")
+          if not sys.dont_write_bytecode:
+              terminal("FAIL_CONFIGURATION", "PYTHON_DONT_WRITE_BYTECODE_NOT_SET")
+          if sys.flags.utf8_mode != 1:
+              terminal("FAIL_CONFIGURATION", "PYTHON_UTF8_MODE_NOT_SET")
+          if sys.flags.hash_randomization != 0:
+              terminal("FAIL_CONFIGURATION", "PYTHON_HASH_RANDOMIZATION_NOT_DISABLED")
+          if "site" in sys.modules:
+              terminal("FAIL_CONFIGURATION", "SITE_IMPORTED_DURING_BOOTSTRAP")
+
+          if sys.implementation.name != "cpython":
+              terminal("FAIL_IDENTITY_MISMATCH", "PREINSTALLED_PYTHON_NOT_CPYTHON")
+          if sys.version_info.major != 3:
+              terminal("FAIL_IDENTITY_MISMATCH", "PREINSTALLED_PYTHON_NOT_PYTHON3")
+          executable = Path(sys.executable)
+          if not executable.is_absolute() or not executable.resolve().is_file():
+              terminal(
+                  "FAIL_IDENTITY_MISMATCH",
+                  "PREINSTALLED_PYTHON_PATH_INVALID",
+              )
+
+          def enumerate_open_nonstandard_descriptors() -> list[int]:
+              try:
+                  descriptor_names = os.listdir("/proc/self/fd")
+              except OSError:
+                  terminal(
+                      "INCONCLUSIVE",
+                      "PROC_SELF_FD_ENUMERATION_UNAVAILABLE",
+                  )
+              descriptors: list[int] = []
+              for descriptor_name in descriptor_names:
+                  if not descriptor_name.isdecimal():
+                      continue
+                  descriptor = int(descriptor_name)
+                  if descriptor <= 2:
+                      continue
+                  try:
+                      os.fstat(descriptor)
+                  except OSError:
+                      continue
+                  descriptors.append(descriptor)
+              return sorted(set(descriptors))
+
+          for descriptor in enumerate_open_nonstandard_descriptors():
+              try:
+                  os.close(descriptor)
+              except OSError:
+                  pass
+
+          if enumerate_open_nonstandard_descriptors():
+              terminal(
+                  "FAIL_CONFIGURATION",
+                  "NONSTANDARD_FILE_DESCRIPTOR_PRESENT",
+              )
+
+          uid = os.getuid()
+          gid = os.getgid()
+          if uid == 0 or gid == 0:
+              terminal("FAIL_CONFIGURATION", "CHILD_IDENTITY_ROOT")
+          if uid != original_uid:
+              terminal("FAIL_CONFIGURATION", "CHILD_UID_MISMATCH")
+          if gid != original_gid:
+              terminal("FAIL_CONFIGURATION", "CHILD_GID_MISMATCH")
+          if os.getgroups():
+              terminal("FAIL_CONFIGURATION", "SUPPLEMENTARY_GROUP_PRESENT")
+
+          status_fields: dict[str, str] = {}
+          try:
+              status_text = Path("/proc/self/status").read_text(
+                  encoding="utf-8"
+              )
+          except OSError:
+              terminal("INCONCLUSIVE", "PROC_SELF_STATUS_UNAVAILABLE")
+          for line in status_text.splitlines():
+              if ":" in line:
+                  key, value = line.split(":", 1)
+                  status_fields[key] = value.strip()
+
+          def require_four_identity_values(field: str, expected: int) -> None:
+              value = status_fields.get(field)
+              if value is None:
+                  terminal("INCONCLUSIVE", f"PROC_STATUS_{field.upper()}_MISSING")
+              parts = value.split()
+              if len(parts) != 4 or any(not part.isdecimal() for part in parts):
+                  terminal(
+                      "INCONCLUSIVE",
+                      f"PROC_STATUS_{field.upper()}_UNCLASSIFIABLE",
+                  )
+              if any(int(part) != expected for part in parts):
+                  terminal(
+                      "FAIL_CONFIGURATION",
+                      f"PROC_STATUS_{field.upper()}_IDENTITY_MISMATCH",
+                  )
+
+          require_four_identity_values("Uid", original_uid)
+          require_four_identity_values("Gid", original_gid)
+
+          for capability_field in (
+              "CapInh",
+              "CapPrm",
+              "CapEff",
+              "CapBnd",
+              "CapAmb",
+          ):
+              if status_fields.get(capability_field) != "0000000000000000":
+                  terminal(
+                      "FAIL_CONFIGURATION",
+                      f"{capability_field.upper()}_NONZERO",
+                  )
+          if status_fields.get("NoNewPrivs") != "1":
+              terminal("FAIL_CONFIGURATION", "NO_NEW_PRIVS_NOT_SET")
+
+          child_ns = hashlib.sha256(
+              os.readlink("/proc/self/ns/net").encode("utf-8")
+          ).hexdigest()
+          if child_ns == parent_namespace_checksum:
+              terminal("FAIL_CONFIGURATION", "PARENT_CHILD_NAMESPACE_EQUAL")
+
+          interfaces = sorted(path.name for path in Path("/sys/class/net").iterdir())
+          if interfaces != ["lo"]:
+              terminal("FAIL_CONFIGURATION", "USABLE_NON_LOOPBACK_INTERFACE_PRESENT")
+
+          loopback_flags = int(
+              Path("/sys/class/net/lo/flags").read_text(
+                  encoding="utf-8"
+              ).strip(),
+              16,
+          )
+          if loopback_flags & 0x1:
+              terminal("FAIL_CONFIGURATION", "LOOPBACK_ENABLED")
+
+          ipv4_routes = [
+              line
+              for line in Path("/proc/net/route").read_text(
+                  encoding="utf-8"
+              ).splitlines()[1:]
+              if line.strip()
+          ]
+          ipv6_routes = [
+              line
+              for line in Path("/proc/net/ipv6_route").read_text(
+                  encoding="utf-8"
+              ).splitlines()
+              if line.strip()
+          ]
+          if ipv4_routes:
+              terminal("FAIL_CONFIGURATION", "IPV4_ROUTE_PRESENT")
+          if ipv6_routes:
+              terminal("FAIL_CONFIGURATION", "IPV6_ROUTE_PRESENT")
+
+          accepted_kernel_failures = {
+              errno.ENETUNREACH,
+              errno.EHOSTUNREACH,
+              errno.EADDRNOTAVAIL,
+          }
+
+          ipv4 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+          try:
+              ipv4.settimeout(1.0)
+              ipv4_result = ipv4.connect_ex(("192.0.2.1", 443))
+          finally:
+              ipv4.close()
+          if ipv4_result == 0:
+              terminal("FAIL_CONFIGURATION", "C3_NET_NEG_IPV4_001_UNEXPECTED_SUCCESS")
+          if ipv4_result not in accepted_kernel_failures:
+              terminal("INCONCLUSIVE", "C3_NET_NEG_IPV4_001_UNCLASSIFIED_FAILURE")
+
+          ipv6 = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+          try:
+              ipv6.settimeout(1.0)
+              ipv6_result = ipv6.connect_ex(("2001:db8::1", 443))
+          finally:
+              ipv6.close()
+          if ipv6_result == 0:
+              terminal("FAIL_CONFIGURATION", "C3_NET_NEG_IPV6_001_UNEXPECTED_SUCCESS")
+          if ipv6_result not in accepted_kernel_failures:
+              terminal("INCONCLUSIVE", "C3_NET_NEG_IPV6_001_UNCLASSIFIED_FAILURE")
+
+          class Blocked(RuntimeError):
+              pass
+
+          active_control: str | None = None
+          events: list[tuple[str, str]] = []
+
+          def classify(event: str) -> str | None:
+              if event == "socket.getaddrinfo":
+                  return "DNS_RESOLUTION"
+              if event in {
+                  "socket.__new__",
+                  "socket.connect",
+                  "socket.connect_ex",
+                  "http.client.connect",
+              }:
+                  return "NETWORK_CONNECTION"
+              if event in {
+                  "subprocess.Popen",
+                  "os.system",
+                  "os.fork",
+                  "os.forkpty",
+                  "os.posix_spawn",
+                  "os.posix_spawnp",
+              }:
+                  return "PROCESS_CREATION"
+              if event.startswith("ctypes."):
+                  return "CTYPES"
+              return None
+
+          def audit_hook(event: str, args: tuple[object, ...]) -> None:
+              del args
+              classification = classify(event)
+              if (
+                  active_control == "C3_NET_NEG_HTTPS_001"
+                  and event == "socket.getaddrinfo"
+              ):
+                  classification = "NETWORK_CONNECTION"
+              if classification is None:
+                  return
+              control = active_control or "UNEXPECTED_EVENT"
+              events.append((control, classification))
+              raise Blocked(f"C3_OFFLINE_AUDIT_BLOCK:{classification}")
+
+          sys.addaudithook(audit_hook)
+
+          def expect_block(control: str, operation, classification: str) -> None:
+              global active_control
+              active_control = control
+              try:
+                  operation()
+              except Blocked as exc:
+                  if str(exc) != f"C3_OFFLINE_AUDIT_BLOCK:{classification}":
+                      terminal("FAIL_CONFIGURATION", f"{control}_WRONG_BLOCK")
+              except Exception:
+                  terminal("INCONCLUSIVE", f"{control}_UNRELATED_FAILURE")
+              else:
+                  terminal("FAIL_CONFIGURATION", f"{control}_NOT_BLOCKED")
+              finally:
+                  active_control = None
+
+          expect_block(
+              "C3_NET_NEG_DNS_001",
+              lambda: socket.getaddrinfo("c3-offline-control.invalid", 443),
+              "DNS_RESOLUTION",
+          )
+          expect_block(
+              "C3_NET_NEG_HTTPS_001",
+              lambda: http.client.HTTPSConnection(
+                  "c3-offline-control.invalid",
+                  timeout=1,
+              ).connect(),
+              "NETWORK_CONNECTION",
+          )
+          expect_block(
+              "C3_AUDIT_PROCESS_001",
+              lambda: subprocess.Popen(["/bin/true"]),
+              "PROCESS_CREATION",
+          )
+          expect_block(
+              "C3_AUDIT_CTYPES_001",
+              lambda: ctypes.CDLL(None),
+              "CTYPES",
+          )
+
+          expected_events = [
+              ("C3_NET_NEG_DNS_001", "DNS_RESOLUTION"),
+              ("C3_NET_NEG_HTTPS_001", "NETWORK_CONNECTION"),
+              ("C3_AUDIT_PROCESS_001", "PROCESS_CREATION"),
+              ("C3_AUDIT_CTYPES_001", "CTYPES"),
+          ]
+          if events != expected_events:
+              terminal("FAIL_CONFIGURATION", "AUDIT_EVENT_SEQUENCE_MISMATCH")
+
+          evidence = {
+              "child_environment_exclusion_result": "PASS",
+              "child_file_descriptor_boundary_result": "PASS",
+              "child_namespace_identity_sha256": child_ns,
+              "child_uid_classification": "NONROOT_MATCHED_ORIGINAL",
+              "child_gid_classification": "NONROOT_MATCHED_ORIGINAL",
+              "supplementary_group_count": 0,
+              "capability_zero_result": "PASS",
+              "no_new_privs_result": "PASS",
+              "interface_inventory_classification": "LOOPBACK_ONLY_DOWN",
+              "IPv4_route_count": 0,
+              "IPv6_route_count": 0,
+              "C3_NET_NEG_IPV4_001_result": "PASS_EXPECTED_STAGE",
+              "C3_NET_NEG_IPV6_001_result": "PASS_EXPECTED_STAGE",
+              "C3_NET_NEG_DNS_001_result": "PASS_EXPECTED_STAGE",
+              "C3_NET_NEG_HTTPS_001_result": "PASS_EXPECTED_STAGE",
+              "audit_process_control_result": "PASS_EXPECTED_STAGE",
+              "audit_ctypes_control_result": "PASS_EXPECTED_STAGE",
+              "universal_native_attempt_count": "NOT_ESTABLISHED",
+              "universal_DNS_request_count": "NOT_ESTABLISHED",
+              "universal_network_syscall_attempt_count": "NOT_ESTABLISHED",
+              "probe_child_terminal_result": "PASS",
+          }
+          print(json.dumps(
+              evidence,
+              sort_keys=True,
+              separators=(",", ":"),
+          ))
+          PY
+          )"
+
+          set +e
+          "$SUDO" -n \
+            "$UNSHARE" --net \
+            "$SETPRIV" \
+              --reuid="$original_uid" \
+              --regid="$original_gid" \
+              --clear-groups \
+              --inh-caps=-all \
+              --ambient-caps=-all \
+              --bounding-set=-all \
+              --no-new-privs \
+            "$ENV_CMD" -i \
+              HOME="$probe_home" \
+              TMPDIR="$probe_tmp" \
+              LANG=C.UTF-8 \
+              LC_ALL=C.UTF-8 \
+              TZ=UTC \
+              PYTHONHASHSEED=0 \
+              PYTHONDONTWRITEBYTECODE=1 \
+              PYTHONNOUSERSITE=1 \
+              PYTHONSAFEPATH=1 \
+              PYTHONUTF8=1 \
+            "$PYTHON3" -S -s -P -B -X utf8 -c "$HARNESS" \
+              RUNNER_CAPABILITY_PROBE \
+              "$parent_ns_before" \
+              "$original_uid" \
+              "$original_gid" \
+              </dev/null
+          child_status=$?
+          set -e
+
+          parent_ns_after="$(
+            "$READLINK" /proc/self/ns/net |
+              "$SHA256SUM" |
+              awk '{print $1}'
+          )"
+
+          [ "$parent_ns_before" = "$parent_ns_after" ] \
+            || fail PARENT_NAMESPACE_CHANGED
+          case "$child_status" in
+            0)
+              ;;
+            10)
+              fail CHILD_FEASIBILITY_CONFIGURATION_FAILURE
+              ;;
+            11)
+              identity_fail CHILD_FEASIBILITY_IDENTITY_FAILURE
+              ;;
+            12)
+              inconclusive CHILD_FEASIBILITY_OBSERVABILITY_LIMITATION
+              ;;
+            *)
+              inconclusive PREINSTALLED_PYTHON_HARNESS_DID_NOT_START
+              ;;
+          esac
+
+          printf 'parent_namespace_stability_result=PASS\n'
+          printf 'initial_probe_identity_effect=EVIDENCE_ONLY_PENDING_INDEPENDENT_REVIEW_AND_OWNER_SELECTION\n'
+          printf 'later_launcher_contract_status=UNBOUND_UNTIL_PROBE_EVIDENCE_ACCEPTED\n'
+          printf 'probe_terminal_result=PASS_RUNNER_CAPABILITY_AND_LAUNCHER_FEASIBILITY\n'
+
+  c3-validation:
+    name: Canonical C3 validation
+    if: >-
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact trigger commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+          submodules: false
+          lfs: false
+
+      - name: Verify checkout, workflow, and runner identities
+        shell: bash
+        env:
+          C3_EXPECTED_SOURCE_COMMIT: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+
+          fail() {
+            printf 'identity_terminal_result=FAIL_IDENTITY_MISMATCH\n'
+            printf 'identity_failure_code=%s\n' "$1"
+            exit 1
+          }
+
+          [ "$(git rev-parse HEAD)" = "$C3_EXPECTED_SOURCE_COMMIT" ] \
+            || fail CHECKOUT_COMMIT_MISMATCH
+          [ -z "$(git status --porcelain=v1 --untracked-files=all)" ] \
+            || fail CHECKOUT_NOT_CLEAN
+
+          [ "${RUNNER_ENVIRONMENT:-}" = "$C3_EXPECTED_RUNNER_ENVIRONMENT" ] \
+            || fail RUNNER_ENVIRONMENT_MISMATCH
+          [ "${RUNNER_OS:-}" = "$C3_EXPECTED_RUNNER_OS" ] \
+            || fail RUNNER_OS_MISMATCH
+          [ "${RUNNER_ARCH:-}" = "$C3_EXPECTED_RUNNER_ARCH" ] \
+            || fail RUNNER_ARCH_MISMATCH
+
+          . /etc/os-release
+          [ "${ID:-}" = "$C3_EXPECTED_OS_ID" ] \
+            || fail OS_RELEASE_ID_MISMATCH
+          [ "${VERSION_ID:-}" = "$C3_EXPECTED_OS_VERSION_ID" ] \
+            || fail OS_RELEASE_VERSION_ID_MISMATCH
+
+          grep -Fq 'runs-on: ubuntu-24.04' .github/workflows/tests.yml \
+            || fail WORKFLOW_RUNNER_LABEL_MISMATCH
+          grep -Fq "actions/checkout@$C3_EXPECTED_CHECKOUT_SHA" \
+            .github/workflows/tests.yml \
+            || fail CHECKOUT_ACTION_SHA_MISMATCH
+          grep -Fq "actions/setup-python@$C3_EXPECTED_SETUP_PYTHON_SHA" \
+            .github/workflows/tests.yml \
+            || fail SETUP_PYTHON_ACTION_SHA_MISMATCH
+          grep -Fq 'permissions: {}' .github/workflows/tests.yml \
+            || fail TOP_LEVEL_PERMISSIONS_MISMATCH
+
+          if [ -z "${ImageOS:-}" ] || [ -z "${ImageVersion:-}" ]; then
+            printf 'identity_terminal_result=INCONCLUSIVE\n'
+            printf 'identity_limitation_code=RUNNER_IMAGE_METADATA_UNAVAILABLE\n'
+            exit 2
+          fi
+
+          printf 'canonical_source_commit=%s\n' "$C3_EXPECTED_SOURCE_COMMIT"
+          printf 'workflow_runner_label=%s\n' "$C3_SELECTED_RUNNER_LABEL"
+          printf 'runner_environment=%s\n' "$RUNNER_ENVIRONMENT"
+          printf 'runner_os=%s\n' "$RUNNER_OS"
+          printf 'runner_arch=%s\n' "$RUNNER_ARCH"
+          printf 'os_release_id=%s\n' "$ID"
+          printf 'os_release_version_id=%s\n' "$VERSION_ID"
+          printf 'runner_image_identifier=%s\n' "$ImageOS"
+          printf 'runner_image_version=%s\n' "$ImageVersion"
+          printf 'checkout_action_full_sha=%s\n' "$C3_EXPECTED_CHECKOUT_SHA"
+          printf 'setup_python_action_full_sha=%s\n' "$C3_EXPECTED_SETUP_PYTHON_SHA"
+          printf 'identity_terminal_result=PASS\n'
+
+      - name: Require independently accepted probe identity binding
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "$C3_ACCEPTED_PROBE_IDENTITY_B64" = "UNBOUND_PENDING_INDEPENDENT_REVIEW_AND_OWNER_SELECTION" ]; then
+            printf 'launcher_contract_terminal_result=INCONCLUSIVE\n'
+            printf 'launcher_contract_limitation_code=PROBE_LAUNCHER_IDENTITY_UNBOUND\n'
+            exit 2
+          fi
+
+          printf 'launcher_contract_binding_presence_result=PASS_BOUND_PENDING_RUNTIME_COMPARISON\n'
+
+      - name: Inspect CPython 3.12 tool-cache state before setup
+        id: pre-cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          versions=()
+          shopt -s nullglob
+          for marker in "$RUNNER_TOOL_CACHE"/Python/3.12.*/x64.complete; do
+            version="$(basename "$(dirname "$marker")")"
+            versions+=("$version")
+          done
+          shopt -u nullglob
+
+          if [ "${#versions[@]}" -eq 0 ]; then
+            printf 'versions=NONE\n' >>"$GITHUB_OUTPUT"
+          else
+            IFS=,
+            printf 'versions=%s\n' "${versions[*]}" >>"$GITHUB_OUTPUT"
+          fi
+
+      - name: Provision CPython 3.12
+        id: setup-python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          architecture: x64
+          check-latest: false
+          allow-prereleases: false
+          freethreaded: false
+
+      - name: Classify Python provisioning outcome
+        id: python-provisioning
+        shell: bash
+        env:
+          C3_PRE_CACHE_VERSIONS: ${{ steps.pre-cache.outputs.versions }}
+          C3_SETUP_PYTHON_VERSION: ${{ steps.setup-python.outputs.python-version }}
+        run: |
+          set -euo pipefail
+
+          python - <<'PY'
+          import platform
+          import sys
+          import sysconfig
+
+          if platform.python_implementation() != "CPython":
+              raise SystemExit("FAIL_IDENTITY_MISMATCH:PYTHON_IMPLEMENTATION")
+          if sys.version_info[:2] != (3, 12):
+              raise SystemExit("FAIL_IDENTITY_MISMATCH:PYTHON_MINOR")
+          if platform.machine().lower() not in {"x86_64", "amd64"}:
+              raise SystemExit("FAIL_IDENTITY_MISMATCH:PYTHON_ARCHITECTURE")
+
+          print("python_implementation=CPython")
+          print(f"python_exact_patch={platform.python_version()}")
+          print("python_minor_policy_result=PASS")
+          print(f"python_cache_tag={sys.implementation.cache_tag}")
+          print(f"python_SOABI={sysconfig.get_config_var('SOABI')}")
+          print(f"python_platform_tag={sysconfig.get_platform()}")
+          PY
+
+          exact_version="$C3_SETUP_PYTHON_VERSION"
+          if [ "$C3_PRE_CACHE_VERSIONS" = "NONE" ]; then
+            provisioning="MISS"
+          elif printf ',%s,' "$C3_PRE_CACHE_VERSIONS" |
+            grep -Fq ",$exact_version,"
+          then
+            provisioning="HIT"
+          else
+            provisioning="MISS"
+          fi
+
+          printf 'toolcache_outcome=%s\n' "$provisioning"
+          printf 'toolcache_outcome=%s\n' "$provisioning" >>"$GITHUB_OUTPUT"
+          if [ "$provisioning" = "MISS" ]; then
+            printf 'setup_python_artifact_provenance_result=INCONCLUSIVE\n'
+          else
+            printf 'setup_python_artifact_provenance_result=RUNNER_IMAGE_TOOLCACHE_EVIDENCE\n'
+          fi
+
+      - name: Verify setup-python interpreter under accepted child environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+
+          fail_configuration() {
+            printf 'canonical_interpreter_preflight_terminal_result=FAIL_CONFIGURATION\n'
+            printf 'canonical_interpreter_preflight_failure_code=%s\n' "$1"
+            exit 1
+          }
+
+          fail_identity() {
+            printf 'canonical_interpreter_preflight_terminal_result=FAIL_IDENTITY_MISMATCH\n'
+            printf 'canonical_interpreter_preflight_failure_code=%s\n' "$1"
+            exit 1
+          }
+
+          inconclusive() {
+            printf 'canonical_interpreter_preflight_terminal_result=INCONCLUSIVE\n'
+            printf 'canonical_interpreter_preflight_limitation_code=%s\n' "$1"
+            exit 2
+          }
+
+          [ -n "${pythonLocation:-}" ] \
+            || inconclusive SETUP_PYTHON_LOCATION_UNAVAILABLE
+          SETUP_PYTHON="$pythonLocation/bin/python"
+          [ -x "$SETUP_PYTHON" ] \
+            || fail_identity SETUP_PYTHON_ENTRYPOINT_INVALID
+
+          set +e
+          launcher_output="$(
+            "$SETUP_PYTHON" -S -s -P -B -X utf8 - \
+              "$C3_ACCEPTED_PROBE_IDENTITY_B64" \
+              "${ImageOS:-}" \
+              "${ImageVersion:-}" <<'PY'
+          import base64
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import stat
+          import subprocess
+          import sys
+
+          SENTINEL = "UNBOUND_PENDING_INDEPENDENT_REVIEW_AND_OWNER_SELECTION"
+          REQUIRED_COMMANDS = (
+              "sudo",
+              "unshare",
+              "setpriv",
+              "ip",
+              "env",
+              "id",
+              "readlink",
+              "stat",
+              "sha256sum",
+              "python3",
+          )
+          VERSION_ARGUMENTS = {
+              "sudo": ("--version",),
+              "unshare": ("--version",),
+              "setpriv": ("--version",),
+              "ip": ("-Version",),
+              "env": ("--version",),
+              "id": ("--version",),
+              "readlink": ("--version",),
+              "stat": ("--version",),
+              "sha256sum": ("--version",),
+              "python3": ("-S", "-s", "-P", "-B", "-X", "utf8", "--version"),
+          }
+
+          def stop(code: int) -> None:
+              raise SystemExit(code)
+
+          def main() -> None:
+              if len(sys.argv) != 4:
+                  stop(10)
+              encoded, image_os, image_version = sys.argv[1:]
+              if encoded == SENTINEL:
+                  stop(12)
+              try:
+                  decoded = base64.b64decode(encoded, validate=True)
+                  payload = json.loads(decoded.decode("utf-8"))
+              except Exception:
+                  stop(10)
+              if set(payload) != {"schema_version", "runner_image", "commands"}:
+                  stop(10)
+              if payload.get("schema_version") != "C3_ACCEPTED_RUNNER_LAUNCHER_IDENTITY_V1":
+                  stop(10)
+              runner_image = payload.get("runner_image")
+              commands = payload.get("commands")
+              if not isinstance(runner_image, dict) or not isinstance(commands, dict):
+                  stop(10)
+              if set(runner_image) != {"identifier", "version"}:
+                  stop(10)
+              if runner_image["identifier"] != image_os:
+                  stop(11)
+              if runner_image["version"] != image_version:
+                  stop(11)
+              if set(commands) != set(REQUIRED_COMMANDS):
+                  stop(10)
+
+              resolved_paths: list[str] = []
+              for command_name in REQUIRED_COMMANDS:
+                  record = commands.get(command_name)
+                  if not isinstance(record, dict):
+                      stop(10)
+                  if set(record) != {
+                      "absolute_path",
+                      "version_first_line",
+                      "sha256",
+                      "owner_uid",
+                      "owner_gid",
+                      "mode",
+                      "runner_writable",
+                  }:
+                      stop(10)
+                  if not isinstance(record["runner_writable"], bool):
+                      stop(10)
+                  if record["runner_writable"] is not False:
+                      stop(10)
+                  path_text = record["absolute_path"]
+                  if not isinstance(path_text, str) or "\\n" in path_text or "\\r" in path_text:
+                      stop(10)
+                  path = Path(path_text)
+                  if not path.is_absolute() or not path.is_file() or not os.access(path, os.X_OK):
+                      stop(11)
+                  file_stat = path.stat()
+                  if not isinstance(record["owner_uid"], int) or not isinstance(record["owner_gid"], int):
+                      stop(10)
+                  if file_stat.st_uid != record["owner_uid"]:
+                      stop(11)
+                  if file_stat.st_gid != record["owner_gid"]:
+                      stop(11)
+                  current_mode = format(stat.S_IMODE(file_stat.st_mode), "o")
+                  if current_mode != record["mode"]:
+                      stop(11)
+                  current_runner_writable = os.access(path, os.W_OK)
+                  if current_runner_writable != record["runner_writable"]:
+                      stop(11)
+                  checksum = hashlib.sha256(path.read_bytes()).hexdigest()
+                  if checksum != record["sha256"]:
+                      stop(11)
+                  try:
+                      completed = subprocess.run(
+                          [str(path), *VERSION_ARGUMENTS[command_name]],
+                          stdin=subprocess.DEVNULL,
+                          stdout=subprocess.PIPE,
+                          stderr=subprocess.STDOUT,
+                          text=True,
+                          encoding="utf-8",
+                          errors="strict",
+                          env={"LANG": "C", "LC_ALL": "C"},
+                          timeout=15,
+                          check=False,
+                      )
+                  except Exception:
+                      stop(12)
+                  if completed.returncode != 0:
+                      stop(12)
+                  version_lines = completed.stdout.splitlines()
+                  if not version_lines or not version_lines[0]:
+                      stop(12)
+                  if version_lines[0] != record["version_first_line"]:
+                      stop(11)
+                  resolved_paths.append(str(path))
+
+              print("\\n".join(resolved_paths))
+
+          try:
+              main()
+          except SystemExit:
+              raise
+          except BaseException:
+              raise SystemExit(12)
+          PY
+          )"
+          launcher_status=$?
+          set -e
+
+          case "$launcher_status" in
+            0) ;;
+            10) fail_configuration PROBE_LAUNCHER_CONTRACT_INVALID ;;
+            11) fail_identity PROBE_LAUNCHER_IDENTITY_MISMATCH ;;
+            12) inconclusive PROBE_LAUNCHER_IDENTITY_UNBOUND_OR_UNCLASSIFIABLE ;;
+            *) inconclusive PROBE_LAUNCHER_IDENTITY_VERIFIER_FAILURE ;;
+          esac
+
+          mapfile -t launcher_paths <<<"$launcher_output"
+          [ "${#launcher_paths[@]}" -eq 10 ] \
+            || fail_configuration PROBE_LAUNCHER_PATH_COUNT_MISMATCH
+          SUDO="${launcher_paths[0]}"
+          UNSHARE="${launcher_paths[1]}"
+          SETPRIV="${launcher_paths[2]}"
+          IP="${launcher_paths[3]}"
+          ENV_CMD="${launcher_paths[4]}"
+          ID_CMD="${launcher_paths[5]}"
+          READLINK="${launcher_paths[6]}"
+          STAT_CMD="${launcher_paths[7]}"
+          SHA256SUM="${launcher_paths[8]}"
+          PREINSTALLED_PYTHON3="${launcher_paths[9]}"
+          unset launcher_output launcher_paths
+
+
+          "$SUDO" -n true </dev/null \
+            || inconclusive NONINTERACTIVE_SUDO_UNAVAILABLE
+
+          original_uid="$("$ID_CMD" -u)"
+          original_gid="$("$ID_CMD" -g)"
+          [ "$original_uid" -ne 0 ] \
+            || fail_configuration ORIGINAL_RUNNER_UID_IS_ROOT
+          [ "$original_gid" -ne 0 ] \
+            || fail_configuration ORIGINAL_RUNNER_GID_IS_ROOT
+
+          parent_ns_before="$(
+            "$READLINK" /proc/self/ns/net |
+              "$SHA256SUM" |
+              awk '{print $1}'
+          )"
+
+          expected_lock_checksum="$(
+            "$SHA256SUM" requirements.lock |
+              awk '{print $1}'
+          )"
+          dependency_checksum="$(
+            grep -E '^  dependency_metadata_checksum: [0-9a-f]{64}$' \
+              docs/reports/C3_environment_and_dependency_manifest.yaml |
+              awk '{print $2}'
+          )"
+          [ -n "$dependency_checksum" ] \
+            || fail_configuration DEPENDENCY_METADATA_CHECKSUM_UNBOUND
+
+          preflight_temp_root="$(
+            "$SETUP_PYTHON" - "$RUNNER_TEMP" "$GITHUB_WORKSPACE" <<'PY'
+          from pathlib import Path
+          import os
+          import sys
+          import tempfile
+
+          runner_temp = Path(sys.argv[1]).resolve()
+          repository_root = Path(sys.argv[2]).resolve()
+          root = Path(
+              tempfile.mkdtemp(
+                  prefix="c3-canonical-interpreter-preflight-",
+                  dir=runner_temp,
+              )
+          ).resolve()
+          if root == repository_root or repository_root in root.parents:
+              raise SystemExit("FAIL_CONFIGURATION:PREFLIGHT_TEMP_INSIDE_REPOSITORY")
+          for leaf in ("home", "tmp", "evidence"):
+              (root / leaf).mkdir(mode=0o700)
+          os.chmod(root, 0o700)
+          print(root)
+          PY
+          )"
+          preflight_home="$preflight_temp_root/home"
+          preflight_tmp="$preflight_temp_root/tmp"
+          preflight_evidence="$preflight_temp_root/evidence"
+
+          cleanup_preflight_temp() {
+            "$SETUP_PYTHON" - "$preflight_temp_root" <<'PY'
+          from pathlib import Path
+          import shutil
+          import sys
+
+          root = Path(sys.argv[1])
+          if root.is_absolute():
+              shutil.rmtree(root, ignore_errors=True)
+          PY
+          }
+          trap cleanup_preflight_temp EXIT
+
+          PREFLIGHT="$(
+            cat <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import sys
+          import sysconfig
+
+          def _sanitized_unexpected_exception(
+              exception_type, exception_value, exception_traceback
+          ) -> None:
+              del exception_type, exception_value, exception_traceback
+              print(json.dumps(
+                  {
+                      "canonical_interpreter_preflight_terminal_result": (
+                          "INCONCLUSIVE"
+                      ),
+                      "canonical_interpreter_preflight_terminal_code": (
+                          "UNEXPECTED_EXCEPTION"
+                      ),
+                  },
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ))
+
+          sys.excepthook = _sanitized_unexpected_exception
+
+          EXIT_CODES = {
+              "PASS": 0,
+              "FAIL_CONFIGURATION": 10,
+              "FAIL_IDENTITY_MISMATCH": 11,
+              "INCONCLUSIVE": 12,
+          }
+
+          def terminate(result: str, code: str) -> None:
+              print(json.dumps(
+                  {
+                      "canonical_interpreter_preflight_terminal_result": result,
+                      "canonical_interpreter_preflight_terminal_code": code,
+                  },
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ))
+              raise SystemExit(EXIT_CODES[result])
+
+          if len(sys.argv) != 9:
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "CANONICAL_POSITIONAL_ARGUMENT_COUNT_MISMATCH",
+              )
+          (
+              execution_phase,
+              repository_root_text,
+              evidence_root_text,
+              parent_namespace_checksum,
+              original_uid_text,
+              original_gid_text,
+              expected_lock_checksum,
+              expected_dependency_checksum,
+          ) = sys.argv[1:]
+
+          if execution_phase != "CANONICAL_INTERPRETER_PREFLIGHT":
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "CANONICAL_PREFLIGHT_PHASE_IDENTITY_MISMATCH",
+              )
+          for name, value in (
+              ("PARENT_NAMESPACE", parent_namespace_checksum),
+              ("LOCK", expected_lock_checksum),
+              ("DEPENDENCY_METADATA", expected_dependency_checksum),
+          ):
+              if (
+                  len(value) != 64
+                  or any(character not in "0123456789abcdef" for character in value)
+              ):
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"{name}_CHECKSUM_INVALID",
+                  )
+          if not original_uid_text.isdecimal() or not original_gid_text.isdecimal():
+              terminate("FAIL_CONFIGURATION", "ORIGINAL_IDENTITY_INVALID")
+          original_uid = int(original_uid_text)
+          original_gid = int(original_gid_text)
+          if original_uid == 0 or original_gid == 0:
+              terminate("FAIL_CONFIGURATION", "ORIGINAL_IDENTITY_ROOT")
+
+          repository_root = Path(repository_root_text)
+          evidence_root = Path(evidence_root_text)
+          if not repository_root.is_absolute() or not repository_root.is_dir():
+              terminate("FAIL_CONFIGURATION", "REPOSITORY_ROOT_INVALID")
+          if not evidence_root.is_absolute() or not evidence_root.is_dir():
+              terminate("FAIL_CONFIGURATION", "EVIDENCE_ROOT_INVALID")
+          resolved_repository_root = repository_root.resolve()
+          resolved_evidence_root = evidence_root.resolve()
+          if (
+              resolved_evidence_root == resolved_repository_root
+              or resolved_repository_root in resolved_evidence_root.parents
+          ):
+              terminate("FAIL_CONFIGURATION", "EVIDENCE_ROOT_INSIDE_REPOSITORY")
+
+          required_names = {
+              "HOME",
+              "TMPDIR",
+              "LANG",
+              "LC_ALL",
+              "TZ",
+              "PYTHONHASHSEED",
+              "PYTHONDONTWRITEBYTECODE",
+              "PYTHONNOUSERSITE",
+              "PYTHONSAFEPATH",
+              "PYTHONUTF8",
+          }
+          if set(os.environ) != required_names:
+              terminate("FAIL_CONFIGURATION", "CHILD_ENVIRONMENT_SET_MISMATCH")
+          expected_fixed_values = {
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "TZ": "UTC",
+              "PYTHONHASHSEED": "0",
+              "PYTHONDONTWRITEBYTECODE": "1",
+              "PYTHONNOUSERSITE": "1",
+              "PYTHONSAFEPATH": "1",
+              "PYTHONUTF8": "1",
+          }
+          for name, expected_value in expected_fixed_values.items():
+              if os.environ[name] != expected_value:
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"CHILD_ENVIRONMENT_VALUE_MISMATCH_{name}",
+                  )
+          for name in ("HOME", "TMPDIR"):
+              value = Path(os.environ[name])
+              if not value.is_absolute() or not value.is_dir():
+                  terminate("FAIL_CONFIGURATION", f"CHILD_{name}_INVALID")
+
+          def enumerate_open_nonstandard_descriptors() -> list[int]:
+              try:
+                  descriptor_names = os.listdir("/proc/self/fd")
+              except OSError:
+                  terminate(
+                      "INCONCLUSIVE",
+                      "PROC_SELF_FD_ENUMERATION_UNAVAILABLE",
+                  )
+              descriptors: list[int] = []
+              for descriptor_name in descriptor_names:
+                  if not descriptor_name.isdecimal():
+                      continue
+                  descriptor = int(descriptor_name)
+                  if descriptor <= 2:
+                      continue
+                  try:
+                      os.fstat(descriptor)
+                  except OSError:
+                      continue
+                  descriptors.append(descriptor)
+              return sorted(set(descriptors))
+
+          for descriptor in enumerate_open_nonstandard_descriptors():
+              try:
+                  os.close(descriptor)
+              except OSError:
+                  pass
+
+          if enumerate_open_nonstandard_descriptors():
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "NONSTANDARD_FILE_DESCRIPTOR_PRESENT",
+              )
+
+          if os.getuid() != original_uid or os.getgid() != original_gid:
+              terminate("FAIL_CONFIGURATION", "CHILD_IDENTITY_MISMATCH")
+          if os.getuid() == 0 or os.getgid() == 0:
+              terminate("FAIL_CONFIGURATION", "CHILD_IDENTITY_ROOT")
+          if os.getgroups():
+              terminate("FAIL_CONFIGURATION", "SUPPLEMENTARY_GROUP_PRESENT")
+
+          if sys.flags.no_site != 1:
+              terminate("FAIL_CONFIGURATION", "PYTHON_NO_SITE_MODE_NOT_SET")
+          if sys.flags.no_user_site != 1:
+              terminate("FAIL_CONFIGURATION", "PYTHON_NO_USER_SITE_MODE_NOT_SET")
+          if not getattr(sys.flags, "safe_path", False):
+              terminate("FAIL_CONFIGURATION", "PYTHON_SAFE_PATH_NOT_SET")
+          if not sys.dont_write_bytecode:
+              terminate("FAIL_CONFIGURATION", "PYTHON_DONT_WRITE_BYTECODE_NOT_SET")
+          if sys.flags.utf8_mode != 1:
+              terminate("FAIL_CONFIGURATION", "PYTHON_UTF8_MODE_NOT_SET")
+          if sys.flags.hash_randomization != 0:
+              terminate("FAIL_CONFIGURATION", "PYTHON_HASH_RANDOMIZATION_NOT_DISABLED")
+          if "site" in sys.modules:
+              terminate("FAIL_CONFIGURATION", "SITE_IMPORTED_DURING_BOOTSTRAP")
+
+          status_fields: dict[str, str] = {}
+          try:
+              status_text = Path("/proc/self/status").read_text(
+                  encoding="utf-8"
+              )
+          except OSError:
+              terminate("INCONCLUSIVE", "PROC_SELF_STATUS_UNAVAILABLE")
+          for line in status_text.splitlines():
+              if ":" in line:
+                  key, value = line.split(":", 1)
+                  status_fields[key] = value.strip()
+
+          def require_four_identity_values(field: str, expected: int) -> None:
+              value = status_fields.get(field)
+              if value is None:
+                  terminate("INCONCLUSIVE", f"PROC_STATUS_{field.upper()}_MISSING")
+              parts = value.split()
+              if len(parts) != 4 or any(not part.isdecimal() for part in parts):
+                  terminate(
+                      "INCONCLUSIVE",
+                      f"PROC_STATUS_{field.upper()}_UNCLASSIFIABLE",
+                  )
+              if any(int(part) != expected for part in parts):
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"PROC_STATUS_{field.upper()}_IDENTITY_MISMATCH",
+                  )
+
+          require_four_identity_values("Uid", original_uid)
+          require_four_identity_values("Gid", original_gid)
+
+          for capability_field in (
+              "CapInh",
+              "CapPrm",
+              "CapEff",
+              "CapBnd",
+              "CapAmb",
+          ):
+              if status_fields.get(capability_field) != "0000000000000000":
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"{capability_field.upper()}_NONZERO",
+                  )
+          if status_fields.get("NoNewPrivs") != "1":
+              terminate("FAIL_CONFIGURATION", "NO_NEW_PRIVS_NOT_SET")
+
+          child_namespace_checksum = hashlib.sha256(
+              os.readlink("/proc/self/ns/net").encode("utf-8")
+          ).hexdigest()
+          if child_namespace_checksum == parent_namespace_checksum:
+              terminate("FAIL_CONFIGURATION", "PARENT_CHILD_NAMESPACE_EQUAL")
+
+          if sys.implementation.name != "cpython":
+              terminate("FAIL_IDENTITY_MISMATCH", "PYTHON_IMPLEMENTATION_MISMATCH")
+          if sys.version_info[:2] != (3, 12):
+              terminate("FAIL_IDENTITY_MISMATCH", "PYTHON_MINOR_MISMATCH")
+          executable = Path(sys.executable)
+          if not executable.is_absolute() or not executable.resolve().is_file():
+              terminate("FAIL_IDENTITY_MISMATCH", "PYTHON_EXECUTABLE_INVALID")
+          if not sysconfig.get_config_var("SOABI"):
+              terminate("INCONCLUSIVE", "PYTHON_SOABI_UNAVAILABLE")
+          if any(
+              name == "quantitative_trading_research"
+              or name.startswith("quantitative_trading_research.")
+              for name in sys.modules
+          ):
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "CANONICAL_IMPORT_OCCURRED_BEFORE_PREFLIGHT_COMPLETION",
+              )
+
+          terminate(
+              "PASS",
+              "PASS_CANONICAL_OFFLINE_INTERPRETER_ENVIRONMENT_FEASIBILITY",
+          )
+          PY
+          )"
+
+          set +e
+          "$SUDO" -n \
+            "$UNSHARE" --net \
+            "$SETPRIV" \
+              --reuid="$original_uid" \
+              --regid="$original_gid" \
+              --clear-groups \
+              --inh-caps=-all \
+              --ambient-caps=-all \
+              --bounding-set=-all \
+              --no-new-privs \
+            "$ENV_CMD" -i \
+              HOME="$preflight_home" \
+              TMPDIR="$preflight_tmp" \
+              LANG=C.UTF-8 \
+              LC_ALL=C.UTF-8 \
+              TZ=UTC \
+              PYTHONHASHSEED=0 \
+              PYTHONDONTWRITEBYTECODE=1 \
+              PYTHONNOUSERSITE=1 \
+              PYTHONSAFEPATH=1 \
+              PYTHONUTF8=1 \
+            "$SETUP_PYTHON" -S -s -P -B -X utf8 -c "$PREFLIGHT" \
+              CANONICAL_INTERPRETER_PREFLIGHT \
+              "$GITHUB_WORKSPACE" \
+              "$preflight_evidence" \
+              "$parent_ns_before" \
+              "$original_uid" \
+              "$original_gid" \
+              "$expected_lock_checksum" \
+              "$dependency_checksum" \
+              </dev/null
+          preflight_status=$?
+          set -e
+
+          case "$preflight_status" in
+            0)
+              printf 'canonical_interpreter_preflight_terminal_result=PASS_CANONICAL_OFFLINE_INTERPRETER_ENVIRONMENT_FEASIBILITY\n'
+              ;;
+            10)
+              fail_configuration CHILD_PREFLIGHT_CONFIGURATION_FAILURE
+              ;;
+            11)
+              fail_identity CHILD_PREFLIGHT_IDENTITY_FAILURE
+              ;;
+            12)
+              inconclusive CHILD_PREFLIGHT_OBSERVABILITY_LIMITATION
+              ;;
+            *)
+              printf 'canonical_interpreter_preflight_terminal_result=INCONCLUSIVE_CANONICAL_OFFLINE_INTERPRETER_ENVIRONMENT_BLOCKER\n'
+              printf 'canonical_interpreter_preflight_limitation_code=INTERPRETER_DID_NOT_START_UNDER_ACCEPTED_ENVIRONMENT\n'
+              exit 2
+              ;;
+          esac
+
+      - name: Prepare temporary construction locations
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+
+          wheelhouse="$RUNNER_TEMP/c3-tooling-wheelhouse"
+          tool_venv="$RUNNER_TEMP/c3-tooling-venv"
+          build_source="$RUNNER_TEMP/c3-build-source"
+          build_output="$RUNNER_TEMP/c3-build-output"
+          canonical_venv="$RUNNER_TEMP/c3-canonical-venv"
+          evidence_root="$RUNNER_TEMP/c3-offline-evidence"
+          offline_home="$RUNNER_TEMP/c3-offline-home"
+          offline_tmp="$RUNNER_TEMP/c3-offline-tmp"
+
+          rm -rf \
+            "$wheelhouse" \
+            "$tool_venv" \
+            "$build_source" \
+            "$build_output" \
+            "$canonical_venv" \
+            "$evidence_root" \
+            "$offline_home" \
+            "$offline_tmp"
+
+          mkdir -m 700 \
+            "$wheelhouse" \
+            "$build_source" \
+            "$build_output" \
+            "$evidence_root" \
+            "$offline_home" \
+            "$offline_tmp"
+
+          {
+            printf 'C3_TOOL_WHEELHOUSE=%s\n' "$wheelhouse"
+            printf 'C3_TOOL_VENV=%s\n' "$tool_venv"
+            printf 'C3_BUILD_SOURCE=%s\n' "$build_source"
+            printf 'C3_BUILD_OUTPUT=%s\n' "$build_output"
+            printf 'C3_CANONICAL_VENV=%s\n' "$canonical_venv"
+            printf 'C3_EVIDENCE_ROOT=%s\n' "$evidence_root"
+            printf 'C3_OFFLINE_HOME=%s\n' "$offline_home"
+            printf 'C3_OFFLINE_TMP=%s\n' "$offline_tmp"
+          } >>"$GITHUB_ENV"
+
+      - name: Acquire exact tooling artifacts from accepted package sources
+        shell: bash
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+          PIP_CONFIG_FILE: /dev/null
+        run: |
+          set -euo pipefail
+          umask 077
+
+          unset \
+            HTTP_PROXY HTTPS_PROXY ALL_PROXY NO_PROXY \
+            http_proxy https_proxy all_proxy no_proxy \
+            PIP_INDEX_URL PIP_EXTRA_INDEX_URL PIP_TRUSTED_HOST PIP_FIND_LINKS
+
+          python - "$C3_TOOL_WHEELHOUSE" <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import json
+          from pathlib import Path
+          import re
+          import ssl
+          import sys
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+
+          manifest_path = Path(
+              "docs/reports/C3_environment_and_dependency_manifest.yaml"
+          )
+          wheelhouse = Path(sys.argv[1])
+          text = manifest_path.read_text(encoding="utf-8")
+
+          if (
+              "artifact_inventory_status: BOUND_GATE_2_EXECUTION"
+              not in text
+          ):
+              raise SystemExit(
+                  "FAIL_CONFIGURATION:TOOLING_ARTIFACT_INVENTORY_UNBOUND"
+              )
+
+          lines = text.splitlines()
+          artifacts: list[dict[str, str]] = []
+          in_artifacts = False
+          current: dict[str, str] | None = None
+
+          for line in lines:
+              if line == "  artifacts:":
+                  in_artifacts = True
+                  continue
+              if in_artifacts and line.startswith("  exact_artifact_count:"):
+                  if current is not None:
+                      artifacts.append(current)
+                  break
+              if not in_artifacts:
+                  continue
+
+              item = re.fullmatch(r"    - ([A-Za-z0-9_]+): (.+)", line)
+              field = re.fullmatch(r"      ([A-Za-z0-9_]+): (.+)", line)
+
+              if item:
+                  if current is not None:
+                      artifacts.append(current)
+                  current = {item.group(1): item.group(2).strip('"')}
+              elif field and current is not None:
+                  current[field.group(1)] = field.group(2).strip('"')
+              elif line.strip():
+                  raise SystemExit(
+                      "FAIL_CONFIGURATION:TOOLING_ARTIFACT_SCHEMA_INVALID"
+                  )
+
+          if not artifacts:
+              raise SystemExit(
+                  "FAIL_CONFIGURATION:TOOLING_ARTIFACT_INVENTORY_EMPTY"
+              )
+
+          required_fields = {
+              "distribution",
+              "version",
+              "project",
+              "filename",
+              "simple_index_url",
+              "artifact_url",
+              "sha256",
+          }
+          for artifact in artifacts:
+              if set(artifact) != required_fields:
+                  raise SystemExit(
+                      "FAIL_CONFIGURATION:TOOLING_ARTIFACT_FIELDS_INVALID"
+                  )
+              if not re.fullmatch(r"[0-9a-f]{64}", artifact["sha256"]):
+                  raise SystemExit(
+                      "FAIL_CONFIGURATION:TOOLING_ARTIFACT_HASH_INVALID"
+                  )
+
+          exact_count_match = re.search(
+              r"(?m)^  exact_artifact_count: ([0-9]+)$",
+              text,
+          )
+          if not exact_count_match:
+              raise SystemExit(
+                  "FAIL_CONFIGURATION:TOOLING_ARTIFACT_COUNT_UNBOUND"
+              )
+          if int(exact_count_match.group(1)) != len(artifacts):
+              raise SystemExit(
+                  "FAIL_CONFIGURATION:TOOLING_ARTIFACT_COUNT_MISMATCH"
+              )
+
+          class RejectRedirects(urllib.request.HTTPRedirectHandler):
+              def redirect_request(
+                  self,
+                  req,
+                  fp,
+                  code,
+                  msg,
+                  headers,
+                  newurl,
+              ):
+                  return None
+
+          context = ssl.create_default_context()
+          if (
+              not context.check_hostname
+              or context.verify_mode != ssl.CERT_REQUIRED
+          ):
+              raise SystemExit(
+                  "FAIL_CONFIGURATION:TLS_VERIFICATION_NOT_ENABLED"
+              )
+
+          opener = urllib.request.build_opener(
+              urllib.request.ProxyHandler({}),
+              RejectRedirects(),
+              urllib.request.HTTPSHandler(context=context),
+          )
+
+          for artifact in artifacts:
+              simple = urllib.parse.urlsplit(
+                  artifact["simple_index_url"]
+              )
+              if (
+                  simple.scheme != "https"
+                  or simple.hostname != "pypi.org"
+                  or (simple.port or 443) != 443
+                  or not simple.path.startswith("/simple/")
+                  or simple.query
+                  or simple.fragment
+              ):
+                  raise SystemExit(
+                      "FAIL_PROHIBITED_SOURCE:SIMPLE_INDEX_NOT_ALLOWLISTED"
+                  )
+
+              request = urllib.request.Request(
+                  artifact["simple_index_url"],
+                  headers={
+                      "Accept": "application/vnd.pypi.simple.v1+json",
+                      "User-Agent": "C3-canonical-tooling-acquisition/1",
+                  },
+              )
+              try:
+                  with opener.open(request, timeout=30) as response:
+                      if response.status != 200:
+                          raise SystemExit(
+                              "FAIL_OTHER:SIMPLE_INDEX_HTTP_STATUS"
+                          )
+                      if response.geturl() != artifact["simple_index_url"]:
+                          raise SystemExit(
+                              "FAIL_PROHIBITED_SOURCE:SIMPLE_INDEX_REDIRECT"
+                          )
+                      payload = json.loads(
+                          response.read().decode("utf-8")
+                      )
+              except urllib.error.HTTPError as exc:
+                  if 300 <= exc.code < 400:
+                      raise SystemExit(
+                          "FAIL_PROHIBITED_SOURCE:SIMPLE_INDEX_REDIRECT"
+                      ) from None
+                  raise SystemExit(
+                      "FAIL_OTHER:SIMPLE_INDEX_HTTP_ERROR"
+                  ) from None
+              except urllib.error.URLError:
+                  raise SystemExit(
+                      "FAIL_OTHER:SIMPLE_INDEX_NETWORK_ERROR"
+                  ) from None
+
+              matches = [
+                  entry
+                  for entry in payload.get("files", [])
+                  if entry.get("filename") == artifact["filename"]
+              ]
+              if len(matches) != 1:
+                  raise SystemExit(
+                      "FAIL_IDENTITY_MISMATCH:ARTIFACT_FILENAME_MATCH_COUNT"
+                  )
+              entry = matches[0]
+              if (
+                  entry.get("hashes", {}).get("sha256")
+                  != artifact["sha256"]
+              ):
+                  raise SystemExit(
+                      "FAIL_IDENTITY_MISMATCH:INDEX_HASH_MISMATCH"
+                  )
+
+              effective_url = urllib.parse.urljoin(
+                  artifact["simple_index_url"],
+                  entry.get("url", ""),
+              )
+              if effective_url != artifact["artifact_url"]:
+                  raise SystemExit(
+                      "FAIL_IDENTITY_MISMATCH:ARTIFACT_URL_MISMATCH"
+                  )
+
+              parsed = urllib.parse.urlsplit(effective_url)
+              if (
+                  parsed.scheme != "https"
+                  or parsed.hostname != "files.pythonhosted.org"
+                  or (parsed.port or 443) != 443
+                  or not parsed.path.startswith("/packages/")
+                  or Path(
+                      urllib.parse.unquote(parsed.path)
+                  ).name != artifact["filename"]
+                  or parsed.query
+                  or parsed.fragment
+              ):
+                  raise SystemExit(
+                      "FAIL_PROHIBITED_SOURCE:ARTIFACT_URL_NOT_ALLOWLISTED"
+                  )
+
+              final_path = wheelhouse / artifact["filename"]
+              partial_path = wheelhouse / (
+                  f".{artifact['filename']}.partial"
+              )
+              digest = hashlib.sha256()
+
+              try:
+                  with opener.open(
+                      urllib.request.Request(
+                          effective_url,
+                          headers={
+                              "Accept": "application/octet-stream",
+                              "User-Agent": (
+                                  "C3-canonical-tooling-acquisition/1"
+                              ),
+                          },
+                      ),
+                      timeout=60,
+                  ) as response:
+                      if response.status != 200:
+                          raise SystemExit(
+                              "FAIL_OTHER:ARTIFACT_HTTP_STATUS"
+                          )
+                      if response.geturl() != effective_url:
+                          raise SystemExit(
+                              "FAIL_PROHIBITED_SOURCE:ARTIFACT_REDIRECT"
+                          )
+                      with partial_path.open("xb") as output:
+                          while True:
+                              chunk = response.read(1024 * 1024)
+                              if not chunk:
+                                  break
+                              output.write(chunk)
+                              digest.update(chunk)
+                          output.flush()
+                          import os
+                          os.fsync(output.fileno())
+              except urllib.error.HTTPError as exc:
+                  if 300 <= exc.code < 400:
+                      raise SystemExit(
+                          "FAIL_PROHIBITED_SOURCE:ARTIFACT_REDIRECT"
+                      ) from None
+                  raise SystemExit(
+                      "FAIL_OTHER:ARTIFACT_HTTP_ERROR"
+                  ) from None
+              except urllib.error.URLError:
+                  raise SystemExit(
+                      "FAIL_OTHER:ARTIFACT_NETWORK_ERROR"
+                  ) from None
+
+              if digest.hexdigest() != artifact["sha256"]:
+                  partial_path.unlink(missing_ok=True)
+                  raise SystemExit(
+                      "FAIL_IDENTITY_MISMATCH:DOWNLOADED_HASH_MISMATCH"
+                  )
+
+              import os
+              os.replace(partial_path, final_path)
+              print(
+                  "tooling_artifact_verified="
+                  f"{artifact['distribution']}=={artifact['version']}"
+              )
+
+          observed = sorted(
+              path.name
+              for path in wheelhouse.iterdir()
+              if path.is_file()
+          )
+          expected = sorted(item["filename"] for item in artifacts)
+          if observed != expected:
+              raise SystemExit(
+                  "FAIL_IDENTITY_MISMATCH:WHEELHOUSE_CONTENT_MISMATCH"
+              )
+
+          (wheelhouse / "artifacts.json").write_text(
+              json.dumps(
+                  artifacts,
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ),
+              encoding="utf-8",
+          )
+          print(f"tooling_artifact_count={len(artifacts)}")
+          print("tooling_acquisition_terminal_result=PASS")
+          PY
+
+      - name: Construct and verify exact tooling environment
+        shell: bash
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+          PIP_CONFIG_FILE: /dev/null
+          PIP_NO_INDEX: "1"
+          PYTHONNOUSERSITE: "1"
+        run: |
+          set -euo pipefail
+          unset \
+            HTTP_PROXY HTTPS_PROXY ALL_PROXY NO_PROXY \
+            http_proxy https_proxy all_proxy no_proxy \
+            PIP_INDEX_URL PIP_EXTRA_INDEX_URL PIP_TRUSTED_HOST PIP_FIND_LINKS
+
+          python -m venv "$C3_TOOL_VENV"
+
+          pip_wheel="$(
+            python - "$C3_TOOL_WHEELHOUSE/artifacts.json" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+          artifacts = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          matches = [
+              item["filename"]
+              for item in artifacts
+              if item["distribution"] == "pip"
+              and item["version"] == "26.1.2"
+          ]
+          if len(matches) != 1:
+              raise SystemExit("PIP_WHEEL_IDENTITY_MISSING")
+          print(matches[0])
+          PY
+          )"
+
+          "$C3_TOOL_VENV/bin/python" -m pip install \
+            --no-index \
+            --no-deps \
+            "$C3_TOOL_WHEELHOUSE/$pip_wheel"
+
+          mapfile -t remaining_wheels < <(
+            python - "$C3_TOOL_WHEELHOUSE/artifacts.json" "$C3_TOOL_WHEELHOUSE" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+          artifacts = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          root = Path(sys.argv[2])
+          for item in artifacts:
+              if item["distribution"] != "pip":
+                  print(root / item["filename"])
+          PY
+          )
+
+          "$C3_TOOL_VENV/bin/python" -m pip install \
+            --no-index \
+            --no-deps \
+            "${remaining_wheels[@]}"
+
+          "$C3_TOOL_VENV/bin/python" - <<'PY'
+          from importlib import metadata
+
+          expected = {
+              "pip": "26.1.2",
+              "pip-tools": "7.6.0",
+              "build": "1.5.0",
+              "setuptools": "83.0.0",
+              "wheel": "0.47.0",
+              "click": "8.4.2",
+              "packaging": "26.2",
+              "pyproject-hooks": "1.2.0",
+          }
+          for name, version in expected.items():
+              actual = metadata.version(name)
+              if actual != version:
+                  raise SystemExit(
+                      f"FAIL_IDENTITY_MISMATCH:{name}_VERSION"
+                  )
+              print(f"tooling_identity={name}=={actual}")
+          print("tooling_identity_terminal_result=PASS")
+          PY
+
+          "$C3_TOOL_VENV/bin/python" -m pip check
+          printf 'tooling_pip_check_result=PASS\n'
+
+      - name: Regenerate and compare canonical lock
+        id: lock
+        shell: bash
+        env:
+          PIP_CONFIG_FILE: /dev/null
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+          PIP_NO_INDEX: "1"
+          PYTHONNOUSERSITE: "1"
+        run: |
+          set -euo pipefail
+          unset \
+            HTTP_PROXY HTTPS_PROXY ALL_PROXY NO_PROXY \
+            http_proxy https_proxy all_proxy no_proxy \
+            PIP_INDEX_URL PIP_EXTRA_INDEX_URL PIP_TRUSTED_HOST PIP_FIND_LINKS
+
+          [ -f requirements.lock ] \
+            || { printf 'FAIL_CONFIGURATION:CANONICAL_LOCK_MISSING\n'; exit 1; }
+
+          root="$RUNNER_TEMP/c3-lock-comparison"
+          rm -rf "$root"
+          mkdir -p "$root/run_1" "$root/run_2"
+
+          for run in run_1 run_2; do
+            cp pyproject.toml "$root/$run/pyproject.toml"
+            (
+              cd "$root/$run"
+              "$C3_TOOL_VENV/bin/python" -m piptools compile \
+                --no-config \
+                --resolver=backtracking \
+                --generate-hashes \
+                --strip-extras \
+                --header \
+                --newline=lf \
+                --no-emit-index-url \
+                --no-emit-trusted-host \
+                --no-emit-find-links \
+                --no-emit-options \
+                --output-file=requirements.lock \
+                pyproject.toml
+            )
+          done
+
+          cmp -s \
+            "$root/run_1/requirements.lock" \
+            "$root/run_2/requirements.lock" \
+            || { printf 'FAIL_IDENTITY_MISMATCH:CI_REPEAT_LOCK_BYTES\n'; exit 1; }
+
+          cmp -s \
+            "$root/run_1/requirements.lock" \
+            requirements.lock \
+            || { printf 'FAIL_IDENTITY_MISMATCH:LOCAL_CI_LOCK_BYTES\n'; exit 1; }
+
+          lock_sha="$(sha256sum requirements.lock | awk '{print $1}')"
+          manifest_sha="$(
+            python - <<'PY'
+          from pathlib import Path
+          import re
+          text = Path(
+              "docs/reports/C3_environment_and_dependency_manifest.yaml"
+          ).read_text(encoding="utf-8")
+          match = re.search(
+              r"(?m)^  canonical_checksum: ([0-9a-f]{64})$",
+              text,
+          )
+          if not match:
+              raise SystemExit("CANONICAL_LOCK_CHECKSUM_UNBOUND")
+          print(match.group(1))
+          PY
+          )"
+
+          [ "$lock_sha" = "$manifest_sha" ] \
+            || { printf 'FAIL_IDENTITY_MISMATCH:LOCK_CHECKSUM\n'; exit 1; }
+
+          printf 'lock_sha256=%s\n' "$lock_sha" >>"$GITHUB_OUTPUT"
+          printf 'CI_repeat_lock_byte_comparison=PASS\n'
+          printf 'local_to_CI_lock_byte_comparison=PASS\n'
+          printf 'canonical_lock_checksum=%s\n' "$lock_sha"
+
+      - name: Build and inspect project wheel outside repository
+        id: wheel
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cp pyproject.toml "$C3_BUILD_SOURCE/pyproject.toml"
+          cp -R src "$C3_BUILD_SOURCE/src"
+
+          (
+            cd "$C3_BUILD_SOURCE"
+            "$C3_TOOL_VENV/bin/python" -m build \
+              --wheel \
+              --no-isolation \
+              --outdir "$C3_BUILD_OUTPUT"
+          )
+
+          "$C3_TOOL_VENV/bin/python" - "$C3_BUILD_OUTPUT" <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import json
+          from pathlib import Path
+          import re
+          import sys
+          import zipfile
+
+          output = Path(sys.argv[1])
+          wheels = sorted(output.glob("*.whl"))
+          if len(wheels) != 1:
+              raise SystemExit("FAIL_CONFIGURATION:WHEEL_COUNT")
+
+          wheel = wheels[0]
+          if not wheel.name.endswith("-py3-none-any.whl"):
+              raise SystemExit("FAIL_IDENTITY_MISMATCH:WHEEL_TAG")
+
+          with zipfile.ZipFile(wheel) as archive:
+              names = sorted(archive.namelist())
+              metadata_names = [
+                  name
+                  for name in names
+                  if name.endswith(".dist-info/METADATA")
+              ]
+              wheel_names = [
+                  name
+                  for name in names
+                  if name.endswith(".dist-info/WHEEL")
+              ]
+              if len(metadata_names) != 1 or len(wheel_names) != 1:
+                  raise SystemExit(
+                      "FAIL_CONFIGURATION:WHEEL_METADATA_COUNT"
+                  )
+
+              metadata_text = archive.read(
+                  metadata_names[0]
+              ).decode("utf-8")
+              wheel_text = archive.read(wheel_names[0]).decode("utf-8")
+
+          if "Name: quantitative-trading-research-platform\n" not in metadata_text:
+              raise SystemExit("FAIL_IDENTITY_MISMATCH:DISTRIBUTION_NAME")
+          if "Version: 0.0.0\n" not in metadata_text:
+              raise SystemExit("FAIL_IDENTITY_MISMATCH:DISTRIBUTION_VERSION")
+          if re.search(r"(?m)^Requires-Dist:", metadata_text):
+              raise SystemExit(
+                  "FAIL_IDENTITY_MISMATCH:UNEXPECTED_RUNTIME_DEPENDENCY"
+              )
+          if "Root-Is-Purelib: true\n" not in wheel_text:
+              raise SystemExit("FAIL_IDENTITY_MISMATCH:WHEEL_NOT_PURELIB")
+
+          normalized = {
+              "filenames": names,
+              "metadata": metadata_text.splitlines(),
+              "wheel": wheel_text.splitlines(),
+          }
+          normalized_checksum = hashlib.sha256(
+              json.dumps(
+                  normalized,
+                  sort_keys=True,
+                  separators=(",", ":"),
+                  ensure_ascii=True,
+              ).encode("utf-8")
+          ).hexdigest()
+          wheel_checksum = hashlib.sha256(wheel.read_bytes()).hexdigest()
+
+          print(f"project_wheel_filename={wheel.name}")
+          print(f"project_wheel_sha256={wheel_checksum}")
+          print(
+              "normalized_wheel_metadata_checksum="
+              f"{normalized_checksum}"
+          )
+          print("project_wheel_inspection_result=PASS")
+
+          Path(output / "wheel-evidence.json").write_text(
+              json.dumps(
+                  {
+                      "filename": wheel.name,
+                      "sha256": wheel_checksum,
+                      "normalized_metadata_checksum": normalized_checksum,
+                  },
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ),
+              encoding="utf-8",
+          )
+          PY
+
+          wheel_path="$(
+            find "$C3_BUILD_OUTPUT" -maxdepth 1 -type f -name '*.whl' -print
+          )"
+          printf 'wheel_path=%s\n' "$wheel_path" >>"$GITHUB_OUTPUT"
+
+      - name: Construct canonical CI environment from verified artifacts
+        shell: bash
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+          PIP_CONFIG_FILE: /dev/null
+          PIP_NO_INDEX: "1"
+          PYTHONNOUSERSITE: "1"
+        run: |
+          set -euo pipefail
+          unset \
+            HTTP_PROXY HTTPS_PROXY ALL_PROXY NO_PROXY \
+            http_proxy https_proxy all_proxy no_proxy \
+            PIP_INDEX_URL PIP_EXTRA_INDEX_URL PIP_TRUSTED_HOST PIP_FIND_LINKS
+
+          python -m venv "$C3_CANONICAL_VENV"
+
+          pip_wheel="$(
+            python - "$C3_TOOL_WHEELHOUSE/artifacts.json" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+          artifacts = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          matches = [
+              item["filename"]
+              for item in artifacts
+              if item["distribution"] == "pip"
+              and item["version"] == "26.1.2"
+          ]
+          if len(matches) != 1:
+              raise SystemExit("PIP_WHEEL_IDENTITY_MISSING")
+          print(matches[0])
+          PY
+          )"
+
+          "$C3_CANONICAL_VENV/bin/python" -m pip install \
+            --no-index \
+            --no-deps \
+            "$C3_TOOL_WHEELHOUSE/$pip_wheel"
+
+          mapfile -t remaining_wheels < <(
+            python - "$C3_TOOL_WHEELHOUSE/artifacts.json" "$C3_TOOL_WHEELHOUSE" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+          artifacts = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          root = Path(sys.argv[2])
+          for item in artifacts:
+              if item["distribution"] != "pip":
+                  print(root / item["filename"])
+          PY
+          )
+
+          "$C3_CANONICAL_VENV/bin/python" -m pip install \
+            --no-index \
+            --no-deps \
+            "${remaining_wheels[@]}"
+
+          "$C3_CANONICAL_VENV/bin/python" -m pip install \
+            --require-hashes \
+            --no-index \
+            -r requirements.lock
+
+          "$C3_CANONICAL_VENV/bin/python" -m pip install \
+            --no-index \
+            --no-deps \
+            "${{ steps.wheel.outputs.wheel_path }}"
+
+          "$C3_CANONICAL_VENV/bin/python" -m pip check
+          printf 'canonical_CI_environment_construction_result=PASS\n'
+
+      - name: Run canonical C3 operations in network-denied namespace
+        shell: bash
+        env:
+          C3_EXPECTED_LOCK_SHA256: ${{ steps.lock.outputs.lock_sha256 }}
+        run: |
+          set -euo pipefail
+          umask 077
+
+          terminal_failure() {
+            printf 'offline_terminal_result=%s\n' "$1"
+            printf 'offline_failure_code=%s\n' "$2"
+            exit 1
+          }
+
+          fail() {
+            terminal_failure FAIL_CONFIGURATION "$1"
+          }
+
+          inconclusive() {
+            printf 'offline_terminal_result=INCONCLUSIVE\n'
+            printf 'offline_limitation_code=%s\n' "$1"
+            exit 2
+          }
+
+          CANONICAL_PYTHON="$C3_CANONICAL_VENV/bin/python"
+          [ -x "$CANONICAL_PYTHON" ] \
+            || fail CANONICAL_PYTHON_ENTRYPOINT_INVALID
+          CANONICAL_PYTHON_REAL="$(
+            "$CANONICAL_PYTHON" -S -s -P -B -X utf8 -c \
+              'from pathlib import Path; import sys; print(Path(sys.executable).resolve())'
+          )"
+          [ -f "$CANONICAL_PYTHON_REAL" ] \
+            || fail CANONICAL_PYTHON_TARGET_INVALID
+          [ ! -w "$CANONICAL_PYTHON_REAL" ] \
+            || fail CANONICAL_PYTHON_TARGET_WRITABLE_BY_RUNNER
+
+          set +e
+          launcher_output="$(
+            "$CANONICAL_PYTHON" -S -s -P -B -X utf8 - \
+              "$C3_ACCEPTED_PROBE_IDENTITY_B64" \
+              "${ImageOS:-}" \
+              "${ImageVersion:-}" <<'PY'
+          import base64
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import stat
+          import subprocess
+          import sys
+
+          SENTINEL = "UNBOUND_PENDING_INDEPENDENT_REVIEW_AND_OWNER_SELECTION"
+          REQUIRED_COMMANDS = (
+              "sudo",
+              "unshare",
+              "setpriv",
+              "ip",
+              "env",
+              "id",
+              "readlink",
+              "stat",
+              "sha256sum",
+              "python3",
+          )
+          VERSION_ARGUMENTS = {
+              "sudo": ("--version",),
+              "unshare": ("--version",),
+              "setpriv": ("--version",),
+              "ip": ("-Version",),
+              "env": ("--version",),
+              "id": ("--version",),
+              "readlink": ("--version",),
+              "stat": ("--version",),
+              "sha256sum": ("--version",),
+              "python3": ("-S", "-s", "-P", "-B", "-X", "utf8", "--version"),
+          }
+
+          def stop(code: int) -> None:
+              raise SystemExit(code)
+
+          def main() -> None:
+              if len(sys.argv) != 4:
+                  stop(10)
+              encoded, image_os, image_version = sys.argv[1:]
+              if encoded == SENTINEL:
+                  stop(12)
+              try:
+                  decoded = base64.b64decode(encoded, validate=True)
+                  payload = json.loads(decoded.decode("utf-8"))
+              except Exception:
+                  stop(10)
+              if set(payload) != {"schema_version", "runner_image", "commands"}:
+                  stop(10)
+              if payload.get("schema_version") != "C3_ACCEPTED_RUNNER_LAUNCHER_IDENTITY_V1":
+                  stop(10)
+              runner_image = payload.get("runner_image")
+              commands = payload.get("commands")
+              if not isinstance(runner_image, dict) or not isinstance(commands, dict):
+                  stop(10)
+              if set(runner_image) != {"identifier", "version"}:
+                  stop(10)
+              if runner_image["identifier"] != image_os:
+                  stop(11)
+              if runner_image["version"] != image_version:
+                  stop(11)
+              if set(commands) != set(REQUIRED_COMMANDS):
+                  stop(10)
+
+              resolved_paths: list[str] = []
+              for command_name in REQUIRED_COMMANDS:
+                  record = commands.get(command_name)
+                  if not isinstance(record, dict):
+                      stop(10)
+                  if set(record) != {
+                      "absolute_path",
+                      "version_first_line",
+                      "sha256",
+                      "owner_uid",
+                      "owner_gid",
+                      "mode",
+                      "runner_writable",
+                  }:
+                      stop(10)
+                  if not isinstance(record["runner_writable"], bool):
+                      stop(10)
+                  if record["runner_writable"] is not False:
+                      stop(10)
+                  path_text = record["absolute_path"]
+                  if not isinstance(path_text, str) or "\\n" in path_text or "\\r" in path_text:
+                      stop(10)
+                  path = Path(path_text)
+                  if not path.is_absolute() or not path.is_file() or not os.access(path, os.X_OK):
+                      stop(11)
+                  file_stat = path.stat()
+                  if not isinstance(record["owner_uid"], int) or not isinstance(record["owner_gid"], int):
+                      stop(10)
+                  if file_stat.st_uid != record["owner_uid"]:
+                      stop(11)
+                  if file_stat.st_gid != record["owner_gid"]:
+                      stop(11)
+                  current_mode = format(stat.S_IMODE(file_stat.st_mode), "o")
+                  if current_mode != record["mode"]:
+                      stop(11)
+                  current_runner_writable = os.access(path, os.W_OK)
+                  if current_runner_writable != record["runner_writable"]:
+                      stop(11)
+                  checksum = hashlib.sha256(path.read_bytes()).hexdigest()
+                  if checksum != record["sha256"]:
+                      stop(11)
+                  try:
+                      completed = subprocess.run(
+                          [str(path), *VERSION_ARGUMENTS[command_name]],
+                          stdin=subprocess.DEVNULL,
+                          stdout=subprocess.PIPE,
+                          stderr=subprocess.STDOUT,
+                          text=True,
+                          encoding="utf-8",
+                          errors="strict",
+                          env={"LANG": "C", "LC_ALL": "C"},
+                          timeout=15,
+                          check=False,
+                      )
+                  except Exception:
+                      stop(12)
+                  if completed.returncode != 0:
+                      stop(12)
+                  version_lines = completed.stdout.splitlines()
+                  if not version_lines or not version_lines[0]:
+                      stop(12)
+                  if version_lines[0] != record["version_first_line"]:
+                      stop(11)
+                  resolved_paths.append(str(path))
+
+              print("\\n".join(resolved_paths))
+
+          try:
+              main()
+          except SystemExit:
+              raise
+          except BaseException:
+              raise SystemExit(12)
+          PY
+          )"
+          launcher_status=$?
+          set -e
+
+          case "$launcher_status" in
+            0) ;;
+            10) fail PROBE_LAUNCHER_CONTRACT_INVALID ;;
+            11) terminal_failure FAIL_IDENTITY_MISMATCH PROBE_LAUNCHER_IDENTITY_MISMATCH ;;
+            12) inconclusive PROBE_LAUNCHER_IDENTITY_UNBOUND_OR_UNCLASSIFIABLE ;;
+            *) inconclusive PROBE_LAUNCHER_IDENTITY_VERIFIER_FAILURE ;;
+          esac
+
+          mapfile -t launcher_paths <<<"$launcher_output"
+          [ "${#launcher_paths[@]}" -eq 10 ] \
+            || fail PROBE_LAUNCHER_PATH_COUNT_MISMATCH
+          SUDO="${launcher_paths[0]}"
+          UNSHARE="${launcher_paths[1]}"
+          SETPRIV="${launcher_paths[2]}"
+          IP="${launcher_paths[3]}"
+          ENV_CMD="${launcher_paths[4]}"
+          ID_CMD="${launcher_paths[5]}"
+          READLINK="${launcher_paths[6]}"
+          STAT_CMD="${launcher_paths[7]}"
+          SHA256SUM="${launcher_paths[8]}"
+          PREINSTALLED_PYTHON3="${launcher_paths[9]}"
+          unset launcher_output launcher_paths
+
+
+          "$SUDO" -n true </dev/null \
+            || inconclusive NONINTERACTIVE_SUDO_UNAVAILABLE
+
+          original_uid="$("$ID_CMD" -u)"
+          original_gid="$("$ID_CMD" -g)"
+          [ "$original_uid" -ne 0 ] || fail ORIGINAL_RUNNER_UID_IS_ROOT
+          [ "$original_gid" -ne 0 ] || fail ORIGINAL_RUNNER_GID_IS_ROOT
+
+          parent_ns_before="$(
+            "$READLINK" /proc/self/ns/net |
+              "$SHA256SUM" |
+              awk '{print $1}'
+          )"
+
+          dependency_checksum="$(
+            grep -E '^  dependency_metadata_checksum: [0-9a-f]{64}$' \
+              docs/reports/C3_environment_and_dependency_manifest.yaml |
+              awk '{print $2}'
+          )"
+          [ -n "$dependency_checksum" ] \
+            || fail DEPENDENCY_METADATA_CHECKSUM_UNBOUND
+
+          HARNESS_BODY="$(
+            cat <<'PY'
+          import ctypes
+          import errno
+          import hashlib
+          import http.client
+          import importlib
+          import importlib.util
+          import io
+          import json
+          import os
+          from pathlib import Path
+          import socket
+          import subprocess
+          import sys
+          import unittest
+
+          class TerminalFailure(RuntimeError):
+              pass
+
+          OFFLINE_EXIT_CODES = {
+              "PASS": 0,
+              "FAIL_CONFIGURATION": 10,
+              "FAIL_IDENTITY_MISMATCH": 11,
+              "FAIL_PROHIBITED_NETWORK_ATTEMPT": 12,
+              "FAIL_PROHIBITED_SECRET_EXPOSURE": 13,
+              "FAIL_MISSING_PACKAGE": 14,
+              "FAIL_INCOMPATIBLE_VERSION": 15,
+              "FAIL_INVALID_IMPORT_TARGET": 16,
+              "FAIL_OTHER": 17,
+              "INCONCLUSIVE": 20,
+          }
+
+          def terminate(result: str, code: str) -> None:
+              print(json.dumps(
+                  {
+                      "offline_terminal_result": result,
+                      "offline_terminal_code": code,
+                  },
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ))
+              exit_code = OFFLINE_EXIT_CODES.get(result)
+              if exit_code is None:
+                  exit_code = OFFLINE_EXIT_CODES["FAIL_OTHER"]
+              raise _C3ControlledTermination(
+                  _c3_control_token,
+                  exit_code,
+              )
+
+          if len(sys.argv) != 9:
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "CANONICAL_POSITIONAL_ARGUMENT_COUNT_MISMATCH",
+              )
+          (
+              execution_phase,
+              repository_root_text,
+              evidence_root_text,
+              parent_namespace_checksum,
+              original_uid_text,
+              original_gid_text,
+              expected_lock_checksum,
+              expected_dependency_checksum,
+          ) = sys.argv[1:]
+          if execution_phase != "CANONICAL_OFFLINE_EXECUTION":
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "CANONICAL_PHASE_IDENTITY_MISMATCH",
+              )
+          for name, value in (
+              ("PARENT_NAMESPACE", parent_namespace_checksum),
+              ("LOCK", expected_lock_checksum),
+              ("DEPENDENCY_METADATA", expected_dependency_checksum),
+          ):
+              if (
+                  len(value) != 64
+                  or any(character not in "0123456789abcdef" for character in value)
+              ):
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"{name}_CHECKSUM_INVALID",
+                  )
+          if not original_uid_text.isdecimal() or not original_gid_text.isdecimal():
+              terminate("FAIL_CONFIGURATION", "ORIGINAL_IDENTITY_INVALID")
+          original_uid = int(original_uid_text)
+          original_gid = int(original_gid_text)
+          if original_uid == 0 or original_gid == 0:
+              terminate("FAIL_CONFIGURATION", "ORIGINAL_IDENTITY_ROOT")
+
+          repository_root = Path(repository_root_text)
+          evidence_root = Path(evidence_root_text)
+          if not repository_root.is_absolute() or not repository_root.is_dir():
+              terminate("FAIL_CONFIGURATION", "REPOSITORY_ROOT_INVALID")
+          if not evidence_root.is_absolute() or not evidence_root.is_dir():
+              terminate("FAIL_CONFIGURATION", "EVIDENCE_ROOT_INVALID")
+          repository_root = repository_root.resolve()
+          evidence_root = evidence_root.resolve()
+          if evidence_root == repository_root or repository_root in evidence_root.parents:
+              terminate("FAIL_CONFIGURATION", "EVIDENCE_ROOT_INSIDE_REPOSITORY")
+
+          required_environment_names = {
+              "HOME",
+              "TMPDIR",
+              "LANG",
+              "LC_ALL",
+              "TZ",
+              "PYTHONHASHSEED",
+              "PYTHONDONTWRITEBYTECODE",
+              "PYTHONNOUSERSITE",
+              "PYTHONSAFEPATH",
+              "PYTHONUTF8",
+          }
+          if set(os.environ) != required_environment_names:
+              terminate("FAIL_CONFIGURATION", "CHILD_ENVIRONMENT_SET_MISMATCH")
+          expected_fixed_values = {
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "TZ": "UTC",
+              "PYTHONHASHSEED": "0",
+              "PYTHONDONTWRITEBYTECODE": "1",
+              "PYTHONNOUSERSITE": "1",
+              "PYTHONSAFEPATH": "1",
+              "PYTHONUTF8": "1",
+          }
+          for name, expected_value in expected_fixed_values.items():
+              if os.environ[name] != expected_value:
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"CHILD_ENVIRONMENT_VALUE_MISMATCH_{name}",
+                  )
+          for name in ("HOME", "TMPDIR"):
+              value = Path(os.environ[name])
+              if not value.is_absolute() or not value.is_dir():
+                  terminate("FAIL_CONFIGURATION", f"CHILD_{name}_INVALID")
+
+          if sys.flags.no_site != 1:
+              terminate("FAIL_CONFIGURATION", "PYTHON_NO_SITE_MODE_NOT_SET")
+          if sys.flags.no_user_site != 1:
+              terminate("FAIL_CONFIGURATION", "PYTHON_NO_USER_SITE_MODE_NOT_SET")
+          if not getattr(sys.flags, "safe_path", False):
+              terminate("FAIL_CONFIGURATION", "PYTHON_SAFE_PATH_NOT_SET")
+          if not sys.dont_write_bytecode:
+              terminate("FAIL_CONFIGURATION", "PYTHON_DONT_WRITE_BYTECODE_NOT_SET")
+          if sys.flags.utf8_mode != 1:
+              terminate("FAIL_CONFIGURATION", "PYTHON_UTF8_MODE_NOT_SET")
+          if sys.flags.hash_randomization != 0:
+              terminate("FAIL_CONFIGURATION", "PYTHON_HASH_RANDOMIZATION_NOT_DISABLED")
+          if "site" in sys.modules:
+              terminate("FAIL_CONFIGURATION", "SITE_IMPORTED_DURING_BOOTSTRAP")
+
+          def enumerate_open_nonstandard_descriptors() -> list[int]:
+              try:
+                  descriptor_names = os.listdir("/proc/self/fd")
+              except OSError:
+                  terminate(
+                      "INCONCLUSIVE",
+                      "PROC_SELF_FD_ENUMERATION_UNAVAILABLE",
+                  )
+              descriptors: list[int] = []
+              for descriptor_name in descriptor_names:
+                  if not descriptor_name.isdecimal():
+                      continue
+                  descriptor = int(descriptor_name)
+                  if descriptor <= 2:
+                      continue
+                  try:
+                      os.fstat(descriptor)
+                  except OSError:
+                      continue
+                  descriptors.append(descriptor)
+              return sorted(set(descriptors))
+
+          for descriptor in enumerate_open_nonstandard_descriptors():
+              try:
+                  os.close(descriptor)
+              except OSError:
+                  pass
+
+          if enumerate_open_nonstandard_descriptors():
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "NONSTANDARD_FILE_DESCRIPTOR_PRESENT",
+              )
+
+          if os.getuid() == 0 or os.getgid() == 0:
+              terminate("FAIL_CONFIGURATION", "CANONICAL_CODE_RUNNING_AS_ROOT")
+          if os.getuid() != original_uid:
+              terminate("FAIL_CONFIGURATION", "CHILD_UID_MISMATCH")
+          if os.getgid() != original_gid:
+              terminate("FAIL_CONFIGURATION", "CHILD_GID_MISMATCH")
+          if os.getgroups():
+              terminate("FAIL_CONFIGURATION", "SUPPLEMENTARY_GROUP_PRESENT")
+
+          status_fields: dict[str, str] = {}
+          try:
+              status_text = Path("/proc/self/status").read_text(
+                  encoding="utf-8"
+              )
+          except OSError:
+              terminate("INCONCLUSIVE", "PROC_SELF_STATUS_UNAVAILABLE")
+          for line in status_text.splitlines():
+              if ":" in line:
+                  key, value = line.split(":", 1)
+                  status_fields[key] = value.strip()
+
+          def require_four_identity_values(field: str, expected: int) -> None:
+              value = status_fields.get(field)
+              if value is None:
+                  terminate("INCONCLUSIVE", f"PROC_STATUS_{field.upper()}_MISSING")
+              parts = value.split()
+              if len(parts) != 4 or any(not part.isdecimal() for part in parts):
+                  terminate(
+                      "INCONCLUSIVE",
+                      f"PROC_STATUS_{field.upper()}_UNCLASSIFIABLE",
+                  )
+              if any(int(part) != expected for part in parts):
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"PROC_STATUS_{field.upper()}_IDENTITY_MISMATCH",
+                  )
+
+          require_four_identity_values("Uid", original_uid)
+          require_four_identity_values("Gid", original_gid)
+
+          for capability_field in (
+              "CapInh",
+              "CapPrm",
+              "CapEff",
+              "CapBnd",
+              "CapAmb",
+          ):
+              if status_fields.get(capability_field) != "0000000000000000":
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"{capability_field.upper()}_NONZERO",
+                  )
+          if status_fields.get("NoNewPrivs") != "1":
+              terminate("FAIL_CONFIGURATION", "NO_NEW_PRIVS_NOT_SET")
+
+          child_ns = hashlib.sha256(
+              os.readlink("/proc/self/ns/net").encode("utf-8")
+          ).hexdigest()
+          if child_ns == parent_namespace_checksum:
+              terminate("FAIL_CONFIGURATION", "PARENT_CHILD_NAMESPACE_EQUAL")
+
+          interfaces = sorted(path.name for path in Path("/sys/class/net").iterdir())
+          if interfaces != ["lo"]:
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "USABLE_NON_LOOPBACK_INTERFACE_PRESENT",
+              )
+          loopback_flags = int(
+              Path("/sys/class/net/lo/flags").read_text(
+                  encoding="utf-8"
+              ).strip(),
+              16,
+          )
+          if loopback_flags & 0x1:
+              terminate("FAIL_CONFIGURATION", "LOOPBACK_ENABLED")
+
+          ipv4_routes = [
+              line
+              for line in Path("/proc/net/route").read_text(
+                  encoding="utf-8"
+              ).splitlines()[1:]
+              if line.strip()
+          ]
+          ipv6_routes = [
+              line
+              for line in Path("/proc/net/ipv6_route").read_text(
+                  encoding="utf-8"
+              ).splitlines()
+              if line.strip()
+          ]
+          if ipv4_routes or ipv6_routes:
+              terminate("FAIL_CONFIGURATION", "ROUTE_PRESENT")
+
+          accepted_kernel_failures = {
+              errno.ENETUNREACH,
+              errno.EHOSTUNREACH,
+              errno.EADDRNOTAVAIL,
+          }
+
+          ipv4 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+          try:
+              ipv4.settimeout(1.0)
+              ipv4_result = ipv4.connect_ex(("192.0.2.1", 443))
+          finally:
+              ipv4.close()
+          if ipv4_result == 0:
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "C3_NET_NEG_IPV4_001_UNEXPECTED_SUCCESS",
+              )
+          if ipv4_result not in accepted_kernel_failures:
+              terminate(
+                  "INCONCLUSIVE",
+                  "C3_NET_NEG_IPV4_001_UNCLASSIFIED_FAILURE",
+              )
+
+          ipv6 = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+          try:
+              ipv6.settimeout(1.0)
+              ipv6_result = ipv6.connect_ex(("2001:db8::1", 443))
+          finally:
+              ipv6.close()
+          if ipv6_result == 0:
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "C3_NET_NEG_IPV6_001_UNEXPECTED_SUCCESS",
+              )
+          if ipv6_result not in accepted_kernel_failures:
+              terminate(
+                  "INCONCLUSIVE",
+                  "C3_NET_NEG_IPV6_001_UNCLASSIFIED_FAILURE",
+              )
+
+          class AuditBlocked(RuntimeError):
+              pass
+
+          class CanonicalImportBlocked(RuntimeError):
+              pass
+
+          blocked_canonical_import_roots = frozenset({
+              "ctypes",
+              "subprocess",
+              "multiprocessing",
+              "pty",
+          })
+          active_control: str | None = None
+          canonical_import_phase_active = False
+          audit_events: list[tuple[str, str]] = []
+
+          def audit_import_root(args: tuple[object, ...]) -> str | None:
+              if not args or not isinstance(args[0], str):
+                  return None
+              return args[0].partition(".")[0]
+
+          def classify(event: str, args: tuple[object, ...]) -> str | None:
+              if event.startswith("socket."):
+                  if event == "socket.getaddrinfo":
+                      return "DNS_RESOLUTION"
+                  return "NETWORK_CONNECTION"
+              if event == "http.client.connect":
+                  return "NETWORK_CONNECTION"
+              if (
+                  event == "subprocess.Popen"
+                  or event == "os.system"
+                  or event in {"os.fork", "os.forkpty"}
+                  or event.startswith("os.exec")
+                  or event.startswith("os.spawn")
+                  or event.startswith("os.posix_spawn")
+              ):
+                  return "PROCESS_CREATION_OR_REPLACEMENT"
+              if event.startswith("ctypes."):
+                  return "CTYPES"
+              if canonical_import_phase_active and event == "import":
+                  root = audit_import_root(args)
+                  if root in blocked_canonical_import_roots:
+                      return "BLOCKED_IMPORT_ROOT"
+              return None
+
+          def hook(event: str, args: tuple[object, ...]) -> None:
+              classification = classify(event, args)
+              if (
+                  active_control == "C3_NET_NEG_HTTPS_001"
+                  and event == "socket.getaddrinfo"
+              ):
+                  classification = "NETWORK_CONNECTION"
+              if classification is None:
+                  return
+              control = active_control or "UNEXPECTED_EVENT"
+              audit_events.append((control, classification))
+              raise AuditBlocked(
+                  f"C3_OFFLINE_AUDIT_BLOCK:{classification}"
+              )
+
+          sys.addaudithook(hook)
+
+          def expect_block(control: str, operation, classification: str) -> None:
+              nonlocal active_control
+              active_control = control
+              try:
+                  operation()
+              except AuditBlocked as exc:
+                  if str(exc) != f"C3_OFFLINE_AUDIT_BLOCK:{classification}":
+                      terminate(
+                          "FAIL_CONFIGURATION",
+                          f"{control}_WRONG_BLOCK",
+                      )
+              except Exception:
+                  terminate(
+                      "INCONCLUSIVE",
+                      f"{control}_UNRELATED_FAILURE",
+                  )
+              else:
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      f"{control}_NOT_BLOCKED",
+                  )
+              finally:
+                  active_control = None
+
+          expect_block(
+              "C3_NET_NEG_DNS_001",
+              lambda: socket.getaddrinfo("c3-offline-control.invalid", 443),
+              "DNS_RESOLUTION",
+          )
+          expect_block(
+              "C3_NET_NEG_HTTPS_001",
+              lambda: http.client.HTTPSConnection(
+                  "c3-offline-control.invalid",
+                  timeout=1,
+              ).connect(),
+              "NETWORK_CONNECTION",
+          )
+          expect_block(
+              "C3_AUDIT_PROCESS_001",
+              lambda: subprocess.Popen(["/bin/true"]),
+              "PROCESS_CREATION_OR_REPLACEMENT",
+          )
+          expect_block(
+              "C3_AUDIT_CTYPES_001",
+              lambda: ctypes.CDLL(None),
+              "CTYPES",
+          )
+
+          expected_control_events = [
+              ("C3_NET_NEG_DNS_001", "DNS_RESOLUTION"),
+              ("C3_NET_NEG_HTTPS_001", "NETWORK_CONNECTION"),
+              (
+                  "C3_AUDIT_PROCESS_001",
+                  "PROCESS_CREATION_OR_REPLACEMENT",
+              ),
+              ("C3_AUDIT_CTYPES_001", "CTYPES"),
+          ]
+          if audit_events != expected_control_events:
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "AUDIT_CONTROL_EVENT_SEQUENCE_MISMATCH",
+              )
+
+          del ctypes
+          del subprocess
+          del http
+          del socket
+          del errno
+          control_only_roots = {
+              "ctypes",
+              "subprocess",
+              "multiprocessing",
+              "pty",
+              "http",
+              "socket",
+          }
+          for module_name in tuple(sys.modules):
+              if module_name.partition(".")[0] in control_only_roots:
+                  sys.modules.pop(module_name, None)
+          for blocked_root in blocked_canonical_import_roots:
+              if any(
+                  module_name == blocked_root
+                  or module_name.startswith(blocked_root + ".")
+                  for module_name in sys.modules
+              ):
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      "BLOCKED_CONTROL_MODULE_RETAINED",
+                  )
+
+          class CanonicalImportBlocker:
+              def find_spec(self, fullname, path=None, target=None):
+                  del path, target
+                  if fullname.partition(".")[0] in blocked_canonical_import_roots:
+                      audit_events.append((
+                          "UNEXPECTED_EVENT",
+                          "BLOCKED_IMPORT_ROOT",
+                      ))
+                      raise CanonicalImportBlocked(
+                          "C3_BLOCKED_CANONICAL_IMPORT_ROOT"
+                      )
+                  return None
+
+          def terminate_for_canonical_boundary_event() -> None:
+              classifications = {
+                  classification for _, classification in audit_events
+              }
+              if "BLOCKED_IMPORT_ROOT" in classifications:
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      "BLOCKED_CANONICAL_IMPORT_ROOT_ATTEMPT",
+                  )
+              if classifications & {
+                  "PROCESS_CREATION_OR_REPLACEMENT",
+                  "CTYPES",
+              }:
+                  terminate(
+                      "FAIL_CONFIGURATION",
+                      "PROHIBITED_PROCESS_OR_CTYPES_ATTEMPT",
+                  )
+              if classifications & {
+                  "DNS_RESOLUTION",
+                  "NETWORK_CONNECTION",
+              }:
+                  terminate(
+                      "FAIL_PROHIBITED_NETWORK_ATTEMPT",
+                      "UNEXPECTED_PRIMARY_PYTHON_AUDIT_EVENT",
+                  )
+              terminate(
+                  "FAIL_OTHER",
+                  "UNCLASSIFIED_CANONICAL_BOUNDARY_EVENT",
+              )
+
+          sys.meta_path.insert(0, CanonicalImportBlocker())
+          canonical_import_phase_active = True
+          audit_events.clear()
+
+          canonical_python_entrypoint = Path(sys.executable)
+          if not canonical_python_entrypoint.is_absolute():
+              terminate(
+                  "FAIL_IDENTITY_MISMATCH",
+                  "CANONICAL_PYTHON_ENTRYPOINT_NOT_ABSOLUTE",
+              )
+          canonical_environment_root = canonical_python_entrypoint.parent.parent
+          canonical_package_directory = (
+              canonical_environment_root
+              / "lib"
+              / f"python{sys.version_info.major}.{sys.version_info.minor}"
+              / "site-packages"
+          )
+          if not canonical_package_directory.is_dir():
+              terminate(
+                  "FAIL_MISSING_PACKAGE",
+                  "CANONICAL_PACKAGE_DIRECTORY_MISSING",
+              )
+          canonical_package_directory = canonical_package_directory.resolve()
+          if canonical_environment_root.resolve() not in canonical_package_directory.parents:
+              terminate(
+                  "FAIL_IDENTITY_MISMATCH",
+                  "CANONICAL_PACKAGE_DIRECTORY_OUTSIDE_ENVIRONMENT",
+              )
+          if any(
+              path_entry and "site-packages" in path_entry
+              for path_entry in sys.path
+          ):
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "SITE_PACKAGE_PATH_PRESENT_BEFORE_EXPLICIT_INITIALIZATION",
+              )
+          canonical_package_root = (
+              canonical_package_directory / "quantitative_trading_research"
+          )
+          if not canonical_package_root.is_dir():
+              terminate(
+                  "FAIL_MISSING_PACKAGE",
+                  "CANONICAL_IMPORT_PACKAGE_DIRECTORY_MISSING",
+              )
+          sys.path.insert(0, str(canonical_package_directory))
+          if sys.path[0] != str(canonical_package_directory):
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "CANONICAL_PACKAGE_PATH_INITIALIZATION_FAILED",
+              )
+          approved_sys_path = tuple(sys.path)
+
+          lock_path = repository_root / "requirements.lock"
+
+          if not lock_path.is_file():
+              terminate("FAIL_CONFIGURATION", "CANONICAL_LOCK_MISSING")
+          lock_checksum = hashlib.sha256(lock_path.read_bytes()).hexdigest()
+          if lock_checksum != expected_lock_checksum:
+              terminate("FAIL_IDENTITY_MISMATCH", "LOCK_CHECKSUM_MISMATCH")
+
+          targets = (
+              "quantitative_trading_research",
+              "quantitative_trading_research.config",
+              "quantitative_trading_research.config.settings",
+              "quantitative_trading_research.config.environment_diagnostics",
+          )
+          try:
+              for target in targets:
+                  importlib.import_module(target)
+
+              from quantitative_trading_research.config.settings import (
+                  build_accepted_settings,
+              )
+              from quantitative_trading_research.config.environment_diagnostics import (
+                  OVERALL_PASS,
+                  build_dependency_metadata,
+                  run_diagnostics,
+                  write_evidence_atomic,
+              )
+
+              settings = build_accepted_settings()
+              _, dependency_checksum, _ = build_dependency_metadata(settings)
+              if (
+                  dependency_checksum
+                  != expected_dependency_checksum
+              ):
+                  terminate(
+                      "FAIL_IDENTITY_MISMATCH",
+                      "DEPENDENCY_METADATA_CHECKSUM_MISMATCH",
+                  )
+
+              diagnostic = run_diagnostics(
+                  settings,
+                  dependency_metadata_checksum=dependency_checksum,
+                  lock_checksum=lock_checksum,
+                  network_boundary_result=OVERALL_PASS,
+                  secret_exclusion_result=OVERALL_PASS,
+              )
+              if diagnostic.overall_result != OVERALL_PASS:
+                  terminate(
+                      diagnostic.overall_result,
+                      "DIAGNOSTIC_NOT_PASS",
+                  )
+
+              write_evidence_atomic(
+                  diagnostic,
+                  approved_root=evidence_root,
+                  basename="CI-diagnostic-evidence.json",
+                  repository_root=repository_root,
+              )
+          except (AuditBlocked, CanonicalImportBlocked):
+              terminate_for_canonical_boundary_event()
+
+          exact_test_relative_paths = (
+              "tests/config/test_settings.py",
+              "tests/config/test_environment_diagnostics.py",
+              "tests/environment/test_dependency_identity.py",
+              "tests/environment/test_import_contract.py",
+              "tests/environment/test_offline_boundary.py",
+          )
+          suite = unittest.TestSuite()
+          for module_index, relative_path in enumerate(exact_test_relative_paths):
+              test_path = repository_root / relative_path
+              if not test_path.is_file():
+                  terminate("FAIL_CONFIGURATION", "CANONICAL_TEST_FILE_MISSING")
+              module_name = f"_c3_canonical_test_{module_index}"
+              spec = importlib.util.spec_from_file_location(module_name, test_path)
+              if spec is None or spec.loader is None:
+                  terminate(
+                      "FAIL_INVALID_IMPORT_TARGET",
+                      "CANONICAL_TEST_MODULE_SPEC_INVALID",
+                  )
+              module = importlib.util.module_from_spec(spec)
+              sys.modules[module_name] = module
+              try:
+                  spec.loader.exec_module(module)
+                  suite.addTests(
+                      unittest.defaultTestLoader.loadTestsFromModule(module)
+                  )
+              except (AuditBlocked, CanonicalImportBlocked):
+                  terminate_for_canonical_boundary_event()
+          if tuple(sys.path) != approved_sys_path:
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "UNAPPROVED_SYS_PATH_MUTATION_BEFORE_TEST_EXECUTION",
+              )
+          test_output = io.StringIO()
+          result = unittest.TextTestRunner(
+              stream=test_output,
+              verbosity=0,
+              failfast=True,
+              buffer=True,
+          ).run(suite)
+          test_summary = {
+              "canonical_test_count": result.testsRun,
+              "canonical_test_failure_count": len(result.failures),
+              "canonical_test_error_count": len(result.errors),
+              "canonical_test_skipped_count": len(result.skipped),
+          }
+          test_output.seek(0)
+          test_output.truncate(0)
+          if audit_events:
+              terminate_for_canonical_boundary_event()
+          if result.testsRun != 47:
+              print(json.dumps(
+                  test_summary,
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ))
+              terminate("FAIL_CONFIGURATION", "CANONICAL_TEST_COUNT_MISMATCH")
+          if not result.wasSuccessful():
+              print(json.dumps(
+                  test_summary,
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ))
+              terminate("FAIL_OTHER", "UNITTEST_FAILURE")
+          if tuple(sys.path) != approved_sys_path:
+              terminate(
+                  "FAIL_CONFIGURATION",
+                  "UNAPPROVED_SYS_PATH_MUTATION_AFTER_TEST_EXECUTION",
+              )
+
+          if audit_events:
+              terminate_for_canonical_boundary_event()
+
+          evidence = {
+              "offline_mechanism_schema_version": (
+                  "C3_OFFLINE_ENFORCEMENT_V1"
+              ),
+              "namespace_identities_differ_result": "PASS",
+              "child_effective_identity_result": "PASS_NONROOT",
+              "supplementary_group_count": 0,
+              "Linux_capability_zero_result": "PASS",
+              "NoNewPrivs_result": "PASS",
+              "interface_inventory_classification": "LOOPBACK_ONLY_DOWN",
+              "IPv4_route_count": 0,
+              "IPv6_route_count": 0,
+              "credential_exclusion_result": "PASS",
+              "proxy_exclusion_result": "PASS",
+              "package_index_variable_exclusion_result": "PASS",
+              "nonstandard_file_descriptor_count": 0,
+              "C3_NET_NEG_DNS_001_result": "PASS_EXPECTED_STAGE",
+              "C3_NET_NEG_HTTPS_001_result": "PASS_EXPECTED_STAGE",
+              "C3_NET_NEG_IPV4_001_result": "PASS_EXPECTED_STAGE",
+              "C3_NET_NEG_IPV6_001_result": "PASS_EXPECTED_STAGE",
+              "primary_python_unexpected_audit_event_count": 0,
+              "universal_native_attempt_count": "NOT_ESTABLISHED",
+              "universal_DNS_request_count": "NOT_ESTABLISHED",
+              "universal_network_syscall_attempt_count": "NOT_ESTABLISHED",
+              "canonical_import_result": "PASS",
+              "diagnostic_result": "PASS",
+              "unittest_result": "PASS",
+              "canonical_test_count": test_summary["canonical_test_count"],
+              "canonical_test_failure_count": (
+                  test_summary["canonical_test_failure_count"]
+              ),
+              "canonical_test_error_count": (
+                  test_summary["canonical_test_error_count"]
+              ),
+              "canonical_test_skipped_count": (
+                  test_summary["canonical_test_skipped_count"]
+              ),
+              "offline_terminal_result": "PASS",
+          }
+          print(json.dumps(
+              evidence,
+              sort_keys=True,
+              separators=(",", ":"),
+          ))
+          PY
+          )"
+          HARNESS_INDENTED="        ${HARNESS_BODY//$'\n'/$'\n        '}"
+          HARNESS_PREFIX="$(
+            cat <<'PY'
+          from __future__ import annotations
+
+          import json
+
+          def _c3_canonical_wrapper() -> None:
+              class _C3ControlledTermination(BaseException):
+                  __slots__ = ("token", "exit_code")
+
+                  def __init__(self, token: object, exit_code: int) -> None:
+                      self.token = token
+                      self.exit_code = exit_code
+
+              _c3_control_token = object()
+
+              def _c3_canonical_harness_main() -> None:
+          PY
+          )"
+          HARNESS_SUFFIX="$(
+            cat <<'PY'
+
+              try:
+                  _c3_canonical_harness_main()
+              except _C3ControlledTermination as controlled:
+                  if (
+                      controlled.token is not _c3_control_token
+                      or type(controlled.exit_code) is not int
+                      or controlled.exit_code not in {
+                          0, 10, 11, 12, 13, 14, 15, 16, 17, 20
+                      }
+                  ):
+                      print(json.dumps(
+                          {
+                              "offline_terminal_result": "FAIL_OTHER",
+                              "offline_terminal_code": "UNEXPECTED_EXCEPTION",
+                          },
+                          sort_keys=True,
+                          separators=(",", ":"),
+                      ))
+                      raise SystemExit(17)
+                  raise SystemExit(controlled.exit_code)
+              except SystemExit:
+                  print(json.dumps(
+                      {
+                          "offline_terminal_result": "FAIL_OTHER",
+                          "offline_terminal_code": "UNEXPECTED_EXCEPTION",
+                      },
+                      sort_keys=True,
+                      separators=(",", ":"),
+                  ))
+                  raise SystemExit(17)
+              except BaseException:
+                  print(json.dumps(
+                      {
+                          "offline_terminal_result": "FAIL_OTHER",
+                          "offline_terminal_code": "UNEXPECTED_EXCEPTION",
+                      },
+                      sort_keys=True,
+                      separators=(",", ":"),
+                  ))
+                  raise SystemExit(17)
+
+          _c3_canonical_wrapper()
+          PY
+          )"
+          HARNESS="${HARNESS_PREFIX}"$'\n'"${HARNESS_INDENTED}"$'\n'"${HARNESS_SUFFIX}"
+          unset HARNESS_BODY HARNESS_INDENTED HARNESS_PREFIX HARNESS_SUFFIX
+
+          canonical_child_stdout="$RUNNER_TEMP/c3-canonical-child-stdout.jsonl"
+          canonical_child_stderr="$RUNNER_TEMP/c3-canonical-child-stderr.txt"
+          rm -f "$canonical_child_stdout" "$canonical_child_stderr"
+          cleanup_canonical_child_output() {
+            rm -f "$canonical_child_stdout" "$canonical_child_stderr"
+          }
+          trap cleanup_canonical_child_output EXIT
+
+          set +e
+          "$SUDO" -n \
+            "$UNSHARE" --net \
+            "$SETPRIV" \
+              --reuid="$original_uid" \
+              --regid="$original_gid" \
+              --clear-groups \
+              --inh-caps=-all \
+              --ambient-caps=-all \
+              --bounding-set=-all \
+              --no-new-privs \
+            "$ENV_CMD" -i \
+              HOME="$C3_OFFLINE_HOME" \
+              TMPDIR="$C3_OFFLINE_TMP" \
+              LANG=C.UTF-8 \
+              LC_ALL=C.UTF-8 \
+              TZ=UTC \
+              PYTHONHASHSEED=0 \
+              PYTHONDONTWRITEBYTECODE=1 \
+              PYTHONNOUSERSITE=1 \
+              PYTHONSAFEPATH=1 \
+              PYTHONUTF8=1 \
+            "$CANONICAL_PYTHON" -S -s -P -B -X utf8 -c "$HARNESS" \
+              CANONICAL_OFFLINE_EXECUTION \
+              "$GITHUB_WORKSPACE" \
+              "$C3_EVIDENCE_ROOT" \
+              "$parent_ns_before" \
+              "$original_uid" \
+              "$original_gid" \
+              "$C3_EXPECTED_LOCK_SHA256" \
+              "$dependency_checksum" \
+              </dev/null \
+              >"$canonical_child_stdout" \
+              2>"$canonical_child_stderr"
+          child_status=$?
+          set -e
+
+          parent_ns_after="$(
+            "$READLINK" /proc/self/ns/net |
+              "$SHA256SUM" |
+              awk '{print $1}'
+          )"
+          [ "$parent_ns_before" = "$parent_ns_after" ] \
+            || fail PARENT_NAMESPACE_CHANGED
+          case "$child_status" in
+            0)
+              [ ! -s "$canonical_child_stderr" ] \
+                || terminal_failure \
+                  FAIL_CONFIGURATION \
+                  CANONICAL_CHILD_STDERR_NOT_EMPTY
+              if ! "$CANONICAL_PYTHON" -S -s -P -B -X utf8 - \
+                "$canonical_child_stdout" 2>/dev/null <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          def invalid() -> None:
+              raise SystemExit(1)
+
+          try:
+              path = Path(sys.argv[1])
+              lines = path.read_text(encoding="utf-8").splitlines()
+              if len(lines) != 1 or not lines[0]:
+                  invalid()
+              record = json.loads(lines[0])
+              expected = {
+                  "offline_mechanism_schema_version": "C3_OFFLINE_ENFORCEMENT_V1",
+                  "namespace_identities_differ_result": "PASS",
+                  "child_effective_identity_result": "PASS_NONROOT",
+                  "supplementary_group_count": 0,
+                  "Linux_capability_zero_result": "PASS",
+                  "NoNewPrivs_result": "PASS",
+                  "interface_inventory_classification": "LOOPBACK_ONLY_DOWN",
+                  "IPv4_route_count": 0,
+                  "IPv6_route_count": 0,
+                  "credential_exclusion_result": "PASS",
+                  "proxy_exclusion_result": "PASS",
+                  "package_index_variable_exclusion_result": "PASS",
+                  "nonstandard_file_descriptor_count": 0,
+                  "C3_NET_NEG_DNS_001_result": "PASS_EXPECTED_STAGE",
+                  "C3_NET_NEG_HTTPS_001_result": "PASS_EXPECTED_STAGE",
+                  "C3_NET_NEG_IPV4_001_result": "PASS_EXPECTED_STAGE",
+                  "C3_NET_NEG_IPV6_001_result": "PASS_EXPECTED_STAGE",
+                  "primary_python_unexpected_audit_event_count": 0,
+                  "universal_native_attempt_count": "NOT_ESTABLISHED",
+                  "universal_DNS_request_count": "NOT_ESTABLISHED",
+                  "universal_network_syscall_attempt_count": "NOT_ESTABLISHED",
+                  "canonical_import_result": "PASS",
+                  "diagnostic_result": "PASS",
+                  "unittest_result": "PASS",
+                  "canonical_test_count": 47,
+                  "canonical_test_failure_count": 0,
+                  "canonical_test_error_count": 0,
+                  "canonical_test_skipped_count": 0,
+                  "offline_terminal_result": "PASS",
+              }
+              if record != expected:
+                  invalid()
+          except SystemExit:
+              raise
+          except BaseException:
+              invalid()
+          PY
+              then
+                terminal_failure \
+                  FAIL_CONFIGURATION \
+                  CANONICAL_CHILD_PASS_EVIDENCE_INVALID
+              fi
+              printf 'canonical_child_pass_evidence_result=PASS_EXACT_RECORD\n'
+              printf 'canonical_import_result=PASS\n'
+              printf 'diagnostic_result=PASS\n'
+              printf 'canonical_test_count=47\n'
+              printf 'canonical_test_failure_count=0\n'
+              printf 'canonical_test_error_count=0\n'
+              printf 'canonical_test_skipped_count=0\n'
+              printf 'primary_python_unexpected_audit_event_count=0\n'
+              ;;
+            10)
+              terminal_failure FAIL_CONFIGURATION CANONICAL_CHILD_CONFIGURATION_FAILURE
+              ;;
+            11)
+              terminal_failure FAIL_IDENTITY_MISMATCH CANONICAL_CHILD_IDENTITY_FAILURE
+              ;;
+            12)
+              terminal_failure FAIL_PROHIBITED_NETWORK_ATTEMPT CANONICAL_CHILD_NETWORK_FAILURE
+              ;;
+            13)
+              terminal_failure FAIL_PROHIBITED_SECRET_EXPOSURE CANONICAL_CHILD_SECRET_FAILURE
+              ;;
+            14)
+              terminal_failure FAIL_MISSING_PACKAGE CANONICAL_CHILD_MISSING_PACKAGE
+              ;;
+            15)
+              terminal_failure FAIL_INCOMPATIBLE_VERSION CANONICAL_CHILD_INCOMPATIBLE_VERSION
+              ;;
+            16)
+              terminal_failure FAIL_INVALID_IMPORT_TARGET CANONICAL_CHILD_INVALID_IMPORT_TARGET
+              ;;
+            17)
+              terminal_failure FAIL_OTHER CANONICAL_CHILD_OTHER_FAILURE
+              ;;
+            20)
+              inconclusive CANONICAL_CHILD_INCONCLUSIVE
+              ;;
+            *)
+              printf 'offline_terminal_result=INCONCLUSIVE_CANONICAL_OFFLINE_INTERPRETER_ENVIRONMENT_BLOCKER\n'
+              printf 'offline_limitation_code=CANONICAL_INTERPRETER_OR_LAUNCHER_DID_NOT_START\n'
+              exit 2
+              ;;
+          esac
+
+          printf 'parent_namespace_stability_result=PASS\n'
+          printf 'offline_terminal_result=PASS\n'
+
+      - name: Verify repository remained unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(git status --porcelain=v1 --untracked-files=all)"
+          if [ -n "$status" ]; then
+            printf 'repository_mutation_result=FAIL_CONFIGURATION\n'
+            printf '%s\n' "$status"
+            exit 1
+          fi
+          printf 'repository_mutation_result=PASS\n'
+          printf 'C3_CI_terminal_result=PASS\n'
