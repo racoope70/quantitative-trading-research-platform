@@ -318,6 +318,7 @@ jobs:
           import os
           from pathlib import Path
           import socket
+          import struct
           import subprocess
           import sys
 
@@ -549,37 +550,440 @@ jobs:
           if child_ns == parent_namespace_checksum:
               terminal("FAIL_CONFIGURATION", "PARENT_CHILD_NAMESPACE_EQUAL")
 
-          interfaces = sorted(path.name for path in Path("/sys/class/net").iterdir())
-          if interfaces != ["lo"]:
-              terminal("FAIL_CONFIGURATION", "USABLE_NON_LOOPBACK_INTERFACE_PRESENT")
+          network_facts: dict[str, object] = {
+              "interface_count": None,
+              "loopback_present": None,
+              "non_loopback_interface_count": None,
+              "non_loopback_up_count": None,
+              "non_loopback_assigned_IPv4_count": None,
+              "non_loopback_assigned_IPv6_count": None,
+              "IPv4_route_count": None,
+              "IPv6_route_count": None,
+              "IPv4_default_route_count": None,
+              "IPv6_default_route_count": None,
+              "loopback_down_result": "NOT_ESTABLISHED",
+          }
+          observability_codes: list[str] = []
 
-          loopback_flags = int(
-              Path("/sys/class/net/lo/flags").read_text(
-                  encoding="utf-8"
-              ).strip(),
-              16,
+          def mark_unobservable(code: str) -> None:
+              if code not in observability_codes:
+                  observability_codes.append(code)
+
+          def network_terminal(result: str, code: str) -> None:
+              payload = dict(network_facts)
+              payload["probe_child_terminal_result"] = result
+              payload["probe_child_terminal_code"] = code
+              print(json.dumps(
+                  payload,
+                  sort_keys=True,
+                  separators=(",", ":"),
+              ))
+              raise SystemExit(PROBE_EXIT_CODES[result])
+
+          interfaces: list[str] | None = None
+          loopback_present: bool | None = None
+          non_loopback_interfaces: list[str] = []
+          non_loopback_known_up = False
+
+          try:
+              interfaces = sorted(
+                  path.name for path in Path("/sys/class/net").iterdir()
+              )
+          except OSError:
+              mark_unobservable("NETWORK_INTERFACE_INVENTORY_UNOBSERVABLE")
+          else:
+              network_facts["interface_count"] = len(interfaces)
+              loopback_present = "lo" in interfaces
+              network_facts["loopback_present"] = loopback_present
+              non_loopback_interfaces = [
+                  interface for interface in interfaces if interface != "lo"
+              ]
+              network_facts["non_loopback_interface_count"] = len(
+                  non_loopback_interfaces
+              )
+
+          if interfaces is not None:
+              observed_non_loopback_up_count = 0
+              non_loopback_state_complete = True
+              for interface in non_loopback_interfaces:
+                  try:
+                      flags_text = Path(
+                          "/sys/class/net", interface, "flags"
+                      ).read_text(encoding="utf-8").strip()
+                      flags = int(flags_text, 16)
+                  except (OSError, ValueError):
+                      non_loopback_state_complete = False
+                      continue
+                  if flags & 0x1:
+                      observed_non_loopback_up_count += 1
+                      non_loopback_known_up = True
+              if non_loopback_state_complete:
+                  network_facts[
+                      "non_loopback_up_count"
+                  ] = observed_non_loopback_up_count
+              else:
+                  mark_unobservable("NETWORK_INTERFACE_STATE_UNOBSERVABLE")
+
+          def assigned_address_counts() -> tuple[int, int]:
+              netlink_route = getattr(socket, "NETLINK_ROUTE", None)
+              if netlink_route is None or not hasattr(socket, "AF_NETLINK"):
+                  raise RuntimeError("NETLINK_UNAVAILABLE")
+
+              try:
+                  loopback_index = (
+                      socket.if_nametoindex("lo") if loopback_present else None
+                  )
+                  non_loopback_indexes = {
+                      socket.if_nametoindex(interface)
+                      for interface in non_loopback_interfaces
+                  }
+              except OSError as exc:
+                  raise RuntimeError("INTERFACE_INDEX_UNAVAILABLE") from exc
+
+              nlmsg_header = struct.Struct("IHHII")
+              ifaddr_message = struct.Struct("BBBBI")
+              rtattr_header = struct.Struct("HH")
+              request_type = 22
+              response_type = 20
+              nlmsg_done = 3
+              nlmsg_error = 2
+              nlm_f_request = 0x1
+              nlm_f_dump = 0x300
+              sequence = 1
+              payload = ifaddr_message.pack(
+                  socket.AF_UNSPEC,
+                  0,
+                  0,
+                  0,
+                  0,
+              )
+              request = nlmsg_header.pack(
+                  nlmsg_header.size + len(payload),
+                  request_type,
+                  nlm_f_request | nlm_f_dump,
+                  sequence,
+                  0,
+              ) + payload
+
+              addresses: set[tuple[int, int, bytes]] = set()
+              netlink_socket = socket.socket(
+                  socket.AF_NETLINK,
+                  socket.SOCK_RAW,
+                  netlink_route,
+              )
+              try:
+                  netlink_socket.settimeout(1.0)
+                  netlink_socket.bind((0, 0))
+                  netlink_socket.sendto(request, (0, 0))
+                  completed = False
+                  while not completed:
+                      packet = netlink_socket.recv(65535)
+                      offset = 0
+                      while offset < len(packet):
+                          if len(packet) - offset < nlmsg_header.size:
+                              raise RuntimeError("NETLINK_HEADER_TRUNCATED")
+                          (
+                              message_length,
+                              message_type,
+                              _message_flags,
+                              message_sequence,
+                              _message_pid,
+                          ) = nlmsg_header.unpack_from(packet, offset)
+                          if (
+                              message_length < nlmsg_header.size
+                              or offset + message_length > len(packet)
+                          ):
+                              raise RuntimeError("NETLINK_MESSAGE_INVALID")
+                          if message_sequence != sequence:
+                              raise RuntimeError("NETLINK_SEQUENCE_MISMATCH")
+                          message_payload = packet[
+                              offset + nlmsg_header.size:
+                              offset + message_length
+                          ]
+                          if message_type == nlmsg_done:
+                              completed = True
+                              break
+                          if message_type == nlmsg_error:
+                              if len(message_payload) < 4:
+                                  raise RuntimeError("NETLINK_ERROR_TRUNCATED")
+                              error_code = struct.unpack_from(
+                                  "i", message_payload, 0
+                              )[0]
+                              if error_code != 0:
+                                  raise RuntimeError("NETLINK_ERROR_RESPONSE")
+                          elif message_type == response_type:
+                              if len(message_payload) < ifaddr_message.size:
+                                  raise RuntimeError("NETLINK_ADDRESS_TRUNCATED")
+                              (
+                                  family,
+                                  _prefix_length,
+                                  _address_flags,
+                                  _scope,
+                                  interface_index,
+                              ) = ifaddr_message.unpack_from(
+                                  message_payload, 0
+                              )
+                              attributes: dict[int, list[bytes]] = {}
+                              attribute_offset = ifaddr_message.size
+                              while attribute_offset < len(message_payload):
+                                  if (
+                                      len(message_payload) - attribute_offset
+                                      < rtattr_header.size
+                                  ):
+                                      raise RuntimeError(
+                                          "NETLINK_ATTRIBUTE_TRUNCATED"
+                                      )
+                                  (
+                                      attribute_length,
+                                      attribute_type,
+                                  ) = rtattr_header.unpack_from(
+                                      message_payload,
+                                      attribute_offset,
+                                  )
+                                  if (
+                                      attribute_length < rtattr_header.size
+                                      or attribute_offset + attribute_length
+                                      > len(message_payload)
+                                  ):
+                                      raise RuntimeError(
+                                          "NETLINK_ATTRIBUTE_INVALID"
+                                      )
+                                  attribute_value = message_payload[
+                                      attribute_offset + rtattr_header.size:
+                                      attribute_offset + attribute_length
+                                  ]
+                                  attributes.setdefault(
+                                      attribute_type, []
+                                  ).append(attribute_value)
+                                  attribute_offset += (
+                                      attribute_length + 3
+                                  ) & ~3
+
+                              if (
+                                  interface_index in non_loopback_indexes
+                                  and interface_index != loopback_index
+                              ):
+                                  if family == socket.AF_INET:
+                                      values = (
+                                          attributes.get(2)
+                                          or attributes.get(1)
+                                          or []
+                                      )
+                                      for value in values:
+                                          if len(value) != 4:
+                                              raise RuntimeError(
+                                                  "NETLINK_IPV4_LENGTH_INVALID"
+                                              )
+                                          addresses.add(
+                                              (family, interface_index, value)
+                                          )
+                                  elif family == socket.AF_INET6:
+                                      for value in attributes.get(1, []):
+                                          if len(value) != 16:
+                                              raise RuntimeError(
+                                                  "NETLINK_IPV6_LENGTH_INVALID"
+                                              )
+                                          addresses.add(
+                                              (family, interface_index, value)
+                                          )
+                          offset += (message_length + 3) & ~3
+                  if not completed:
+                      raise RuntimeError("NETLINK_DUMP_INCOMPLETE")
+              finally:
+                  netlink_socket.close()
+
+              return (
+                  sum(
+                      1
+                      for family, _index, _address in addresses
+                      if family == socket.AF_INET
+                  ),
+                  sum(
+                      1
+                      for family, _index, _address in addresses
+                      if family == socket.AF_INET6
+                  ),
+              )
+
+          non_loopback_ipv4_count: int | None = None
+          non_loopback_ipv6_count: int | None = None
+          if interfaces is not None:
+              try:
+                  (
+                      non_loopback_ipv4_count,
+                      non_loopback_ipv6_count,
+                  ) = assigned_address_counts()
+              except (OSError, RuntimeError, ValueError):
+                  mark_unobservable("NETWORK_ADDRESS_STATE_UNOBSERVABLE")
+              else:
+                  network_facts[
+                      "non_loopback_assigned_IPv4_count"
+                  ] = non_loopback_ipv4_count
+                  network_facts[
+                      "non_loopback_assigned_IPv6_count"
+                  ] = non_loopback_ipv6_count
+
+          if loopback_present is True:
+              try:
+                  loopback_flags = int(
+                      Path("/sys/class/net/lo/flags").read_text(
+                          encoding="utf-8"
+                      ).strip(),
+                      16,
+                  )
+              except (OSError, ValueError):
+                  mark_unobservable("LOOPBACK_STATE_UNOBSERVABLE")
+              else:
+                  loopback_down = not bool(loopback_flags & 0x1)
+                  network_facts["loopback_down_result"] = (
+                      "PASS" if loopback_down else "FAIL"
+                  )
+
+          ipv4_route_lines: list[str] | None = None
+          ipv4_default_route_count: int | None = None
+          try:
+              candidate_ipv4_route_lines = [
+                  line
+                  for line in Path("/proc/net/route").read_text(
+                      encoding="utf-8"
+                  ).splitlines()[1:]
+                  if line.strip()
+              ]
+              candidate_ipv4_default_count = 0
+              for line in candidate_ipv4_route_lines:
+                  fields = line.split()
+                  if len(fields) < 8:
+                      raise ValueError("IPV4_ROUTE_UNCLASSIFIABLE")
+                  destination = fields[1]
+                  mask = fields[7]
+                  if (
+                      len(destination) != 8
+                      or len(mask) != 8
+                      or any(
+                          character not in "0123456789abcdefABCDEF"
+                          for character in destination + mask
+                      )
+                  ):
+                      raise ValueError("IPV4_ROUTE_UNCLASSIFIABLE")
+                  if destination == "00000000" and mask == "00000000":
+                      candidate_ipv4_default_count += 1
+          except (OSError, ValueError):
+              mark_unobservable("IPV4_ROUTE_STATE_UNOBSERVABLE")
+          else:
+              ipv4_route_lines = candidate_ipv4_route_lines
+              ipv4_default_route_count = candidate_ipv4_default_count
+              network_facts["IPv4_route_count"] = len(ipv4_route_lines)
+              network_facts[
+                  "IPv4_default_route_count"
+              ] = ipv4_default_route_count
+
+          ipv6_route_lines: list[str] | None = None
+          ipv6_default_route_count: int | None = None
+          try:
+              candidate_ipv6_route_lines = [
+                  line
+                  for line in Path("/proc/net/ipv6_route").read_text(
+                      encoding="utf-8"
+                  ).splitlines()
+                  if line.strip()
+              ]
+              candidate_ipv6_default_count = 0
+              for line in candidate_ipv6_route_lines:
+                  fields = line.split()
+                  if len(fields) < 10:
+                      raise ValueError("IPV6_ROUTE_UNCLASSIFIABLE")
+                  destination = fields[0]
+                  prefix_length = fields[1]
+                  if (
+                      len(destination) != 32
+                      or any(
+                          character not in "0123456789abcdefABCDEF"
+                          for character in destination
+                      )
+                  ):
+                      raise ValueError("IPV6_ROUTE_UNCLASSIFIABLE")
+                  try:
+                      prefix_value = int(prefix_length, 16)
+                  except ValueError as exc:
+                      raise ValueError(
+                          "IPV6_ROUTE_UNCLASSIFIABLE"
+                      ) from exc
+                  if destination == "0" * 32 and prefix_value == 0:
+                      candidate_ipv6_default_count += 1
+          except (OSError, ValueError):
+              mark_unobservable("IPV6_ROUTE_STATE_UNOBSERVABLE")
+          else:
+              ipv6_route_lines = candidate_ipv6_route_lines
+              ipv6_default_route_count = candidate_ipv6_default_count
+              network_facts["IPv6_route_count"] = len(ipv6_route_lines)
+              network_facts[
+                  "IPv6_default_route_count"
+              ] = ipv6_default_route_count
+
+          # Known contract violations always take precedence over incomplete
+          # supplemental observations. The exact loopback-only contract remains
+          # fail-closed even when an inert non-loopback interface is observed.
+          if loopback_present is False:
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "LOOPBACK_INTERFACE_MISSING",
+              )
+          if network_facts["loopback_down_result"] == "FAIL":
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "LOOPBACK_ENABLED",
+              )
+          if ipv4_default_route_count:
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "IPV4_DEFAULT_ROUTE_PRESENT",
+              )
+          if ipv6_default_route_count:
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "IPV6_DEFAULT_ROUTE_PRESENT",
+              )
+          if ipv4_route_lines:
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "IPV4_ROUTE_PRESENT",
+              )
+          if ipv6_route_lines:
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "IPV6_ROUTE_PRESENT",
+              )
+
+          non_loopback_configured = any((
+              non_loopback_known_up,
+              bool(non_loopback_ipv4_count),
+              bool(non_loopback_ipv6_count),
+          ))
+          if non_loopback_interfaces and non_loopback_configured:
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "NON_LOOPBACK_INTERFACE_CONFIGURED",
+              )
+          if non_loopback_interfaces:
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "NON_LOOPBACK_INTERFACE_PRESENT",
+              )
+
+          # INCONCLUSIVE is permitted only when no known contract violation has
+          # already been established and a required fact needed for PASS remains
+          # unobservable.
+          observability_priority = (
+              "NETWORK_INTERFACE_INVENTORY_UNOBSERVABLE",
+              "LOOPBACK_STATE_UNOBSERVABLE",
+              "NETWORK_INTERFACE_STATE_UNOBSERVABLE",
+              "NETWORK_ADDRESS_STATE_UNOBSERVABLE",
+              "IPV4_ROUTE_STATE_UNOBSERVABLE",
+              "IPV6_ROUTE_STATE_UNOBSERVABLE",
           )
-          if loopback_flags & 0x1:
-              terminal("FAIL_CONFIGURATION", "LOOPBACK_ENABLED")
-
-          ipv4_routes = [
-              line
-              for line in Path("/proc/net/route").read_text(
-                  encoding="utf-8"
-              ).splitlines()[1:]
-              if line.strip()
-          ]
-          ipv6_routes = [
-              line
-              for line in Path("/proc/net/ipv6_route").read_text(
-                  encoding="utf-8"
-              ).splitlines()
-              if line.strip()
-          ]
-          if ipv4_routes:
-              terminal("FAIL_CONFIGURATION", "IPV4_ROUTE_PRESENT")
-          if ipv6_routes:
-              terminal("FAIL_CONFIGURATION", "IPV6_ROUTE_PRESENT")
+          for observability_code in observability_priority:
+              if observability_code in observability_codes:
+                  network_terminal("INCONCLUSIVE", observability_code)
 
           accepted_kernel_failures = {
               errno.ENETUNREACH,
@@ -587,27 +991,79 @@ jobs:
               errno.EADDRNOTAVAIL,
           }
 
-          ipv4 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-          try:
-              ipv4.settimeout(1.0)
-              ipv4_result = ipv4.connect_ex(("192.0.2.1", 443))
-          finally:
-              ipv4.close()
-          if ipv4_result == 0:
-              terminal("FAIL_CONFIGURATION", "C3_NET_NEG_IPV4_001_UNEXPECTED_SUCCESS")
-          if ipv4_result not in accepted_kernel_failures:
-              terminal("INCONCLUSIVE", "C3_NET_NEG_IPV4_001_UNCLASSIFIED_FAILURE")
+          def execute_kernel_negative_control(
+              family: int,
+              destination: tuple[object, ...],
+          ) -> tuple[int | None, bool, bool]:
+              control_socket: socket.socket | None = None
+              connect_result: int | None = None
+              operation_exception = False
+              cleanup_exception = False
+              try:
+                  control_socket = socket.socket(family, socket.SOCK_STREAM)
+                  control_socket.settimeout(1.0)
+                  connect_result = control_socket.connect_ex(destination)
+              except BaseException:
+                  operation_exception = True
+              finally:
+                  if control_socket is not None:
+                      try:
+                          control_socket.close()
+                      except BaseException:
+                          cleanup_exception = True
+              return (
+                  connect_result,
+                  operation_exception,
+                  cleanup_exception,
+              )
 
-          ipv6 = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-          try:
-              ipv6.settimeout(1.0)
-              ipv6_result = ipv6.connect_ex(("2001:db8::1", 443))
-          finally:
-              ipv6.close()
+          (
+              ipv4_result,
+              ipv4_operation_exception,
+              ipv4_cleanup_exception,
+          ) = execute_kernel_negative_control(
+              socket.AF_INET,
+              ("192.0.2.1", 443),
+          )
+          if ipv4_result == 0:
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "C3_NET_NEG_IPV4_001_UNEXPECTED_SUCCESS",
+              )
+          if ipv4_operation_exception or ipv4_cleanup_exception:
+              network_terminal(
+                  "INCONCLUSIVE",
+                  "C3_NET_NEG_IPV4_001_UNCLASSIFIED_FAILURE",
+              )
+          if ipv4_result not in accepted_kernel_failures:
+              network_terminal(
+                  "INCONCLUSIVE",
+                  "C3_NET_NEG_IPV4_001_UNCLASSIFIED_FAILURE",
+              )
+
+          (
+              ipv6_result,
+              ipv6_operation_exception,
+              ipv6_cleanup_exception,
+          ) = execute_kernel_negative_control(
+              socket.AF_INET6,
+              ("2001:db8::1", 443),
+          )
           if ipv6_result == 0:
-              terminal("FAIL_CONFIGURATION", "C3_NET_NEG_IPV6_001_UNEXPECTED_SUCCESS")
+              network_terminal(
+                  "FAIL_CONFIGURATION",
+                  "C3_NET_NEG_IPV6_001_UNEXPECTED_SUCCESS",
+              )
+          if ipv6_operation_exception or ipv6_cleanup_exception:
+              network_terminal(
+                  "INCONCLUSIVE",
+                  "C3_NET_NEG_IPV6_001_UNCLASSIFIED_FAILURE",
+              )
           if ipv6_result not in accepted_kernel_failures:
-              terminal("INCONCLUSIVE", "C3_NET_NEG_IPV6_001_UNCLASSIFIED_FAILURE")
+              network_terminal(
+                  "INCONCLUSIVE",
+                  "C3_NET_NEG_IPV6_001_UNCLASSIFIED_FAILURE",
+              )
 
           class Blocked(RuntimeError):
               pass
@@ -661,11 +1117,11 @@ jobs:
                   operation()
               except Blocked as exc:
                   if str(exc) != f"C3_OFFLINE_AUDIT_BLOCK:{classification}":
-                      terminal("FAIL_CONFIGURATION", f"{control}_WRONG_BLOCK")
+                      network_terminal("FAIL_CONFIGURATION", f"{control}_WRONG_BLOCK")
               except Exception:
-                  terminal("INCONCLUSIVE", f"{control}_UNRELATED_FAILURE")
+                  network_terminal("INCONCLUSIVE", f"{control}_UNRELATED_FAILURE")
               else:
-                  terminal("FAIL_CONFIGURATION", f"{control}_NOT_BLOCKED")
+                  network_terminal("FAIL_CONFIGURATION", f"{control}_NOT_BLOCKED")
               finally:
                   active_control = None
 
@@ -700,7 +1156,7 @@ jobs:
               ("C3_AUDIT_CTYPES_001", "CTYPES"),
           ]
           if events != expected_events:
-              terminal("FAIL_CONFIGURATION", "AUDIT_EVENT_SEQUENCE_MISMATCH")
+              network_terminal("FAIL_CONFIGURATION", "AUDIT_EVENT_SEQUENCE_MISMATCH")
 
           evidence = {
               "child_environment_exclusion_result": "PASS",
@@ -712,8 +1168,7 @@ jobs:
               "capability_zero_result": "PASS",
               "no_new_privs_result": "PASS",
               "interface_inventory_classification": "LOOPBACK_ONLY_DOWN",
-              "IPv4_route_count": 0,
-              "IPv6_route_count": 0,
+              **network_facts,
               "C3_NET_NEG_IPV4_001_result": "PASS_EXPECTED_STAGE",
               "C3_NET_NEG_IPV6_001_result": "PASS_EXPECTED_STAGE",
               "C3_NET_NEG_DNS_001_result": "PASS_EXPECTED_STAGE",
