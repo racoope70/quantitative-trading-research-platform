@@ -3968,80 +3968,175 @@ jobs:
       github.event.created == false &&
       github.event.deleted == false &&
       github.event.forced == false &&
-      github.event.before == 'ca70314eaeb5008b2a42e3168ef4f91722108a07' &&
+      github.event.before == 'd52d20fd39d9fb1df1f1dd95a8aba983dc644fe5' &&
       github.event.after == github.sha &&
       github.event.commits[0].id == github.sha &&
       github.event.commits[1].id == '' &&
       github.run_attempt == 1
     runs-on: ubuntu-24.04
-    permissions: {}
+    permissions:
+      contents: read
     timeout-minutes: 30
     steps:
       - name: Verify exact single-use E1 activation event
         shell: bash
+        env:
+          C3_E1_GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           umask 077
           /usr/bin/python3.12 - <<'PY'
           import json
           import os
+          import re
+          import urllib.error
+          import urllib.request
           from pathlib import Path
 
-          expected_before = 'ca70314eaeb5008b2a42e3168ef4f91722108a07'
+          expected_before = 'd52d20fd39d9fb1df1f1dd95a8aba983dc644fe5'
           expected_ref = 'refs/heads/c3-python-environment-dependency-reconstruction'
-          expected_changed = {'.github/workflows/tests.yml'}
+          expected_sha_pattern = re.compile(r'^[0-9a-f]{40}$')
+          expected_api_url_prefix = (
+              'https://api.github.com/repos/'
+              'racoope70/quantitative-trading-research-platform/commits/'
+          )
+          expected_api_version = '2022-11-28'
+          expected_changed_path = '.github/workflows/tests.yml'
+          expected_changed_status = 'modified'
+          api_per_page = 100
+          max_response_bytes = 2 * 1024 * 1024
 
           def fail(detail):
               print('activation_workflow_terminal_code=E1_COLLECTION_OR_MATERIALIZATION_INCONCLUSIVE')
               print('activation_failure_detail=' + detail)
               raise SystemExit(2)
 
-          if os.environ.get('GITHUB_EVENT_NAME') != 'push':
-              fail('EVENT_NOT_PUSH')
-          if os.environ.get('GITHUB_RUN_ATTEMPT') != '1':
-              fail('RUN_ATTEMPT_NOT_ONE')
-          event_path = os.environ.get('GITHUB_EVENT_PATH')
-          if not event_path:
-              fail('EVENT_PAYLOAD_PATH_UNAVAILABLE')
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+
+          def main():
+              if os.environ.get('GITHUB_EVENT_NAME') != 'push':
+                  fail('EVENT_NOT_PUSH')
+              if os.environ.get('GITHUB_RUN_ATTEMPT') != '1':
+                  fail('RUN_ATTEMPT_NOT_ONE')
+              event_path = os.environ.get('GITHUB_EVENT_PATH')
+              if not event_path:
+                  fail('EVENT_PAYLOAD_PATH_UNAVAILABLE')
+              try:
+                  event = json.loads(Path(event_path).read_text(encoding='utf-8'))
+              except Exception:
+                  fail('EVENT_PAYLOAD_UNREADABLE')
+
+              if event.get('ref') != expected_ref:
+                  fail('UNEXPECTED_BRANCH')
+              if event.get('created') is not False:
+                  fail('UNEXPECTED_BRANCH_CREATION')
+              if event.get('deleted') is not False:
+                  fail('UNEXPECTED_BRANCH_DELETION')
+              if event.get('forced') is not False:
+                  fail('FORCED_PUSH_PROHIBITED')
+              if event.get('before') != expected_before:
+                  fail('UNEXPECTED_PREDECESSOR_COMMIT')
+
+              github_sha = os.environ.get('GITHUB_SHA')
+              if not isinstance(github_sha, str) or not expected_sha_pattern.fullmatch(github_sha):
+                  fail('GITHUB_SHA_INVALID')
+              if event.get('after') != github_sha:
+                  fail('EVENT_AFTER_SHA_MISMATCH')
+
+              commits = event.get('commits')
+              if not isinstance(commits, list) or len(commits) != 1:
+                  fail('ACTIVATION_PUSH_MUST_CONTAIN_EXACTLY_ONE_COMMIT')
+              commit = commits[0]
+              if not isinstance(commit, dict) or commit.get('id') != github_sha:
+                  fail('ACTIVATION_COMMIT_SHA_MISMATCH')
+              head_commit = event.get('head_commit')
+              if not isinstance(head_commit, dict) or head_commit.get('id') != github_sha:
+                  fail('HEAD_COMMIT_SHA_MISMATCH')
+
+              token = os.environ.get('C3_E1_GITHUB_TOKEN')
+              if not token:
+                  fail('ACTIVATION_COMMIT_API_TOKEN_UNAVAILABLE')
+
+              api_url = (
+                  expected_api_url_prefix + github_sha
+                  + f'?per_page={api_per_page}&page=1'
+              )
+              request = urllib.request.Request(
+                  api_url,
+                  method='GET',
+                  headers={
+                      'Accept': 'application/vnd.github+json',
+                      'Authorization': 'Bearer ' + token,
+                      'User-Agent': 'C3-E1-single-use-activation-preflight-v2',
+                      'X-GitHub-Api-Version': expected_api_version,
+                  },
+              )
+              opener = urllib.request.build_opener(NoRedirect)
+              try:
+                  with opener.open(request, timeout=15) as response:
+                      if response.status != 200:
+                          fail('ACTIVATION_COMMIT_API_NON_200_RESPONSE')
+                      if response.headers.get('Link') is not None:
+                          fail('ACTIVATION_COMMIT_API_PAGINATION_UNEXPECTED')
+                      body = response.read(max_response_bytes + 1)
+              except urllib.error.HTTPError as exc:
+                  if 300 <= exc.code < 400:
+                      fail('ACTIVATION_COMMIT_API_REDIRECT_PROHIBITED')
+                  fail('ACTIVATION_COMMIT_API_HTTP_ERROR_' + str(exc.code))
+              except (urllib.error.URLError, TimeoutError, OSError):
+                  fail('ACTIVATION_COMMIT_API_REQUEST_FAILED')
+
+              if len(body) > max_response_bytes:
+                  fail('ACTIVATION_COMMIT_API_RESPONSE_TOO_LARGE')
+              try:
+                  response_commit = json.loads(body.decode('utf-8'))
+              except Exception:
+                  fail('ACTIVATION_COMMIT_API_RESPONSE_MALFORMED')
+              if not isinstance(response_commit, dict):
+                  fail('ACTIVATION_COMMIT_API_RESPONSE_MALFORMED')
+              if response_commit.get('sha') != github_sha:
+                  fail('ACTIVATION_COMMIT_API_RESPONSE_SHA_MISMATCH')
+
+              parents = response_commit.get('parents')
+              if not isinstance(parents, list) or len(parents) != 1:
+                  fail('ACTIVATION_COMMIT_API_PARENT_COUNT_MISMATCH')
+              parent = parents[0]
+              if not isinstance(parent, dict) or parent.get('sha') != expected_before:
+                  fail('ACTIVATION_COMMIT_API_PARENT_SHA_MISMATCH')
+
+              files = response_commit.get('files')
+              if not isinstance(files, list):
+                  fail('ACTIVATION_COMMIT_API_CHANGED_FILE_SET_UNAVAILABLE')
+              if len(files) != 1:
+                  fail('ACTIVATION_COMMIT_API_CHANGED_FILE_COUNT_MISMATCH')
+              changed_file = files[0]
+              if not isinstance(changed_file, dict):
+                  fail('ACTIVATION_COMMIT_API_CHANGED_FILE_MALFORMED')
+              if changed_file.get('filename') != expected_changed_path:
+                  fail('ACTIVATION_COMMIT_API_CHANGED_PATH_SCOPE_MISMATCH')
+              if changed_file.get('status') != expected_changed_status:
+                  fail('ACTIVATION_COMMIT_API_CHANGED_FILE_STATUS_MISMATCH')
+              if changed_file.get('previous_filename') not in (None, ''):
+                  fail('ACTIVATION_COMMIT_API_RENAME_PROHIBITED')
+
+              print('activation_changed_path_source=GITHUB_REST_GET_COMMIT_V1')
+              print('activation_api_version=' + expected_api_version)
+              print('activation_response_commit_sha=' + github_sha)
+              print('activation_parent_count=1')
+              print('activation_parent_sha=' + expected_before)
+              print('activation_changed_file_count=1')
+              print('activation_changed_path=' + expected_changed_path)
+              print('activation_changed_file_status=' + expected_changed_status)
+              print('activation_workflow_terminal_code=E1_SINGLE_USE_ACTIVATION_EVENT_PREFLIGHT_PASS')
+
           try:
-              event = json.loads(Path(event_path).read_text(encoding='utf-8'))
+              main()
+          except SystemExit:
+              raise
           except Exception:
-              fail('EVENT_PAYLOAD_UNREADABLE')
-
-          if event.get('ref') != expected_ref:
-              fail('UNEXPECTED_BRANCH')
-          if event.get('created') is not False:
-              fail('UNEXPECTED_BRANCH_CREATION')
-          if event.get('deleted') is not False:
-              fail('UNEXPECTED_BRANCH_DELETION')
-          if event.get('forced') is not False:
-              fail('FORCED_PUSH_PROHIBITED')
-          if event.get('before') != expected_before:
-              fail('UNEXPECTED_PREDECESSOR_COMMIT')
-          if event.get('after') != os.environ.get('GITHUB_SHA'):
-              fail('EVENT_AFTER_SHA_MISMATCH')
-          commits = event.get('commits')
-          if not isinstance(commits, list) or len(commits) != 1:
-              fail('ACTIVATION_PUSH_MUST_CONTAIN_EXACTLY_ONE_COMMIT')
-          commit = commits[0]
-          if commit.get('id') != os.environ.get('GITHUB_SHA'):
-              fail('ACTIVATION_COMMIT_SHA_MISMATCH')
-          if (event.get('head_commit') or {}).get('id') != os.environ.get('GITHUB_SHA'):
-              fail('HEAD_COMMIT_SHA_MISMATCH')
-
-          changed = set()
-          for key in ('added', 'modified', 'removed'):
-              values = commit.get(key)
-              if not isinstance(values, list):
-                  fail('ACTIVATION_CHANGED_PATH_SET_UNAVAILABLE')
-              for value in values:
-                  if not isinstance(value, str) or not value:
-                      fail('ACTIVATION_CHANGED_PATH_INVALID')
-                  changed.add(value)
-          if changed != expected_changed:
-              fail('ACTIVATION_CHANGED_PATH_SCOPE_MISMATCH')
-
-          print('activation_workflow_terminal_code=E1_SINGLE_USE_ACTIVATION_EVENT_PREFLIGHT_PASS')
+              fail('ACTIVATION_COMMIT_API_UNEXPECTED_ERROR')
           PY
 
       - name: Materialize exact successor schema validator and collector
