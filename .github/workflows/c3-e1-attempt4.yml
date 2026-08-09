@@ -1,0 +1,38 @@
+name: C3 E1 Attempt 4 trigger-decoupled exact-target validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      authorization_identity:
+        description: Exact owner-frozen Attempt-4 authorization identity
+        required: true
+        type: string
+      expected_control_sha:
+        description: Exact owner-frozen post-implementation main control SHA
+        required: true
+        type: string
+      expected_trigger_workflow_sha256:
+        description: SHA-256 of this exact trigger workflow at expected_control_sha
+        required: true
+        type: string
+      expected_reusable_core_sha256:
+        description: SHA-256 of the exact reusable core at expected_control_sha
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  c3-e1-attempt4:
+    name: C3 E1 Attempt 4 explicit trigger caller
+    uses: ./.github/workflows/c3-e1-successor-validation-core.yml
+    with:
+      authorization_identity: ${{ inputs.authorization_identity }}
+      attempt_identity: C3_E1_ATTEMPT_4_TRIGGER_DECOUPLED_EXACT_TARGET_VALIDATION
+      expected_control_sha: ${{ inputs.expected_control_sha }}
+      expected_trigger_workflow_sha256: ${{ inputs.expected_trigger_workflow_sha256 }}
+      expected_reusable_core_sha256: ${{ inputs.expected_reusable_core_sha256 }}
+      requested_target_ref: c3-python-environment-dependency-reconstruction
+      expected_target_sha: f6798b9fe57ccdb572095d7758a48cc8d2cc55cc
