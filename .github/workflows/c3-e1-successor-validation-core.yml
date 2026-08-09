@@ -87,6 +87,7 @@ jobs:
           event_name = os.environ.get('GITHUB_EVENT_NAME', '')
           ref = os.environ.get('GITHUB_REF', '')
           head_sha = os.environ.get('GITHUB_SHA', '')
+          workflow_sha = os.environ.get('GITHUB_WORKFLOW_SHA', '')
           run_attempt = os.environ.get('GITHUB_RUN_ATTEMPT', '')
 
           authorization_identity = os.environ.get('AUTHORIZATION_IDENTITY', '')
@@ -119,6 +120,8 @@ jobs:
           if SHA40.fullmatch(expected_control_sha) is None:
               fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if head_sha != expected_control_sha:
+              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+          if workflow_sha != expected_control_sha:
               fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if SHA256.fullmatch(trigger_sha256) is None:
               fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
