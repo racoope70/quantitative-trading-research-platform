@@ -46,6 +46,7 @@ jobs:
         shell: bash
         env:
           C3_E1_GITHUB_TOKEN: ${{ github.token }}
+          CALLER_WORKFLOW_REF: ${{ github.workflow_ref }}
           AUTHORIZATION_IDENTITY: ${{ inputs.authorization_identity }}
           ATTEMPT_IDENTITY: ${{ inputs.attempt_identity }}
           EXPECTED_CONTROL_SHA: ${{ inputs.expected_control_sha }}
@@ -65,7 +66,9 @@ jobs:
           import urllib.request
 
           EXPECTED_REPOSITORY = 'racoope70/quantitative-trading-research-platform'
-          EXPECTED_ATTEMPT = 'C3_E1_ATTEMPT_4_TRIGGER_DECOUPLED_EXACT_TARGET_VALIDATION'
+          EXPECTED_ATTEMPT = 'C3_E1_ATTEMPT_5_CORRECTED_COLLECTOR_EXACT_TARGET_VALIDATION'
+          EXPECTED_AUTHORIZATION = 'OWNER_AUTH_C3_E1_ATTEMPT_5_2026-08-09_V1'
+          EXPECTED_CALLER_WORKFLOW_PATH = 'racoope70/quantitative-trading-research-platform/.github/workflows/c3-e1-attempt5.yml'
           EXPECTED_TARGET_REF = 'c3-python-environment-dependency-reconstruction'
           EXPECTED_TARGET_SHA = 'f6798b9fe57ccdb572095d7758a48cc8d2cc55cc'
           SHA40 = re.compile(r'^[0-9a-f]{40}$')
@@ -77,10 +80,18 @@ jobs:
               def redirect_request(self, req, fp, code, msg, headers, newurl):
                   return None
 
-          def fail(code):
+          def fail_unbound(code):
               print('control_plane_classification=' + code)
               print('empirical_E1=NOT_STARTED')
-              print('Attempt_4_consumed=NO')
+              raise SystemExit(2)
+
+          def fail_attempt5(code):
+              print('control_plane_classification=' + code)
+              print('Attempt_5_dispatch_request_issued=YES')
+              print('authorized_Attempt_5_dispatch_budget_consumed=YES')
+              print('Attempt_5_empirical_execution=NOT_STARTED')
+              print('empirical_E1=NOT_STARTED')
+              print('Attempt_5_consumed=NO')
               raise SystemExit(2)
 
           repository = os.environ.get('GITHUB_REPOSITORY', '')
@@ -88,6 +99,8 @@ jobs:
           ref = os.environ.get('GITHUB_REF', '')
           head_sha = os.environ.get('GITHUB_SHA', '')
           workflow_sha = os.environ.get('GITHUB_WORKFLOW_SHA', '')
+          caller_workflow_ref = os.environ.get('CALLER_WORKFLOW_REF', '')
+          run_number = os.environ.get('GITHUB_RUN_NUMBER', '')
           run_attempt = os.environ.get('GITHUB_RUN_ATTEMPT', '')
 
           authorization_identity = os.environ.get('AUTHORIZATION_IDENTITY', '')
@@ -99,43 +112,48 @@ jobs:
           expected_target_sha = os.environ.get('EXPECTED_TARGET_SHA', '')
           token = os.environ.get('C3_E1_GITHUB_TOKEN', '')
 
+          caller_ref_suffix = '@' + ref
+          if not ref or not caller_workflow_ref.endswith(caller_ref_suffix):
+              fail_unbound('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+
+          caller_workflow_path = caller_workflow_ref[:-len(caller_ref_suffix)]
+          if caller_workflow_path != EXPECTED_CALLER_WORKFLOW_PATH:
+              fail_unbound('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+
           if repository != EXPECTED_REPOSITORY:
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if event_name != 'workflow_dispatch':
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if ref != 'refs/heads/main':
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+          if run_number != '1':
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if run_attempt != '1':
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if attempt_identity != EXPECTED_ATTEMPT:
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
-          if (
-              not authorization_identity
-              or len(authorization_identity) > 512
-              or '\n' in authorization_identity
-              or '\r' in authorization_identity
-          ):
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+          if authorization_identity != EXPECTED_AUTHORIZATION:
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
 
           if SHA40.fullmatch(expected_control_sha) is None:
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if head_sha != expected_control_sha:
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if workflow_sha != expected_control_sha:
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if SHA256.fullmatch(trigger_sha256) is None:
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
           if SHA256.fullmatch(core_sha256) is None:
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
 
           if requested_target_ref != EXPECTED_TARGET_REF:
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
           if expected_target_sha != EXPECTED_TARGET_SHA:
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
           if SHA40.fullmatch(expected_target_sha) is None:
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
           if not token:
-              fail('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
+              fail_attempt5('VALIDATION_INSTRUMENT_IDENTITY_FAILURE')
 
           encoded_ref = urllib.parse.quote(requested_target_ref, safe='')
           url = (
@@ -159,37 +177,40 @@ jobs:
           try:
               with opener.open(req, timeout=20) as response:
                   if response.status != 200:
-                      fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+                      fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
                   body = response.read(MAX_RESPONSE + 1)
           except Exception:
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
 
           if len(body) > MAX_RESPONSE:
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
 
           try:
               payload = json.loads(body.decode('utf-8', 'strict'))
           except Exception:
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
 
           if not isinstance(payload, dict):
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
           if payload.get('ref') != 'refs/heads/' + requested_target_ref:
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
 
           obj = payload.get('object')
           if not isinstance(obj, dict):
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
           if obj.get('type') != 'commit':
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
           if obj.get('sha') != expected_target_sha:
-              fail('TARGET_IDENTITY_ADMISSION_FAILURE')
+              fail_attempt5('TARGET_IDENTITY_ADMISSION_FAILURE')
 
           print('trigger_activation=PASS')
           print('target_ref_resolution=PASS')
           print('target_ref_resolved_sha=' + expected_target_sha)
+          print('Attempt_5_dispatch_request_issued=YES')
+          print('authorized_Attempt_5_dispatch_budget_consumed=YES')
+          print('Attempt_5_empirical_execution=NOT_STARTED')
           print('empirical_E1=NOT_STARTED')
-          print('Attempt_4_consumed=NO')
+          print('Attempt_5_consumed=NO')
           PYADMIT
 
       - name: Checkout exact validation control commit
@@ -222,15 +243,21 @@ jobs:
 
           fail_control() {
             printf 'control_plane_classification=VALIDATION_INSTRUMENT_IDENTITY_FAILURE\n'
+            printf 'Attempt_5_dispatch_request_issued=YES\n'
+            printf 'authorized_Attempt_5_dispatch_budget_consumed=YES\n'
+            printf 'Attempt_5_empirical_execution=NOT_STARTED\n'
             printf 'empirical_E1=NOT_STARTED\n'
-            printf 'Attempt_4_consumed=NO\n'
+            printf 'Attempt_5_consumed=NO\n'
             exit 2
           }
 
           fail_target() {
             printf 'control_plane_classification=TARGET_IDENTITY_ADMISSION_FAILURE\n'
+            printf 'Attempt_5_dispatch_request_issued=YES\n'
+            printf 'authorized_Attempt_5_dispatch_budget_consumed=YES\n'
+            printf 'Attempt_5_empirical_execution=NOT_STARTED\n'
             printf 'empirical_E1=NOT_STARTED\n'
-            printf 'Attempt_4_consumed=NO\n'
+            printf 'Attempt_5_consumed=NO\n'
             exit 2
           }
 
@@ -240,7 +267,7 @@ jobs:
           [ "$control_head" = "$EXPECTED_CONTROL_SHA" ] || fail_control
           [ "$target_head" = "$EXPECTED_TARGET_SHA" ] || fail_target
 
-          trigger_path="c3-control/.github/workflows/c3-e1-attempt4.yml"
+          trigger_path="c3-control/.github/workflows/c3-e1-attempt5.yml"
           core_path="c3-control/.github/workflows/c3-e1-successor-validation-core.yml"
 
           [ -f "$trigger_path" ] || fail_control
@@ -259,8 +286,11 @@ jobs:
           printf 'reusable_core_identity=PASS\n'
           printf 'target_checkout_identity=PASS\n'
           printf 'target_control_admission=PASS\n'
+          printf 'Attempt_5_dispatch_request_issued=YES\n'
+          printf 'authorized_Attempt_5_dispatch_budget_consumed=YES\n'
+          printf 'Attempt_5_empirical_execution=NOT_STARTED\n'
           printf 'empirical_E1=NOT_STARTED\n'
-          printf 'Attempt_4_consumed=NO\n'
+          printf 'Attempt_5_consumed=NO\n'
 
   c3-e1-bounded-empirical-observation:
     name: C3 E1 single-use bounded empirical observation candidate
@@ -304,16 +334,31 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          [ "$GITHUB_RUN_NUMBER" = "1" ] || {
+            printf 'control_plane_classification=VALIDATION_INSTRUMENT_IDENTITY_FAILURE\n'
+            printf 'Attempt_5_dispatch_request_issued=YES\n'
+            printf 'authorized_Attempt_5_dispatch_budget_consumed=YES\n'
+            printf 'Attempt_5_empirical_execution=NOT_STARTED\n'
+            printf 'empirical_E1=NOT_STARTED\n'
+            printf 'Attempt_5_consumed=NO\n'
+            exit 2
+          }
           [ "$GITHUB_RUN_ATTEMPT" = "1" ] || {
             printf 'control_plane_classification=VALIDATION_INSTRUMENT_IDENTITY_FAILURE\n'
+            printf 'Attempt_5_dispatch_request_issued=YES\n'
+            printf 'authorized_Attempt_5_dispatch_budget_consumed=YES\n'
+            printf 'Attempt_5_empirical_execution=NOT_STARTED\n'
             printf 'empirical_E1=NOT_STARTED\n'
-            printf 'Attempt_4_consumed=NO\n'
+            printf 'Attempt_5_consumed=NO\n'
             exit 2
           }
           printf 'trigger_activation=PASS\n'
           printf 'target_control_admission=PASS\n'
+          printf 'Attempt_5_dispatch_request_issued=YES\n'
+          printf 'authorized_Attempt_5_dispatch_budget_consumed=YES\n'
+          printf 'Attempt_5_empirical_execution=STARTED\n'
           printf 'empirical_E1=STARTED\n'
-          printf 'Attempt_4_consumed=YES\n'
+          printf 'Attempt_5_consumed=YES\n'
 
       - name: Collect and materialize exact E1 pre-finalization handoff
         id: e1_observe
