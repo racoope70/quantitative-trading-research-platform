@@ -1,0 +1,95 @@
+name: C3 E1 successor V1 generic fail-closed core
+
+on:
+  workflow_call:
+    inputs:
+      expected_control_sha:
+        description: Exact separately reviewed control commit
+        required: true
+        type: string
+      expected_core_sha256:
+        description: Exact separately reviewed reusable-core SHA-256
+        required: true
+        type: string
+      expected_contract_implementation_manifest_sha256:
+        description: Exact reviewed generic implementation manifest SHA-256
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  successor-v1-generic-static-validation:
+    name: Successor V1 generic static validation only
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - name: Fail closed unless exact control identity is active
+        shell: bash
+        env:
+          EXPECTED_CONTROL_SHA: ${{ inputs.expected_control_sha }}
+          EXPECTED_CORE_SHA256: ${{ inputs.expected_core_sha256 }}
+          EXPECTED_MANIFEST_SHA256: ${{ inputs.expected_contract_implementation_manifest_sha256 }}
+        run: |
+          set -euo pipefail
+          umask 077
+
+          [ -n "$EXPECTED_CONTROL_SHA" ]
+          [ -n "$EXPECTED_CORE_SHA256" ]
+          [ -n "$EXPECTED_MANIFEST_SHA256" ]
+
+          printf 'implementation_scope=STATIC_GENERIC_FAIL_CLOSED_IMPLEMENTATION_ONLY\n'
+          printf 'successor_pre_execution_readiness=NOT_READY\n'
+          printf 'successor_execution_authorization=NOT_AUTHORIZED\n'
+          printf 'empirical_successor_E1=NOT_AUTHORIZED\n'
+
+      - name: Checkout exact generic implementation control commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.expected_control_sha }}
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Verify exact generic implementation identities
+        shell: bash
+        env:
+          EXPECTED_CONTROL_SHA: ${{ inputs.expected_control_sha }}
+          EXPECTED_CORE_SHA256: ${{ inputs.expected_core_sha256 }}
+          EXPECTED_MANIFEST_SHA256: ${{ inputs.expected_contract_implementation_manifest_sha256 }}
+        run: |
+          set -euo pipefail
+
+          [ "$(git rev-parse HEAD)" = "$EXPECTED_CONTROL_SHA" ]
+
+          core='.github/workflows/c3-e1-successor-v1-core.yml'
+          manifest='.github/c3-e1-successor-v1/contract_implementation_manifest_v1.json'
+
+          [ -f "$core" ] && [ ! -L "$core" ]
+          [ -f "$manifest" ] && [ ! -L "$manifest" ]
+
+          [ "$(sha256sum "$core" | awk '{print $1}')" = "$EXPECTED_CORE_SHA256" ]
+          [ "$(sha256sum "$manifest" | awk '{print $1}')" = "$EXPECTED_MANIFEST_SHA256" ]
+
+          # The validator bootstraps by hashing the exact manifest-declared
+          # schema/rules/canonicalizer/collector/validator bytes before it
+          # imports those components or permits any generic static PASS.
+          python3 .github/c3-e1-successor-v1/successor_e1_validator_v1.py --self-test
+          python3 .github/c3-e1-successor-v1/successor_e1_collector_v1.py --self-test
+
+          printf 'generic_static_validation=PASS\n'
+          printf 'successor_pre_execution_readiness=NOT_READY\n'
+          printf 'successor_execution_authorization=NOT_AUTHORIZED\n'
+          printf 'missing_future_adapter=NEVER_PASS\n'
+
+      - name: Assert empirical execution remains impossible in generic core
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'specific_VM_platform=DEFERRED\n'
+          printf 'specific_observation_authority_mechanism=DEFERRED\n'
+          printf 'CAP_NET_ADMIN_sufficiency=NOT_ESTABLISHED\n'
+          printf 'transition_event_provider=DEFERRED\n'
+          printf 'future_successor_caller=NOT_PRESENT_BY_DESIGN\n'
+          printf 'successor_E1_execution=NOT_AUTHORIZED\n'

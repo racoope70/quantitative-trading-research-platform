@@ -1,0 +1,51 @@
+{
+  "manifest_identity": "C3_E1_SUCCESSOR_CONTRACT_IMPLEMENTATION_MANIFEST_V1",
+  "contract_family": "C3_E1_SUCCESSOR_ACCEPTANCE_CONTRACT_V1",
+  "implementation_scope": "STATIC_GENERIC_FAIL_CLOSED_IMPLEMENTATION_ONLY",
+  "successor_pre_execution_readiness": "NOT_READY",
+  "successor_execution_authorization": "NOT_AUTHORIZED",
+  "canonicalization": {
+    "identity": "C3_E1_SUCCESSOR_CANONICAL_JSON_V1",
+    "normalization_form": "NFC",
+    "normalization_provider": "python-unicodedata",
+    "unicode_data_version": "15.0.0"
+  },
+  "files": [
+    {
+      "path": ".github/c3-e1-successor-v1/C3_E1_SUCCESSOR_CLOSED_EVIDENCE_SCHEMA_V1.json",
+      "sha256": "00555c70e68c6a3dc823a69b1ef222d81f84ce46beb6012541b6ec177cdc5dd3",
+      "byte_count": 16134
+    },
+    {
+      "path": ".github/c3-e1-successor-v1/C3_E1_SUCCESSOR_CROSS_FIELD_SEMANTIC_RULE_SET_V1.py",
+      "sha256": "f2110e390783e7d8e0027d058245dd57e4ad4973e7ef96829840209a121c5e70",
+      "byte_count": 15044
+    },
+    {
+      "path": ".github/c3-e1-successor-v1/canonical_json_v1.py",
+      "sha256": "5163646138d5d492d9518da4b7875c28773e766ce819010b8bc5f22bed7a42a0",
+      "byte_count": 10044
+    },
+    {
+      "path": ".github/c3-e1-successor-v1/successor_e1_collector_v1.py",
+      "sha256": "5d5015df9f73923305eb9b013c1a21e97f2484e86c92b80ae8282e5de5ccab64",
+      "byte_count": 9203
+    },
+    {
+      "path": ".github/c3-e1-successor-v1/successor_e1_validator_v1.py",
+      "sha256": "7ed2d14b3599beda2b339141507b669054b4be095986496568cfe37f736fc962",
+      "byte_count": 40919
+    }
+  ],
+  "deferred": {
+    "specific_VM_platform": "DEFERRED",
+    "specific_observation_authority_mechanism": "DEFERRED",
+    "CAP_NET_ADMIN_sufficiency": "NOT_ESTABLISHED",
+    "transition_event_provider": "DEFERRED",
+    "runtime_instantiation_attestation_adapter": "DEFERRED",
+    "observation_authority_observation_adapter": "DEFERRED",
+    "transition_event_evidence_adapter": "DEFERRED",
+    "platform_build_output_identity_adapter_if_required": "DEFERRED",
+    "future_successor_caller": "DEFERRED"
+  }
+}

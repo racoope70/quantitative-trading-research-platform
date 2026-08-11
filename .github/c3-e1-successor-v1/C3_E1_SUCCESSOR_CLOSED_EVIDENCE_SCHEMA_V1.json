@@ -1,0 +1,572 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/successorEvidenceRecord",
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sha40": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "definitionName": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_]+$"
+    },
+    "optionalSha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gateClassification": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "INCONCLUSIVE",
+        "NOT_EXECUTED"
+      ]
+    },
+    "terminalClassification": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "INCONCLUSIVE",
+        "NOT_EXECUTED",
+        "FAIL_CONFIGURATION",
+        "FAIL_ENVIRONMENT_IDENTITY_MISMATCH",
+        "FAIL_OBSERVATION_INVARIANT",
+        "FAIL_VALIDATION_INSTRUMENT_IDENTITY",
+        "FAIL_EVIDENCE_INTEGRITY"
+      ]
+    },
+    "frozenBuildOutputIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_type",
+        "identity_algorithm",
+        "identity_value"
+      ],
+      "properties": {
+        "identity_type": {
+          "type": "string",
+          "const": "C3_E1_SUCCESSOR_FROZEN_BUILD_OUTPUT_MANIFEST_SHA256_V1"
+        },
+        "identity_algorithm": {
+          "type": "string",
+          "const": "SHA-256"
+        },
+        "identity_value": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "kernelEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected",
+        "observed",
+        "kernel_release_binding",
+        "running_kernel_image_binding",
+        "kernel_configuration_binding",
+        "required_config_m_module_completeness",
+        "kernel_completeness"
+      ],
+      "properties": {
+        "expected": {
+          "$ref": "#/$defs/expectedKernelRuntimeIdentity"
+        },
+        "observed": {
+          "$ref": "#/$defs/observedKernelRuntimeIdentity"
+        },
+        "kernel_release_binding": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "running_kernel_image_binding": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "kernel_configuration_binding": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "required_config_m_module_completeness": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "kernel_completeness": {
+          "$ref": "#/$defs/gateClassification"
+        }
+      }
+    },
+    "firewallEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_scope_manifest_sha256",
+        "observed_scope_manifest_sha256",
+        "completeness",
+        "stability",
+        "deterministic_absence",
+        "evidence_sha256"
+      ],
+      "properties": {
+        "required_scope_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observed_scope_manifest_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "completeness": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "stability": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "deterministic_absence": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "evidence_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        }
+      }
+    },
+    "authorityEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_authority_specification_sha256",
+        "observed_authority_evidence_sha256",
+        "authority_identity_binding",
+        "no_privilege_transition"
+      ],
+      "properties": {
+        "expected_authority_specification_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observed_authority_evidence_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "authority_identity_binding": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "no_privilege_transition": {
+          "$ref": "#/$defs/gateClassification"
+        }
+      }
+    },
+    "buildProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_build_provenance_sha256",
+        "environment_build_record_sha256",
+        "reconstruction_material_manifest_sha256",
+        "build_provenance_integrity",
+        "reconstructability",
+        "build_output_binding",
+        "frozen_build_output_identity"
+      ],
+      "properties": {
+        "expected_build_provenance_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "environment_build_record_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "reconstruction_material_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "build_provenance_integrity": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "reconstructability": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "build_output_binding": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "frozen_build_output_identity": {
+          "$ref": "#/$defs/frozenBuildOutputIdentity"
+        }
+      }
+    },
+    "runtimeSpecificationBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admitted_successor_environment_specification_sha256",
+        "observed_runtime_manifest_sha256",
+        "classification"
+      ],
+      "properties": {
+        "admitted_successor_environment_specification_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observed_runtime_manifest_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "classification": {
+          "$ref": "#/$defs/gateClassification"
+        }
+      }
+    },
+    "runtimeInstantiationBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "frozen_build_output_identity",
+        "launch_or_instantiation_evidence_sha256",
+        "runtime_instance_identity_sha256",
+        "binding_method_identity"
+      ],
+      "properties": {
+        "classification": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "frozen_build_output_identity": {
+          "$ref": "#/$defs/frozenBuildOutputIdentity"
+        },
+        "launch_or_instantiation_evidence_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "runtime_instance_identity_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "binding_method_identity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "mutationGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "evidence_sha256",
+        "package_acquisition_observation",
+        "package_installation_observation",
+        "package_upgrade_observation",
+        "kernel_change_observation",
+        "module_mutation_observation",
+        "firewall_mutation_observation",
+        "environment_reconfiguration_observation",
+        "authority_transition_observation"
+      ],
+      "properties": {
+        "classification": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "evidence_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "package_acquisition_observation": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "package_installation_observation": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "package_upgrade_observation": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "kernel_change_observation": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "module_mutation_observation": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "firewall_mutation_observation": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "environment_reconfiguration_observation": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "authority_transition_observation": {
+          "$ref": "#/$defs/gateClassification"
+        }
+      }
+    },
+    "evidenceIntegrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_manifest_sha256",
+        "content_address_integrity",
+        "evidence_completeness",
+        "evidence_stability"
+      ],
+      "properties": {
+        "evidence_manifest_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "content_address_integrity": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "evidence_completeness": {
+          "$ref": "#/$defs/gateClassification"
+        },
+        "evidence_stability": {
+          "$ref": "#/$defs/gateClassification"
+        }
+      }
+    },
+    "transportBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transport_manifest_sha256",
+        "transport_integrity"
+      ],
+      "properties": {
+        "transport_manifest_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "transport_integrity": {
+          "$ref": "#/$defs/gateClassification"
+        }
+      }
+    },
+    "qualificationRootBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "successor_environment_qualification_root_sha256",
+        "qualification_root_integrity"
+      ],
+      "properties": {
+        "successor_environment_qualification_root_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "qualification_root_integrity": {
+          "$ref": "#/$defs/gateClassification"
+        }
+      }
+    },
+    "implementationIdentityBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_sha256",
+        "component_identity_gate"
+      ],
+      "properties": {
+        "manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "component_identity_gate": {
+          "$ref": "#/$defs/gateClassification"
+        }
+      }
+    },
+    "terminalResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "derived_by_validator"
+      ],
+      "properties": {
+        "classification": {
+          "$ref": "#/$defs/terminalClassification"
+        },
+        "derived_by_validator": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "historicalBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "historical_v3_v4_runtime_dependency",
+        "historical_attempt_reclassification_possible",
+        "attempts_1_through_5"
+      ],
+      "properties": {
+        "historical_v3_v4_runtime_dependency": {
+          "type": "string",
+          "const": "NO"
+        },
+        "historical_attempt_reclassification_possible": {
+          "type": "string",
+          "const": "NO"
+        },
+        "attempts_1_through_5": {
+          "type": "string",
+          "const": "IMMUTABLE"
+        }
+      }
+    },
+    "successorEvidenceRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_family",
+        "schema_identity",
+        "semantic_rule_set_identity",
+        "implementation_status",
+        "successor_pre_execution_readiness",
+        "successor_execution_authorization",
+        "empirical_observation_started",
+        "implementation_identity_binding",
+        "build_provenance",
+        "runtime_specification_binding",
+        "governed_runtime_instantiation_binding",
+        "kernel_evidence",
+        "firewall_evidence",
+        "observation_authority_evidence",
+        "governed_environment_mutation_gate",
+        "evidence_integrity",
+        "transport_binding",
+        "qualification_root_binding",
+        "missing_future_adapters",
+        "historical_boundary",
+        "terminal_result"
+      ],
+      "properties": {
+        "contract_family": {
+          "type": "string",
+          "const": "C3_E1_SUCCESSOR_ACCEPTANCE_CONTRACT_V1"
+        },
+        "schema_identity": {
+          "type": "string",
+          "const": "C3_E1_SUCCESSOR_CLOSED_EVIDENCE_SCHEMA_V1"
+        },
+        "semantic_rule_set_identity": {
+          "type": "string",
+          "const": "C3_E1_SUCCESSOR_CROSS_FIELD_SEMANTIC_RULE_SET_V1"
+        },
+        "implementation_status": {
+          "type": "string",
+          "const": "STATIC_GENERIC_FAIL_CLOSED_IMPLEMENTATION_ONLY"
+        },
+        "successor_pre_execution_readiness": {
+          "type": "string",
+          "const": "NOT_READY"
+        },
+        "successor_execution_authorization": {
+          "type": "string",
+          "const": "NOT_AUTHORIZED"
+        },
+        "empirical_observation_started": {
+          "type": "boolean"
+        },
+        "implementation_identity_binding": {
+          "$ref": "#/$defs/implementationIdentityBinding"
+        },
+        "build_provenance": {
+          "$ref": "#/$defs/buildProvenance"
+        },
+        "runtime_specification_binding": {
+          "$ref": "#/$defs/runtimeSpecificationBinding"
+        },
+        "governed_runtime_instantiation_binding": {
+          "$ref": "#/$defs/runtimeInstantiationBinding"
+        },
+        "kernel_evidence": {
+          "$ref": "#/$defs/kernelEvidence"
+        },
+        "firewall_evidence": {
+          "$ref": "#/$defs/firewallEvidence"
+        },
+        "observation_authority_evidence": {
+          "$ref": "#/$defs/authorityEvidence"
+        },
+        "governed_environment_mutation_gate": {
+          "$ref": "#/$defs/mutationGate"
+        },
+        "evidence_integrity": {
+          "$ref": "#/$defs/evidenceIntegrity"
+        },
+        "transport_binding": {
+          "$ref": "#/$defs/transportBinding"
+        },
+        "qualification_root_binding": {
+          "$ref": "#/$defs/qualificationRootBinding"
+        },
+        "missing_future_adapters": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 16,
+          "items": {
+            "type": "string"
+          }
+        },
+        "historical_boundary": {
+          "$ref": "#/$defs/historicalBoundary"
+        },
+        "terminal_result": {
+          "$ref": "#/$defs/terminalResult"
+        }
+      }
+    },
+    "expectedKernelRuntimeIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kernel_release",
+        "exact_running_kernel_image_sha256",
+        "kernel_configuration_sha256",
+        "required_config_m_module_manifest_sha256"
+      ],
+      "properties": {
+        "kernel_release": {
+          "type": "string"
+        },
+        "exact_running_kernel_image_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "kernel_configuration_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "required_config_m_module_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "observedKernelRuntimeIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kernel_release",
+        "exact_running_kernel_image_sha256",
+        "kernel_configuration_sha256",
+        "required_config_m_module_manifest_sha256"
+      ],
+      "properties": {
+        "kernel_release": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "exact_running_kernel_image_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "kernel_configuration_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        },
+        "required_config_m_module_manifest_sha256": {
+          "$ref": "#/$defs/optionalSha256"
+        }
+      }
+    },
+    "signedInt64": {
+      "type": "integer",
+      "minimum": -9223372036854775808,
+      "maximum": 9223372036854775807
+    },
+    "nonnegativeInt64": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    }
+  }
+}
