@@ -1,0 +1,12 @@
+{
+  "argv_flags": ["-I", "-B", "-S", "-X", "utf8"],
+  "clear_python_environment": true,
+  "identity": "C3_E1_SUCCESSOR_PYTHON_RUNTIME_ENVELOPE_V1",
+  "locale": "C.UTF-8",
+  "pyc_policy": "PYC_PROHIBITED_AND_VERIFIED_ABSENT",
+  "status": "UNRESOLVED_PRE_BUILD_MATERIAL",
+  "sys_path": "UNRESOLVED_PRE_BUILD_MATERIAL",
+  "target_python": "3.12.2",
+  "timezone": "UTC",
+  "umask_octal": "0077"
+}

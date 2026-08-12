@@ -1,0 +1,9 @@
+{
+  "ack_after_durable_record_and_chain_head": true,
+  "evidence_storage": "UNRESOLVED_PHYSICAL_HOST",
+  "host_sink_restart": "NO",
+  "identity": "C3_E1_SUCCESSOR_IPC_AND_STORAGE_POLICY_V1",
+  "reconnect_during_governed_interval": "PROHIBITED",
+  "seqpacket_credentials": "SO_PASSCRED_PLUS_SCM_CREDENTIALS_PER_MESSAGE",
+  "stream_credentials": "SO_PEERCRED"
+}

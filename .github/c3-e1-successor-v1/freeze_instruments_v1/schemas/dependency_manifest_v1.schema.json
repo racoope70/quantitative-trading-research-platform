@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"C3_E1_SUCCESSOR_DEPENDENCY_MANIFEST_V1","type":"object","required":["manifest_identity","status","domains"],"properties":{"manifest_identity":{"type":"string"},"status":{"type":"string"},"domains":{"type":"object"}},"not":{"required":["self_sha256"]},"additionalProperties":false}

@@ -1,0 +1,9 @@
+{
+  "audit_record_delimiter_hex": "0a",
+  "audit_record_max_bytes": 1048576,
+  "guest_sequence_scope": "GLOBAL_PER_RUNTIME_INSTANCE",
+  "host_sequence_scope": "GLOBAL_ACROSS_GUEST_AND_HOST_ORIGINS",
+  "identity": "C3_E1_SUCCESSOR_BLOCKER_005_CONFIG_V1",
+  "queue_sizes": "UNRESOLVED_PRE_BUILD_IMPLEMENTATION_VALIDATION",
+  "runtime_paths": "UNRESOLVED_GOVERNED_BUILD"
+}
