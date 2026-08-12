@@ -1,0 +1,64 @@
+{
+  "authority_peer_policy": {
+    "expected_process": {
+      "cgroup_sha256": "UNRESOLVED_STAGE1_OBS_AUTHORITY_CGROUP_SHA256",
+      "cmdline_sha256": "UNRESOLVED_STAGE1_OBS_AUTHORITY_CMDLINE_SHA256",
+      "executable": "UNRESOLVED_STAGE1_CPYTHON_PATH",
+      "executable_sha256": "UNRESOLVED_STAGE1_CPYTHON_SHA256",
+      "instrument_source_path": "UNRESOLVED_STAGE1_OBS_AUTHORITY_SOURCE_PATH",
+      "instrument_source_sha256": "UNRESOLVED_STAGE1_OBS_AUTHORITY_SOURCE_SHA256"
+    },
+    "gid": 61000,
+    "instrument_identity": "C3_E1_SUCCESSOR_OBSERVATION_AUTHORITY_V1",
+    "uid": 61000
+  },
+  "bootstrap_peer_policy": {
+    "expected_process": {
+      "cgroup_sha256": "UNRESOLVED_STAGE1_BOOTSTRAP_CGROUP_SHA256",
+      "cmdline_sha256": "UNRESOLVED_STAGE1_BOOTSTRAP_CMDLINE_SHA256",
+      "executable": "UNRESOLVED_STAGE1_CPYTHON_PATH",
+      "executable_sha256": "UNRESOLVED_STAGE1_CPYTHON_SHA256",
+      "instrument_source_path": "UNRESOLVED_STAGE1_BOOTSTRAP_SOURCE_PATH",
+      "instrument_source_sha256": "UNRESOLVED_STAGE1_BOOTSTRAP_SOURCE_SHA256"
+    },
+    "gid": 0,
+    "instrument_identity": "C3_E1_SUCCESSOR_NFTABLES_MONITOR_BOOTSTRAP_V1",
+    "uid": 0
+  },
+  "dump_intr_fail_closed": true,
+  "enobufs_fail_closed": true,
+  "getgen_descriptor": {
+    "byteorder": "big",
+    "payload_offset": 16,
+    "width_bits": 32
+  },
+  "getgen_request_hex": "UNRESOLVED_EXACT_KERNEL_UAPI_GETGEN_REQUEST",
+  "getgen_secondary_crosscheck": true,
+  "guest_mux_socket": "/run/c3-e1/guest-mux.sock",
+  "identity": "C3_E1_SUCCESSOR_BLOCKER_006_CONFIG_V1",
+  "monitor_barrier_socket": "/run/c3-e1/nft-monitor-barrier.sock",
+  "monitor_bootstrap_peer_socket": "/run/c3-e1/nft-monitor-handoff.sock",
+  "monitor_handoff_socket": "/run/c3-e1/nft-monitor-handoff.sock",
+  "monitor_peer_policy": {
+    "expected_process": {
+      "cgroup_sha256": "UNRESOLVED_STAGE1_NFT_MONITOR_CGROUP_SHA256",
+      "cmdline_sha256": "UNRESOLVED_STAGE1_NFT_MONITOR_CMDLINE_SHA256",
+      "executable": "UNRESOLVED_STAGE1_CPYTHON_PATH",
+      "executable_sha256": "UNRESOLVED_STAGE1_CPYTHON_SHA256",
+      "instrument_source_path": "UNRESOLVED_STAGE1_NFT_MONITOR_SOURCE_PATH",
+      "instrument_source_sha256": "UNRESOLVED_STAGE1_NFT_MONITOR_SOURCE_SHA256"
+    },
+    "gid": 61002,
+    "instrument_identity": "C3_E1_SUCCESSOR_NFTABLES_TRANSITION_MONITOR_V1",
+    "uid": 61002
+  },
+  "msg_trunc_fail_closed": true,
+  "notification_groups": "UNRESOLVED_EXACT_KERNEL_UAPI",
+  "producer_ack_timeout_seconds": 30,
+  "request_sequence_start": 1,
+  "requested_so_rcvbuf": 8388608,
+  "snapshot_request_hex": "UNRESOLVED_EXACT_KERNEL_UAPI_SNAPSHOT_REQUEST",
+  "snapshot_requires_nlmsg_done_zero": true,
+  "two_read_stability": true,
+  "zero_mutation_events_required": true
+}

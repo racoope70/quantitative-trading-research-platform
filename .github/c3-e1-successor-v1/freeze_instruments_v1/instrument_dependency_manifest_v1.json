@@ -1,0 +1,41 @@
+{
+  "domains": [
+    {
+      "domain": "CPYTHON_RUNTIME",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "PYTHON_STANDARD_LIBRARY",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "NATIVE_SHARED_LIBRARIES",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "KERNEL_INTERFACES",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "SYSTEMD_AUDIT_NETLINK",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "TPM2_CRYPTO_TRUST",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "QEMU_DM_VERITY",
+      "members": [],
+      "resolution_stage": "PRE_BUILD_AND_POST_BUILD_PRE_E1"
+    }
+  ],
+  "manifest_identity": "C3_E1_SUCCESSOR_FREEZE_INSTRUMENT_DEPENDENCY_MANIFEST_V1",
+  "status": "UNRESOLVED_PRE_BUILD_MATERIAL"
+}

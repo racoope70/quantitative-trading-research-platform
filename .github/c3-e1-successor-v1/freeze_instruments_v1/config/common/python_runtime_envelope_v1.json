@@ -1,0 +1,21 @@
+{
+  "environment": {
+    "HOME": "/nonexistent",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "PATH": "/usr/bin:/bin",
+    "TZ": "UTC"
+  },
+  "flags": [
+    "-I",
+    "-B",
+    "-S",
+    "-X",
+    "utf8"
+  ],
+  "identity": "C3_E1_SUCCESSOR_PYTHON_RUNTIME_ENVELOPE_CONFIG_V1",
+  "pyc_policy": "PYC_PROHIBITED_AND_VERIFIED_ABSENT",
+  "site_import": false,
+  "target_python": "3.12.2",
+  "umask": "0077"
+}

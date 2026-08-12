@@ -1,0 +1,22 @@
+[Unit]
+Description=C3 E1 independent nftables transition monitor
+Requires=guest_evidence_multiplexer_v1.service
+After=guest_evidence_multiplexer_v1.service
+Before=nftables_monitor_bootstrap_v1.service observation_authority_v1.service
+
+[Service]
+Type=simple
+User=61002
+Group=61002
+ExecStart=/opt/c3-e1/freeze-instruments-v1/bin/python_instrument_launcher_v1 C3_E1_SUCCESSOR_NFTABLES_TRANSITION_MONITOR_V1
+Restart=no
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX AF_NETLINK
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,22 @@
+[Unit]
+Description=C3 E1 host runtime lifecycle provider
+Requires=host_evidence_sink_v1.service
+After=host_evidence_sink_v1.service
+Before=runtime_instantiation_launcher_v1.service attestation_transaction_controller_v1.service
+
+[Service]
+Type=simple
+User=61011
+Group=61011
+ExecStart=/opt/c3-e1/freeze-instruments-v1/bin/python_instrument_launcher_v1 C3_E1_SUCCESSOR_HOST_RUNTIME_LIFECYCLE_PROVIDER_V1
+Restart=no
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+
+[Install]
+WantedBy=multi-user.target
