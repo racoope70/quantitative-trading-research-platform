@@ -1,9 +1,15 @@
 {
-  "automatic_restart": false,
-  "ek_trust_store": "UNRESOLVED_TPM_ENROLLMENT",
-  "endpoint": "UNRESOLVED_PRE_E1_VERIFIER_ENVIRONMENT",
+  "attestation_schema_path": "/opt/c3-e1/freeze-instruments-v1/schemas/attestation_transaction_v1.schema.json",
+  "client_ca": "UNRESOLVED_STAGE1_CLIENT_CA",
+  "ek_trust_store": "UNRESOLVED_STAGE1_EK_TRUST_STORE",
   "execution_boundary": "OUTSIDE_ATTESTED_HOST",
   "identity": "C3_E1_SUCCESSOR_BLOCKER_013_CONFIG_V1",
-  "tls": "MUTUAL_TLS_1_3_PINNED_IDENTITIES",
-  "tpm2_checkquote": "UNRESOLVED_PRE_BUILD_MATERIAL"
+  "listen_host": "127.0.0.1",
+  "listen_port": 9443,
+  "max_transaction_bytes": 16777216,
+  "openssl_path": "UNRESOLVED_STAGE1_OPENSSL_PATH",
+  "server_cert": "UNRESOLVED_STAGE1_VERIFIER_CERT",
+  "server_key": "UNRESOLVED_STAGE1_VERIFIER_KEY",
+  "tpm2_checkquote_path": "UNRESOLVED_STAGE1_TPM2_CHECKQUOTE_PATH",
+  "verifier_manifest_sha256": "UNRESOLVED_STAGE1_VERIFIER_MANIFEST_SHA256"
 }

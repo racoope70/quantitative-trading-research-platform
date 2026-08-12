@@ -1,1 +1,524 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"C3_E1_SUCCESSOR_ATTESTATION_TRANSACTION_V1","type":"object","required":["transaction_type","runtime_instance_uuid","observation_nonce","verifier_manifest_sha256"],"properties":{"transaction_type":{"enum":["PRE_E1_ATTESTATION","POST_OBSERVATION_CHALLENGE","POST_OBSERVATION_ATTESTATION","POST_OBSERVATION_RESULT"]},"runtime_instance_uuid":{"type":"string"},"observation_nonce":{"type":"string"},"verifier_manifest_sha256":{"type":"string"}},"additionalProperties":true}
+{
+  "$defs": {
+    "challenge": {
+      "additionalProperties": false,
+      "properties": {
+        "final_checkpoint_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "fresh_challenge": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "transaction_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "transaction_type": {
+          "const": "POST_OBSERVATION_CHALLENGE"
+        },
+        "verifier_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transaction_type",
+        "transaction_id",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "final_checkpoint_sha256",
+        "verifier_manifest_sha256",
+        "fresh_challenge"
+      ],
+      "type": "object"
+    },
+    "challenge_req": {
+      "additionalProperties": false,
+      "properties": {
+        "final_checkpoint_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "transaction_type": {
+          "const": "POST_OBSERVATION_CHALLENGE_REQUEST"
+        },
+        "verifier_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transaction_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "final_checkpoint_sha256",
+        "verifier_manifest_sha256"
+      ],
+      "type": "object"
+    },
+    "object_meta": {
+      "additionalProperties": false,
+      "properties": {
+        "byte_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "data_hex": {
+          "pattern": "(?:[0-9a-f]{2})*",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "byte_count",
+        "sha256",
+        "data_hex"
+      ],
+      "type": "object"
+    },
+    "post": {
+      "additionalProperties": false,
+      "properties": {
+        "final_checkpoint_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "fresh_challenge": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "objects": {
+          "$ref": "#/$defs/post_objects"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "quote_qualification": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "runtime_instantiation_attestation_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "transaction_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "transaction_type": {
+          "const": "POST_OBSERVATION_ATTESTATION"
+        },
+        "verifier_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transaction_type",
+        "transaction_id",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "runtime_instantiation_attestation_record_sha256",
+        "verifier_manifest_sha256",
+        "final_checkpoint_sha256",
+        "fresh_challenge",
+        "quote_qualification",
+        "objects"
+      ],
+      "type": "object"
+    },
+    "post_objects": {
+      "additionalProperties": false,
+      "properties": {
+        "ak_enrollment_record": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "ak_tpmt_public": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "ek_certificate": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "final_checkpoint": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "ima_binary_measurements": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "measured_boot_event_log": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "quote_message": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "quote_signature": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "quoted_pcr_bytes": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "verification_context": {
+          "$ref": "#/$defs/object_meta"
+        }
+      },
+      "required": [
+        "ak_enrollment_record",
+        "ak_tpmt_public",
+        "quote_message",
+        "quote_signature",
+        "quoted_pcr_bytes",
+        "verification_context",
+        "final_checkpoint"
+      ],
+      "type": "object"
+    },
+    "post_result": {
+      "additionalProperties": false,
+      "properties": {
+        "attestation_bundle_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "checks": {
+          "additionalProperties": false,
+          "properties": {
+            "ak_provenance": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            },
+            "challenge_freshness": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            },
+            "pcr_selection": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            },
+            "qualification_binding": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            },
+            "quote_signature": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "challenge_freshness",
+            "quote_signature",
+            "qualification_binding",
+            "pcr_selection",
+            "ak_provenance"
+          ],
+          "type": "object"
+        },
+        "classification": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "INCONCLUSIVE"
+          ]
+        },
+        "final_checkpoint_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "runtime_instantiation_attestation_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "transaction_type": {
+          "const": "POST_OBSERVATION_RESULT"
+        },
+        "verifier_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transaction_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "verifier_manifest_sha256",
+        "runtime_instantiation_attestation_record_sha256",
+        "attestation_bundle_sha256",
+        "final_checkpoint_sha256",
+        "classification",
+        "checks"
+      ],
+      "type": "object"
+    },
+    "pre": {
+      "additionalProperties": false,
+      "properties": {
+        "objects": {
+          "$ref": "#/$defs/pre_objects"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "quote_qualification": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "runtime_instantiation_attestation_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "transaction_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "transaction_type": {
+          "const": "PRE_E1_ATTESTATION"
+        },
+        "verifier_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transaction_type",
+        "transaction_id",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "runtime_instantiation_attestation_record_sha256",
+        "verifier_manifest_sha256",
+        "quote_qualification",
+        "objects"
+      ],
+      "type": "object"
+    },
+    "pre_objects": {
+      "additionalProperties": false,
+      "properties": {
+        "ak_enrollment_record": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "ak_tpmt_public": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "ek_certificate": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "final_checkpoint": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "ima_binary_measurements": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "measured_boot_event_log": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "quote_message": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "quote_signature": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "quoted_pcr_bytes": {
+          "$ref": "#/$defs/object_meta"
+        },
+        "verification_context": {
+          "$ref": "#/$defs/object_meta"
+        }
+      },
+      "required": [
+        "ak_enrollment_record",
+        "ak_tpmt_public",
+        "measured_boot_event_log",
+        "ima_binary_measurements",
+        "quote_message",
+        "quote_signature",
+        "quoted_pcr_bytes",
+        "verification_context"
+      ],
+      "type": "object"
+    },
+    "pre_result": {
+      "additionalProperties": false,
+      "properties": {
+        "attestation_bundle_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "checks": {
+          "additionalProperties": false,
+          "properties": {
+            "ak_provenance": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            },
+            "host_tcb": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            },
+            "ima_replay": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            },
+            "measured_boot_replay": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            },
+            "quote": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "INCONCLUSIVE"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "ak_provenance",
+            "measured_boot_replay",
+            "ima_replay",
+            "quote",
+            "host_tcb"
+          ],
+          "type": "object"
+        },
+        "classification": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "INCONCLUSIVE"
+          ]
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "runtime_instantiation_attestation_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "transaction_type": {
+          "const": "PRE_E1_RESULT"
+        },
+        "verifier_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transaction_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "verifier_manifest_sha256",
+        "runtime_instantiation_attestation_record_sha256",
+        "attestation_bundle_sha256",
+        "classification",
+        "checks"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "C3_E1_SUCCESSOR_ATTESTATION_TRANSACTION_V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/pre"
+    },
+    {
+      "$ref": "#/$defs/challenge_req"
+    },
+    {
+      "$ref": "#/$defs/challenge"
+    },
+    {
+      "$ref": "#/$defs/post"
+    },
+    {
+      "$ref": "#/$defs/pre_result"
+    },
+    {
+      "$ref": "#/$defs/post_result"
+    }
+  ]
+}

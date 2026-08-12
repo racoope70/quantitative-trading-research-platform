@@ -1,13 +1,13 @@
 {
   "all_python_entrypoints_use_native_launcher": true,
-  "cpython": "UNRESOLVED",
-  "elf_closure": "UNRESOLVED",
-  "extension_modules": "UNRESOLVED",
+  "cpython": "UNRESOLVED_PRE_BUILD_MATERIAL",
+  "elf_closure": "UNRESOLVED_PRE_BUILD_MATERIAL",
+  "extension_modules": "UNRESOLVED_PRE_BUILD_MATERIAL",
   "manifest_identity": "C3_E1_SUCCESSOR_PYTHON_RUNTIME_CLOSURE_MANIFEST_V1",
-  "project_python_files": "UNRESOLVED",
+  "project_python_files": "UNRESOLVED_IMPLEMENTATION_IDENTITIES",
   "pyc_policy": "PYC_PROHIBITED_AND_VERIFIED_ABSENT",
   "status": "UNRESOLVED_PRE_BUILD_MATERIAL",
-  "stdlib_files": "UNRESOLVED",
-  "sys_path": "UNRESOLVED",
+  "stdlib_files": "UNRESOLVED_PRE_BUILD_MATERIAL",
+  "sys_path": "UNRESOLVED_PRE_BUILD_MATERIAL",
   "target_python": "3.12.2"
 }

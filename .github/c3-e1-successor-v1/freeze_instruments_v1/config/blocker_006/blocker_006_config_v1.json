@@ -1,12 +1,24 @@
 {
-  "bootstrap_CAP_NET_ADMIN": true,
-  "dump_requires_NLMSG_DONE_zero": true,
-  "fail_on": ["NLM_F_DUMP_INTR", "MSG_TRUNC", "ENOBUFS", "NLMSG_OVERRUN"],
-  "firewall_scope": "NATIVE_NFTABLES_ONLY",
+  "dump_intr_fail_closed": true,
+  "enobufs_fail_closed": true,
+  "getgen_descriptor": {
+    "byteorder": "big",
+    "payload_offset": 16,
+    "width_bits": 32
+  },
+  "getgen_request_hex": "UNRESOLVED_EXACT_KERNEL_UAPI_GETGEN_REQUEST",
+  "getgen_secondary_crosscheck": true,
+  "guest_mux_socket": "/run/c3-e1/guest-mux.sock",
   "identity": "C3_E1_SUCCESSOR_BLOCKER_006_CONFIG_V1",
+  "monitor_barrier_socket": "/run/c3-e1/nft-monitor-barrier.sock",
+  "monitor_bootstrap_peer_socket": "/run/c3-e1/nft-monitor-handoff.sock",
+  "monitor_handoff_socket": "/run/c3-e1/nft-monitor-handoff.sock",
+  "msg_trunc_fail_closed": true,
   "notification_groups": "UNRESOLVED_EXACT_KERNEL_UAPI",
-  "requested_SO_RCVBUF": 8388608,
-  "require_effective_SO_RCVBUF": true,
-  "transition_monitor_CAP_NET_ADMIN": false,
-  "zero_mutation_stability_window": true
+  "request_sequence_start": 1,
+  "requested_so_rcvbuf": 8388608,
+  "snapshot_request_hex": "UNRESOLVED_EXACT_KERNEL_UAPI_SNAPSHOT_REQUEST",
+  "snapshot_requires_nlmsg_done_zero": true,
+  "two_read_stability": true,
+  "zero_mutation_events_required": true
 }

@@ -1,17 +1,41 @@
 {
-  "domains": {
-    "audit": "UNRESOLVED",
-    "cpython_runtime": "UNRESOLVED",
-    "cryptography": {"content_hash":"SHA-256","tls":"TLS1.3_MUTUAL_PINNED"},
-    "kernel_interfaces": "UNRESOLVED_EXACT_KERNEL_MATERIAL",
-    "local_ipc": ["SO_PASSCRED","SCM_CREDENTIALS","SCM_RIGHTS","SO_PEERCRED_STREAM_ONLY"],
-    "native_shared_libraries": "UNRESOLVED",
-    "netlink_nftables": "UNRESOLVED",
-    "python_standard_library": "DERIVE_FROM_EXACT_IMPORT_GRAPH",
-    "qemu": "UNRESOLVED",
-    "systemd": "UNRESOLVED",
-    "tpm2": "UNRESOLVED"
-  },
+  "domains": [
+    {
+      "domain": "CPYTHON_RUNTIME",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "PYTHON_STANDARD_LIBRARY",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "NATIVE_SHARED_LIBRARIES",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "KERNEL_INTERFACES",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "SYSTEMD_AUDIT_NETLINK",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "TPM2_CRYPTO_TRUST",
+      "members": [],
+      "resolution_stage": "PRE_BUILD"
+    },
+    {
+      "domain": "QEMU_DM_VERITY",
+      "members": [],
+      "resolution_stage": "PRE_BUILD_AND_POST_BUILD_PRE_E1"
+    }
+  ],
   "manifest_identity": "C3_E1_SUCCESSOR_FREEZE_INSTRUMENT_DEPENDENCY_MANIFEST_V1",
   "status": "UNRESOLVED_PRE_BUILD_MATERIAL"
 }

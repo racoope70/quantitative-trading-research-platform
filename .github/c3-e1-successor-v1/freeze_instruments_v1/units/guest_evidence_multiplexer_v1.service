@@ -1,5 +1,7 @@
 [Unit]
 Description=C3 E1 guest evidence multiplexer
+After=local-fs.target
+Before=nftables_transition_monitor_v1.service observation_authority_v1.service
 
 [Service]
 Type=simple
@@ -10,6 +12,7 @@ Restart=no
 NoNewPrivileges=yes
 CapabilityBoundingSet=
 AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX
 PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=yes

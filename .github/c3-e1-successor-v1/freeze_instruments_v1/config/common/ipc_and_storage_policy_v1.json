@@ -1,9 +1,8 @@
 {
-  "ack_after_durable_record_and_chain_head": true,
-  "evidence_storage": "UNRESOLVED_PHYSICAL_HOST",
-  "host_sink_restart": "NO",
-  "identity": "C3_E1_SUCCESSOR_IPC_AND_STORAGE_POLICY_V1",
+  "ack_semantics": "ONLY_AFTER_DURABLE_JOURNAL_AND_CHAIN_HEAD",
+  "identity": "C3_E1_SUCCESSOR_IPC_STORAGE_POLICY_V1",
+  "journal_recovery_during_same_E1": "PROHIBITED",
   "reconnect_during_governed_interval": "PROHIBITED",
-  "seqpacket_credentials": "SO_PASSCRED_PLUS_SCM_CREDENTIALS_PER_MESSAGE",
-  "stream_credentials": "SO_PEERCRED"
+  "seqpacket_credential_model": "SO_PASSCRED_SCM_CREDENTIALS_PER_MESSAGE",
+  "stream_credential_model": "SO_PEERCRED_QEMU_ONLY"
 }

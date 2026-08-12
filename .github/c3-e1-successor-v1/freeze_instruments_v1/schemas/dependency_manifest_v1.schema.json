@@ -1,1 +1,79 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"C3_E1_SUCCESSOR_DEPENDENCY_MANIFEST_V1","type":"object","required":["manifest_identity","status","domains"],"properties":{"manifest_identity":{"type":"string"},"status":{"type":"string"},"domains":{"type":"object"}},"not":{"required":["self_sha256"]},"additionalProperties":false}
+{
+  "$defs": {
+    "entry": {
+      "additionalProperties": false,
+      "properties": {
+        "byte_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "path",
+        "byte_count",
+        "sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "C3_E1_SUCCESSOR_DEPENDENCY_MANIFEST_V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "domains": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "domain": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "members": {
+            "items": {
+              "$ref": "#/$defs/entry"
+            },
+            "type": "array"
+          },
+          "resolution_stage": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "domain",
+          "resolution_stage",
+          "members"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "manifest_identity": {
+      "const": "C3_E1_SUCCESSOR_FREEZE_INSTRUMENT_DEPENDENCY_MANIFEST_V1"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "manifest_identity",
+    "status",
+    "domains"
+  ],
+  "type": "object"
+}

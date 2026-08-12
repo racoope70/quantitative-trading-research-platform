@@ -1,9 +1,85 @@
 {
-  "audit_record_delimiter_hex": "0a",
-  "audit_record_max_bytes": 1048576,
-  "guest_sequence_scope": "GLOBAL_PER_RUNTIME_INSTANCE",
-  "host_sequence_scope": "GLOBAL_ACROSS_GUEST_AND_HOST_ORIGINS",
+  "audit_max_record_bytes": 1048576,
+  "chain_head_path": "/var/lib/c3-e1/evidence/chain-head.json",
+  "guest_channel_socket": "/run/c3-e1/qemu-evidence.sock",
+  "guest_mux_socket": "/run/c3-e1/guest-mux.sock",
+  "guest_producer_policy": [
+    {
+      "expected_process": {
+        "cgroup_sha256": "UNRESOLVED_STAGE1_AUDIT_CGROUP_SHA256",
+        "cmdline_sha256": "UNRESOLVED_STAGE1_AUDIT_CMDLINE_SHA256",
+        "executable": "UNRESOLVED_STAGE1_CPYTHON_PATH",
+        "executable_sha256": "UNRESOLVED_STAGE1_CPYTHON_SHA256",
+        "instrument_source_path": "UNRESOLVED_STAGE1_AUDIT_SOURCE_PATH",
+        "instrument_source_sha256": "UNRESOLVED_STAGE1_AUDIT_SOURCE_SHA256"
+      },
+      "gid": 61003,
+      "instrument_identity": "C3_E1_SUCCESSOR_AUDIT_REALTIME_PLUGIN_V1",
+      "source_type": 1,
+      "uid": 61003
+    },
+    {
+      "expected_process": {
+        "cgroup_sha256": "UNRESOLVED_STAGE1_SERVICE_IDENTITY",
+        "cmdline_sha256": "UNRESOLVED_STAGE1_CMDLINE_SHA256",
+        "executable": "UNRESOLVED_STAGE1_INSTALL_PATH",
+        "executable_sha256": "UNRESOLVED_STAGE1_INSTRUMENT_IDENTITY",
+        "instrument_source_path": "UNRESOLVED_STAGE1_SOURCE_PATH",
+        "instrument_source_sha256": "UNRESOLVED_STAGE1_SOURCE_SHA256"
+      },
+      "gid": 61002,
+      "instrument_identity": "C3_E1_SUCCESSOR_NFTABLES_TRANSITION_MONITOR_V1",
+      "source_type": 2,
+      "uid": 61002
+    },
+    {
+      "expected_process": {
+        "cgroup_sha256": "UNRESOLVED_STAGE1_SERVICE_IDENTITY",
+        "cmdline_sha256": "UNRESOLVED_STAGE1_CMDLINE_SHA256",
+        "executable": "UNRESOLVED_STAGE1_INSTALL_PATH",
+        "executable_sha256": "UNRESOLVED_STAGE1_INSTRUMENT_IDENTITY",
+        "instrument_source_path": "UNRESOLVED_STAGE1_SOURCE_PATH",
+        "instrument_source_sha256": "UNRESOLVED_STAGE1_SOURCE_SHA256"
+      },
+      "gid": 61000,
+      "instrument_identity": "C3_E1_SUCCESSOR_OBSERVATION_AUTHORITY_V1",
+      "source_type": 3,
+      "uid": 61000
+    }
+  ],
+  "guest_runtime_binding_path": "/run/c3-e1/runtime-binding.json",
+  "host_local_socket": "/run/c3-e1/host-evidence.sock",
+  "host_producer_policy": [
+    {
+      "expected_process": {
+        "cgroup_sha256": "UNRESOLVED_STAGE1_SERVICE_IDENTITY",
+        "cmdline_sha256": "UNRESOLVED_STAGE1_CMDLINE_SHA256",
+        "executable": "UNRESOLVED_STAGE1_INSTALL_PATH",
+        "executable_sha256": "UNRESOLVED_STAGE1_INSTRUMENT_IDENTITY",
+        "instrument_source_path": "UNRESOLVED_STAGE1_SOURCE_PATH",
+        "instrument_source_sha256": "UNRESOLVED_STAGE1_SOURCE_SHA256"
+      },
+      "gid": 61011,
+      "instrument_identity": "C3_E1_SUCCESSOR_HOST_RUNTIME_LIFECYCLE_PROVIDER_V1",
+      "uid": 61011
+    },
+    {
+      "expected_process": {
+        "cgroup_sha256": "UNRESOLVED_STAGE1_SERVICE_IDENTITY",
+        "cmdline_sha256": "UNRESOLVED_STAGE1_CMDLINE_SHA256",
+        "executable": "UNRESOLVED_STAGE1_INSTALL_PATH",
+        "executable_sha256": "UNRESOLVED_STAGE1_INSTRUMENT_IDENTITY",
+        "instrument_source_path": "UNRESOLVED_STAGE1_SOURCE_PATH",
+        "instrument_source_sha256": "UNRESOLVED_STAGE1_SOURCE_SHA256"
+      },
+      "gid": 61012,
+      "instrument_identity": "C3_E1_SUCCESSOR_ATTESTATION_TRANSACTION_CONTROLLER_V1",
+      "uid": 61012
+    }
+  ],
   "identity": "C3_E1_SUCCESSOR_BLOCKER_005_CONFIG_V1",
-  "queue_sizes": "UNRESOLVED_PRE_BUILD_IMPLEMENTATION_VALIDATION",
-  "runtime_paths": "UNRESOLVED_GOVERNED_BUILD"
+  "journal_path": "/var/lib/c3-e1/evidence/journal.bin",
+  "qemu_gid": 61020,
+  "qemu_uid": 61020,
+  "schema_path": "/opt/c3-e1/freeze-instruments-v1/schemas/freeze_instrument_records_v1.schema.json"
 }

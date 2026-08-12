@@ -1,1 +1,510 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"C3_E1_SUCCESSOR_FREEZE_INSTRUMENT_RECORDS_V1","type":"object","required":["record_type","runtime_instance_uuid","observation_nonce"],"properties":{"record_type":{"type":"string"},"runtime_instance_uuid":{"type":"string"},"observation_nonce":{"type":"string"},"source_instance_identity":{"type":"string"},"source_sequence":{"type":"integer","minimum":0},"host_sequence":{"type":"integer","minimum":0},"record_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}},"additionalProperties":true}
+{
+  "$defs": {
+    "checkpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "final_host_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "final_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "journal_byte_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "journal_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_end_host_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_start_host_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "record_type": {
+          "const": "FINAL_OBSERVATION_CHECKPOINT"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "total_record_count": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "final_host_sequence",
+        "final_record_sha256",
+        "observation_start_host_sequence",
+        "observation_end_host_sequence",
+        "total_record_count",
+        "journal_byte_count",
+        "journal_sha256"
+      ],
+      "type": "object"
+    },
+    "final_request": {
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "checkpoint_reference_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observation_end_host_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_start_host_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "record_type": {
+          "const": "FINAL_CHECKPOINT_REQUEST"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "observation_start_host_sequence",
+        "observation_end_host_sequence",
+        "checkpoint_path",
+        "checkpoint_reference_path"
+      ],
+      "type": "object"
+    },
+    "host_envelope": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "raw_evidence_byte_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "raw_evidence_hex": {
+          "pattern": "(?:[0-9a-f]{2})*",
+          "type": "string"
+        },
+        "raw_evidence_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "HOST_ORIGIN_EVIDENCE_ENVELOPE"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "source_instance_identity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_native_identity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "source_native_identity",
+        "source_instance_identity",
+        "source_sequence",
+        "raw_evidence_byte_count",
+        "raw_evidence_sha256",
+        "raw_evidence_hex"
+      ],
+      "type": "object"
+    },
+    "lifecycle": {
+      "additionalProperties": false,
+      "properties": {
+        "device_identity_if_applicable": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "event_specific_evidence": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "host_native_UTC_timestamp_ns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "host_native_monotonic_timestamp_ns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "lifecycle_event_type": {
+          "enum": [
+            "QEMU_PROCESS_STARTED",
+            "QEMU_PROCESS_EXITED",
+            "QEMU_PROCESS_IDENTITY_CHANGED",
+            "QEMU_DEVICE_ATTACHED",
+            "QEMU_DEVICE_REMOVED",
+            "DM_VERITY_MAPPING_CREATED",
+            "DM_VERITY_MAPPING_REMOVED",
+            "EVIDENCE_CHANNEL_OPENED",
+            "EVIDENCE_CHANNEL_CLOSED",
+            "UNEXPECTED_HOTPLUG",
+            "FD_TABLE_CHANGED"
+          ]
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "preopened_fd_binding_identity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "qemu_binary_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "qemu_machine_configuration_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "qemu_process_identity": {
+          "$ref": "#/$defs/process_identity"
+        },
+        "record_type": {
+          "const": "HOST_LIFECYCLE_EVENT"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "source_instance_identity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "verified_block_object_identity": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "source_instance_identity",
+        "source_sequence",
+        "lifecycle_event_type",
+        "qemu_process_identity",
+        "qemu_binary_sha256",
+        "qemu_machine_configuration_sha256",
+        "verified_block_object_identity",
+        "preopened_fd_binding_identity",
+        "device_identity_if_applicable",
+        "host_native_monotonic_timestamp_ns",
+        "host_native_UTC_timestamp_ns",
+        "event_specific_evidence"
+      ],
+      "type": "object"
+    },
+    "pre_result": {
+      "additionalProperties": false,
+      "properties": {
+        "classification": {
+          "const": "PASS"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "PRE_E1_VERIFIER_RESULT"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "runtime_instantiation_attestation_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "verifier_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "verifier_result_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "runtime_instantiation_attestation_record_sha256",
+        "verifier_manifest_sha256",
+        "verifier_result_sha256",
+        "classification"
+      ],
+      "type": "object"
+    },
+    "process_identity": {
+      "additionalProperties": false,
+      "properties": {
+        "cgroup_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "cmdline_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "executable": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "executable_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "pid": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "starttime": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pid",
+        "starttime",
+        "executable",
+        "executable_sha256",
+        "cmdline_sha256",
+        "cgroup_sha256"
+      ],
+      "type": "object"
+    },
+    "runtime_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "qemu_pid": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "record_type": {
+          "const": "RUNTIME_BINDING_ESTABLISHED"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "runtime_instantiation_attestation_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "qemu_pid",
+        "runtime_instantiation_attestation_record_sha256"
+      ],
+      "type": "object"
+    },
+    "runtime_record": {
+      "additionalProperties": false,
+      "properties": {
+        "admitted_environment_specification_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "dm_verity_configuration_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "dm_verity_hash_tree_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "dm_verity_root_hash": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "frozen_build_output_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "guest_firmware_identity": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "host_attestation_state_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "host_evidence_channel_configuration_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "launch_timestamp_monotonic": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "launch_timestamp_utc": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "preopened_fd_binding_identity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "qemu_binary_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "qemu_machine_configuration_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "qemu_process_identity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "raw_disk_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "RUNTIME_INSTANTIATION_ATTESTATION_RECORD"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "verified_block_object_identity": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "admitted_environment_specification_sha256",
+        "frozen_build_output_manifest_sha256",
+        "raw_disk_sha256",
+        "dm_verity_configuration_sha256",
+        "dm_verity_root_hash",
+        "dm_verity_hash_tree_sha256",
+        "verified_block_object_identity",
+        "qemu_binary_sha256",
+        "qemu_machine_configuration_sha256",
+        "preopened_fd_binding_identity",
+        "qemu_process_identity",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "guest_firmware_identity",
+        "host_evidence_channel_configuration_sha256",
+        "host_attestation_state_reference",
+        "launch_timestamp_monotonic",
+        "launch_timestamp_utc"
+      ],
+      "type": "object"
+    },
+    "start_req": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "START_TOKEN_RELEASE_REQUEST"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "C3_E1_SUCCESSOR_FREEZE_INSTRUMENT_RECORDS_V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/runtime_binding"
+    },
+    {
+      "$ref": "#/$defs/pre_result"
+    },
+    {
+      "$ref": "#/$defs/start_req"
+    },
+    {
+      "$ref": "#/$defs/checkpoint"
+    },
+    {
+      "$ref": "#/$defs/runtime_record"
+    },
+    {
+      "$ref": "#/$defs/lifecycle"
+    },
+    {
+      "$ref": "#/$defs/final_request"
+    },
+    {
+      "$ref": "#/$defs/host_envelope"
+    }
+  ]
+}

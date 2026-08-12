@@ -1,1 +1,63 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"C3_E1_SUCCESSOR_INSTRUMENT_IDENTITY_MANIFEST_V1","type":"object","required":["instrument_identity","blocker_id","components","dependencies","tests"],"properties":{"instrument_identity":{"type":"string"},"blocker_id":{"type":"string"},"components":{"type":"array"},"dependencies":{"type":"array"},"tests":{"type":"array"}},"not":{"required":["self_sha256"]},"additionalProperties":false}
+{
+  "$id": "C3_E1_SUCCESSOR_INSTRUMENT_IDENTITY_MANIFEST_V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocker_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "dependency_manifest_sha256": {
+      "pattern": "[0-9a-f]{64}",
+      "type": "string"
+    },
+    "files": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "byte_count": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "role": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "[0-9a-f]{64}",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "path",
+          "byte_count",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "instrument_identity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "validation_result_manifest_sha256": {
+      "pattern": "[0-9a-f]{64}",
+      "type": "string"
+    }
+  },
+  "required": [
+    "instrument_identity",
+    "blocker_id",
+    "files",
+    "dependency_manifest_sha256",
+    "validation_result_manifest_sha256"
+  ],
+  "type": "object"
+}

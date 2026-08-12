@@ -1,5 +1,8 @@
 [Unit]
 Description=C3 E1 host runtime lifecycle provider
+Requires=host_evidence_sink_v1.service
+After=host_evidence_sink_v1.service
+Before=runtime_instantiation_launcher_v1.service attestation_transaction_controller_v1.service
 
 [Service]
 Type=simple
@@ -10,6 +13,7 @@ Restart=no
 NoNewPrivileges=yes
 CapabilityBoundingSet=
 AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX
 PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=yes

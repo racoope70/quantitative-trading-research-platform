@@ -1,5 +1,7 @@
 [Unit]
 Description=C3 E1 observation authority
+Requires=guest_evidence_multiplexer_v1.service nftables_transition_monitor_v1.service nftables_monitor_bootstrap_v1.service
+After=guest_evidence_multiplexer_v1.service nftables_transition_monitor_v1.service nftables_monitor_bootstrap_v1.service
 
 [Service]
 Type=simple
@@ -10,6 +12,7 @@ Restart=no
 NoNewPrivileges=yes
 CapabilityBoundingSet=CAP_NET_ADMIN
 AmbientCapabilities=CAP_NET_ADMIN
+RestrictAddressFamilies=AF_UNIX AF_NETLINK
 PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=yes

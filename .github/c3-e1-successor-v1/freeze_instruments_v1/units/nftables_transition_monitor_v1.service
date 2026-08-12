@@ -1,5 +1,8 @@
 [Unit]
 Description=C3 E1 independent nftables transition monitor
+Requires=guest_evidence_multiplexer_v1.service
+After=guest_evidence_multiplexer_v1.service
+Before=nftables_monitor_bootstrap_v1.service observation_authority_v1.service
 
 [Service]
 Type=simple
@@ -10,6 +13,7 @@ Restart=no
 NoNewPrivileges=yes
 CapabilityBoundingSet=
 AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX AF_NETLINK
 PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=yes

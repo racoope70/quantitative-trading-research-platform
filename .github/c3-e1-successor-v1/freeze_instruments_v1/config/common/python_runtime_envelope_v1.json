@@ -1,12 +1,21 @@
 {
-  "argv_flags": ["-I", "-B", "-S", "-X", "utf8"],
-  "clear_python_environment": true,
-  "identity": "C3_E1_SUCCESSOR_PYTHON_RUNTIME_ENVELOPE_V1",
-  "locale": "C.UTF-8",
+  "environment": {
+    "HOME": "/nonexistent",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "PATH": "/usr/bin:/bin",
+    "TZ": "UTC"
+  },
+  "flags": [
+    "-I",
+    "-B",
+    "-S",
+    "-X",
+    "utf8"
+  ],
+  "identity": "C3_E1_SUCCESSOR_PYTHON_RUNTIME_ENVELOPE_CONFIG_V1",
   "pyc_policy": "PYC_PROHIBITED_AND_VERIFIED_ABSENT",
-  "status": "UNRESOLVED_PRE_BUILD_MATERIAL",
-  "sys_path": "UNRESOLVED_PRE_BUILD_MATERIAL",
+  "site_import": false,
   "target_python": "3.12.2",
-  "timezone": "UTC",
-  "umask_octal": "0077"
+  "umask": "0077"
 }
