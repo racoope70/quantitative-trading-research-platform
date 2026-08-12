@@ -173,12 +173,6 @@
         "final_checkpoint": {
           "$ref": "#/$defs/object_meta"
         },
-        "ima_binary_measurements": {
-          "$ref": "#/$defs/object_meta"
-        },
-        "measured_boot_event_log": {
-          "$ref": "#/$defs/object_meta"
-        },
         "quote_message": {
           "$ref": "#/$defs/object_meta"
         },
@@ -188,17 +182,17 @@
         "quoted_pcr_bytes": {
           "$ref": "#/$defs/object_meta"
         },
-        "verification_context": {
+        "runtime_instantiation_record": {
           "$ref": "#/$defs/object_meta"
         }
       },
       "required": [
         "ak_enrollment_record",
         "ak_tpmt_public",
+        "runtime_instantiation_record",
         "quote_message",
         "quote_signature",
         "quoted_pcr_bytes",
-        "verification_context",
         "final_checkpoint"
       ],
       "type": "object"
@@ -268,7 +262,8 @@
             "PASS",
             "FAIL",
             "INCONCLUSIVE"
-          ]
+          ],
+          "type": "string"
         },
         "final_checkpoint_sha256": {
           "pattern": "[0-9a-f]{64}",
@@ -365,7 +360,7 @@
         "ek_certificate": {
           "$ref": "#/$defs/object_meta"
         },
-        "final_checkpoint": {
+        "host_tcb_observation": {
           "$ref": "#/$defs/object_meta"
         },
         "ima_binary_measurements": {
@@ -383,19 +378,20 @@
         "quoted_pcr_bytes": {
           "$ref": "#/$defs/object_meta"
         },
-        "verification_context": {
+        "runtime_instantiation_record": {
           "$ref": "#/$defs/object_meta"
         }
       },
       "required": [
         "ak_enrollment_record",
         "ak_tpmt_public",
+        "runtime_instantiation_record",
         "measured_boot_event_log",
         "ima_binary_measurements",
+        "host_tcb_observation",
         "quote_message",
         "quote_signature",
-        "quoted_pcr_bytes",
-        "verification_context"
+        "quoted_pcr_bytes"
       ],
       "type": "object"
     },
@@ -464,7 +460,8 @@
             "PASS",
             "FAIL",
             "INCONCLUSIVE"
-          ]
+          ],
+          "type": "string"
         },
         "observation_nonce": {
           "pattern": "[0-9a-f]{64}",

@@ -1,6 +1,247 @@
 {
   "$defs": {
-    "checkpoint": {
+    "att_evidence_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "byte_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "byte_count",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "att_input": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_inputs": {
+          "additionalProperties": false,
+          "properties": {
+            "ak_enrollment_record": {
+              "$ref": "#/$defs/att_evidence_ref"
+            },
+            "ak_tpmt_public": {
+              "$ref": "#/$defs/att_evidence_ref"
+            },
+            "ek_certificate": {
+              "$ref": "#/$defs/att_evidence_ref"
+            },
+            "host_tcb_observation": {
+              "$ref": "#/$defs/att_evidence_ref"
+            },
+            "ima_binary_measurements": {
+              "$ref": "#/$defs/att_evidence_ref"
+            },
+            "measured_boot_event_log": {
+              "$ref": "#/$defs/att_evidence_ref"
+            }
+          },
+          "required": [
+            "ak_enrollment_record",
+            "ak_tpmt_public",
+            "ek_certificate",
+            "measured_boot_event_log",
+            "ima_binary_measurements",
+            "host_tcb_observation"
+          ],
+          "type": "object"
+        },
+        "input_configuration_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "post_attestation_roles": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "pre_attestation_roles": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "record_type": {
+          "const": "RUNTIME_ATTESTATION_INPUT"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "runtime_instantiation_record": {
+          "$ref": "#/$defs/runtime_instantiation"
+        },
+        "runtime_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "runtime_uuid_hex": {
+          "pattern": "[0-9a-f]{32}",
+          "type": "string"
+        },
+        "verifier_manifest_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "runtime_uuid_hex",
+        "observation_nonce",
+        "runtime_record_sha256",
+        "runtime_instantiation_record",
+        "verifier_manifest_sha256",
+        "input_configuration_sha256",
+        "evidence_inputs",
+        "pre_attestation_roles",
+        "post_attestation_roles"
+      ],
+      "type": "object"
+    },
+    "authority_state": {
+      "additionalProperties": false,
+      "properties": {
+        "cap_eff": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "fixed_file_observations": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "byte_count": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "path": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "role": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "sha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              }
+            },
+            "required": [
+              "role",
+              "path",
+              "byte_count",
+              "sha256"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "instrument_identity": {
+          "const": "C3_E1_SUCCESSOR_OBSERVATION_AUTHORITY_V1"
+        },
+        "monitor_process_independent": {
+          "const": true
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_start_host_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pre_e1_verifier_result_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "OBSERVATION_AUTHORITY_STATE"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "instrument_identity",
+        "cap_eff",
+        "monitor_process_independent",
+        "fixed_file_observations",
+        "pre_e1_verifier_result_sha256",
+        "observation_start_host_sequence"
+      ],
+      "type": "object"
+    },
+    "checkpoint_req": {
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "checkpoint_reference_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observation_end_host_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "observation_start_host_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "record_type": {
+          "const": "FINAL_CHECKPOINT_REQUEST"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "observation_start_host_sequence",
+        "observation_end_host_sequence",
+        "checkpoint_path",
+        "checkpoint_reference_path"
+      ],
+      "type": "object"
+    },
+    "final_checkpoint": {
       "additionalProperties": false,
       "properties": {
         "final_host_sequence": {
@@ -54,48 +295,6 @@
         "total_record_count",
         "journal_byte_count",
         "journal_sha256"
-      ],
-      "type": "object"
-    },
-    "final_request": {
-      "additionalProperties": false,
-      "properties": {
-        "checkpoint_path": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "checkpoint_reference_path": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "observation_end_host_sequence": {
-          "minimum": 0,
-          "type": "integer"
-        },
-        "observation_nonce": {
-          "pattern": "[0-9a-f]{64}",
-          "type": "string"
-        },
-        "observation_start_host_sequence": {
-          "minimum": 0,
-          "type": "integer"
-        },
-        "record_type": {
-          "const": "FINAL_CHECKPOINT_REQUEST"
-        },
-        "runtime_instance_uuid": {
-          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
-          "type": "string"
-        }
-      },
-      "required": [
-        "record_type",
-        "runtime_instance_uuid",
-        "observation_nonce",
-        "observation_start_host_sequence",
-        "observation_end_host_sequence",
-        "checkpoint_path",
-        "checkpoint_reference_path"
       ],
       "type": "object"
     },
@@ -159,7 +358,7 @@
           "type": "string"
         },
         "event_specific_evidence": {
-          "minLength": 1,
+          "pattern": "[0-9a-f]{64}",
           "type": "string"
         },
         "host_native_UTC_timestamp_ns": {
@@ -171,26 +370,15 @@
           "type": "integer"
         },
         "lifecycle_event_type": {
-          "enum": [
-            "QEMU_PROCESS_STARTED",
-            "QEMU_PROCESS_EXITED",
-            "QEMU_PROCESS_IDENTITY_CHANGED",
-            "QEMU_DEVICE_ATTACHED",
-            "QEMU_DEVICE_REMOVED",
-            "DM_VERITY_MAPPING_CREATED",
-            "DM_VERITY_MAPPING_REMOVED",
-            "EVIDENCE_CHANNEL_OPENED",
-            "EVIDENCE_CHANNEL_CLOSED",
-            "UNEXPECTED_HOTPLUG",
-            "FD_TABLE_CHANGED"
-          ]
+          "minLength": 1,
+          "type": "string"
         },
         "observation_nonce": {
           "pattern": "[0-9a-f]{64}",
           "type": "string"
         },
         "preopened_fd_binding_identity": {
-          "minLength": 1,
+          "pattern": "[0-9a-f]{64}",
           "type": "string"
         },
         "qemu_binary_sha256": {
@@ -202,7 +390,42 @@
           "type": "string"
         },
         "qemu_process_identity": {
-          "$ref": "#/$defs/process_identity"
+          "additionalProperties": false,
+          "properties": {
+            "cgroup_sha256": {
+              "pattern": "[0-9a-f]{64}",
+              "type": "string"
+            },
+            "cmdline_sha256": {
+              "pattern": "[0-9a-f]{64}",
+              "type": "string"
+            },
+            "executable": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "executable_sha256": {
+              "pattern": "[0-9a-f]{64}",
+              "type": "string"
+            },
+            "pid": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "starttime": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "pid",
+            "starttime",
+            "executable",
+            "executable_sha256",
+            "cmdline_sha256",
+            "cgroup_sha256"
+          ],
+          "type": "object"
         },
         "record_type": {
           "const": "HOST_LIFECYCLE_EVENT"
@@ -220,8 +443,37 @@
           "type": "integer"
         },
         "verified_block_object_identity": {
-          "minLength": 1,
-          "type": "string"
+          "additionalProperties": false,
+          "properties": {
+            "st_dev": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "st_ino": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "st_mode": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "st_rdev": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "target": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "st_dev",
+            "st_ino",
+            "st_mode",
+            "st_rdev",
+            "target"
+          ],
+          "type": "object"
         }
       },
       "required": [
@@ -240,6 +492,384 @@
         "host_native_monotonic_timestamp_ns",
         "host_native_UTC_timestamp_ns",
         "event_specific_evidence"
+      ],
+      "type": "object"
+    },
+    "nft_barrier": {
+      "additionalProperties": false,
+      "properties": {
+        "barrier_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "effective_so_rcvbuf": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "enobufs_observed": {
+          "const": false
+        },
+        "monitor_source_sequence_at_barrier": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "monitor_source_sequence_at_window_open": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "msg_trunc_observed": {
+          "const": false
+        },
+        "nlmsg_overrun_observed": {
+          "const": false
+        },
+        "notification_count_during_window": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "receiver_continuity": {
+          "const": true
+        },
+        "record_type": {
+          "const": "NFTABLES_NOTIFICATION_BARRIER"
+        },
+        "requested_so_rcvbuf": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "total_notifications_at_barrier": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "window_baseline_total_notifications": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "record_type",
+        "barrier_id",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "window_baseline_total_notifications",
+        "total_notifications_at_barrier",
+        "monitor_source_sequence_at_window_open",
+        "monitor_source_sequence_at_barrier",
+        "requested_so_rcvbuf",
+        "effective_so_rcvbuf",
+        "enobufs_observed",
+        "msg_trunc_observed",
+        "nlmsg_overrun_observed",
+        "receiver_continuity",
+        "notification_count_during_window"
+      ],
+      "type": "object"
+    },
+    "nft_open": {
+      "additionalProperties": false,
+      "properties": {
+        "barrier_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "effective_so_rcvbuf": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "monitor_source_sequence_at_window_open": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "receiver_continuity": {
+          "const": true
+        },
+        "record_type": {
+          "const": "NFTABLES_STABILITY_WINDOW_OPEN"
+        },
+        "requested_so_rcvbuf": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "window_baseline_total_notifications": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "barrier_id",
+        "window_baseline_total_notifications",
+        "monitor_source_sequence_at_window_open",
+        "requested_so_rcvbuf",
+        "effective_so_rcvbuf",
+        "receiver_continuity"
+      ],
+      "type": "object"
+    },
+    "nft_result": {
+      "additionalProperties": false,
+      "properties": {
+        "barrier_durable_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "classification": {
+          "const": "PASS"
+        },
+        "genid_after_b": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "genid_final": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "genid_open": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "getgen_raw_transactions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "request_byte_count": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "request_hex": {
+                "pattern": "(?:[0-9a-f]{2})*",
+                "type": "string"
+              },
+              "request_sha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              },
+              "response_byte_count": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "response_datagram_count": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "response_datagrams_hex": {
+                "items": {
+                  "pattern": "(?:[0-9a-f]{2})*",
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "response_sha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              }
+            },
+            "required": [
+              "request_byte_count",
+              "request_sha256",
+              "request_hex",
+              "response_datagram_count",
+              "response_byte_count",
+              "response_sha256",
+              "response_datagrams_hex"
+            ],
+            "type": "object"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "notification_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "NFTABLES_STABILITY_RESULT"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        },
+        "snapshot_a_raw_transaction": {
+          "additionalProperties": false,
+          "properties": {
+            "request_byte_count": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "request_hex": {
+              "pattern": "(?:[0-9a-f]{2})*",
+              "type": "string"
+            },
+            "request_sha256": {
+              "pattern": "[0-9a-f]{64}",
+              "type": "string"
+            },
+            "response_byte_count": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "response_datagram_count": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "response_datagrams_hex": {
+              "items": {
+                "pattern": "(?:[0-9a-f]{2})*",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "response_sha256": {
+              "pattern": "[0-9a-f]{64}",
+              "type": "string"
+            }
+          },
+          "required": [
+            "request_byte_count",
+            "request_sha256",
+            "request_hex",
+            "response_datagram_count",
+            "response_byte_count",
+            "response_sha256",
+            "response_datagrams_hex"
+          ],
+          "type": "object"
+        },
+        "snapshot_a_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "snapshot_b_raw_transaction": {
+          "additionalProperties": false,
+          "properties": {
+            "request_byte_count": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "request_hex": {
+              "pattern": "(?:[0-9a-f]{2})*",
+              "type": "string"
+            },
+            "request_sha256": {
+              "pattern": "[0-9a-f]{64}",
+              "type": "string"
+            },
+            "response_byte_count": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "response_datagram_count": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "response_datagrams_hex": {
+              "items": {
+                "pattern": "(?:[0-9a-f]{2})*",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "response_sha256": {
+              "pattern": "[0-9a-f]{64}",
+              "type": "string"
+            }
+          },
+          "required": [
+            "request_byte_count",
+            "request_sha256",
+            "request_hex",
+            "response_datagram_count",
+            "response_byte_count",
+            "response_sha256",
+            "response_datagrams_hex"
+          ],
+          "type": "object"
+        },
+        "snapshot_b_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "window_open_durable_record_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "classification",
+        "snapshot_a_sha256",
+        "snapshot_b_sha256",
+        "genid_open",
+        "genid_after_b",
+        "genid_final",
+        "notification_count",
+        "snapshot_a_raw_transaction",
+        "snapshot_b_raw_transaction",
+        "getgen_raw_transactions",
+        "window_open_durable_record_sha256",
+        "barrier_durable_record_sha256"
+      ],
+      "type": "object"
+    },
+    "nft_transition": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_nonce": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "raw_netlink_byte_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "raw_netlink_hex": {
+          "pattern": "(?:[0-9a-f]{2})*",
+          "type": "string"
+        },
+        "raw_netlink_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "NFTABLES_TRANSITION"
+        },
+        "runtime_instance_uuid": {
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_type",
+        "runtime_instance_uuid",
+        "observation_nonce",
+        "raw_netlink_byte_count",
+        "raw_netlink_sha256",
+        "raw_netlink_hex"
       ],
       "type": "object"
     },
@@ -284,44 +914,6 @@
       ],
       "type": "object"
     },
-    "process_identity": {
-      "additionalProperties": false,
-      "properties": {
-        "cgroup_sha256": {
-          "pattern": "[0-9a-f]{64}",
-          "type": "string"
-        },
-        "cmdline_sha256": {
-          "pattern": "[0-9a-f]{64}",
-          "type": "string"
-        },
-        "executable": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "executable_sha256": {
-          "pattern": "[0-9a-f]{64}",
-          "type": "string"
-        },
-        "pid": {
-          "minimum": 1,
-          "type": "integer"
-        },
-        "starttime": {
-          "minimum": 0,
-          "type": "integer"
-        }
-      },
-      "required": [
-        "pid",
-        "starttime",
-        "executable",
-        "executable_sha256",
-        "cmdline_sha256",
-        "cgroup_sha256"
-      ],
-      "type": "object"
-    },
     "runtime_binding": {
       "additionalProperties": false,
       "properties": {
@@ -330,7 +922,7 @@
           "type": "string"
         },
         "qemu_pid": {
-          "minimum": 1,
+          "minimum": 0,
           "type": "integer"
         },
         "record_type": {
@@ -354,7 +946,7 @@
       ],
       "type": "object"
     },
-    "runtime_record": {
+    "runtime_instantiation": {
       "additionalProperties": false,
       "properties": {
         "admitted_environment_specification_sha256": {
@@ -402,10 +994,14 @@
           "type": "string"
         },
         "preopened_fd_binding_identity": {
-          "minLength": 1,
+          "pattern": "[0-9a-f]{64}",
           "type": "string"
         },
         "qemu_binary_sha256": {
+          "pattern": "[0-9a-f]{64}",
+          "type": "string"
+        },
+        "qemu_evidence_transport_configuration_sha256": {
           "pattern": "[0-9a-f]{64}",
           "type": "string"
         },
@@ -429,8 +1025,37 @@
           "type": "string"
         },
         "verified_block_object_identity": {
-          "minLength": 1,
-          "type": "string"
+          "additionalProperties": false,
+          "properties": {
+            "st_dev": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "st_ino": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "st_mode": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "st_rdev": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "target": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "st_dev",
+            "st_ino",
+            "st_mode",
+            "st_rdev",
+            "target"
+          ],
+          "type": "object"
         }
       },
       "required": [
@@ -444,6 +1069,7 @@
         "verified_block_object_identity",
         "qemu_binary_sha256",
         "qemu_machine_configuration_sha256",
+        "qemu_evidence_transport_configuration_sha256",
         "preopened_fd_binding_identity",
         "qemu_process_identity",
         "runtime_instance_uuid",
@@ -483,7 +1109,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "oneOf": [
     {
+      "$ref": "#/$defs/runtime_instantiation"
+    },
+    {
       "$ref": "#/$defs/runtime_binding"
+    },
+    {
+      "$ref": "#/$defs/host_envelope"
     },
     {
       "$ref": "#/$defs/pre_result"
@@ -492,19 +1124,31 @@
       "$ref": "#/$defs/start_req"
     },
     {
-      "$ref": "#/$defs/checkpoint"
+      "$ref": "#/$defs/checkpoint_req"
     },
     {
-      "$ref": "#/$defs/runtime_record"
+      "$ref": "#/$defs/final_checkpoint"
     },
     {
       "$ref": "#/$defs/lifecycle"
     },
     {
-      "$ref": "#/$defs/final_request"
+      "$ref": "#/$defs/authority_state"
     },
     {
-      "$ref": "#/$defs/host_envelope"
+      "$ref": "#/$defs/nft_transition"
+    },
+    {
+      "$ref": "#/$defs/nft_open"
+    },
+    {
+      "$ref": "#/$defs/nft_barrier"
+    },
+    {
+      "$ref": "#/$defs/nft_result"
+    },
+    {
+      "$ref": "#/$defs/att_input"
     }
   ]
 }

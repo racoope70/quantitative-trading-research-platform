@@ -20,6 +20,9 @@ def parse_credentials(anc):
 def recv_authenticated(sock,max_bytes=4*1024*1024):
  data,anc,flags,address=sock.recvmsg(max_bytes,socket.CMSG_SPACE(_UCRED.size)+socket.CMSG_SPACE(_INT.size*16))
  if flags&getattr(socket,'MSG_TRUNC',0):raise PeerAuthError('truncated scientific packet')
+ if not data:
+  if anc:raise PeerAuthError('ancillary data on empty/closed packet prohibited')
+  return data,None,anc,address
  return data,parse_credentials(anc),anc,address
 def stream_peercred(sock):return KernelCred(*_UCRED.unpack(sock.getsockopt(socket.SOL_SOCKET,socket.SO_PEERCRED,_UCRED.size)))
 def bind_source(cred,*,expected_uid,expected_gid,expected_instrument_identity,expected_process):

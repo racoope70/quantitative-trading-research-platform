@@ -8,8 +8,8 @@ _GUEST=struct.Struct('>4sHHQIQ')
 _LOCAL=struct.Struct('>4sHHQ16s32sI')
 _ACK=struct.Struct('>4sQQQ16s32s32s32s32s')
 _RUNTIME=struct.Struct('>4s16s32s32s')
-_TOKEN=struct.Struct('>4s16s32s32s32sQ')
-_LOCAL_MAGIC=b'C3P2'; _ACK_MAGIC=b'C3A2'; _RUNTIME_MAGIC=b'C3R1'; _TOKEN_MAGIC=b'C3T1'
+_TOKEN=struct.Struct('>4s16s32s32s32sQQ')
+_LOCAL_MAGIC=b'C3P2'; _ACK_MAGIC=b'C3A2'; _RUNTIME_MAGIC=b'C3R1'; _TOKEN_MAGIC=b'C3T2'
 
 class ProtocolError(ValueError): pass
 
@@ -121,17 +121,32 @@ def unpack_runtime_binding(data):
 
 def runtime_binding_size(): return _RUNTIME.size
 
-def pack_start_token(runtime_instance_uuid,observation_nonce,verifier_result_sha256,runtime_record_sha256,host_sequence):
-    _u64(host_sequence,'host_sequence')
-    return _TOKEN.pack(_TOKEN_MAGIC,uuid_bytes(runtime_instance_uuid),nonce_bytes(observation_nonce),_sha(verifier_result_sha256,'verifier_result'),_sha(runtime_record_sha256,'runtime_record'),host_sequence)
+def pack_start_token(runtime_instance_uuid,observation_nonce,verifier_result_sha256,runtime_record_sha256,verifier_result_host_sequence,observation_start_host_sequence):
+    _u64(verifier_result_host_sequence,'verifier_result_host_sequence'); _u64(observation_start_host_sequence,'observation_start_host_sequence')
+    return _TOKEN.pack(_TOKEN_MAGIC,uuid_bytes(runtime_instance_uuid),nonce_bytes(observation_nonce),_sha(verifier_result_sha256,'verifier_result'),_sha(runtime_record_sha256,'runtime_record'),verifier_result_host_sequence,observation_start_host_sequence)
 
 def unpack_start_token(data):
     if len(data)!=_TOKEN.size: raise ProtocolError('start token length')
-    m,ru,no,vr,rr,hs=_TOKEN.unpack(data)
+    m,ru,no,vr,rr,vhs,shs=_TOKEN.unpack(data)
     if m!=_TOKEN_MAGIC: raise ProtocolError('start token magic')
-    return {'runtime_instance_uuid':uuid_text(ru),'observation_nonce':no.hex(),'verifier_result_sha256':vr.hex(),'runtime_instantiation_attestation_record_sha256':rr.hex(),'host_sequence_of_durable_verifier_result':hs}
+    return {'runtime_instance_uuid':uuid_text(ru),'observation_nonce':no.hex(),'verifier_result_sha256':vr.hex(),'runtime_instantiation_attestation_record_sha256':rr.hex(),'host_sequence_of_durable_verifier_result':vhs,'observation_start_host_sequence':shs}
 
 def start_token_size(): return _TOKEN.size
+
+def producer_ack_from_host(host_ack,producer_transaction_bytes):
+    required={'guest_sequence','source_sequence','host_sequence','runtime_instance_uuid','observation_nonce','source_instance_sha256','transaction_sha256','record_sha256'}
+    if set(host_ack)!=required: raise ProtocolError('host ACK fields mismatch')
+    if not isinstance(producer_transaction_bytes,(bytes,bytearray)): raise ProtocolError('producer transaction bytes required')
+    return {'record_type':'DURABLE_PRODUCER_ACK','durable':True,'producer_transaction_sha256':sha256_hex(bytes(producer_transaction_bytes)),**host_ack}
+
+def validate_producer_ack(ack,*,source_sequence,runtime_instance_uuid,observation_nonce,source_instance_identity,producer_transaction_bytes):
+    if not isinstance(producer_transaction_bytes,(bytes,bytearray)): raise ProtocolError('producer transaction bytes required')
+    expected={'record_type':'DURABLE_PRODUCER_ACK','durable':True,'source_sequence':source_sequence,'runtime_instance_uuid':runtime_instance_uuid,'observation_nonce':observation_nonce,'source_instance_sha256':source_instance_digest(source_instance_identity).hex(),'producer_transaction_sha256':sha256_hex(bytes(producer_transaction_bytes))}
+    for k,v in expected.items():
+        if ack.get(k)!=v: raise ProtocolError(f'producer ACK binding mismatch: {k}')
+    for k in ('guest_sequence','host_sequence'): _u64(ack.get(k),k)
+    _sha(ack.get('transaction_sha256'),'transaction_sha256'); _sha(ack.get('record_sha256'),'record_sha256')
+    return ack
 
 def host_record_preimage(origin,host_sequence,monotonic_ns,utc_ns,previous_sha256,payload):
     if origin not in (ORIGIN_GUEST,ORIGIN_HOST): raise ProtocolError('origin')

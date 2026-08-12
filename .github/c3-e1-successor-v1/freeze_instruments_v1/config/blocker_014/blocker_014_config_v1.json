@@ -1,5 +1,13 @@
 {
   "admitted_environment_specification_sha256": "UNRESOLVED_STAGE1_ENV_SPEC_SHA256",
+  "attestation_evidence_inputs": {
+    "ak_enrollment_record": "UNRESOLVED_STAGE1_AK_ENROLLMENT_RECORD_PATH",
+    "ak_tpmt_public": "UNRESOLVED_STAGE1_AK_TPM2B_PUBLIC_PATH",
+    "ek_certificate": "UNRESOLVED_STAGE1_EK_CERTIFICATE_PATH",
+    "host_tcb_observation": "UNRESOLVED_STAGE1_HOST_TCB_OBSERVATION_PATH",
+    "ima_binary_measurements": "UNRESOLVED_STAGE1_IMA_BINARY_MEASUREMENTS_PATH",
+    "measured_boot_event_log": "UNRESOLVED_STAGE1_MEASURED_BOOT_EVENT_LOG_PATH"
+  },
   "attestation_schema_path": "/opt/c3-e1/freeze-instruments-v1/schemas/attestation_transaction_v1.schema.json",
   "client_cert": "UNRESOLVED_STAGE1_CLIENT_CERT",
   "client_key": "UNRESOLVED_STAGE1_CLIENT_KEY",
@@ -23,13 +31,50 @@
   "guest_firmware_sha256": "UNRESOLVED_STAGE1_OVMF_CODE_SHA256",
   "host_attestation_state_reference": "UNRESOLVED_STAGE1_HOST_ATTESTATION_REFERENCE",
   "host_evidence_channel_configuration_sha256": "UNRESOLVED_STAGE1_EVIDENCE_CHANNEL_SHA256",
+  "host_sink_peer_policy": {
+    "expected_process": {
+      "cgroup_sha256": "UNRESOLVED_STAGE1_HOST_SINK_CGROUP_SHA256",
+      "cmdline_sha256": "UNRESOLVED_STAGE1_HOST_SINK_CMDLINE_SHA256",
+      "executable": "UNRESOLVED_STAGE1_CPYTHON_PATH",
+      "executable_sha256": "UNRESOLVED_STAGE1_CPYTHON_SHA256",
+      "instrument_source_path": "UNRESOLVED_STAGE1_HOST_SINK_SOURCE_PATH",
+      "instrument_source_sha256": "UNRESOLVED_STAGE1_HOST_SINK_SOURCE_SHA256"
+    },
+    "gid": 61010,
+    "instrument_identity": "C3_E1_SUCCESSOR_HOST_EVIDENCE_SINK_V1",
+    "uid": 61010
+  },
   "host_sink_socket": "/run/c3-e1/host-evidence.sock",
   "identity": "C3_E1_SUCCESSOR_BLOCKER_014_CONFIG_V1",
+  "launcher_peer_policy": {
+    "expected_process": {
+      "cgroup_sha256": "UNRESOLVED_STAGE1_LAUNCHER_CGROUP_SHA256",
+      "cmdline_sha256": "UNRESOLVED_STAGE1_LAUNCHER_CMDLINE_SHA256",
+      "executable": "UNRESOLVED_STAGE1_CPYTHON_PATH",
+      "executable_sha256": "UNRESOLVED_STAGE1_CPYTHON_SHA256",
+      "instrument_source_path": "UNRESOLVED_STAGE1_RUNTIME_LAUNCHER_SOURCE_PATH",
+      "instrument_source_sha256": "UNRESOLVED_STAGE1_RUNTIME_LAUNCHER_SOURCE_SHA256"
+    },
+    "gid": 0,
+    "instrument_identity": "C3_E1_SUCCESSOR_RUNTIME_INSTANTIATION_LAUNCHER_V1",
+    "uid": 0
+  },
   "lifecycle_final_marker_path": "/var/lib/c3-e1/evidence/lifecycle-final.json",
   "lifecycle_handoff_socket": "/run/c3-e1/lifecycle-handoff.sock",
   "lifecycle_poll_seconds": 0.25,
   "max_transaction_bytes": 16777216,
   "observation_boundaries_path": "/var/lib/c3-e1/runtime/observation-boundaries.json",
+  "post_attestation_roles": [
+    "ak_enrollment_record",
+    "ak_tpmt_public"
+  ],
+  "pre_attestation_roles": [
+    "ak_enrollment_record",
+    "ak_tpmt_public",
+    "measured_boot_event_log",
+    "ima_binary_measurements",
+    "host_tcb_observation"
+  ],
   "qemu_argv": [
     "-machine",
     "pc-q35-10.2",
@@ -38,11 +83,24 @@
     "-add-fd",
     "fd=3,set=1,opaque=c3-e1-root",
     "-drive",
-    "file=/dev/fdset/1,if=virtio,format=raw,readonly=on"
+    "file=/dev/fdset/1,if=virtio,format=raw,readonly=on",
+    "-chardev",
+    "socket,id=c3e1evidence,path=/run/c3-e1/qemu-evidence.sock",
+    "-device",
+    "virtio-serial-pci,id=c3e1-virtio-serial",
+    "-device",
+    "virtserialport,chardev=c3e1evidence,name=org.c3e1.evidence"
   ],
   "qemu_environment": {
     "LANG": "C",
     "LC_ALL": "C"
+  },
+  "qemu_evidence_transport": {
+    "chardev_id": "c3e1evidence",
+    "guest_device_path": "/dev/virtio-ports/org.c3e1.evidence",
+    "host_socket": "/run/c3-e1/qemu-evidence.sock",
+    "virtio_port_name": "org.c3e1.evidence",
+    "virtio_serial_controller_id": "c3e1-virtio-serial"
   },
   "qemu_exec_timeout_seconds": 30,
   "qemu_gid": 61020,
@@ -70,6 +128,8 @@
   "raw_disk_path": "UNRESOLVED_STAGE2_RAW_DISK_PATH",
   "record_schema_path": "/opt/c3-e1/freeze-instruments-v1/schemas/freeze_instrument_records_v1.schema.json",
   "runtime_transaction_input_path": "/var/lib/c3-e1/runtime/attestation-input.json",
+  "runtime_transaction_input_reference_path": "/var/lib/c3-e1/runtime/attestation-input-reference.json",
+  "runtime_transaction_input_timeout_seconds": 30,
   "server_ca": "UNRESOLVED_STAGE1_SERVER_CA",
   "tpm2_quote_path": "UNRESOLVED_STAGE1_TPM2_QUOTE_PATH",
   "transaction_timeout_seconds": 30,

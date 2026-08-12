@@ -27,8 +27,23 @@ def validate_dump(datagrams,expected_seq,recv_flags=()):
    else:records.append(m['raw'])
  if not done:raise NetlinkDumpError('NLMSG_DONE missing')
  return records
-def recv_complete_dump(sock,request,request_seq,max_datagram=1048576):
- requested=sock.getsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF);effective=sock.getsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF);sock.send(request);dgs=[]
+def _transaction_identity(request,datagrams):
+ raw=b''.join(datagrams)
+ return {
+  'request_byte_count':len(request),
+  'request_sha256':hashlib.sha256(request).hexdigest(),
+  'request_hex':request.hex(),
+  'response_datagram_count':len(datagrams),
+  'response_byte_count':len(raw),
+  'response_sha256':hashlib.sha256(raw).hexdigest(),
+  'response_datagrams_hex':[x.hex() for x in datagrams],
+ }
+def recv_complete_dump(sock,request,request_seq,max_datagram=1048576,requested_so_rcvbuf=None):
+ if requested_so_rcvbuf is None or isinstance(requested_so_rcvbuf,bool) or not isinstance(requested_so_rcvbuf,int) or requested_so_rcvbuf<=0:raise NetlinkDumpError('configured requested SO_RCVBUF required')
+ effective=sock.getsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF)
+ sent=sock.send(request)
+ if sent!=len(request):raise NetlinkDumpError('short netlink request send')
+ dgs=[]
  while True:
   try:data,anc,flags,addr=sock.recvmsg(max_datagram)
   except OSError as e:
@@ -38,4 +53,4 @@ def recv_complete_dump(sock,request,request_seq,max_datagram=1048576):
   dgs.append(data)
   if any(m['type']==NLMSG_DONE for m in iter_msgs(data)):break
  records=validate_dump(dgs,request_seq)
- return {'request_seq':request_seq,'requested_so_rcvbuf':requested,'effective_so_rcvbuf':effective,'raw_datagrams_sha256':hashlib.sha256(b''.join(dgs)).hexdigest(),'records':records}
+ return {'request_seq':request_seq,'requested_so_rcvbuf':requested_so_rcvbuf,'effective_so_rcvbuf':effective,'raw_transaction':_transaction_identity(request,dgs),'records':records}

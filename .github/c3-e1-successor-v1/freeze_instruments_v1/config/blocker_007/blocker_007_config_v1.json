@@ -16,8 +16,11 @@
   ],
   "gid": 61000,
   "guest_mux_socket": "/run/c3-e1/guest-mux.sock",
+  "guest_start_gate_socket": "/run/c3-e1/start-gate.sock",
   "identity": "C3_E1_SUCCESSOR_BLOCKER_007_CONFIG_V1",
   "interactive_shell": false,
   "monitor_process_independent": true,
+  "observation_boundaries_path": "/var/lib/c3-e1/runtime/observation-boundaries.json",
+  "producer_ack_timeout_seconds": 30,
   "uid": 61000
 }

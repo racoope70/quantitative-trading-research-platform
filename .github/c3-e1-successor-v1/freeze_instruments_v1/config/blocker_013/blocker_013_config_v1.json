@@ -3,6 +3,29 @@
   "client_ca": "UNRESOLVED_STAGE1_CLIENT_CA",
   "ek_trust_store": "UNRESOLVED_STAGE1_EK_TRUST_STORE",
   "execution_boundary": "OUTSIDE_ATTESTED_HOST",
+  "expected_manifest_bindings": {
+    "ak_ek_policy": {
+      "path": "UNRESOLVED_STAGE1_EXPECTED_AK_EK_POLICY_PATH",
+      "sha256": "UNRESOLVED_STAGE1_EXPECTED_AK_EK_POLICY_SHA256"
+    },
+    "host_tcb_manifest": {
+      "path": "UNRESOLVED_STAGE1_EXPECTED_HOST_TCB_MANIFEST_PATH",
+      "sha256": "UNRESOLVED_STAGE1_EXPECTED_HOST_TCB_MANIFEST_SHA256"
+    },
+    "ima_policy": {
+      "path": "UNRESOLVED_STAGE1_EXPECTED_IMA_POLICY_PATH",
+      "sha256": "UNRESOLVED_STAGE1_EXPECTED_IMA_POLICY_SHA256"
+    },
+    "pcr_policy": {
+      "path": "UNRESOLVED_STAGE1_EXPECTED_PCR_POLICY_PATH",
+      "sha256": "UNRESOLVED_STAGE1_EXPECTED_PCR_POLICY_SHA256"
+    },
+    "runtime_binding_policy": {
+      "path": "UNRESOLVED_STAGE1_EXPECTED_RUNTIME_BINDING_POLICY_PATH",
+      "sha256": "UNRESOLVED_STAGE1_EXPECTED_RUNTIME_BINDING_POLICY_SHA256"
+    }
+  },
+  "freeze_record_schema_path": "/opt/c3-e1/freeze-instruments-v1/schemas/freeze_instrument_records_v1.schema.json",
   "identity": "C3_E1_SUCCESSOR_BLOCKER_013_CONFIG_V1",
   "listen_host": "127.0.0.1",
   "listen_port": 9443,

@@ -14,6 +14,9 @@ NoNewPrivileges=yes
 CapabilityBoundingSet=CAP_SYS_ADMIN CAP_SETUID CAP_SETGID
 AmbientCapabilities=CAP_SYS_ADMIN CAP_SETUID CAP_SETGID
 RestrictAddressFamilies=AF_UNIX
+StandardInput=null
+StandardOutput=null
+StandardError=null
 PrivateTmp=yes
 ProtectHome=yes
 
