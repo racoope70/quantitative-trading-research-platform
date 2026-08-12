@@ -77,4 +77,51 @@ class Blocker013Tests(unittest.TestCase):
         src=(ROOT/'src/blocker_013/external_attestation_verifier_v1.py').read_text(); self.assertNotIn('require_verifier_manifest_sha256',src)
     def test_024_attestation_schema_requires_observed_runtime_record_in_pre_and_post(self):
         schema=json.loads((ROOT/'schemas/attestation_transaction_v1.schema.json').read_text()); self.assertIn('runtime_instantiation_record',schema['$defs']['pre_objects']['required']); self.assertIn('runtime_instantiation_record',schema['$defs']['post_objects']['required'])
-
+    def _challenge_cfg(self,td,ttl=30):
+        return {'challenge_registry_path':str(pathlib.Path(td)/'registry.json'),'challenge_ttl_seconds':ttl,'verifier_manifest_sha256':'33'*32}
+    def _challenge_request(self):
+        return {'runtime_instance_uuid':RU,'observation_nonce':NO,'final_checkpoint_sha256':'44'*32,'verifier_manifest_sha256':'33'*32}
+    def _challenge_bundle(self,ch,**changes):
+        b={'transaction_id':ch['transaction_id'],'runtime_instance_uuid':RU,'observation_nonce':NO,'final_checkpoint_sha256':'44'*32,'verifier_manifest_sha256':'33'*32,'fresh_challenge':ch['fresh_challenge']}; b.update(changes); return b
+    def test_025_verifier_registry_persists_issuance_freshness_and_single_use_state(self):
+        with tempfile.TemporaryDirectory() as td:
+            cfg=self._challenge_cfg(td); ch=v.issue_post_challenge(self._challenge_request(),cfg,now_ns=100); state=json.loads(pathlib.Path(cfg['challenge_registry_path']).read_text()); e=state['challenges'][ch['transaction_id']]
+            self.assertEqual(e['issued_at_unix_ns'],100); self.assertEqual(e['expires_at_unix_ns'],100+30_000_000_000); self.assertEqual(e['single_use_state'],'ISSUED'); self.assertEqual(e['runtime_instance_uuid'],RU); self.assertEqual(e['observation_nonce'],NO); self.assertEqual(e['final_checkpoint_sha256'],'44'*32); self.assertEqual(e['verifier_manifest_sha256'],'33'*32)
+    def test_026_invented_challenge_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            cfg=self._challenge_cfg(td); ch=v.issue_post_challenge(self._challenge_request(),cfg,now_ns=100)
+            with self.assertRaises(v.VerificationError): v.consume_post_challenge(self._challenge_bundle(ch,fresh_challenge='55'*32),cfg,now_ns=101)
+    def test_027_wrong_transaction_id_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            cfg=self._challenge_cfg(td); ch=v.issue_post_challenge(self._challenge_request(),cfg,now_ns=100)
+            with self.assertRaises(v.VerificationError): v.consume_post_challenge(self._challenge_bundle({**ch,'transaction_id':'unknown'}),cfg,now_ns=101)
+    def test_028_challenge_for_other_runtime_nonce_checkpoint_or_verifier_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            for change in ({'runtime_instance_uuid':'22345678-1234-1234-1234-123456789abc'},{'observation_nonce':'55'*32},{'final_checkpoint_sha256':'55'*32},{'verifier_manifest_sha256':'55'*32}):
+                cfg=self._challenge_cfg(td); ch=v.issue_post_challenge(self._challenge_request(),cfg,now_ns=100)
+                with self.assertRaises(v.VerificationError): v.consume_post_challenge(self._challenge_bundle(ch,**change),cfg,now_ns=101)
+    def test_029_expired_challenge_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            cfg=self._challenge_cfg(td,ttl=1); ch=v.issue_post_challenge(self._challenge_request(),cfg,now_ns=100)
+            with self.assertRaisesRegex(v.VerificationError,'expired'): v.consume_post_challenge(self._challenge_bundle(ch),cfg,now_ns=1_000_000_101)
+    def test_030_replayed_challenge_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            cfg=self._challenge_cfg(td); ch=v.issue_post_challenge(self._challenge_request(),cfg,now_ns=100); self.assertEqual(v.consume_post_challenge(self._challenge_bundle(ch),cfg,now_ns=101),'PASS')
+            with self.assertRaises(v.VerificationError): v.consume_post_challenge(self._challenge_bundle(ch),cfg,now_ns=102)
+    def test_031_single_use_challenge_second_submission_rejected_and_state_consumed(self):
+        with tempfile.TemporaryDirectory() as td:
+            cfg=self._challenge_cfg(td); ch=v.issue_post_challenge(self._challenge_request(),cfg,now_ns=100); v.consume_post_challenge(self._challenge_bundle(ch),cfg,now_ns=101); state=json.loads(pathlib.Path(cfg['challenge_registry_path']).read_text()); self.assertEqual(state['challenges'][ch['transaction_id']]['single_use_state'],'CONSUMED')
+            with self.assertRaises(v.VerificationError): v.consume_post_challenge(self._challenge_bundle(ch),cfg,now_ns=103)
+    def test_032_wrong_post_pcr_policy_rejected(self):
+        policy={'post_observation':{'evaluation_mode':'QUOTED_PCR_BYTES_SHA256_ALLOWLIST','acceptable_quoted_pcr_bytes_sha256':['00'*32]}}
+        with self.assertRaisesRegex(v.VerificationError,'PCR policy mismatch'): v.evaluate_post_pcr_policy(policy,{'quoted_pcr_bytes':b'actual'})
+    def test_033_missing_post_pcr_evaluation_is_inconclusive_not_pass(self):
+        self.assertEqual(v.evaluate_post_pcr_policy({'manifest_role':'pcr_policy'},{'quoted_pcr_bytes':b'actual'}),'INCONCLUSIVE')
+    def test_034_valid_post_pcr_policy_is_derived_from_observed_quote(self):
+        h=hashlib.sha256(b'actual').hexdigest(); policy={'post_observation':{'evaluation_mode':'QUOTED_PCR_BYTES_SHA256_ALLOWLIST','acceptable_quoted_pcr_bytes_sha256':[h]}}; self.assertEqual(v.evaluate_post_pcr_policy(policy,{'quoted_pcr_bytes':b'actual'}),'PASS')
+    def test_035_checkpoint_runtime_uuid_mismatch_rejected(self):
+        with self.assertRaisesRegex(v.VerificationError,'FAIL_ENVIRONMENT_IDENTITY_MISMATCH'): v._bind_checkpoint_to_post_bundle({'runtime_instance_uuid':RU,'observation_nonce':NO},{'runtime_instance_uuid':'22345678-1234-1234-1234-123456789abc','observation_nonce':NO})
+    def test_036_checkpoint_nonce_mismatch_rejected(self):
+        with self.assertRaisesRegex(v.VerificationError,'FAIL_EVIDENCE_INTEGRITY'): v._bind_checkpoint_to_post_bundle({'runtime_instance_uuid':RU,'observation_nonce':NO},{'runtime_instance_uuid':RU,'observation_nonce':'55'*32})
+    def test_037_post_verifier_source_has_no_hardcoded_pcr_pass(self):
+        src=(ROOT/'src/blocker_013/external_attestation_verifier_v1.py').read_text(); seg=src[src.index('def verify_post'):src.index('def handle_transaction')]; self.assertNotIn("'pcr_selection':'PASS'",seg); self.assertIn('evaluate_post_pcr_policy',seg); self.assertIn('consume_post_challenge',seg)
