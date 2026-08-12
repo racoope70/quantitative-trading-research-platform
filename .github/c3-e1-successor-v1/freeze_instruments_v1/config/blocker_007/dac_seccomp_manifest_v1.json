@@ -1,0 +1,8 @@
+{
+  "identity": "C3_E1_SUCCESSOR_BLOCKER_007_DAC_SECCOMP_MANIFEST_V1",
+  "mandatory_denies": ["mount","umount2","pivot_root","init_module","finit_module","delete_module","kexec_load","kexec_file_load","reboot","setuid","setgid","setgroups","capset","setns","unshare","ptrace","bpf","perf_event_open","keyctl","add_key","request_key","open_by_handle_at"],
+  "read_only_paths": "UNRESOLVED_GOVERNED_BUILD_LAYOUT",
+  "seccomp_default": "DENY",
+  "status": "UNRESOLVED_IMPLEMENTATION_DERIVED",
+  "write_paths": []
+}

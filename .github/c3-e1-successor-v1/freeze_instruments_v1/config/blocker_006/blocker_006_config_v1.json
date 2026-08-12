@@ -1,0 +1,12 @@
+{
+  "bootstrap_CAP_NET_ADMIN": true,
+  "dump_requires_NLMSG_DONE_zero": true,
+  "fail_on": ["NLM_F_DUMP_INTR", "MSG_TRUNC", "ENOBUFS", "NLMSG_OVERRUN"],
+  "firewall_scope": "NATIVE_NFTABLES_ONLY",
+  "identity": "C3_E1_SUCCESSOR_BLOCKER_006_CONFIG_V1",
+  "notification_groups": "UNRESOLVED_EXACT_KERNEL_UAPI",
+  "requested_SO_RCVBUF": 8388608,
+  "require_effective_SO_RCVBUF": true,
+  "transition_monitor_CAP_NET_ADMIN": false,
+  "zero_mutation_stability_window": true
+}

@@ -1,0 +1,9 @@
+{
+  "allowed_operations": "UNRESOLVED_EXACT_STAGE1_MANIFESTS",
+  "capabilities": ["CAP_NET_ADMIN"],
+  "gid": 61000,
+  "identity": "C3_E1_SUCCESSOR_BLOCKER_007_CONFIG_V1",
+  "interactive_shell": false,
+  "monitor_process_independent": true,
+  "uid": 61000
+}
