@@ -1,0 +1,9 @@
+{
+  "automatic_restart": false,
+  "ek_trust_store": "UNRESOLVED_TPM_ENROLLMENT",
+  "endpoint": "UNRESOLVED_PRE_E1_VERIFIER_ENVIRONMENT",
+  "execution_boundary": "OUTSIDE_ATTESTED_HOST",
+  "identity": "C3_E1_SUCCESSOR_BLOCKER_013_CONFIG_V1",
+  "tls": "MUTUAL_TLS_1_3_PINNED_IDENTITIES",
+  "tpm2_checkquote": "UNRESOLVED_PRE_BUILD_MATERIAL"
+}

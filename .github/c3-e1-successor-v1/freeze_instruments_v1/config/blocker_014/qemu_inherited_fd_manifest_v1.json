@@ -1,0 +1,6 @@
+{
+  "all_other_pre_exec_fds": "CLOSE_OR_CLOEXEC",
+  "fds": {"0":"/dev/null:read-only","1":"/dev/null:write-only","2":"/dev/null:write-only","3":"EXACT_VERIFIED_DM_VERITY_OBJECT"},
+  "identity": "C3_E1_SUCCESSOR_QEMU_INHERITED_FD_MANIFEST_V1",
+  "unexpected_inherited_fd": "FAIL_ENVIRONMENT_IDENTITY_MISMATCH"
+}

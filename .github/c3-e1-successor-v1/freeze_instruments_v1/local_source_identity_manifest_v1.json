@@ -1,0 +1,14 @@
+{
+  "connections": {
+    "audit_to_mux":"SCM_CREDENTIALS",
+    "authority_to_mux":"SCM_CREDENTIALS",
+    "controller_to_sink":"SCM_CREDENTIALS",
+    "launcher_to_lifecycle":"SCM_CREDENTIALS_PLUS_SCM_RIGHTS",
+    "lifecycle_to_sink":"SCM_CREDENTIALS",
+    "nft_monitor_to_mux":"SCM_CREDENTIALS",
+    "qemu_to_sink":"SO_PEERCRED_PLUS_PIDFD_CROSSCHECK"
+  },
+  "credential_models": {"seqpacket":"UNIX_SEQPACKET_SCM_CREDENTIALS_V1","stream":"UNIX_STREAM_SO_PEERCRED_V1"},
+  "manifest_identity": "C3_E1_SUCCESSOR_LOCAL_SOURCE_IDENTITY_MANIFEST_V1",
+  "status": "UNRESOLVED_IMPLEMENTATION_IDENTITIES"
+}

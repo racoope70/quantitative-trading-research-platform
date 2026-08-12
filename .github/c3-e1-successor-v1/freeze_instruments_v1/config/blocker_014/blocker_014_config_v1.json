@@ -1,0 +1,11 @@
+{
+  "automatic_retry": false,
+  "dm_verity": "UNRESOLVED_BUILD_OUTPUT",
+  "identity": "C3_E1_SUCCESSOR_BLOCKER_014_CONFIG_V1",
+  "observation_nonce_bytes": 32,
+  "post_observation_checkpoint_attestation": true,
+  "qemu": "UNRESOLVED_PRE_BUILD_MATERIAL",
+  "runtime_uuid_bytes": 16,
+  "tpm2_quote": "UNRESOLVED_PRE_BUILD_MATERIAL",
+  "tpm_tcti": "UNRESOLVED_PHYSICAL_HOST"
+}

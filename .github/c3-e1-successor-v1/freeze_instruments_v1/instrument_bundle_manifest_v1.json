@@ -1,0 +1,10 @@
+{
+  "blocker_manifests": {"005":"UNRESOLVED","006":"UNRESOLVED","007":"UNRESOLVED","013":"UNRESOLVED","014":"UNRESOLVED"},
+  "dependency_manifest_sha256": "UNRESOLVED",
+  "existing_generic_file_modifications": 0,
+  "expected_file_count": 59,
+  "local_source_identity_manifest_sha256": "UNRESOLVED",
+  "manifest_identity": "C3_E1_SUCCESSOR_FREEZE_INSTRUMENT_BUNDLE_MANIFEST_V1",
+  "python_runtime_closure_manifest_sha256": "UNRESOLVED",
+  "status": "UNRESOLVED_IMPLEMENTATION_IDENTITIES"
+}

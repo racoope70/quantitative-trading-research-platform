@@ -1,0 +1,18 @@
+[Unit]
+Description=C3 E1 attestation transaction controller
+
+[Service]
+Type=simple
+User=61012
+Group=61012
+ExecStart=/opt/c3-e1/freeze-instruments-v1/bin/python_instrument_launcher_v1 C3_E1_SUCCESSOR_ATTESTATION_TRANSACTION_CONTROLLER_V1
+Restart=no
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+
+[Install]
+WantedBy=multi-user.target
