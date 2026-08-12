@@ -1,0 +1,121 @@
+name: C3 a6e054e Blocker-013 single-use Ubuntu correction validation
+
+on:
+  push:
+    branches:
+      - c3-a6e054e-blocker013-single-use-ubuntu-validation
+
+permissions:
+  contents: read
+
+jobs:
+  validate-exact-blocker013-correction:
+    name: Validate exact Blocker-013 correction on Ubuntu 24.04
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - name: Record validation control identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'validation_control_commit_sha=%s\n' "$GITHUB_SHA"
+          printf 'target_commit_sha=%s\n' 'a6e054e7e913a5218ac91a60d0723dc268a354fa'
+          printf 'target_corrected_subtree_sha=%s\n' '4e79b1827da2359d791033910a75fbfc290326e1'
+          printf 'expected_discoverable_test_count=%s\n' '163'
+
+      - name: Checkout exact corrected target
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: a6e054e7e913a5218ac91a60d0723dc268a354fa
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Verify exact target identity and Ubuntu Python prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_head='a6e054e7e913a5218ac91a60d0723dc268a354fa'
+          expected_subtree='4e79b1827da2359d791033910a75fbfc290326e1'
+          observed_head="$(git rev-parse HEAD)"
+          observed_subtree="$(git rev-parse HEAD:.github/c3-e1-successor-v1/freeze_instruments_v1)"
+          printf 'validation_control_commit_sha=%s\n' "$GITHUB_SHA"
+          printf 'target_commit_sha=%s\n' "$expected_head"
+          printf 'target_corrected_subtree_sha=%s\n' "$expected_subtree"
+          printf 'observed_checkout_HEAD=%s\n' "$observed_head"
+          printf 'observed_corrected_subtree_sha=%s\n' "$observed_subtree"
+          [ "$observed_head" = "$expected_head" ]
+          [ "$observed_subtree" = "$expected_subtree" ]
+
+          . /etc/os-release
+          printf 'runner_OS=%s\n' 'Ubuntu'
+          printf 'runner_image_version=%s\n' "${ImageVersion:-UNAVAILABLE}"
+          printf 'uname_release=%s\n' "$(uname -r)"
+          printf 'ubuntu_id=%s\n' "$ID"
+          printf 'ubuntu_version_id=%s\n' "$VERSION_ID"
+          if [ "$ID" != 'ubuntu' ] || [ "$VERSION_ID" != '24.04' ]; then
+            printf 'validation_result=VALIDATION_ENVIRONMENT_PREREQUISITE_NOT_SATISFIED\n'
+            exit 2
+          fi
+          if [ ! -x /usr/bin/python3.12 ]; then
+            printf 'python_3_12_executable=ABSENT_OR_NOT_EXECUTABLE\n'
+            printf 'validation_result=VALIDATION_ENVIRONMENT_PREREQUISITE_NOT_SATISFIED\n'
+            exit 2
+          fi
+          PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3.12 -B - <<'PY'
+          import sys
+          import unicodedata
+          print(f'python_executable={sys.executable}')
+          print(f'python_version={sys.version.split()[0]}')
+          print(f'unicode_database_version={unicodedata.unidata_version}')
+          print('python_3_12_executable=PRESENT_AND_EXECUTABLE')
+          if sys.version_info.major != 3 or sys.version_info.minor != 12:
+              print('validation_result=VALIDATION_ENVIRONMENT_PREREQUISITE_NOT_SATISFIED')
+              raise SystemExit(2)
+          if unicodedata.unidata_version != '15.0.0':
+              print('validation_result=VALIDATION_ENVIRONMENT_PREREQUISITE_NOT_SATISFIED')
+              raise SystemExit(2)
+          PY
+
+      - name: Measure exact corrected discoverable test count
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3.12 -B - <<'PY'
+          import pathlib
+          import unittest
+          tests_dir = pathlib.Path('.github/c3-e1-successor-v1/freeze_instruments_v1/tests').resolve()
+          suite = unittest.TestLoader().discover(str(tests_dir), pattern='test_*_v1.py')
+          count = suite.countTestCases()
+          print(f'discoverable_test_count={count}')
+          if count != 163:
+              print('validation_result=DISCOVERABLE_TEST_COUNT_MISMATCH')
+              raise SystemExit(2)
+          PY
+
+      - name: Execute exact committed corrected suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$(mktemp)"
+          set +e
+          PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3.12 -B -m unittest discover \
+            -s .github/c3-e1-successor-v1/freeze_instruments_v1/tests \
+            -p 'test_*_v1.py' 2>&1 | tee "$log"
+          test_rc=${PIPESTATUS[0]}
+          set -e
+          executed="$(sed -nE 's/^Ran ([0-9]+) tests? in .*$/\1/p' "$log" | tail -n 1)"
+          printf 'executed_test_count=%s\n' "${executed:-UNRESOLVED}"
+          if [ "$executed" != '163' ]; then
+            printf 'test_result=FAIL\n'
+            printf 'validation_result=EXECUTED_TEST_COUNT_MISMATCH\n'
+            exit 2
+          fi
+          if [ "$test_rc" -ne 0 ]; then
+            printf 'test_result=FAIL\n'
+            printf 'validation_result=TEST_FAILURE\n'
+            exit "$test_rc"
+          fi
+          printf 'test_result=PASS_163_OF_163\n'
+          printf 'VALIDATION_PASS=YES\n'
