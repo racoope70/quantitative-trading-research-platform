@@ -8,6 +8,7 @@ FREEZE_BLOCKER_001 = OPEN__NO_QUALIFIED_HOST_SELECTED
 Stage1_scientific_admission_progression = PAUSED_AT_STAGE1A
 scientific_host = NOT_SELECTED
 package_acquisition_performed = NO
+interpreter_acquisition_performed = NO
 resolver_execution_performed = NO
 requirements_lock_generated = NO
 clean_environment_constructed = NO
@@ -15,9 +16,11 @@ clean_environment_constructed = NO
 
 ## 1. Preparation boundary
 
-This record defines the static, reviewable specification for a later separately authorized dependency-resolution and clean-environment reconstruction transaction. It does not install packages, query package indexes through a resolver, resolve compatibility, generate `requirements.lock`, construct an environment, create technical C3 CI, select a scientific host, or advance C4.
+This record defines the static, reviewable specification for a later separately authorized dependency-resolution and clean-environment reconstruction transaction. It does not install packages, acquire interpreters, query package indexes through a resolver, resolve compatibility, generate `requirements.lock`, construct an environment, create technical C3 CI, select a scientific host, or advance C4.
 
 Historical requirement expressions remain evidence only. No package or version is accepted merely because it appeared in predecessor `requirements.txt` or predecessor CI.
+
+This corrected record remains the last pre-execution C3 preparation step. It does not introduce another preparation or governance layer.
 
 ## 2. Exact Python candidate set
 
@@ -27,8 +30,8 @@ candidate_minor_1 = 3.12
 candidate_minor_2 = 3.13
 candidate_count = 2
 supported_minor_versions_after_successful_C3 = 1
-final_selected_python_policy = UNRESOLVED_PENDING_CONTROLLED_EVALUATION
-preferred_evaluation_candidate = 3.13
+selected_python_policy = UNRESOLVED_PENDING_EXECUTION_EVIDENCE
+preferred_evaluation_candidate = 3.13_EVALUATION_PREFERENCE_ONLY
 fallback_evaluation_candidate = 3.12
 ```
 
@@ -43,7 +46,7 @@ Inclusion basis:
 Limitation:
 
 - Historical use does not establish current compatibility.
-- The 3.12 series is now in security-fixes-only maintenance, so its maintenance horizon is weaker than 3.13.
+- Its maintenance horizon is weaker than 3.13.
 
 ### Candidate 3.13
 
@@ -51,7 +54,7 @@ Inclusion basis:
 
 - It is one minor newer than the accepted historical 3.12 anchor, keeping the evaluation bounded.
 - It offers a stronger maintenance horizon than 3.12.
-- Current packaging/tooling evidence supports evaluating it rather than defaulting to the newest possible Python series.
+- It is an evaluation preference only; this preparation does not select it.
 
 Limitation:
 
@@ -69,6 +72,7 @@ Both candidates must be evaluated under the same rules:
 6. Same canonical environment-level import contract.
 7. Same focused C3 tests and network-denied offline phase.
 8. Same local/CI equivalence rules.
+9. Same deterministic interpreter-provenance class and patch-selection rule.
 
 Evaluation dimensions:
 
@@ -89,7 +93,44 @@ Selection rule:
 - If 3.13 requires prohibited sources, unsupported artifacts, incompatible direct constraints, or weaker reproducibility, select 3.12 if 3.12 independently passes.
 - If neither candidate passes, classify the outcome using the accepted C3 terminal framework; do not add a third candidate without separate authorization.
 
-The exact CPython patch version for each candidate must be recorded at execution time and becomes evidence, not a second supported-minor policy.
+### Selected-minor canonicalization after evaluation
+
+No minor is selected during this correction. After actual two-candidate evaluation produces sufficient execution evidence and one minor is selected, the future transaction must bind exactly that one selected `X.Y` minor consistently into project metadata and every canonical reconstruction surface:
+
+```text
+bind_exactly_one_selected_minor_into_project_metadata = REQUIRED
+project_requires_python_policy = EXACTLY_ONE_SELECTED_X_Y_MINOR
+project_requires_python_representation = >=X.Y,<X.(Y+1)
+tool_c3_selected_python_policy = SAME_SELECTED_MINOR
+lock_generation_context = MUST_USE_SELECTED_PROJECT_METADATA
+local_reconstruction = MUST_ENFORCE_SAME_MINOR
+CI = MUST_ENFORCE_SAME_MINOR
+```
+
+The final `pyproject.toml` must therefore express exactly one selected minor through `project.requires-python`, and `[tool.c3].selected_python_policy` must name that same minor. Candidate evaluation evidence remains preserved separately; this binding occurs only after selection and cannot be used to select a candidate prematurely.
+
+### Candidate interpreter provenance and availability preflight
+
+The exact CPython patch used for each candidate is future execution evidence. Candidate provisioning must be deterministic and same-class across both minors:
+
+```text
+candidate_patch_selection_rule = HIGHEST_ALREADY_AVAILABLE_ACCEPTABLE_PATCH_WITHIN_EACH_CANDIDATE_MINOR_USING_THE_SAME_PROVENANCE_CLASS_FOR_BOTH_MINORS
+candidate_patch_selection_rule_classification = DETERMINISTIC_AND_SAME_CLASS_FOR_BOTH_MINORS
+candidate_interpreter_provenance = REQUIRED
+candidate_interpreter_availability_preflight = REQUIRED
+mixed_provenance_class_between_candidates = PROHIBITED
+```
+
+The future execution preflight must inventory already available exact CPython candidate interpreters and record at minimum implementation, exact patch version, provenance mechanism/source class, and the evidence sufficient to establish that both candidates are comparable under the same provisioning class.
+
+```text
+IF exact_candidate_interpreters_are_already_available
+AND provenance_is_acceptable
+THEN = USE_AND_RECORD_THEM
+ELSE = STOP_FOR_SEPARATE_OWNER_AUTHORIZATION_OF_INTERPRETER_PROVISIONING_MECHANISM_AND_SOURCE
+```
+
+No interpreter source or acquisition mechanism is implicitly authorized by this preparation. In particular, no authorization is inferred for python.org downloads, Homebrew, pyenv downloads, PPAs, apt source expansion, Actions runtime downloads, or third-party interpreter sources.
 
 ## 3. Historical requirement classification
 
@@ -311,9 +352,9 @@ resolver_output = requirements.lock
 
 Reason for proposing `pip-tools==7.6.1`:
 
-- It is the current release in the already accepted resolver family at preparation time.
-- It supports both bounded Python candidates.
-- It preserves `pip-compile --generate-hashes` behavior required by the C3 lock policy.
+- It is the accepted preparation proposal in the already selected resolver family.
+- It is intended to be applied identically to both bounded Python candidates.
+- It supports the hash-generation behavior required by the C3 lock policy.
 
 The future execution must record both `pip-tools` and `pip` exact versions because `pip-tools` delegates resolution/install mechanics to pip internals.
 
@@ -342,23 +383,60 @@ The preparation workstream performs no access to these destinations through pip,
 A later separately authorized execution transaction should perform the following, fail-closed and in order:
 
 1. Reverify canonical `main`, accepted preparation record, exact 10-package proposed direct set, candidate minors, resolver version, and allowlist.
-2. Freeze one exact CPython patch build for candidate 3.12 and one exact CPython patch build for candidate 3.13 for evaluation evidence.
-3. Create isolated candidate-resolution environments; they are evaluation environments, not canonical acceptance.
+2. Perform the candidate-interpreter availability/provenance preflight before any dependency work. Apply the deterministic same-class patch-selection rule. If both exact candidate interpreters are already available with acceptable same-class provenance, use and record them; otherwise STOP for separate Owner authorization of an interpreter provisioning mechanism and source. Do not acquire an interpreter under the dependency-resolution authorization by implication.
+3. Create isolated candidate-resolution environments only after the interpreter preflight passes; they are evaluation environments, not canonical acceptance.
 4. Acquire exactly `pip-tools==7.6.1` and its required bootstrap dependencies only through `C3_DEPENDENCY_SOURCE_ALLOWLIST_V1`; record exact pip/pip-tools versions and hashes.
-5. Materialize the reviewed bounded direct constraints into `pyproject.toml`; keep rationale metadata adjacent in `[tool.c3]` or the reconstruction report.
-6. For each candidate minor, execute `python -m piptools compile` with hash generation, exact PyPI index identity, no extra index, no trusted-host bypass, and output to a candidate lock artifact.
+5. Materialize the reviewed bounded direct constraints into `pyproject.toml`; keep rationale metadata adjacent in `[tool.c3]` or the reconstruction report. During candidate evaluation, the final selected minor remains unresolved.
+6. For each candidate minor, execute `python -m piptools compile` with hash generation, exact PyPI index identity, no extra index, no trusted-host bypass, and output to a distinct candidate lock artifact.
 7. Reject any resolution that requires an unapproved source, VCS/direct URL, incompatible Python marker, unavailable required artifact, or dependency outside the accepted policy.
-8. Compare candidate lock graphs, direct constraints, transitive versions, artifact availability, and source identities.
-9. Run a clean hash-enforced installation from the candidate lock using `python -m pip install --require-hashes -r <candidate-lock>` with only the accepted source boundary.
+8. Record and compare each candidate lock graph, exact resolved versions, artifact hashes, direct constraints, transitive versions, artifact availability, source identities, resolver identity, pip identity, and candidate interpreter provenance.
+9. Run a clean hash-enforced installation from each viable candidate lock using `python -m pip install --require-hashes -r <candidate-lock>` with only the accepted source boundary.
 10. Disable network and credentials after acquisition.
 11. Run canonical environment-level imports, configuration tests, diagnostics, dependency/lock identity tests, and ordinary focused C3 tests offline.
-12. Select the single Python minor only after the accepted candidate-selection rule is satisfied.
-13. Generate the canonical `requirements.lock` for the selected minor with exact versions and artifact hashes; compute and record lock checksum plus dependency-metadata checksum.
-14. Reconstruct the selected environment cleanly at least twice and verify identity reproducibility.
-15. Create/update `.github/workflows/tests.yml` with separate acquisition and network-denied validation stages; reconstruct from the same canonical lock and source identities in CI.
-16. Verify exact local/CI match for selected Python-minor policy, lock checksum, and package-source identities.
-17. Update the C3 manifest/report with exact interpreter, resolver, dependency, lock, environment, CI, and equivalence evidence.
-18. Route the exact technical outcome package through required Manager Review and focused independent review before any C3 terminal decision.
+12. Before any candidate is promoted, freeze the exact candidate lock graph and lock identity used to establish its PASS evidence.
+13. Select the single Python minor only after the accepted candidate-selection rule is satisfied. The selected candidate lock graph remains frozen as the dependency identity that selection is based on.
+14. Bind exactly the selected `X.Y` minor into `pyproject.toml` project metadata using `project.requires-python = ">=X.Y,<X.(Y+1)"`, and set `[tool.c3].selected_python_policy` to the same selected minor. The selected project metadata becomes mandatory lock-generation/reconstruction context; local reconstruction and CI must enforce the same minor.
+15. Canonicalize `requirements.lock` without an unconstrained second resolution. Use exactly one of these two models:
+
+    ```text
+    A. PROMOTE_EXACT_SELECTED_CANDIDATE_LOCK_IDENTITY
+    ```
+
+    or, only if binding the selected-minor project metadata requires lock re-emission:
+
+    ```text
+    B. RE_EMIT_USING_EXACT_SELECTED_CANDIDATE_PINS_AND_HASHES
+       AND
+       PROVE_GRAPH_VERSION_ARTIFACT_HASH_EQUIVALENCE = YES
+    ```
+
+    In Model B, every package node, resolved version, applicable marker result, artifact identity, and artifact hash used for the canonical installation must be proven equivalent to the frozen selected-candidate lock evidence. Re-emission may not reopen unconstrained dependency solving.
+16. Enforce:
+
+    ```text
+    selected_candidate_lock_graph = FROZEN_BEFORE_SELECTION_PROMOTION
+    canonical_requirements_lock = NO_UNCONSTRAINED_SECOND_RESOLUTION
+    ANY_GRAPH_CHANGE = REEVALUATION_REQUIRED
+    silent_graph_drift = PROHIBITED
+    ```
+
+    If canonicalization changes any dependency graph/version/artifact-hash identity, the prior candidate PASS cannot be promoted and candidate evaluation must be rerun under separately accepted execution scope.
+17. Compute and record canonical lock checksum plus dependency-metadata checksum only after the selected-minor metadata binding and lock-identity preservation checks pass.
+18. Reconstruct the selected environment cleanly at least twice from the canonical lock and enforce the same selected Python minor.
+19. Create/update `.github/workflows/tests.yml` with separate acquisition and network-denied validation stages; reconstruct from the same selected-minor policy, canonical lock, and source identities in CI.
+20. Run the focused future diagnostic PASS regression in `tests/config/test_environment_diagnostics.py` while preserving all existing fail-closed regression coverage. The positive regression must establish:
+
+    ```text
+    ALL_CONTROLLING_IDENTITIES_RESOLVED
+    + LOCK_PRESENT
+    + IMPORTS_PASS
+    = TERMINAL_PASS
+    ```
+
+    This test file is not modified during preparation; it is included only in the future execution scope when those controlling identities can actually be resolved.
+21. Verify exact local/CI match for selected Python-minor policy, lock checksum, and package-source identities.
+22. Update the C3 manifest/report with exact interpreter provenance, selected Python policy, resolver, dependency, lock, environment, CI, diagnostic-PASS regression, and equivalence evidence.
+23. Route the exact technical outcome package through required Manager Review and focused independent review before any C3 terminal decision.
 
 ## 9. Future execution changed-file scope
 
@@ -370,11 +448,14 @@ requirements.lock
 docs/reports/C3_environment_and_dependency_manifest.yaml
 docs/reports/C3_python_environment_and_dependency_reconstruction_report.md
 .github/workflows/tests.yml
+tests/config/test_environment_diagnostics.py
 tests/environment/test_dependency_identity.py
 tests/environment/test_import_contract.py
 tests/environment/test_offline_boundary.py
 src/quantitative_trading_research/config/environment_diagnostics.py
 ```
+
+`tests/config/test_environment_diagnostics.py` is included specifically for the future positive terminal-PASS regression after controlling identities, lock identity, and imports are truly resolved. Its existing fail-closed coverage must be preserved.
 
 `settings.py` and its tests need change only if the future accepted environment identity requires a bounded correction; no change is implied by this preparation.
 
@@ -385,19 +466,38 @@ Per candidate, record at minimum:
 ```text
 candidate_minor
 exact_interpreter_implementation_and_patch
+candidate_interpreter_provenance
+candidate_interpreter_provisioning_class
+candidate_interpreter_availability_preflight
 resolver_identity_and_version
 pip_identity_and_version
 source_allowlist_identity
 resolution_result
 resolved_dependency_graph
+resolved_dependency_versions
 artifact_hash_coverage
-lock_checksum
+candidate_lock_identity
+candidate_lock_checksum
 clean_install_result
 canonical_import_results
 offline_test_result
 network_denial_result
 secret_exclusion_result
 platform_artifact_availability
+```
+
+For the selected candidate, additionally record:
+
+```text
+selected_minor_project_requires_python_binding
+selected_tool_c3_python_policy_binding
+selected_candidate_lock_graph_frozen = YES
+canonical_lock_promotion_model = A_OR_B
+canonical_lock_graph_version_artifact_hash_equivalence = PASS
+silent_graph_drift = NO
+future_diagnostic_PASS_regression = PASS
+local_selected_minor_enforcement = PASS
+CI_selected_minor_enforcement = PASS
 ```
 
 Candidate classification:
@@ -424,7 +524,7 @@ BLOCKED_EXTERNAL_OR_OWNER_DEPENDENCY
 INCONCLUSIVE
 ```
 
-A resolver success alone is insufficient. A candidate cannot pass without hash-complete lock evidence, clean reconstruction, offline import/test success, source-boundary enforcement, and required identity/equivalence evidence.
+A resolver success alone is insufficient. A candidate cannot pass without hash-complete lock evidence, clean reconstruction, offline import/test success, source-boundary enforcement, and required identity/equivalence evidence. A selected candidate cannot be promoted if its canonical lock graph drifts from the graph actually evaluated. Diagnostic success also remains fail-closed unless all controlling identities are resolved, the lock is present, and all required imports pass.
 
 ## 11. Scientific-host preservation
 
