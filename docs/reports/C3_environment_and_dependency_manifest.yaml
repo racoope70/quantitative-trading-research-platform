@@ -1,0 +1,49 @@
+{
+  "manifest_status": "HOST_NEUTRAL_STATIC_PREPARATION_ONLY",
+  "canonical_repository": "racoope70/quantitative-trading-research-platform",
+  "canonical_source_commit": "e6a5cacdc44f3ba5540f61da6076bbfc645c24d3",
+  "C3_cycle_identity": "C3_HOST_NEUTRAL_STATIC_PREPARATION_V1",
+  "owner_selection_matrix_id": "C3_OWNER_SELECTION_MATRIX_V1",
+  "owner_selection_matrix_status": "ACCEPTED",
+  "dependency_source_allowlist_id": "C3_DEPENDENCY_SOURCE_ALLOWLIST_V1",
+  "selected_python_policy": "UNRESOLVED_TWO_CANDIDATE_EVALUATION_NOT_EXECUTED",
+  "interpreter_implementation": "UNRESOLVED_CONTROLLING_IDENTITY",
+  "interpreter_version": "UNRESOLVED_CONTROLLING_IDENTITY",
+  "platform_identity": "NON_CONTROLLING_DEVELOPMENT_WORKSTATION_ONLY",
+  "environment_tool_identity": "UNRESOLVED_NO_ENVIRONMENT_CONSTRUCTION_AUTHORIZED",
+  "package_manager_identity": "UNRESOLVED_NO_ACQUISITION_AUTHORIZED",
+  "resolver_identity": "PIP_TOOLS_PIP_COMPILE_FAMILY_SELECTED_VERSION_UNRESOLVED",
+  "resolver_version": "UNRESOLVED_NO_ACQUISITION_AUTHORIZED",
+  "approved_package_sources": [
+    "https://pypi.org:443/simple/",
+    "https://files.pythonhosted.org:443/packages/"
+  ],
+  "package_source_credential_policy": "NO_PACKAGE_SOURCE_CREDENTIALS",
+  "dependency_metadata_checksum": "UNRESOLVED_NO_COMPATIBILITY_RESOLUTION_EXECUTED",
+  "lock_checksum": "UNRESOLVED_REQUIREMENTS_LOCK_NOT_GENERATED",
+  "direct_dependency_count": 0,
+  "resolved_dependency_count": 0,
+  "canonical_import_targets": [
+    "quantitative_trading_research",
+    "quantitative_trading_research.config"
+  ],
+  "configuration_schema_identity": "C3_HOST_NEUTRAL_CONFIGURATION_SCHEMA_V1",
+  "configuration_checksum": "DERIVED_BY_SETTINGS_IMPLEMENTATION_NOT_FROZEN_AS_SCIENTIFIC_IDENTITY",
+  "local_environment_identity": "NON_CONTROLLING_MAC_DEVELOPMENT_ENVIRONMENT_ONLY",
+  "CI_environment_identity": "UNRESOLVED_NO_C3_TECHNICAL_CI_AUTHORIZED_OR_CREATED",
+  "local_CI_equivalence_result": "UNRESOLVED",
+  "dependency_acquisition_boundary": "NOT_EXECUTED_IN_THIS_WORKSTREAM",
+  "offline_execution_boundary": "HOST_NEUTRAL_STANDARD_LIBRARY_TESTS_ONLY",
+  "related_C3_identity_ids": ["C1-TM-040", "C1-TM-042", "C1-TM-043", "C1-TM-047", "C1-TM-082"],
+  "related_limitation_ids": ["C2-LIM-C3-001", "C2-LIM-C3-002", "C2-LIM-C3-003", "C2-LIM-C3-004", "C2-LIM-C3-005", "C2-LIM-C4-008"],
+  "FREEZE_BLOCKER_001": "OPEN__NO_QUALIFIED_HOST_SELECTED",
+  "Stage1_scientific_freeze_advanced": "NO",
+  "prohibited_activity_confirmation": {
+    "dependency_or_material_acquisition": "NO",
+    "package_installation": "NO",
+    "environment_construction": "NO",
+    "provider_or_broker_access": "NO",
+    "dataset_or_model_activity": "NO",
+    "successor_E1": "NO"
+  }
+}
