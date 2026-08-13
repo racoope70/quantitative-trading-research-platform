@@ -22,6 +22,34 @@ class SettingsTests(unittest.TestCase):
         with self.assertRaises(ConfigurationError):
             settings_from_mapping({"APCA_API_KEY_ID": "secret"})
 
+    def test_rejects_dataset_universe_variable(self):
+        with self.assertRaises(ConfigurationError):
+            settings_from_mapping({"TICKERS": "AAPL"})
+
+    def test_rejects_dataset_feed_variable(self):
+        with self.assertRaises(ConfigurationError):
+            settings_from_mapping({"BARS_FEED": "iex"})
+
+    def test_rejects_model_signal_variable(self):
+        with self.assertRaises(ConfigurationError):
+            settings_from_mapping({"WEIGHT_CAP": "0.4"})
+
+    def test_rejects_risk_variable(self):
+        with self.assertRaises(ConfigurationError):
+            settings_from_mapping({"TAKE_PROFIT_PCT": "0.05"})
+
+    def test_rejects_execution_variable(self):
+        with self.assertRaises(ConfigurationError):
+            settings_from_mapping({"ORDER_TIMEOUT_SECONDS": "90"})
+
+    def test_rejects_trading_variable(self):
+        with self.assertRaises(ConfigurationError):
+            settings_from_mapping({"AUTO_RUN_LIVE": "0"})
+
+    def test_ambient_os_variables_are_outside_c3_namespace(self):
+        settings = settings_from_mapping({"PATH": "/usr/bin", "HOME": "/tmp/home"})
+        self.assertTrue(settings.offline_required)
+
     def test_rejects_unknown_c3_key(self):
         with self.assertRaises(ConfigurationError):
             settings_from_mapping({"C3_UNKNOWN": "x"})

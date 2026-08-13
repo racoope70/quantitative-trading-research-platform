@@ -8,133 +8,174 @@ dependencies = []
 workstream_status = "HOST_NEUTRAL_STATIC_PREPARATION"
 scientific_host_status = "UNRESOLVED_FREEZE_BLOCKER_001"
 selected_python_policy = "UNRESOLVED_BOUNDED_TWO_CANDIDATE_EVALUATION_NOT_EXECUTED"
+interpreter_identity_status = "UNRESOLVED_CONTROLLING_IDENTITY"
+environment_identity_status = "UNRESOLVED_NO_ENVIRONMENT_CONSTRUCTION_AUTHORIZED"
 resolver_family = "PIP_TOOLS_PIP_COMPILE"
+resolver_version = "UNRESOLVED_NO_ACQUISITION_AUTHORIZED"
+dependency_metadata_checksum_status = "UNRESOLVED_NO_COMPATIBILITY_RESOLUTION_EXECUTED"
+ci_environment_identity_status = "UNRESOLVED_NO_C3_TECHNICAL_CI_CREATED"
+local_ci_equivalence_status = "UNRESOLVED"
 lock_path = "requirements.lock"
 lock_status = "NOT_GENERATED_NO_ACQUISITION_AUTHORIZED"
 dependency_source_allowlist_id = "C3_DEPENDENCY_SOURCE_ALLOWLIST_V1"
 direct_dependency_constraint_policy = "BOUNDED_DIRECT_CONSTRAINTS_WITH_EXPLICIT_RATIONALE"
 
+[tool.c3.historical_dependency_inventory]
+identity = "C1-TM-042"
+historical_source_repository = "racoope70/ppo-trading-pipeline"
+historical_source_commit = "072103f43d8b2488c3efca183f637ab0508a193a"
+historical_source_path = "requirements.txt"
+historical_source_blob_sha = "3dafa779f02d6bcb1b3f49689729bcb1900a63c9"
+member_count = 25
+status = "LOSSLESS_HISTORICAL_REQUIREMENT_EXPRESSIONS_ONLY"
+
 [[tool.c3.historical_dependency_candidates]]
 name = "numpy"
+historical_requirement = "numpy"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; inclusion requires authorized C3 compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "pandas"
+historical_requirement = "pandas"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; inclusion requires authorized C3 compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "python-dotenv"
+historical_requirement = "python-dotenv"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical environment configuration evidence; canonical inclusion is not yet accepted."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "alpaca-py"
+historical_requirement = "alpaca-py"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical provider package evidence only; provider behavior remains prohibited in C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "matplotlib"
+historical_requirement = "matplotlib"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; inclusion requires authorized C3 compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "scikit-learn"
+historical_requirement = "scikit-learn"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; application/model use remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "joblib"
+historical_requirement = "joblib"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; inclusion requires authorized C3 compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "tqdm"
+historical_requirement = "tqdm"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; inclusion requires authorized C3 compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "requests"
+historical_requirement = "requests"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory only; runtime network activity remains prohibited in C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "yfinance"
+historical_requirement = "yfinance"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory only; market-data access remains prohibited in C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "PyWavelets"
+historical_requirement = "PyWavelets"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; application feature use remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "xgboost"
+historical_requirement = "xgboost"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; model behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
-name = "stable-baselines3[extra]"
+name = "stable-baselines3"
+historical_requirement = "stable-baselines3[extra]>=2.0.0"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; model behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "gymnasium"
+historical_requirement = "gymnasium>=0.29"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; application/model use remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "shimmy"
+historical_requirement = "shimmy>=2.0.0"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; inclusion requires authorized C3 compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "gym-anytrading"
+historical_requirement = "gym-anytrading"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; trading/model behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "torch"
+historical_requirement = "torch"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; model behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "torchvision"
+historical_requirement = "torchvision"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; model behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "torchaudio"
+historical_requirement = "torchaudio"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; model behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "pyarrow"
+historical_requirement = "pyarrow"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; data behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "transformers"
+historical_requirement = "transformers"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical requirements inventory; model behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "tensorflow"
+historical_requirement = "tensorflow==2.16.2"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical exact pin existed but is not accepted as canonical without compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "protobuf"
+historical_requirement = "protobuf==3.20.3"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical exact pin existed but is not accepted as canonical without compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "numba"
+historical_requirement = "numba==0.60.0"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical exact pin existed but is not accepted as canonical without compatibility evaluation."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
 
 [[tool.c3.historical_dependency_candidates]]
 name = "exchange-calendars"
+historical_requirement = "exchange-calendars==4.13.2"
 status = "UNRESOLVED_CANDIDATE_ONLY"
-rationale = "Historical exact pin only; calendar behavior remains outside C3."
+rationale = "Historical C1-TM-042 requirement evidence only; canonical inclusion requires later authorized C3 compatibility evaluation."
+

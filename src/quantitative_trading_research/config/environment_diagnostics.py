@@ -14,6 +14,7 @@ from pathlib import Path
 import platform
 import sys
 import tempfile
+import tomllib
 from typing import Iterable
 
 from .settings import C3Settings
@@ -34,6 +35,16 @@ TERMINAL_OUTCOMES = {
 CANONICAL_IMPORT_TARGETS = (
     "quantitative_trading_research",
     "quantitative_trading_research.config",
+)
+REQUIRED_CONTROLLING_KEYS = (
+    "selected_python_policy",
+    "interpreter_identity_status",
+    "environment_identity_status",
+    "resolver_version",
+    "dependency_metadata_checksum_status",
+    "ci_environment_identity_status",
+    "local_ci_equivalence_status",
+    "lock_status",
 )
 
 
@@ -62,11 +73,34 @@ def inspect_import_targets(targets: Iterable[str] = CANONICAL_IMPORT_TARGETS) ->
     return results
 
 
-def collect_static_diagnostic(repo_root: Path, settings: C3Settings) -> dict[str, object]:
+def _controlling_identity_status(pyproject: Path, lock: Path) -> dict[str, str]:
+    try:
+        data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+        c3 = data["tool"]["c3"]
+    except (OSError, KeyError, tomllib.TOMLDecodeError):
+        return {"status": "UNRESOLVED", "reason": "PYPROJECT_CONTROL_IDENTITY_UNAVAILABLE"}
+    unresolved = [
+        key for key in REQUIRED_CONTROLLING_KEYS
+        if key not in c3 or str(c3[key]).startswith(("UNRESOLVED", "NOT_GENERATED"))
+    ]
+    if not lock.is_file() and "lock_status" not in unresolved:
+        unresolved.append("lock_status")
+    if unresolved:
+        return {"status": "UNRESOLVED", "reason": ",".join(sorted(unresolved))}
+    return {"status": "RESOLVED", "reason": "ALL_REQUIRED_CONTROLLING_IDENTITIES_RESOLVED"}
+
+
+def collect_static_diagnostic(
+    repo_root: Path,
+    settings: C3Settings,
+    targets: Iterable[str] = CANONICAL_IMPORT_TARGETS,
+) -> dict[str, object]:
     pyproject = repo_root / "pyproject.toml"
     lock = repo_root / "requirements.lock"
-    imports = inspect_import_targets()
-    terminal = "PASS" if all(item["status"] == "PASS" for item in imports) else "INCONCLUSIVE"
+    imports = inspect_import_targets(targets)
+    controlling = _controlling_identity_status(pyproject, lock)
+    imports_all_pass = all(item["status"] == "PASS" for item in imports)
+    terminal = "PASS" if imports_all_pass and controlling["status"] == "RESOLVED" else "INCONCLUSIVE"
     return {
         "schema_id": DIAGNOSTIC_SCHEMA_ID,
         "scope": "HOST_NEUTRAL_NON_CONTROLLING_STATIC_OFFLINE_PREPARATION",
@@ -86,6 +120,7 @@ def collect_static_diagnostic(repo_root: Path, settings: C3Settings) -> dict[str
             "lock_status": "PRESENT" if lock.is_file() else "UNRESOLVED_NOT_GENERATED",
             "source_allowlist_id": "C3_DEPENDENCY_SOURCE_ALLOWLIST_V1",
         },
+        "controlling_identity": controlling,
         "configuration": {
             "schema_id": settings.schema_id,
             "checksum_sha256": settings.checksum_sha256(),

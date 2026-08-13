@@ -20,9 +20,20 @@ class DiagnosticTests(unittest.TestCase):
         result = inspect_import_targets(["definitely_missing_c3_package"])[0]
         self.assertEqual(result["status"], "FAIL_MISSING_PACKAGE")
 
-    def test_lock_absence_remains_unresolved(self):
+    def test_missing_import_never_produces_terminal_pass(self):
+        payload = collect_static_diagnostic(ROOT, settings_from_mapping({}), targets=["definitely_missing_c3_package"])
+        self.assertNotEqual(payload["terminal_outcome"], "PASS")
+
+    def test_lock_absence_remains_unresolved_and_blocks_terminal_pass(self):
         payload = collect_static_diagnostic(ROOT, settings_from_mapping({}))
         self.assertEqual(payload["dependency"]["lock_status"], "UNRESOLVED_NOT_GENERATED")
+        self.assertEqual(payload["terminal_outcome"], "INCONCLUSIVE")
+
+    def test_imports_pass_but_controlling_identity_unresolved_is_inconclusive(self):
+        payload = collect_static_diagnostic(ROOT, settings_from_mapping({}))
+        self.assertTrue(all(item["status"] == "PASS" for item in payload["canonical_import_targets"]))
+        self.assertEqual(payload["controlling_identity"]["status"], "UNRESOLVED")
+        self.assertEqual(payload["terminal_outcome"], "INCONCLUSIVE")
 
     def test_atomic_json_write(self):
         with tempfile.TemporaryDirectory() as td:
