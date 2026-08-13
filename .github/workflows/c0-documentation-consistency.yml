@@ -856,7 +856,34 @@ jobs:
               )
 
           package_root = Path("src/quantitative_trading_research")
+
+          project_context_path = Path("PROJECT_CONTEXT.md")
+          c3_effective = False
+          if project_context_path.is_file():
+              project_context_lines = set(
+                  project_context_path.read_text(
+                      encoding="utf-8"
+                  ).splitlines()
+              )
+              c3_effective = {
+                  "current_lifecycle_state = C3_ACTIVE",
+                  "C3_authorization_effect = EFFECTIVE",
+              }.issubset(project_context_lines)
+
           allowed_python_paths = {Path(path) for path in marker_paths}
+          if c3_effective:
+              allowed_python_paths.update(
+                  {
+                      Path(
+                          "src/quantitative_trading_research/config/settings.py"
+                      ),
+                      Path(
+                          "src/quantitative_trading_research/config/"
+                          "environment_diagnostics.py"
+                      ),
+                  }
+              )
+
           unexpected_python_paths = sorted(
               path.as_posix()
               for path in package_root.rglob("*.py")
