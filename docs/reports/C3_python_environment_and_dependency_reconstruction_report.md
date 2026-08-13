@@ -109,6 +109,8 @@ CI = MUST_ENFORCE_SAME_MINOR
 
 The final `pyproject.toml` must therefore express exactly one selected minor through `project.requires-python`, and `[tool.c3].selected_python_policy` must name that same minor. Candidate evaluation evidence remains preserved separately; this binding occurs only after selection and cannot be used to select a candidate prematurely.
 
+For candidate evaluation, each candidate lock must be generated from a frozen candidate-specific project-metadata snapshot that already binds that candidate minor and the reviewed direct constraints/policies. If that snapshot is later proven materially identical to the final canonical selected metadata, the selected-project-metadata lock-generation requirement is satisfied by exact metadata equivalence and Model A promotion may be used. Otherwise Model A is prohibited and Model B governs.
+
 ### Candidate interpreter provenance and availability preflight
 
 The exact CPython patch used for each candidate is future execution evidence. Candidate provisioning must be deterministic and same-class across both minors:
@@ -386,23 +388,48 @@ A later separately authorized execution transaction should perform the following
 2. Perform the candidate-interpreter availability/provenance preflight before any dependency work. Apply the deterministic same-class patch-selection rule. If both exact candidate interpreters are already available with acceptable same-class provenance, use and record them; otherwise STOP for separate Owner authorization of an interpreter provisioning mechanism and source. Do not acquire an interpreter under the dependency-resolution authorization by implication.
 3. Create isolated candidate-resolution environments only after the interpreter preflight passes; they are evaluation environments, not canonical acceptance.
 4. Acquire exactly `pip-tools==7.6.1` and its required bootstrap dependencies only through `C3_DEPENDENCY_SOURCE_ALLOWLIST_V1`; record exact pip/pip-tools versions and hashes.
-5. Materialize the reviewed bounded direct constraints into `pyproject.toml`; keep rationale metadata adjacent in `[tool.c3]` or the reconstruction report. During candidate evaluation, the final selected minor remains unresolved.
-6. For each candidate minor, execute `python -m piptools compile` with hash generation, exact PyPI index identity, no extra index, no trusted-host bypass, and output to a distinct candidate lock artifact.
+5. For each candidate minor, materialize a frozen candidate-specific project-metadata snapshot. Each snapshot must bind `project.requires-python` to that exact candidate minor, use the reviewed direct dependency constraints, and record the exact accepted resolver identity/policy, package-source policy, and hash/integrity policy. The final selected minor remains unresolved at this stage.
+6. For each candidate minor, execute `python -m piptools compile` from that frozen candidate-specific project-metadata snapshot with hash generation, exact PyPI index identity, no extra index, no trusted-host bypass, and output to a distinct candidate lock artifact.
 7. Reject any resolution that requires an unapproved source, VCS/direct URL, incompatible Python marker, unavailable required artifact, or dependency outside the accepted policy.
-8. Record and compare each candidate lock graph, exact resolved versions, artifact hashes, direct constraints, transitive versions, artifact availability, source identities, resolver identity, pip identity, and candidate interpreter provenance.
+8. Record and compare each candidate lock graph, exact resolved versions, artifact hashes, direct constraints, transitive versions, artifact availability, source identities, resolver identity, pip identity, candidate interpreter provenance, and exact candidate-specific project-metadata snapshot identity.
 9. Run a clean hash-enforced installation from each viable candidate lock using `python -m pip install --require-hashes -r <candidate-lock>` with only the accepted source boundary.
 10. Disable network and credentials after acquisition.
 11. Run canonical environment-level imports, configuration tests, diagnostics, dependency/lock identity tests, and ordinary focused C3 tests offline.
-12. Before any candidate is promoted, freeze the exact candidate lock graph and lock identity used to establish its PASS evidence.
-13. Select the single Python minor only after the accepted candidate-selection rule is satisfied. The selected candidate lock graph remains frozen as the dependency identity that selection is based on.
-14. Bind exactly the selected `X.Y` minor into `pyproject.toml` project metadata using `project.requires-python = ">=X.Y,<X.(Y+1)"`, and set `[tool.c3].selected_python_policy` to the same selected minor. The selected project metadata becomes mandatory lock-generation/reconstruction context; local reconstruction and CI must enforce the same minor.
+12. Before any candidate is promoted, freeze the exact candidate lock graph, candidate lock identity, and candidate-specific project-metadata snapshot used to establish its PASS evidence.
+13. Select the single Python minor only after the accepted candidate-selection rule is satisfied. The selected candidate lock graph and selected candidate-specific metadata snapshot remain frozen as the dependency and lock-generation context that selection is based on.
+14. Bind exactly the selected `X.Y` minor into final canonical `pyproject.toml` project metadata using `project.requires-python = ">=X.Y,<X.(Y+1)"`, and set `[tool.c3].selected_python_policy` to the same selected minor. The selected project metadata becomes mandatory lock-generation/reconstruction context; local reconstruction and CI must enforce the same minor.
 15. Canonicalize `requirements.lock` without an unconstrained second resolution. Use exactly one of these two models:
 
     ```text
     A. PROMOTE_EXACT_SELECTED_CANDIDATE_LOCK_IDENTITY
     ```
 
-    or, only if binding the selected-minor project metadata requires lock re-emission:
+    Model A is permitted only if the selected candidate lock was generated from the frozen selected candidate-specific project-metadata snapshot and exact metadata equivalence to final canonical selected metadata is proven for all materially relevant lock inputs:
+
+    ```text
+    MODEL_A_PERMITTED_ONLY_IF =
+    SELECTED_CANDIDATE_LOCK_WAS_GENERATED_FROM
+    A_FROZEN_CANDIDATE_SPECIFIC_PROJECT_METADATA_SNAPSHOT
+
+    candidate_snapshot_project_requires_python =
+    EXACT_MINOR_LATER_BOUND_CANONICALLY
+
+    candidate_snapshot_direct_constraints =
+    EXACT_FINAL_CANONICAL_SELECTED_CONSTRAINTS
+
+    resolver_source_hash_policy =
+    EXACT_ACCEPTED_POLICY
+
+    candidate_lock_input_metadata_equivalent_to_final_canonical_project_metadata =
+    YES
+
+    selected_project_metadata_requirement =
+    SATISFIED_BY_EXACT_METADATA_EQUIVALENCE
+    ```
+
+    Material equivalence for Model A includes the selected Python minor, direct dependency constraints, resolver identity/policy, package-source policy, and hash/integrity policy. If any of these differ or equivalence is not established, Model A is not permitted.
+
+    In that case, Model B governs:
 
     ```text
     B. RE_EMIT_USING_EXACT_SELECTED_CANDIDATE_PINS_AND_HASHES
@@ -465,6 +492,10 @@ Per candidate, record at minimum:
 
 ```text
 candidate_minor
+candidate_specific_project_metadata_snapshot_identity
+candidate_snapshot_project_requires_python
+candidate_snapshot_direct_constraints
+candidate_snapshot_resolver_source_hash_policy
 exact_interpreter_implementation_and_patch
 candidate_interpreter_provenance
 candidate_interpreter_provisioning_class
@@ -493,6 +524,8 @@ selected_minor_project_requires_python_binding
 selected_tool_c3_python_policy_binding
 selected_candidate_lock_graph_frozen = YES
 canonical_lock_promotion_model = A_OR_B
+model_A_candidate_metadata_equivalence = PASS_OR_NOT_APPLICABLE
+selected_project_metadata_requirement = SATISFIED_BY_EXACT_METADATA_EQUIVALENCE_OR_MODEL_B_REEMISSION
 canonical_lock_graph_version_artifact_hash_equivalence = PASS
 silent_graph_drift = NO
 future_diagnostic_PASS_regression = PASS
@@ -524,7 +557,7 @@ BLOCKED_EXTERNAL_OR_OWNER_DEPENDENCY
 INCONCLUSIVE
 ```
 
-A resolver success alone is insufficient. A candidate cannot pass without hash-complete lock evidence, clean reconstruction, offline import/test success, source-boundary enforcement, and required identity/equivalence evidence. A selected candidate cannot be promoted if its canonical lock graph drifts from the graph actually evaluated. Diagnostic success also remains fail-closed unless all controlling identities are resolved, the lock is present, and all required imports pass.
+A resolver success alone is insufficient. A candidate cannot pass without hash-complete lock evidence, clean reconstruction, offline import/test success, source-boundary enforcement, and required identity/equivalence evidence. A selected candidate cannot be promoted if its canonical lock graph drifts from the graph actually evaluated. Model A cannot be used unless the evaluated candidate lock's frozen metadata context is materially identical to final selected canonical metadata. Diagnostic success also remains fail-closed unless all controlling identities are resolved, the lock is present, and all required imports pass.
 
 ## 11. Scientific-host preservation
 

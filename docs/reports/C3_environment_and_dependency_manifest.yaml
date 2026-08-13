@@ -50,7 +50,14 @@
     "selected_candidate_lock_graph": "FROZEN_BEFORE_SELECTION_PROMOTION",
     "canonical_requirements_lock": "NO_UNCONSTRAINED_SECOND_RESOLUTION",
     "promotion_model_A": "PROMOTE_EXACT_SELECTED_CANDIDATE_LOCK_IDENTITY",
-    "promotion_model_B": "RE_EMIT_USING_EXACT_SELECTED_CANDIDATE_PINS_AND_HASHES_ONLY_IF_SELECTED_MINOR_METADATA_REQUIRES_REEMISSION",
+    "MODEL_A_PERMITTED_ONLY_IF": "SELECTED_CANDIDATE_LOCK_WAS_GENERATED_FROM_A_FROZEN_CANDIDATE_SPECIFIC_PROJECT_METADATA_SNAPSHOT_AND_EXACT_METADATA_EQUIVALENCE_TO_FINAL_CANONICAL_SELECTED_METADATA_IS_PROVEN",
+    "model_A_candidate_snapshot_project_requires_python": "EXACT_MINOR_LATER_BOUND_CANONICALLY",
+    "model_A_candidate_snapshot_direct_constraints": "EXACT_FINAL_CANONICAL_SELECTED_CONSTRAINTS",
+    "model_A_resolver_source_hash_policy": "EXACT_ACCEPTED_POLICY",
+    "model_A_candidate_lock_input_metadata_equivalent_to_final_canonical_project_metadata": "REQUIRED_YES",
+    "selected_project_metadata_requirement_under_model_A": "SATISFIED_BY_EXACT_METADATA_EQUIVALENCE",
+    "model_A_if_equivalence_not_established": "NOT_PERMITTED",
+    "promotion_model_B": "RE_EMIT_USING_EXACT_SELECTED_CANDIDATE_PINS_AND_HASHES_ONLY_IF_SELECTED_MINOR_METADATA_REQUIRES_REEMISSION_OR_MODEL_A_EQUIVALENCE_IS_NOT_ESTABLISHED",
     "model_B_graph_version_artifact_hash_equivalence": "REQUIRED_PASS",
     "ANY_GRAPH_CHANGE": "REEVALUATION_REQUIRED",
     "silent_graph_drift": "PROHIBITED"
@@ -116,10 +123,10 @@
   "Stage1_scientific_freeze_advanced": "NO",
   "scientific_host_track_changed": "NO",
   "manager_correction_status": {
-    "MGR_C3_PYDEP_PREP_001": "CORRECTED",
-    "MGR_C3_PYDEP_PREP_002": "CORRECTED",
-    "MGR_C3_PYDEP_PREP_003": "CORRECTED",
-    "MGR_C3_PYDEP_PREP_004": "CORRECTED"
+    "MGR_C3_PYDEP_PREP_001": "CORRECTED_FINAL_MODEL_A_METADATA_EQUIVALENCE_CONFLICT_REMOVED",
+    "MGR_C3_PYDEP_PREP_002": "RESOLVED_UNCHANGED",
+    "MGR_C3_PYDEP_PREP_003": "RESOLVED_UNCHANGED",
+    "MGR_C3_PYDEP_PREP_004": "RESOLVED_UNCHANGED"
   },
   "prohibited_activity_confirmation": {
     "dependency_or_material_acquisition": "NO",
