@@ -18,7 +18,7 @@
   "environment_tool_identity": "UNRESOLVED_NO_ENVIRONMENT_CONSTRUCTION_AUTHORIZED",
   "package_manager_identity": "UNRESOLVED_NO_ACQUISITION_AUTHORIZED",
   "resolver_identity": "PIP_TOOLS_PIP_COMPILE",
-  "resolver_version": "7.6.0_PROPOSED_NOT_INSTALLED_OR_EXECUTED",
+  "resolver_version": "7.6.1_PROPOSED_NOT_INSTALLED_OR_EXECUTED",
   "resolver_invocation_family": "python_-m_piptools_compile",
   "approved_package_sources": [
     "https://pypi.org:443/simple/",
@@ -31,7 +31,7 @@
   "canonical_direct_dependency_count": 0,
   "proposed_direct_dependencies": [
     {"name": "numpy", "constraint": ">=2.2,<3"},
-    {"name": "pandas", "constraint": ">=2.2,<3"},
+    {"name": "pandas", "constraint": ">=2.2,<4"},
     {"name": "scikit-learn", "constraint": ">=1.6,<2"},
     {"name": "PyWavelets", "constraint": ">=1.8,<2"},
     {"name": "xgboost", "constraint": ">=3,<4"},
@@ -61,7 +61,7 @@
     "numba direct inclusion",
     "exact transitive graph per Python candidate",
     "target-platform artifact and wheel availability",
-    "exact pip version paired with pip-tools 7.6.0"
+    "exact pip version paired with pip-tools 7.6.1"
   ],
   "resolved_dependency_count": 0,
   "canonical_import_targets": [

@@ -155,12 +155,12 @@ known_limitation = exact compatible resolution not executed
 ```text
 package_name = pandas
 proposed_inclusion = YES
-proposed_constraint = >=2.2,<3
+proposed_constraint = >=2.2,<4
 source_evidence = C1-TM-042
 canonical_need = tabular and time-series representation used by accepted research responsibilities
-compatibility_question = both Python candidates; NumPy/PyArrow compatibility
-rationale = bounded current major line with exact lock pin deferred to resolution
-known_limitation = exact compatible resolution not executed
+compatibility_question = both Python candidates; NumPy/PyArrow compatibility and 2.x-versus-3.x migration behavior
+rationale = bounded supported 2.x/3.x release families while exact compatibility and final pin remain lock-resolved
+known_limitation = exact compatible resolution and later API-migration testing not executed
 ```
 
 ### `scikit-learn`
@@ -303,16 +303,16 @@ numba = UNRESOLVED_OPTIONAL_PERFORMANCE_DEPENDENCY
 ```text
 resolver_family = PIP_TOOLS_PIP_COMPILE
 resolver_invocation_family = python_-m_piptools_compile
-proposed_resolver_exact_version = 7.6.0
+proposed_resolver_exact_version = 7.6.1
 resolver_status = PREPARATION_PROPOSAL_NOT_INSTALLED_OR_EXECUTED
 resolver_hash_generation = REQUIRED
 resolver_output = requirements.lock
 ```
 
-Reason for proposing `pip-tools==7.6.0`:
+Reason for proposing `pip-tools==7.6.1`:
 
 - It is the current release in the already accepted resolver family at preparation time.
-- It includes compatibility with current pip 26.x tooling.
+- It supports both bounded Python candidates.
 - It preserves `pip-compile --generate-hashes` behavior required by the C3 lock policy.
 
 The future execution must record both `pip-tools` and `pip` exact versions because `pip-tools` delegates resolution/install mechanics to pip internals.
@@ -344,7 +344,7 @@ A later separately authorized execution transaction should perform the following
 1. Reverify canonical `main`, accepted preparation record, exact 10-package proposed direct set, candidate minors, resolver version, and allowlist.
 2. Freeze one exact CPython patch build for candidate 3.12 and one exact CPython patch build for candidate 3.13 for evaluation evidence.
 3. Create isolated candidate-resolution environments; they are evaluation environments, not canonical acceptance.
-4. Acquire exactly `pip-tools==7.6.0` and its required bootstrap dependencies only through `C3_DEPENDENCY_SOURCE_ALLOWLIST_V1`; record exact pip/pip-tools versions and hashes.
+4. Acquire exactly `pip-tools==7.6.1` and its required bootstrap dependencies only through `C3_DEPENDENCY_SOURCE_ALLOWLIST_V1`; record exact pip/pip-tools versions and hashes.
 5. Materialize the reviewed bounded direct constraints into `pyproject.toml`; keep rationale metadata adjacent in `[tool.c3]` or the reconstruction report.
 6. For each candidate minor, execute `python -m piptools compile` with hash generation, exact PyPI index identity, no extra index, no trusted-host bypass, and output to a candidate lock artifact.
 7. Reject any resolution that requires an unapproved source, VCS/direct URL, incompatible Python marker, unavailable required artifact, or dependency outside the accepted policy.
