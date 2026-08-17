@@ -1,5 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
+import hashlib
 import tomllib
 import unittest
 
@@ -13,14 +14,44 @@ EXPECTED_HISTORICAL_REQUIREMENTS = [
     "exchange-calendars==4.13.2",
 ]
 
+EXPECTED_CANONICAL_DEPENDENCIES = [
+    "numpy>=2.2,<3",
+    "pandas>=2.2,<4",
+    "scikit-learn>=1.6,<2",
+    "PyWavelets>=1.8,<2",
+    "xgboost>=3,<4",
+    "stable-baselines3>=2.7,<3",
+    "gymnasium>=1.1,<2",
+    "torch>=2.7,<3",
+    "pyarrow>=20,<26",
+    "exchange-calendars>=4.11,<5",
+]
+
+EXPECTED_CANONICAL_LOCK_SHA256 = (
+    "bdb24fee6df08902c9448c833f07d5240a7cf62f6eee31ad3d870327dc1708e1"
+)
+
 
 class DependencyIdentityTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.data = tomllib.loads((ROOT / "pyproject.toml").read_text())
 
-    def test_no_canonical_direct_dependency_is_prematurely_accepted(self):
-        self.assertEqual(self.data["project"]["dependencies"], [])
+    def test_canonical_direct_dependencies_match_accepted_set(self):
+        self.assertEqual(
+            self.data["project"]["dependencies"],
+            EXPECTED_CANONICAL_DEPENDENCIES,
+        )
+
+    def test_canonical_python_policy_is_bound_to_3_13(self):
+        self.assertEqual(
+            self.data["project"]["requires-python"],
+            ">=3.13,<3.14",
+        )
+        self.assertEqual(
+            self.data["tool"]["c3"]["selected_python_policy"],
+            "3.13",
+        )
 
     def test_historical_candidates_are_explicitly_unresolved(self):
         candidates = self.data["tool"]["c3"]["historical_dependency_candidates"]
@@ -40,11 +71,11 @@ class DependencyIdentityTests(unittest.TestCase):
         self.assertEqual(inventory["historical_source_blob_sha"], "3dafa779f02d6bcb1b3f49689729bcb1900a63c9")
         self.assertEqual(inventory["member_count"], 25)
 
-    def test_lock_is_explicitly_not_generated(self):
-        self.assertEqual(self.data["tool"]["c3"]["lock_status"], "NOT_GENERATED_NO_ACQUISITION_AUTHORIZED")
-
-    def test_selected_python_policy_remains_unresolved(self):
-        self.assertEqual(self.data["tool"]["c3"]["selected_python_policy"], "UNRESOLVED_BOUNDED_TWO_CANDIDATE_EVALUATION_NOT_EXECUTED")
+    def test_canonical_lock_is_present_with_exact_identity(self):
+        lock = ROOT / "requirements.lock"
+        self.assertTrue(lock.is_file())
+        digest = hashlib.sha256(lock.read_bytes()).hexdigest()
+        self.assertEqual(digest, EXPECTED_CANONICAL_LOCK_SHA256)
 
 
 if __name__ == "__main__":

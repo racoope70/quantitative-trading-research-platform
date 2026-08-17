@@ -24,9 +24,10 @@ class DiagnosticTests(unittest.TestCase):
         payload = collect_static_diagnostic(ROOT, settings_from_mapping({}), targets=["definitely_missing_c3_package"])
         self.assertNotEqual(payload["terminal_outcome"], "PASS")
 
-    def test_lock_absence_remains_unresolved_and_blocks_terminal_pass(self):
+    def test_canonical_lock_is_present_but_unresolved_controls_block_terminal_pass(self):
         payload = collect_static_diagnostic(ROOT, settings_from_mapping({}))
-        self.assertEqual(payload["dependency"]["lock_status"], "UNRESOLVED_NOT_GENERATED")
+        self.assertEqual(payload["dependency"]["lock_status"], "PRESENT")
+        self.assertEqual(payload["controlling_identity"]["status"], "UNRESOLVED")
         self.assertEqual(payload["terminal_outcome"], "INCONCLUSIVE")
 
     def test_imports_pass_but_controlling_identity_unresolved_is_inconclusive(self):

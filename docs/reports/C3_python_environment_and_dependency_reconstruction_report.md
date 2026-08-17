@@ -1,15 +1,19 @@
-# C3 Python Environment and Dependency Reconstruction — Python Policy and Dependency Evaluation Preparation
+# C3 Python Environment and Dependency Reconstruction — Host-Neutral Dependency Execution Technical Outcome
 
 ```text
-record_status = HOST_NEUTRAL_PYTHON_POLICY_AND_DEPENDENCY_EVALUATION_PREPARATION
+record_status = HOST_NEUTRAL_C3_DEPENDENCY_EXECUTION_TECHNICAL_OUTCOME_PENDING_MANAGER_REVIEW
 canonical_basis = b764eed6a92c39153c7f5e525a457c92445306d9
+execution_base_commit = b437d553a6a6939cafcee7eb23fbe1603d2a66af
 C3_terminal_disposition = NOT_REACHED
+current_lifecycle = C3_ACTIVE
+canonical_C3_dependency_reconstruction_platform = LINUX_X86_64_AMD64
+native_Intel_macOS_execution_outcome = REJECTED_NO_ACCEPTABLE_ENVIRONMENT
 FREEZE_BLOCKER_001 = OPEN__NO_QUALIFIED_HOST_SELECTED
 Stage1_scientific_admission_progression = PAUSED_AT_STAGE1A
 scientific_host = NOT_SELECTED
-package_acquisition_performed = NO
-interpreter_acquisition_performed = NO
-resolver_execution_performed = NO
+package_acquisition_performed = YES
+interpreter_acquisition_performed = YES
+resolver_execution_performed = YES
 requirements_lock_generated = NO
 clean_environment_constructed = NO
 ```
@@ -558,6 +562,84 @@ INCONCLUSIVE
 ```
 
 A resolver success alone is insufficient. A candidate cannot pass without hash-complete lock evidence, clean reconstruction, offline import/test success, source-boundary enforcement, and required identity/equivalence evidence. A selected candidate cannot be promoted if its canonical lock graph drifts from the graph actually evaluated. Model A cannot be used unless the evaluated candidate lock's frozen metadata context is materially identical to final selected canonical metadata. Diagnostic success also remains fail-closed unless all controlling identities are resolved, the lock is present, and all required imports pass.
+
+## 10A. Actual C3 dependency-execution outcome
+
+The Owner-authorized C3 dependency-resolution transaction reached the bounded two-candidate resolution stage.
+
+The earlier preflight assumption that the workstation contained CPython 3.12.2 was superseded by direct bounded inventory evidence establishing an already-installed CPython 3.12.10 interpreter. The existing 3.12.10 installation passed Python Software Foundation code-signing and official-installer provenance checks and was retained without replacement.
+
+The second formal candidate, CPython 3.13.14, was provisioned from the official Python.org macOS installer after checksum, Python Software Foundation installer-signature, and Apple notarization verification.
+
+```text
+candidate_3_12 = CPython 3.12.10
+candidate_3_13 = CPython 3.13.14
+candidate_provenance_class = OFFICIAL_PYTHON_ORG_MACOS_DISTRIBUTION
+candidate_3_12_provisioning_action = ALREADY_PRESENT__VERIFIED_AND_RETAINED
+candidate_3_13_provisioning_action = OFFICIAL_PYTHON_ORG_MACOS_INSTALLER__INSTALLED_DURING_EXECUTION
+mixed_provenance_class_between_candidates = NO
+
+candidate_3_12_metadata_snapshot_sha256 =
+2731209048ea5a5bb4892ed96bf9e20ab952f7e59f532d4e22121660cff23ef5
+
+candidate_3_13_metadata_snapshot_sha256 =
+f6f0de930d884de5de90c588918049acb89bf8c31551e15cd49e4516c42b4799
+
+candidate_3_12_pip = 25.0.1
+candidate_3_13_pip = 26.1.2
+resolver_identity = pip-tools
+resolver_version = 7.6.1
+source_allowlist_identity = C3_DEPENDENCY_SOURCE_ALLOWLIST_V1
+```
+
+Both frozen candidate-specific metadata snapshots used the same reviewed ten-package direct dependency set and the same accepted resolver, source, and hash policy.
+
+### Python 3.13 candidate
+
+```text
+candidate_minor = 3.13
+resolution_result = FAIL_MISSING_PACKAGE
+blocking_requirement = torch>=2.7,<3
+resolver_evidence = No matching distribution found for torch<3,>=2.7
+candidate_lock_identity = NOT_GENERATED
+candidate_lock_checksum = NOT_AVAILABLE
+clean_install_result = NOT_REACHED
+offline_test_result = NOT_REACHED
+```
+
+### Python 3.12 candidate
+
+```text
+candidate_minor = 3.12
+resolution_result = FAIL_INCOMPATIBLE_VERSION
+blocking_requirement = torch>=2.7,<3
+resolver_observed_torch_versions = 2.2.0, 2.2.1, 2.2.2
+resolver_evidence = No matching distribution found for torch<3,>=2.7
+candidate_lock_identity = NOT_GENERATED
+candidate_lock_checksum = NOT_AVAILABLE
+clean_install_result = NOT_REACHED
+offline_test_result = NOT_REACHED
+```
+
+No accepted candidate reached lock generation, clean reconstruction, offline validation, or promotion.
+
+```text
+passing_candidate_count = 0
+selected_python_policy = NO_SELECTION__BOTH_CANDIDATES_FAILED_RESOLUTION
+selected_candidate_lock_graph = NOT_AVAILABLE
+canonical_requirements_lock = NOT_GENERATED
+canonical_python_minor_binding = NOT_PERFORMED
+unconstrained_second_resolution = NOT_PERFORMED
+third_python_candidate = NOT_AUTHORIZED_AND_NOT_ATTEMPTED
+dependency_constraint_relaxation = NOT_ATTEMPTED
+alternate_dependency_source = NOT_ATTEMPTED
+native_Intel_macOS_execution_outcome = REJECTED_NO_ACCEPTABLE_ENVIRONMENT
+native_Intel_macOS_outcome_review = PENDING_REQUIRED_MANAGER_REVIEW
+```
+
+The native Intel-macOS candidate failures remain valid historical evidence. Their established cause is Torch platform-artifact unavailability on Intel macOS x86_64. This does not invalidate either Python minor as a Linux x86_64 reconstruction candidate.
+
+The scientific-host limitation remains separately deferred and did not cause this dependency-resolution failure.
 
 ## 11. Scientific-host preservation
 

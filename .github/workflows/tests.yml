@@ -1,0 +1,158 @@
+name: C3 technical tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c3-technical:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Set up canonical Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13.14'
+
+      - name: Verify canonical metadata and lock
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          expected_lock='bdb24fee6df08902c9448c833f07d5240a7cf62f6eee31ad3d870327dc1708e1'
+          actual_lock="$(sha256sum requirements.lock | awk '{print $1}')"
+          [ "$actual_lock" = "$expected_lock" ]
+
+          python - <<'PY'
+          from pathlib import Path
+          import sys
+          import tomllib
+
+          data = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+
+          assert sys.version_info[:2] == (3, 13)
+          assert data["project"]["requires-python"] == ">=3.13,<3.14"
+          assert data["tool"]["c3"]["selected_python_policy"] == "3.13"
+          assert len(data["project"]["dependencies"]) == 10
+
+          print("CI_python_minor_policy=3.13")
+          print("CI_interpreter_version=" + sys.version.split()[0])
+          print("canonical_metadata_validation=PASS")
+          PY
+
+          printf 'canonical_requirements_lock_SHA256=%s\n' "$actual_lock"
+
+      - name: Acquisition - hash-enforced canonical reconstruction
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          printf 'CI_acquisition_stage=PRESENT\n'
+          printf 'CI_install_input=requirements.lock\n'
+          printf 'CI_require_hashes=YES\n'
+          printf 'CI_unconstrained_resolution=NO\n'
+          printf 'CI_package_source_policy=C3_DEPENDENCY_SOURCE_ALLOWLIST_V1\n'
+
+          PIP_DISABLE_PIP_VERSION_CHECK=1 \
+          PIP_EXTRA_INDEX_URL= \
+          python -m pip install \
+            --require-hashes \
+            --index-url https://pypi.org:443/simple/ \
+            -r requirements.lock
+
+          python -m pip check
+
+      - name: Network-denied canonical validation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          canonical_python="$(command -v python)"
+          [ -x "$canonical_python" ]
+
+          canonical_version="$("$canonical_python" -c 'import sys; print(sys.version.split()[0])')"
+          [ "$canonical_version" = "3.13.14" ]
+
+          printf 'offline_canonical_python=%s\n' "$canonical_python"
+          printf 'offline_canonical_python_version=%s\n' "$canonical_version"
+
+          sudo -n unshare --net -- \
+            env -u APCA_API_KEY_ID -u APCA_API_SECRET_KEY \
+            PYTHONDONTWRITEBYTECODE=1 \
+            PYTHONPATH="$GITHUB_WORKSPACE/src" \
+            GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
+            CANONICAL_PYTHON="$canonical_python" \
+            bash -s <<'OFFLINE'
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
+
+          "$CANONICAL_PYTHON" - <<'PY'
+          from pathlib import Path
+          import os
+          import socket
+          import sys
+
+          route = Path("/proc/net/route")
+          default_route = False
+          if route.is_file():
+              for line in route.read_text().splitlines()[1:]:
+                  fields = line.split()
+                  if len(fields) >= 2 and fields[1] == "00000000":
+                      default_route = True
+                      break
+
+          assert sys.version.split()[0] == "3.13.14"
+          assert sys.version_info[:2] == (3, 13)
+          assert not default_route
+          assert "APCA_API_KEY_ID" not in os.environ
+          assert "APCA_API_SECRET_KEY" not in os.environ
+
+          for host in ("1.1.1.1", "example.com"):
+              try:
+                  sock = socket.create_connection((host, 443), timeout=2)
+              except OSError:
+                  pass
+              else:
+                  sock.close()
+                  raise AssertionError(f"external network unexpectedly reachable: {host}")
+
+          import quantitative_trading_research
+          import quantitative_trading_research.config
+
+          from quantitative_trading_research.config.environment_diagnostics import collect_static_diagnostic
+          from quantitative_trading_research.config.settings import settings_from_mapping
+
+          payload = collect_static_diagnostic(Path.cwd(), settings_from_mapping({}))
+
+          assert payload["dependency"]["lock_status"] == "PRESENT"
+          assert payload["controlling_identity"]["status"] == "UNRESOLVED"
+          assert payload["terminal_outcome"] == "INCONCLUSIVE"
+
+          print("formal_network_denial=PASS")
+          print("credential_boundary=PASS")
+          print("canonical_project_imports=PASS")
+          print("canonical_configuration_imports=PASS")
+          print("diagnostics=EXPECTED_CURRENT_STATE")
+          PY
+
+          "$CANONICAL_PYTHON" tests/environment/test_import_contract.py
+          "$CANONICAL_PYTHON" tests/environment/test_offline_boundary.py
+          "$CANONICAL_PYTHON" tests/environment/test_dependency_identity.py
+          "$CANONICAL_PYTHON" tests/config/test_environment_diagnostics.py
+
+          printf 'focused_C3_tests=PASS\n'
+          printf 'offline_package_acquisition=NO\n'
+          printf 'offline_resolver_execution=NO\n'
+          printf 'offline_package_index_access=NO\n'
+          OFFLINE

@@ -2,23 +2,51 @@
 name = "quantitative-trading-research"
 version = "0.0.0"
 description = "Host-neutral C3 environment and dependency preparation only"
-dependencies = []
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "numpy>=2.2,<3",
+  "pandas>=2.2,<4",
+  "scikit-learn>=1.6,<2",
+  "PyWavelets>=1.8,<2",
+  "xgboost>=3,<4",
+  "stable-baselines3>=2.7,<3",
+  "gymnasium>=1.1,<2",
+  "torch>=2.7,<3",
+  "pyarrow>=20,<26",
+  "exchange-calendars>=4.11,<5",
+]
 
 [tool.c3]
 workstream_status = "HOST_NEUTRAL_STATIC_PREPARATION"
 scientific_host_status = "UNRESOLVED_FREEZE_BLOCKER_001"
-selected_python_policy = "UNRESOLVED_BOUNDED_TWO_CANDIDATE_EVALUATION_NOT_EXECUTED"
+selected_python_policy = "3.13"
 interpreter_identity_status = "UNRESOLVED_CONTROLLING_IDENTITY"
 environment_identity_status = "UNRESOLVED_NO_ENVIRONMENT_CONSTRUCTION_AUTHORIZED"
 resolver_family = "PIP_TOOLS_PIP_COMPILE"
-resolver_version = "UNRESOLVED_NO_ACQUISITION_AUTHORIZED"
+resolver_invocation_family = "python_-m_piptools_compile"
+resolver_version = "7.6.1"
 dependency_metadata_checksum_status = "UNRESOLVED_NO_COMPATIBILITY_RESOLUTION_EXECUTED"
 ci_environment_identity_status = "UNRESOLVED_NO_C3_TECHNICAL_CI_CREATED"
 local_ci_equivalence_status = "UNRESOLVED"
 lock_path = "requirements.lock"
 lock_status = "NOT_GENERATED_NO_ACQUISITION_AUTHORIZED"
 dependency_source_allowlist_id = "C3_DEPENDENCY_SOURCE_ALLOWLIST_V1"
+index = "https://pypi.org:443/simple/"
+artifact_host = "https://files.pythonhosted.org:443/packages/"
+credentials = "NONE"
+alternate_index = "PROHIBITED"
+extra_index = "PROHIBITED"
+mirror = "PROHIBITED"
+vcs_dependency = "PROHIBITED"
+arbitrary_direct_url = "PROHIBITED"
+trusted_host_tls_bypass = "PROHIBITED"
+redirect_to_unlisted_destination = "PROHIBITED"
+package_manager_version_check = "DISABLED_DURING_ACQUISITION"
+hash_generation = "REQUIRED"
+hash_reuse = "NO"
+allow_unsafe = "REQUIRED"
 direct_dependency_constraint_policy = "BOUNDED_DIRECT_CONSTRAINTS_WITH_EXPLICIT_RATIONALE"
+direct_dependency_count = 10
 
 [tool.c3.historical_dependency_inventory]
 identity = "C1-TM-042"
