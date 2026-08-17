@@ -30,8 +30,13 @@ jobs:
         run: |
           set -euo pipefail
 
+          expected_pyproject='942ed2501c36da5273d1d6bf2a5823c1881c1781eea26542eb7ccc01e151c8cb'
           expected_lock='bdb24fee6df08902c9448c833f07d5240a7cf62f6eee31ad3d870327dc1708e1'
+
+          actual_pyproject="$(sha256sum pyproject.toml | awk '{print $1}')"
           actual_lock="$(sha256sum requirements.lock | awk '{print $1}')"
+
+          [ "$actual_pyproject" = "$expected_pyproject" ]
           [ "$actual_lock" = "$expected_lock" ]
 
           python - <<'PY'
@@ -51,6 +56,7 @@ jobs:
           print("canonical_metadata_validation=PASS")
           PY
 
+          printf 'CI_pyproject_SHA256=%s\n' "$actual_pyproject"
           printf 'canonical_requirements_lock_SHA256=%s\n' "$actual_lock"
 
       - name: Acquisition - hash-enforced canonical reconstruction
@@ -136,14 +142,15 @@ jobs:
           payload = collect_static_diagnostic(Path.cwd(), settings_from_mapping({}))
 
           assert payload["dependency"]["lock_status"] == "PRESENT"
-          assert payload["controlling_identity"]["status"] == "UNRESOLVED"
-          assert payload["terminal_outcome"] == "INCONCLUSIVE"
+          assert payload["controlling_identity"]["status"] == "RESOLVED"
+          assert payload["controlling_identity"]["reason"] == "ALL_REQUIRED_CONTROLLING_IDENTITIES_RESOLVED"
+          assert payload["terminal_outcome"] == "PASS"
 
           print("formal_network_denial=PASS")
           print("credential_boundary=PASS")
           print("canonical_project_imports=PASS")
           print("canonical_configuration_imports=PASS")
-          print("diagnostics=EXPECTED_CURRENT_STATE")
+          print("diagnostics=TERMINAL_PASS")
           PY
 
           "$CANONICAL_PYTHON" tests/environment/test_import_contract.py

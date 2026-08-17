@@ -24,17 +24,51 @@ class DiagnosticTests(unittest.TestCase):
         payload = collect_static_diagnostic(ROOT, settings_from_mapping({}), targets=["definitely_missing_c3_package"])
         self.assertNotEqual(payload["terminal_outcome"], "PASS")
 
-    def test_canonical_lock_is_present_but_unresolved_controls_block_terminal_pass(self):
+    def test_all_controlling_identities_lock_and_imports_produce_terminal_pass(self):
         payload = collect_static_diagnostic(ROOT, settings_from_mapping({}))
         self.assertEqual(payload["dependency"]["lock_status"], "PRESENT")
-        self.assertEqual(payload["controlling_identity"]["status"], "UNRESOLVED")
-        self.assertEqual(payload["terminal_outcome"], "INCONCLUSIVE")
-
-    def test_imports_pass_but_controlling_identity_unresolved_is_inconclusive(self):
-        payload = collect_static_diagnostic(ROOT, settings_from_mapping({}))
         self.assertTrue(all(item["status"] == "PASS" for item in payload["canonical_import_targets"]))
-        self.assertEqual(payload["controlling_identity"]["status"], "UNRESOLVED")
-        self.assertEqual(payload["terminal_outcome"], "INCONCLUSIVE")
+        self.assertEqual(payload["controlling_identity"]["status"], "RESOLVED")
+        self.assertEqual(
+            payload["controlling_identity"]["reason"],
+            "ALL_REQUIRED_CONTROLLING_IDENTITIES_RESOLVED",
+        )
+        self.assertEqual(payload["terminal_outcome"], "PASS")
+
+    def test_missing_lock_remains_fail_closed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "pyproject.toml").write_bytes((ROOT / "pyproject.toml").read_bytes())
+
+            payload = collect_static_diagnostic(root, settings_from_mapping({}))
+
+            self.assertEqual(payload["dependency"]["lock_status"], "UNRESOLVED_NOT_GENERATED")
+            self.assertEqual(payload["controlling_identity"]["status"], "UNRESOLVED")
+            self.assertNotEqual(payload["terminal_outcome"], "PASS")
+
+    def test_unresolved_controlling_identity_remains_fail_closed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+
+            text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+            old = 'local_ci_equivalence_status = "PASS_EXACT_REQUIRED_IDENTITIES"'
+            new = 'local_ci_equivalence_status = "UNRESOLVED_TEST_SENTINEL"'
+
+            self.assertEqual(text.count(old), 1)
+
+            (root / "pyproject.toml").write_text(
+                text.replace(old, new, 1),
+                encoding="utf-8",
+            )
+            (root / "requirements.lock").write_bytes(
+                (ROOT / "requirements.lock").read_bytes()
+            )
+
+            payload = collect_static_diagnostic(root, settings_from_mapping({}))
+
+            self.assertEqual(payload["dependency"]["lock_status"], "PRESENT")
+            self.assertEqual(payload["controlling_identity"]["status"], "UNRESOLVED")
+            self.assertNotEqual(payload["terminal_outcome"], "PASS")
 
     def test_atomic_json_write(self):
         with tempfile.TemporaryDirectory() as td:

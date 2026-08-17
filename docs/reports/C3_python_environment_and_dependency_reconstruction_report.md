@@ -1,32 +1,43 @@
 # C3 Python Environment and Dependency Reconstruction — Host-Neutral Dependency Execution Technical Outcome
 
 ```text
-record_status = HOST_NEUTRAL_C3_DEPENDENCY_EXECUTION_TECHNICAL_OUTCOME_PENDING_MANAGER_REVIEW
-canonical_basis = b764eed6a92c39153c7f5e525a457c92445306d9
+record_status = FINAL_C3_TERMINAL_TECHNICAL_PREPARATION_PENDING_FINAL_CI_CONFIRMATION_AND_COMPLETION_REVIEW
+canonical_basis = 6432548394bd5db8bd9c4a0a6343472734cb5434
 execution_base_commit = b437d553a6a6939cafcee7eb23fbe1603d2a66af
-C3_terminal_disposition = NOT_REACHED
+C3_terminal_disposition = NOT_RECORDED__PENDING_FINAL_CI_CONFIRMATION_AND_COMPLETION_REVIEW
 current_lifecycle = C3_ACTIVE
 canonical_C3_dependency_reconstruction_platform = LINUX_X86_64_AMD64
-native_Intel_macOS_execution_outcome = REJECTED_NO_ACCEPTABLE_ENVIRONMENT
+selected_python_policy = 3.13
+selected_exact_interpreter_evidence = CPython_3.13.14
+canonical_pyproject_SHA256 = 942ed2501c36da5273d1d6bf2a5823c1881c1781eea26542eb7ccc01e151c8cb
+canonical_requirements_lock_SHA256 = bdb24fee6df08902c9448c833f07d5240a7cf62f6eee31ad3d870327dc1708e1
+canonical_lock_package_count = 50
+canonical_lock_promotion_model = MODEL_A
+post_canonical_reconstruction_count = 2
+post_canonical_reproducibility = PASS
+formal_local_offline_validation = PASS
+first_successful_actual_C3_CI_run = 32055586711
+first_successful_actual_C3_CI_commit = 6432548394bd5db8bd9c4a0a6343472734cb5434
+first_successful_actual_C3_CI_result = SUCCESS
+required_local_CI_equivalence = PASS
+native_Intel_macOS_execution_outcome = REJECTED_NO_ACCEPTABLE_ENVIRONMENT__HISTORICAL_PLATFORM_SPECIFIC_EVIDENCE
 FREEZE_BLOCKER_001 = OPEN__NO_QUALIFIED_HOST_SELECTED
 Stage1_scientific_admission_progression = PAUSED_AT_STAGE1A
 scientific_host = NOT_SELECTED
-package_acquisition_performed = YES
-interpreter_acquisition_performed = YES
-resolver_execution_performed = YES
-requirements_lock_generated = NO
-clean_environment_constructed = NO
+requirements_lock_generated = YES
+clean_environment_constructed = YES__TWO_CLEAN_POST_CANONICAL_RECONSTRUCTIONS
+C4 = NOT_AUTHORIZED
 ```
 
 ## 1. Preparation boundary
 
-This record defines the static, reviewable specification for a later separately authorized dependency-resolution and clean-environment reconstruction transaction. It does not install packages, acquire interpreters, query package indexes through a resolver, resolve compatibility, generate `requirements.lock`, construct an environment, create technical C3 CI, select a scientific host, or advance C4.
+This record now contains both the preserved C3 preparation contract and the subsequently completed host-neutral dependency-reconstruction evidence. Earlier forward-looking preparation language is retained as control rationale and historical chronology; the current controlling technical outcome is the Linux x86_64 evidence recorded in Section 10B.
 
-Historical requirement expressions remain evidence only. No package or version is accepted merely because it appeared in predecessor `requirements.txt` or predecessor CI.
+Historical requirement expressions remain evidence only. No package or version is accepted merely because it appeared in predecessor `requirements.txt` or predecessor CI. Canonical dependency acceptance instead rests on the completed bounded candidate evaluation, hash-complete canonical lock, two clean post-canonical reconstructions, formal offline validation, and actual technical CI evidence.
 
-This corrected record remains the last pre-execution C3 preparation step. It does not introduce another preparation or governance layer.
+This terminal technical preparation does not itself make C3 completion effective. Final CI confirmation of the newly bound `pyproject.toml` checksum and the required focused independent C3 completion review remain outside this uncommitted preparation transaction. C4 remains not authorized.
 
-## 2. Exact Python candidate set
+## 2. Original bounded Python candidate set and selection rule
 
 ```text
 python_selection_method = BOUNDED_TWO_CANDIDATE_MINOR_VERSION_EVALUATION
@@ -34,9 +45,11 @@ candidate_minor_1 = 3.12
 candidate_minor_2 = 3.13
 candidate_count = 2
 supported_minor_versions_after_successful_C3 = 1
-selected_python_policy = UNRESOLVED_PENDING_EXECUTION_EVIDENCE
+selected_python_policy_at_preparation = UNRESOLVED_PENDING_EXECUTION_EVIDENCE
 preferred_evaluation_candidate = 3.13_EVALUATION_PREFERENCE_ONLY
 fallback_evaluation_candidate = 3.12
+final_selected_python_policy = 3.13
+final_selected_exact_interpreter_evidence = CPython_3.13.14
 ```
 
 ### Candidate 3.12
@@ -563,9 +576,9 @@ INCONCLUSIVE
 
 A resolver success alone is insufficient. A candidate cannot pass without hash-complete lock evidence, clean reconstruction, offline import/test success, source-boundary enforcement, and required identity/equivalence evidence. A selected candidate cannot be promoted if its canonical lock graph drifts from the graph actually evaluated. Model A cannot be used unless the evaluated candidate lock's frozen metadata context is materially identical to final selected canonical metadata. Diagnostic success also remains fail-closed unless all controlling identities are resolved, the lock is present, and all required imports pass.
 
-## 10A. Actual C3 dependency-execution outcome
+## 10A. Historical native Intel macOS dependency-execution outcome
 
-The Owner-authorized C3 dependency-resolution transaction reached the bounded two-candidate resolution stage.
+The native Intel-macOS portion of the Owner-authorized C3 dependency-resolution transaction reached the bounded two-candidate resolution stage.
 
 The earlier preflight assumption that the workstation contained CPython 3.12.2 was superseded by direct bounded inventory evidence establishing an already-installed CPython 3.12.10 interpreter. The existing 3.12.10 installation passed Python Software Foundation code-signing and official-installer provenance checks and was retained without replacement.
 
@@ -621,7 +634,7 @@ clean_install_result = NOT_REACHED
 offline_test_result = NOT_REACHED
 ```
 
-No accepted candidate reached lock generation, clean reconstruction, offline validation, or promotion.
+On native Intel macOS, no accepted candidate reached lock generation, clean reconstruction, offline validation, or promotion.
 
 ```text
 passing_candidate_count = 0
@@ -634,12 +647,94 @@ third_python_candidate = NOT_AUTHORIZED_AND_NOT_ATTEMPTED
 dependency_constraint_relaxation = NOT_ATTEMPTED
 alternate_dependency_source = NOT_ATTEMPTED
 native_Intel_macOS_execution_outcome = REJECTED_NO_ACCEPTABLE_ENVIRONMENT
-native_Intel_macOS_outcome_review = PENDING_REQUIRED_MANAGER_REVIEW
+native_Intel_macOS_outcome_review = ACCEPTED_HISTORICAL_EVIDENCE__DOES_NOT_CONTROL_LINUX_X86_64_SELECTION
 ```
 
 The native Intel-macOS candidate failures remain valid historical evidence. Their established cause is Torch platform-artifact unavailability on Intel macOS x86_64. This does not invalidate either Python minor as a Linux x86_64 reconstruction candidate.
 
 The scientific-host limitation remains separately deferred and did not cause this dependency-resolution failure.
+
+## 10B. Canonical Linux x86_64 dependency reconstruction and technical CI outcome
+
+The native Intel-macOS failures in Section 10A remain valid platform-specific historical evidence. They did not end C3. Under the subsequently accepted host-neutral strategy, canonical dependency reconstruction continued on Linux x86_64/AMD64 and completed the bounded candidate, lock, reconstruction, offline-validation, and technical-CI sequence.
+
+```text
+canonical_platform = LINUX_X86_64_AMD64
+
+candidate_evaluation = COMPLETE
+candidate_evaluation_closed = YES
+
+selected_python_minor = 3.13
+selected_exact_interpreter_evidence = CPython_3.13.14
+project_requires_python = >=3.13,<3.14
+
+resolver_identity = PIP_TOOLS_PIP_COMPILE
+resolver_version = 7.6.1
+dependency_source_allowlist_id = C3_DEPENDENCY_SOURCE_ALLOWLIST_V1
+
+canonical_direct_dependency_count = 10
+canonical_lock_package_count = 50
+
+canonical_lock_promotion_model = MODEL_A
+model_A_material_metadata_equivalence = PASS
+unconstrained_second_resolution = NO
+
+canonical_requirements_lock_SHA256 =
+bdb24fee6df08902c9448c833f07d5240a7cf62f6eee31ad3d870327dc1708e1
+
+final_terminal_preparation_pyproject_SHA256 =
+942ed2501c36da5273d1d6bf2a5823c1881c1781eea26542eb7ccc01e151c8cb
+
+post_canonical_reconstruction_count = 2
+post_canonical_reproducibility = PASS
+
+formal_local_offline_validation = PASS
+local_network_denial = PASS
+local_credential_boundary = PASS
+local_focused_C3_tests = PASS__18_TESTS
+local_pip_check = PASS
+
+first_successful_actual_C3_CI_run = 32055586711
+first_successful_actual_C3_CI_commit = 6432548394bd5db8bd9c4a0a6343472734cb5434
+first_successful_actual_C3_CI_result = SUCCESS
+first_successful_actual_C3_CI_python = 3.13.14
+
+CI_hash_enforced_install = PASS
+CI_pip_check = PASS
+CI_canonical_imports = PASS
+CI_focused_C3_tests = PASS__17_TESTS
+CI_formal_network_denial = PASS
+CI_credential_boundary = PASS
+
+CI_offline_package_acquisition = NO
+CI_offline_resolver_execution = NO
+CI_offline_package_index_access = NO
+
+required_local_CI_equivalence = PASS
+local_CI_equivalence_rule =
+EXACT_MATCH_OF_PYTHON_MINOR_POLICY_LOCK_CHECKSUM_AND_PACKAGE_SOURCE_IDENTITIES
+
+local_bootstrap_pip = 26.1.2
+CI_bootstrap_pip = 26.2.1
+bootstrap_pip_identity_equivalence = NO
+bootstrap_pip_difference_classification =
+RECORDED_BOOTSTRAP_TOOLING_DIFFERENCE__NO_CANONICAL_LOCK_OR_RESOLVED_GRAPH_CHANGE
+
+terminal_diagnostic_PASS_regression = IMPLEMENTED
+terminal_diagnostic_required_reason =
+ALL_REQUIRED_CONTROLLING_IDENTITIES_RESOLVED
+
+workflow_direct_pyproject_SHA_evidence =
+PRESENT__AWAITING_NEXT_ACTUAL_CI_CONFIRMATION
+
+effective_C3_completion = NOT_RECORDED
+focused_independent_C3_completion_review = PENDING
+C4 = NOT_AUTHORIZED
+```
+
+The bootstrap pip difference is not part of the accepted local-to-CI equivalence identity and does not alter the canonical lock, resolved graph, selected Python-minor policy, package-source identities, or hash-enforced installation policy.
+
+The first successful CI run directly established the selected interpreter, canonical lock identity, hash-enforced installation, `pip check`, canonical imports, focused tests, network denial, credential denial, and no-acquisition offline phase. The workflow has now been minimally extended to compute, compare, and emit the final canonical `pyproject.toml` SHA-256 on the next actual CI run. That future confirmation is not claimed by this uncommitted preparation record.
 
 ## 11. Scientific-host preservation
 

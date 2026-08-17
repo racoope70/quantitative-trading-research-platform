@@ -1,16 +1,19 @@
 {
-  "manifest_status": "HOST_NEUTRAL_C3_DEPENDENCY_EXECUTION_TECHNICAL_OUTCOME_PENDING_MANAGER_REVIEW",
+  "manifest_status": "FINAL_C3_TERMINAL_TECHNICAL_PREPARATION_PENDING_FINAL_CI_CONFIRMATION_AND_COMPLETION_REVIEW",
   "canonical_repository": "racoope70/quantitative-trading-research-platform",
-  "canonical_source_commit": "b764eed6a92c39153c7f5e525a457c92445306d9",
+  "canonical_source_commit": "6432548394bd5db8bd9c4a0a6343472734cb5434",
   "C3_cycle_identity": "C3_HOST_NEUTRAL_PYTHON_POLICY_AND_DEPENDENCY_EVALUATION_PREPARATION_V1",
   "owner_selection_matrix_id": "C3_OWNER_SELECTION_MATRIX_V1",
   "owner_selection_matrix_status": "ACCEPTED",
   "dependency_source_allowlist_id": "C3_DEPENDENCY_SOURCE_ALLOWLIST_V1",
   "python_selection_method": "BOUNDED_TWO_CANDIDATE_MINOR_VERSION_EVALUATION",
-  "python_candidate_minors": ["3.12", "3.13"],
+  "python_candidate_minors": [
+    "3.12",
+    "3.13"
+  ],
   "preferred_evaluation_candidate": "3.13_EVALUATION_PREFERENCE_ONLY",
   "fallback_evaluation_candidate": "3.12",
-  "selected_python_policy": "NO_SELECTION__BOTH_CANDIDATES_FAILED_RESOLUTION",
+  "selected_python_policy": "3.13",
   "candidate_selection_rule": "SELECT_ONLY_AFTER_EQUAL_POLICY_RESOLUTION_RECONSTRUCTION_AND_OFFLINE_VALIDATION",
   "selected_minor_future_binding": {
     "bind_exactly_one_selected_minor_into_project_metadata": "REQUIRED",
@@ -31,21 +34,21 @@
     "otherwise": "STOP_FOR_SEPARATE_OWNER_AUTHORIZATION_OF_INTERPRETER_PROVISIONING_MECHANISM_AND_SOURCE",
     "interpreter_acquisition_in_preparation": "NO"
   },
-  "interpreter_implementation": "CPYTHON_BOTH_CANDIDATES",
-  "interpreter_version": "3.12.10_AND_3.13.14",
-  "platform_identity": "NON_CONTROLLING_DEVELOPMENT_WORKSTATION_ONLY",
-  "environment_tool_identity": "PYTHON_VENV_ISOLATED_CANDIDATE_RESOLUTION_ENVIRONMENTS",
-  "package_manager_identity": "PYTHON_3.12.10_PIP_25.0.1__PYTHON_3.13.14_PIP_26.1.2",
+  "interpreter_implementation": "CPYTHON",
+  "interpreter_version": "3.13.14",
+  "platform_identity": "LINUX_X86_64_AMD64__CANONICAL_DEPENDENCY_RECONSTRUCTION_PLATFORM",
+  "environment_tool_identity": "PYTHON_VENV__TWO_CLEAN_POST_CANONICAL_RECONSTRUCTIONS",
+  "package_manager_identity": "LOCAL_BOOTSTRAP_PIP_26.1.2__CI_BOOTSTRAP_PIP_26.2.1__RECORDED_NON_LOCKED_TOOLING_DIFFERENCE",
   "resolver_identity": "PIP_TOOLS_PIP_COMPILE",
-  "resolver_version": "7.6.1_INSTALLED_AND_VERIFIED_BOTH_CANDIDATES",
+  "resolver_version": "7.6.1",
   "resolver_invocation_family": "python_-m_piptools_compile",
   "approved_package_sources": [
     "https://pypi.org:443/simple/",
     "https://files.pythonhosted.org:443/packages/"
   ],
   "package_source_credential_policy": "NO_PACKAGE_SOURCE_CREDENTIALS",
-  "dependency_metadata_checksum": "NOT_AVAILABLE__BOTH_CANDIDATES_FAILED_BEFORE_COMPLETE_RESOLUTION",
-  "lock_checksum": "NOT_AVAILABLE__NO_CANDIDATE_LOCK_GENERATED",
+  "dependency_metadata_checksum": "942ed2501c36da5273d1d6bf2a5823c1881c1781eea26542eb7ccc01e151c8cb",
+  "lock_checksum": "bdb24fee6df08902c9448c833f07d5240a7cf62f6eee31ad3d870327dc1708e1",
   "candidate_lock_promotion_policy": {
     "selected_candidate_lock_graph": "FROZEN_BEFORE_SELECTION_PROMOTION",
     "canonical_requirements_lock": "NO_UNCONSTRAINED_SECOND_RESOLUTION",
@@ -63,18 +66,48 @@
     "silent_graph_drift": "PROHIBITED"
   },
   "proposed_direct_dependency_count": 10,
-  "canonical_direct_dependency_count": 0,
+  "canonical_direct_dependency_count": 10,
   "proposed_direct_dependencies": [
-    {"name": "numpy", "constraint": ">=2.2,<3"},
-    {"name": "pandas", "constraint": ">=2.2,<4"},
-    {"name": "scikit-learn", "constraint": ">=1.6,<2"},
-    {"name": "PyWavelets", "constraint": ">=1.8,<2"},
-    {"name": "xgboost", "constraint": ">=3,<4"},
-    {"name": "stable-baselines3", "constraint": ">=2.7,<3"},
-    {"name": "gymnasium", "constraint": ">=1.1,<2"},
-    {"name": "torch", "constraint": ">=2.7,<3"},
-    {"name": "pyarrow", "constraint": ">=20,<26"},
-    {"name": "exchange-calendars", "constraint": ">=4.11,<5"}
+    {
+      "name": "numpy",
+      "constraint": ">=2.2,<3"
+    },
+    {
+      "name": "pandas",
+      "constraint": ">=2.2,<4"
+    },
+    {
+      "name": "scikit-learn",
+      "constraint": ">=1.6,<2"
+    },
+    {
+      "name": "PyWavelets",
+      "constraint": ">=1.8,<2"
+    },
+    {
+      "name": "xgboost",
+      "constraint": ">=3,<4"
+    },
+    {
+      "name": "stable-baselines3",
+      "constraint": ">=2.7,<3"
+    },
+    {
+      "name": "gymnasium",
+      "constraint": ">=1.1,<2"
+    },
+    {
+      "name": "torch",
+      "constraint": ">=2.7,<3"
+    },
+    {
+      "name": "pyarrow",
+      "constraint": ">=20,<26"
+    },
+    {
+      "name": "exchange-calendars",
+      "constraint": ">=4.11,<5"
+    }
   ],
   "excluded_or_deferred_direct_dependencies": [
     "python-dotenv",
@@ -97,7 +130,7 @@
     "exact transitive graph per Python candidate",
     "target-platform artifact and wheel availability"
   ],
-  "resolved_dependency_count": 0,
+  "resolved_dependency_count": 50,
   "execution_base_commit": "b437d553a6a6939cafcee7eb23fbe1603d2a66af",
   "candidate_execution_evidence": {
     "candidate_3_12_interpreter": "CPython 3.12.10",
@@ -106,7 +139,11 @@
     "candidate_3_12_pip": "25.0.1",
     "candidate_3_12_resolution_result": "FAIL_INCOMPATIBLE_VERSION",
     "candidate_3_12_blocking_requirement": "torch>=2.7,<3",
-    "candidate_3_12_observed_torch_versions": ["2.2.0", "2.2.1", "2.2.2"],
+    "candidate_3_12_observed_torch_versions": [
+      "2.2.0",
+      "2.2.1",
+      "2.2.2"
+    ],
     "candidate_3_13_interpreter": "CPython 3.13.14",
     "candidate_3_13_provisioning_action": "OFFICIAL_PYTHON_ORG_MACOS_INSTALLER__INSTALLED_DURING_EXECUTION",
     "candidate_3_13_metadata_snapshot_sha256": "f6f0de930d884de5de90c588918049acb89bf8c31551e15cd49e4516c42b4799",
@@ -121,28 +158,42 @@
     "native_Intel_macOS_execution_outcome": "REJECTED_NO_ACCEPTABLE_ENVIRONMENT",
     "current_lifecycle": "C3_ACTIVE",
     "canonical_C3_dependency_reconstruction_platform": "LINUX_X86_64_AMD64",
-    "native_Intel_macOS_outcome_review": "PENDING_REQUIRED_MANAGER_REVIEW"
+    "native_Intel_macOS_outcome_review": "ACCEPTED_HISTORICAL_EVIDENCE__DOES_NOT_CONTROL_LINUX_X86_64_SELECTION",
+    "evidence_scope": "NATIVE_INTEL_MACOS_HISTORICAL_CANDIDATE_EXECUTION"
   },
   "canonical_import_targets": [
     "quantitative_trading_research",
     "quantitative_trading_research.config"
   ],
   "future_diagnostic_PASS_regression": {
-    "future_path": "tests/config/test_environment_diagnostics.py",
-    "modify_now": "NO",
+    "path": "tests/config/test_environment_diagnostics.py",
+    "status": "IMPLEMENTED",
     "preserve_existing_fail_closed_regressions": "YES",
     "positive_terminal_rule": "ALL_CONTROLLING_IDENTITIES_RESOLVED_PLUS_LOCK_PRESENT_PLUS_IMPORTS_PASS_EQUALS_TERMINAL_PASS"
   },
   "configuration_schema_identity": "C3_HOST_NEUTRAL_CONFIGURATION_SCHEMA_V1",
   "configuration_checksum": "DERIVED_BY_SETTINGS_IMPLEMENTATION_NOT_FROZEN_AS_SCIENTIFIC_IDENTITY",
-  "local_environment_identity": "NON_CONTROLLING_MAC_DEVELOPMENT_ENVIRONMENT_ONLY",
-  "CI_environment_identity": "NOT_REACHED__NO_CANDIDATE_LOCK_GENERATED",
-  "local_CI_equivalence_result": "UNRESOLVED",
-  "future_resolution_transaction_status": "EXECUTED__STOPPED_AFTER_BOTH_ACCEPTED_CANDIDATES_FAILED",
-  "dependency_acquisition_boundary": "RESOLVER_BOOTSTRAP_ACQUISITION_EXECUTED_WITHIN_ACCEPTED_ALLOWLIST__PROJECT_LOCK_RESOLUTION_FAILED",
-  "offline_execution_boundary": "NOT_REACHED__NO_CANDIDATE_LOCK_GENERATED",
-  "related_C3_identity_ids": ["C1-TM-040", "C1-TM-042", "C1-TM-043", "C1-TM-047", "C1-TM-082"],
-  "related_limitation_ids": ["C2-LIM-C3-001", "C2-LIM-C3-002", "C2-LIM-C3-003", "C2-LIM-C3-004", "C2-LIM-C3-005", "C2-LIM-C4-008"],
+  "local_environment_identity": "CPYTHON_3.13.14__CANONICAL_LOCK_RECONSTRUCTED_TWICE__POST_CANONICAL_REPRODUCIBILITY_PASS",
+  "CI_environment_identity": "GITHUB_ACTIONS_RUN_32055586711__COMMIT_6432548394bd5db8bd9c4a0a6343472734cb5434__CPYTHON_3.13.14__SUCCESS",
+  "local_CI_equivalence_result": "PASS__EXACT_MATCH_OF_PYTHON_MINOR_POLICY_LOCK_CHECKSUM_AND_PACKAGE_SOURCE_IDENTITIES",
+  "future_resolution_transaction_status": "COMPLETE__CANDIDATE_EVALUATION_CLOSED__CANONICAL_LINUX_ENVIRONMENT_SELECTED",
+  "dependency_acquisition_boundary": "PASS__C3_DEPENDENCY_SOURCE_ALLOWLIST_V1__HASH_ENFORCED_CANONICAL_LOCK_RECONSTRUCTION",
+  "offline_execution_boundary": "PASS__TRANSIENT_PROCESS_LEVEL_NETWORK_DENIAL__CREDENTIALS_ABSENT__NO_OFFLINE_PACKAGE_ACQUISITION",
+  "related_C3_identity_ids": [
+    "C1-TM-040",
+    "C1-TM-042",
+    "C1-TM-043",
+    "C1-TM-047",
+    "C1-TM-082"
+  ],
+  "related_limitation_ids": [
+    "C2-LIM-C3-001",
+    "C2-LIM-C3-002",
+    "C2-LIM-C3-003",
+    "C2-LIM-C3-004",
+    "C2-LIM-C3-005",
+    "C2-LIM-C4-008"
+  ],
   "FREEZE_BLOCKER_001": "OPEN__NO_QUALIFIED_HOST_SELECTED",
   "Stage1_scientific_freeze_advanced": "NO",
   "scientific_host_track_changed": "NO",
@@ -154,16 +205,58 @@
   },
   "prohibited_activity_confirmation": {
     "dependency_or_material_acquisition": "AUTHORIZED_C3_EXECUTION_OCCURRED",
-    "package_installation": "AUTHORIZED_CPYTHON_3.13.14_AND_RESOLVER_BOOTSTRAP_INSTALLATION",
+    "package_installation": "AUTHORIZED_HASH_ENFORCED_CANONICAL_RECONSTRUCTIONS_AND_TECHNICAL_CI",
     "interpreter_acquisition": "AUTHORIZED_OFFICIAL_CPYTHON_3.13.14_ONLY",
     "resolver_execution_against_package_sources": "AUTHORIZED_TWO_CANDIDATE_EXECUTION_OCCURRED",
-    "requirements_lock_generation": "ATTEMPTED__NO_LOCK_GENERATED",
-    "environment_construction": "AUTHORIZED_ISOLATED_CANDIDATE_RESOLUTION_ENVIRONMENTS_ONLY",
+    "requirements_lock_generation": "AUTHORIZED_CANONICAL_HASH_COMPLETE_LOCK_PROMOTED_BY_MODEL_A",
+    "environment_construction": "AUTHORIZED_TWO_CLEAN_POST_CANONICAL_RECONSTRUCTIONS_PLUS_TECHNICAL_CI",
     "provider_or_broker_access": "NO",
     "dataset_or_model_activity": "NO",
     "successor_E1": "NO",
     "successor_E2": "NO",
     "Gate_3": "NO",
     "C4": "NO"
+  },
+  "canonical_linux_execution_evidence": {
+    "platform": "LINUX_X86_64_AMD64",
+    "candidate_evaluation": "COMPLETE",
+    "selected_python_minor": "3.13",
+    "selected_exact_interpreter_evidence": "CPython 3.13.14",
+    "project_requires_python": ">=3.13,<3.14",
+    "resolver_identity": "PIP_TOOLS_PIP_COMPILE",
+    "resolver_version": "7.6.1",
+    "dependency_source_allowlist_id": "C3_DEPENDENCY_SOURCE_ALLOWLIST_V1",
+    "canonical_direct_dependency_count": 10,
+    "canonical_lock_package_count": 50,
+    "canonical_lock_promotion_model": "MODEL_A",
+    "canonical_requirements_lock_sha256": "bdb24fee6df08902c9448c833f07d5240a7cf62f6eee31ad3d870327dc1708e1",
+    "canonical_dependency_metadata_pyproject_sha256": "942ed2501c36da5273d1d6bf2a5823c1881c1781eea26542eb7ccc01e151c8cb",
+    "post_canonical_reconstruction_count": 2,
+    "post_canonical_reproducibility": "PASS",
+    "formal_local_offline_validation": "PASS",
+    "local_credential_boundary": "PASS",
+    "first_successful_actual_C3_CI_run": 32055586711,
+    "first_successful_actual_C3_CI_commit": "6432548394bd5db8bd9c4a0a6343472734cb5434",
+    "first_successful_actual_C3_CI_result": "SUCCESS",
+    "first_successful_actual_C3_CI_python": "3.13.14",
+    "first_successful_actual_C3_CI_hash_enforced_install": "PASS",
+    "first_successful_actual_C3_CI_pip_check": "PASS",
+    "first_successful_actual_C3_CI_canonical_imports": "PASS",
+    "first_successful_actual_C3_CI_focused_tests": "PASS__17_TESTS",
+    "first_successful_actual_C3_CI_formal_network_denial": "PASS",
+    "first_successful_actual_C3_CI_credential_boundary": "PASS",
+    "first_successful_actual_C3_CI_offline_package_acquisition": "NO",
+    "first_successful_actual_C3_CI_offline_resolver_execution": "NO",
+    "first_successful_actual_C3_CI_offline_package_index_access": "NO",
+    "required_local_CI_equivalence": "PASS",
+    "local_bootstrap_pip": "26.1.2",
+    "CI_bootstrap_pip": "26.2.1",
+    "bootstrap_pip_identity_equivalence": "NO",
+    "bootstrap_pip_difference_classification": "RECORDED_BOOTSTRAP_TOOLING_DIFFERENCE__NO_CANONICAL_LOCK_OR_RESOLVED_GRAPH_CHANGE",
+    "terminal_diagnostic_PASS_regression": "IMPLEMENTED",
+    "workflow_direct_pyproject_SHA_evidence": "PRESENT__AWAITING_NEXT_ACTUAL_CI_CONFIRMATION",
+    "effective_C3_completion": "NOT_RECORDED",
+    "completion_review_status": "PENDING_FINAL_CI_CONFIRMATION_AND_FOCUSED_INDEPENDENT_REVIEW",
+    "C4": "NOT_AUTHORIZED"
   }
 }
