@@ -1,11 +1,11 @@
 # Quantitative Trading Research Platform — Project Context
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C3_ACTIVE
-active_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+current_lifecycle_state = C3_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
-phase_status = ACTIVE
-authorization_effect = C3_SCOPE_ONLY
+phase_status = C3_COMPLETED_AWAITING_SEPARATE_C4_AUTHORIZATION
+authorization_effect = NONE
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
 C1_phase_status = COMPLETED
@@ -22,8 +22,16 @@ C3_owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1
 C3_owner_selection_matrix_status = ACCEPTED
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
-C3_activation_effect = EFFECTIVE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
-C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+C3_activation_effect = EFFECTIVE
+C3_completion_decision = docs/decisions/C3_completion_decision.md
+C3_completion_decision_id = GOV-DEC-0008
+C3_completion_owner_decision = ACCEPTED
+C3_completion_alignment_status = RECORDED_AND_ALIGNED
+pre_merge_lifecycle_effect = NONE
+post_merge_pre_validation_completion_effect = NOT_YET_VERIFIED_EFFECTIVE
+C3_completion_effect = EFFECTIVE
+C4_environment_entry_prerequisite = SATISFIED
+C3_technical_work_status = COMPLETE
 C4_authorization_effect = NONE
 ```
 
@@ -63,9 +71,10 @@ PRE_C0_DRAFT_REVIEW
 → C2_ACTIVE
 → C2_COMPLETED
 → C3_ACTIVE
+→ C3_COMPLETED
 ```
 
-C0, C1, and C2 are completed. The accepted activation-alignment target records C3 as the active major phase. C4 is the proposed next major phase but remains unauthorized together with every later phase.
+C0, C1, C2, and C3 are completed in this completion-alignment target, and no major phase is active in that target. C4 is the proposed next major phase but remains unauthorized together with every later phase. The `C3_COMPLETED` target does not become effective merely because the alignment package exists; effectiveness still requires the separately authorized completion-alignment merge and successful exact post-merge validation.
 
 ```text
 current_material_blocker = NONE
@@ -108,7 +117,7 @@ C3_owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1
 C3_owner_selection_matrix_status = ACCEPTED
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
-C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+C3_technical_work_status = COMPLETE
 C4_authorization_effect = NONE
 ```
 
@@ -188,7 +197,7 @@ automatic_module_acceptance = NO
 accepted_C1_artifacts = IMMUTABLE
 abstract_interface_stubs_during_C2 = NOT_AUTHORIZED
 provider_or_broker_specific_implementation_during_C2 = NOT_AUTHORIZED
-supported_python_version = TO_BE_SELECTED_DURING_C3
+supported_python_version = 3.13__CPYTHON_3.13.14
 final_ticker_universe = NOT_SELECTED
 ```
 
@@ -264,7 +273,7 @@ C3_owner_selection_matrix_id = C3_OWNER_SELECTION_MATRIX_V1
 C3_owner_selection_matrix_status = ACCEPTED
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
-C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+C3_technical_work_status = COMPLETE
 C4_authorization_effect = NONE
 ```
 
@@ -273,11 +282,11 @@ No prohibited technical execution was identified in the reviewed repository and 
 ## 11. Major milestone pointers
 
 ```text
-latest_completed_major_milestone = C2_CANONICAL_REPOSITORY_SKELETON_AND_MIGRATION_PREPARATION
-active_major_milestone = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+latest_completed_major_milestone = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+active_major_milestone = NONE
 latest_authorization_decision = docs/decisions/C3_authorization_decision.md
-latest_completion_record = docs/decisions/C2_completion_decision.md
-next_permitted_workstream = BOUNDED_C3_ENVIRONMENT_DEPENDENCY_CONFIGURATION_AND_OFFLINE_DIAGNOSTICS_ONLY
+latest_completion_record = docs/decisions/C3_completion_decision.md
+next_permitted_workstream = NONE__C4_REQUIRES_SEPARATE_OWNER_AUTHORIZATION
 ```
 
 ## 12. Required reading and new-chat orientation
@@ -290,8 +299,8 @@ A fresh project chat must:
 4. Inspect Git history and VS Code to verify accepted implementation and completed work.
 
 ```text
-latest_material_decision = docs/decisions/C3_authorization_decision.md
-latest_material_completion_record = docs/decisions/C2_completion_decision.md
+latest_material_decision = docs/decisions/C3_completion_decision.md
+latest_material_completion_record = docs/decisions/C3_completion_decision.md
 latest_material_independent_audit = docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md
 ```
 

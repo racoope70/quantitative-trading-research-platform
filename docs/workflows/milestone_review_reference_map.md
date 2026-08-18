@@ -256,6 +256,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.06 — C2 phase authorization decision
 2v.GOV.07 — C2 completion and closure decision
 2v.GOV.08 — C3 phase authorization decision
+2v.GOV.09 — C3 completion and closure decision
 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 2v.LEGACY.02 — C1 legacy evidence retention matrix
 2v.ARCH.01 — C1 technical migration manifest
@@ -433,6 +434,31 @@ This map does not independently authorize or activate C3. `2v.GOV.08`
 becomes effective only when read with the accepted decision and aligned
 controlling state on canonical `main` after successful validation of the exact
 activation-alignment squash commit.
+
+It does not authorize C4 or any later phase.
+
+### 2v.GOV.09 — C3 completion evidence
+
+```text
+2v_record = 2v.GOV.09
+record_type = C3_COMPLETION_AND_CLOSURE_DECISION
+record_path = docs/decisions/C3_completion_decision.md
+decision_id = GOV-DEC-0008
+owner_completion_decision_status = ACCEPTED
+C3_technical_outcome = PASS
+final_C3_technical_commit = 3702d67f5a91edf223f0fd7659c0edb05966dcf9
+final_C3_CI_run = 32067551562
+final_C3_CI_conclusion = SUCCESS
+completion_alignment_status = RECORDED_AND_ALIGNED
+C3_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
+C4_authorization_effect = NONE
+authorization_effect = NONE_BY_THIS_MAP
+```
+
+This map does not independently close C3. `2v.GOV.09` records the accepted
+completion decision and becomes effective only when read with the aligned
+controlling state on canonical `main` after successful exact post-merge
+validation of the completion-alignment squash commit.
 
 It does not authorize C4 or any later phase.
 
