@@ -3,8 +3,8 @@
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
-current_lifecycle_state = C3_ACTIVE
-authorization_effect = C3_SCOPE_ONLY
+current_lifecycle_state = C3_COMPLETED
+authorization_effect = NONE
 ```
 
 ## Mission
@@ -45,6 +45,12 @@ Historical PPO and PPO+RF systems are completed research baselines, not current 
 
 Current authorization and state are controlled by `PROJECT_CONTEXT.md`.
 
+Project governance and roadmap references:
+
+- [Project Context](PROJECT_CONTEXT.md) — controlling broad current lifecycle and authorization state.
+- [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md) — roadmap, big-section navigation, governance and evidence reference, and completed/future milestone navigation; non-authorizing.
+- [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — non-authorizing future validation, training, evaluation, and holdout guidance.
+
 A fresh project chat should read `PROJECT_CONTEXT.md`, the applicable Milestone Map and curated 2v records, the applicable Future Map section, and then inspect Git history and VS Code.
 
 Files present in the repository do not independently authorize execution.
@@ -52,11 +58,11 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
-current_lifecycle_state = C3_ACTIVE
-active_major_phase = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
+current_lifecycle_state = C3_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
-phase_status = ACTIVE
-authorization_effect = C3_SCOPE_ONLY
+phase_status = C3_COMPLETED_AWAITING_SEPARATE_C4_AUTHORIZATION
+authorization_effect = NONE
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
 C2_phase_status = COMPLETED
@@ -67,13 +73,19 @@ C3_authorization_decision = docs/decisions/C3_authorization_decision.md
 C3_authorization_decision_id = GOV-DEC-0007
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
-C3_activation_effect = EFFECTIVE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
-C3_technical_work_may_begin = YES_WITHIN_C3_SCOPE_ONLY_AFTER_SUCCESSFUL_EXACT_POST_MERGE_ACTIVATION_VALIDATION
+C3_activation_effect = EFFECTIVE
+C3_technical_work_status = COMPLETE
+C3_completion_decision = docs/decisions/C3_completion_decision.md
+C3_completion_decision_id = GOV-DEC-0008
+C3_completion_owner_decision = ACCEPTED
+C3_completion_alignment_status = RECORDED_AND_ALIGNED
+C3_completion_effect = EFFECTIVE
+C4_environment_entry_prerequisite = SATISFIED
 C4_authorization_effect = NONE
 current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1 and C2 are completed. The accepted activation-alignment target records C3 as the active major phase. C4 is the proposed next major phase but remains unauthorized together with every later phase. The bounded C3 technical workstream may begin only after successful validation on the exact activation-alignment squash commit.
+C1, C2, and C3 are completed in the completion-alignment target, with no active major phase. Those target values become effective canonical lifecycle state only after the required separately authorized squash merge and successful exact post-merge validation. C4 remains the proposed next major phase and remains separately unauthorized together with every later phase.
 
-C3 authorizes only the bounded environment, dependency, configuration, and offline-diagnostics scope recorded in `GOV-DEC-0007` after effective activation. It does not authorize C4 application migration, provider or operational network activity, market-data or dataset activity, model implementation or validation, qualification, final-holdout access, broker activity, paper orders, live orders, or trading activity.
+The accepted C3 technical scope is complete. C3 completion does not authorize C4 application migration, provider or operational network activity, market-data or dataset activity, model implementation or validation, qualification, final-holdout access, broker activity, paper orders, live orders, or trading activity.
