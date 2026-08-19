@@ -1406,6 +1406,7 @@ jobs:
               "src/quantitative_trading_research/artifacts/__init__.py",
               "src/quantitative_trading_research/execution/__init__.py",
           ]
+          marker_validation_paths = list(marker_paths)
 
           all_paths = principal_paths + responsibility_paths + marker_paths
           present_paths = [path for path in all_paths if Path(path).exists()]
@@ -1645,6 +1646,15 @@ jobs:
                   )
               )
 
+              c4_adapter_marker = (
+                  "src/quantitative_trading_research/execution/"
+                  "adapters/__init__.py"
+              )
+              allowed_python_paths.add(Path(c4_adapter_marker))
+
+              if Path(c4_adapter_marker).is_file():
+                  marker_validation_paths.append(c4_adapter_marker)
+
           unexpected_python_paths = sorted(
               path.as_posix()
               for path in package_root.rglob("*.py")
@@ -1656,7 +1666,7 @@ jobs:
                   f"{unexpected_python_paths}"
               )
 
-          for marker_path in marker_paths:
+          for marker_path in marker_validation_paths:
               path = Path(marker_path)
               raw = path.read_text(encoding="utf-8")
 
