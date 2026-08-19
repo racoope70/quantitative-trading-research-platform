@@ -3,8 +3,8 @@
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
-current_lifecycle_state = C3_COMPLETED
-authorization_effect = NONE
+current_lifecycle_state = C4_ACTIVE
+authorization_effect = C4_SCOPE_ONLY
 ```
 
 ## Mission
@@ -58,11 +58,11 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
-current_lifecycle_state = C3_COMPLETED
-active_major_phase = NONE
-proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
-phase_status = C3_COMPLETED_AWAITING_SEPARATE_C4_AUTHORIZATION
-authorization_effect = NONE
+current_lifecycle_state = C4_ACTIVE
+active_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+proposed_next_major_phase = NONE
+phase_status = ACTIVE
+authorization_effect = C4_SCOPE_ONLY
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
 C2_phase_status = COMPLETED
@@ -81,11 +81,15 @@ C3_completion_owner_decision = ACCEPTED
 C3_completion_alignment_status = RECORDED_AND_ALIGNED
 C3_completion_effect = EFFECTIVE
 C4_environment_entry_prerequisite = SATISFIED
-C4_authorization_effect = NONE
+C4_authorization_decision = docs/decisions/C4_authorization_decision.md
+C4_authorization_decision_id = GOV-DEC-0009
+C4_authorization_status = AUTHORIZED
+C4_authorization_effect = EFFECTIVE
+selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1, C2, and C3 are completed in the completion-alignment target, with no active major phase. Those target values become effective canonical lifecycle state only after the required separately authorized squash merge and successful exact post-merge validation. C4 remains the proposed next major phase and remains separately unauthorized together with every later phase.
+C1, C2, and C3 are completed. C4 is the active major phase under the already-issued bounded Owner authorization canonically recorded in `docs/decisions/C4_authorization_decision.md`. C5 and every later phase remain unauthorized.
 
-The accepted C3 technical scope is complete. C3 completion does not authorize C4 application migration, provider or operational network activity, market-data or dataset activity, model implementation or validation, qualification, final-holdout access, broker activity, paper orders, live orders, or trading activity.
+The accepted C3 technical scope is complete and remains effective. C4 is limited to the Owner-selected bounded offline code-migration, adaptation, and verification surface. It does not authorize provider operations, model training, final-holdout access, paper or live submission, dependency-policy redesign, canonical Python or lock redesign, scientific-host qualification, CPA implementation, or C5 and later work.
