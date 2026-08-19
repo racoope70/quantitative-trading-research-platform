@@ -1,11 +1,11 @@
 # Quantitative Trading Research Platform — Project Context
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C3_COMPLETED
-active_major_phase = NONE
-proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
-phase_status = C3_COMPLETED_AWAITING_SEPARATE_C4_AUTHORIZATION
-authorization_effect = NONE
+current_lifecycle_state = C4_ACTIVE
+active_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+proposed_next_major_phase = NONE
+phase_status = ACTIVE
+authorization_effect = C4_SCOPE_ONLY
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
 C1_phase_status = COMPLETED
@@ -32,7 +32,11 @@ post_merge_pre_validation_completion_effect = NOT_YET_VERIFIED_EFFECTIVE
 C3_completion_effect = EFFECTIVE
 C4_environment_entry_prerequisite = SATISFIED
 C3_technical_work_status = COMPLETE
-C4_authorization_effect = NONE
+C4_authorization_decision = docs/decisions/C4_authorization_decision.md
+C4_authorization_decision_id = GOV-DEC-0009
+C4_authorization_status = AUTHORIZED
+C4_authorization_effect = EFFECTIVE
+selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 ```
 
 ## 1. Project
@@ -72,9 +76,10 @@ PRE_C0_DRAFT_REVIEW
 → C2_COMPLETED
 → C3_ACTIVE
 → C3_COMPLETED
+→ C4_ACTIVE
 ```
 
-C0, C1, C2, and C3 are completed in this completion-alignment target, and no major phase is active in that target. C4 is the proposed next major phase but remains unauthorized together with every later phase. The `C3_COMPLETED` target does not become effective merely because the alignment package exists; effectiveness still requires the separately authorized completion-alignment merge and successful exact post-merge validation.
+C0, C1, C2, and C3 are completed. C4 is the active major phase under the already-issued bounded Owner authorization recorded by `docs/decisions/C4_authorization_decision.md`. C5 and every later phase remain unauthorized. C3 completion remains effective and is not reopened by C4 activation.
 
 ```text
 current_material_blocker = NONE
@@ -118,10 +123,14 @@ C3_owner_selection_matrix_status = ACCEPTED
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
 C3_technical_work_status = COMPLETE
-C4_authorization_effect = NONE
+C4_authorization_decision = docs/decisions/C4_authorization_decision.md
+C4_authorization_decision_id = GOV-DEC-0009
+C4_authorization_status = AUTHORIZED
+C4_authorization_effect = EFFECTIVE
+selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 ```
 
-C1 completion remains effective. C2 completion is effective only when this aligned controlling state is present on canonical `main` and the exact completion-alignment squash commit has passed required post-merge validation. A branch, commit, push, pull request, review result, successful pull-request validation, or merged but unvalidated canonical commit does not independently make C3 activation effective. The bounded C3 technical workstream may begin only after successful post-merge validation on the exact C3 activation-alignment squash commit.
+C1, C2, and C3 completion remain effective. C4 is active only within the bounded selected-code migration, adaptation, and verification authorization recorded by `docs/decisions/C4_authorization_decision.md`. This C4 alignment does not reopen C3 or authorize C5 or any later phase.
 
 ## 4. Completed C2 scope and preserved C1 evidence
 
@@ -274,7 +283,11 @@ C3_owner_selection_matrix_status = ACCEPTED
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
 C3_technical_work_status = COMPLETE
-C4_authorization_effect = NONE
+C4_authorization_decision = docs/decisions/C4_authorization_decision.md
+C4_authorization_decision_id = GOV-DEC-0009
+C4_authorization_status = AUTHORIZED
+C4_authorization_effect = EFFECTIVE
+selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 ```
 
 No prohibited technical execution was identified in the reviewed repository and GitHub evidence. That conclusion remains limited to reviewed repository and GitHub evidence; it cannot prove the absence of unrecorded external activity.
@@ -283,10 +296,10 @@ No prohibited technical execution was identified in the reviewed repository and 
 
 ```text
 latest_completed_major_milestone = C3_PYTHON_ENVIRONMENT_AND_DEPENDENCY_RECONSTRUCTION
-active_major_milestone = NONE
-latest_authorization_decision = docs/decisions/C3_authorization_decision.md
+active_major_milestone = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+latest_authorization_decision = docs/decisions/C4_authorization_decision.md
 latest_completion_record = docs/decisions/C3_completion_decision.md
-next_permitted_workstream = NONE__C4_REQUIRES_SEPARATE_OWNER_AUTHORIZATION
+next_permitted_workstream = BOUNDED_C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION_ONLY
 ```
 
 ## 12. Required reading and new-chat orientation
@@ -299,7 +312,7 @@ A fresh project chat must:
 4. Inspect Git history and VS Code to verify accepted implementation and completed work.
 
 ```text
-latest_material_decision = docs/decisions/C3_completion_decision.md
+latest_material_decision = docs/decisions/C4_authorization_decision.md
 latest_material_completion_record = docs/decisions/C3_completion_decision.md
 latest_material_independent_audit = docs/audits/C1_independent_legacy_evidence_and_architecture_audit_report.md
 ```

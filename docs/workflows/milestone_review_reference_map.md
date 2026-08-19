@@ -69,7 +69,11 @@ C3_authorization_decision_id = GOV-DEC-0007
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
 C3_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
-C4_authorization_effect = NONE
+C4_authorization_decision = docs/decisions/C4_authorization_decision.md
+C4_authorization_decision_id = GOV-DEC-0009
+C4_authorization_status = AUTHORIZED
+C4_authorization_effect = EFFECTIVE
+selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 ```
 
 ## 4. Model-family branching and shared final holdout
@@ -462,6 +466,33 @@ validation of the completion-alignment squash commit.
 
 It does not authorize C4 or any later phase.
 
+### 2v.GOV.10 — C4 authorization canonical recording
+
+```text
+2v_record = 2v.GOV.10
+record_type = C4_PHASE_AUTHORIZATION_CANONICAL_RECORDING
+record_path = docs/decisions/C4_authorization_decision.md
+decision_id = GOV-DEC-0009
+owner_acceptance_status = ACCEPTED
+OWNER_DECISION_ALREADY_MADE = YES
+CANONICAL_RECORDING_PREVIOUSLY_MISSING = YES
+NEW_SUBSTANTIVE_AUTHORIZATION_CREATED_BY_THIS_ALIGNMENT = NO
+authorized_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+C4_scope = BOUNDED_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
+selected_item_count = 21
+excluded_item_count = 2
+deferred_item_count = 18
+C4_authorization_status = AUTHORIZED
+C4_authorization_effect = EFFECTIVE
+authorization_effect = NONE_BY_THIS_MAP
+```
+
+This map does not independently authorize or activate C4. `2v.GOV.10`
+navigates to the canonical record of the already-issued Owner authorization.
+Current C4 lifecycle and authorization state remain controlled by
+`PROJECT_CONTEXT.md`.
+
 ### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 
 ```text
@@ -588,7 +619,11 @@ C3_authorization_decision_id = GOV-DEC-0007
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
 C3_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
-C4_authorization_effect = NONE
+C4_authorization_decision = docs/decisions/C4_authorization_decision.md
+C4_authorization_decision_id = GOV-DEC-0009
+C4_authorization_status = AUTHORIZED
+C4_authorization_effect = EFFECTIVE
+selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 ```
 
 ## 12. Chronology and verification
