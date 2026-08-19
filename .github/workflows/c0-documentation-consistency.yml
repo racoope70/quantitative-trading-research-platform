@@ -653,6 +653,423 @@ jobs:
               ],
           }
 
+          project_context_lines = set(
+              Path("PROJECT_CONTEXT.md").read_text(
+                  encoding="utf-8"
+              ).splitlines()
+          )
+
+          c3_completed_state = (
+              "current_lifecycle_state = C3_COMPLETED"
+              in project_context_lines
+          )
+          c4_active_state = (
+              "current_lifecycle_state = C4_ACTIVE"
+              in project_context_lines
+          )
+
+          if c3_completed_state == c4_active_state:
+              raise SystemExit(
+                  "PROJECT_CONTEXT.md must establish exactly one supported "
+                  "canonical lifecycle state: C3_COMPLETED or C4_ACTIVE"
+              )
+
+          def assignment_values(lines, key):
+              prefix = f"{key} ="
+              return [
+                  line.split("=", 1)[1].strip()
+                  for line in lines
+                  if line.startswith(prefix)
+              ]
+
+          def require_exact_assignments(label, lines, expected):
+              for key, expected_value in expected.items():
+                  values = assignment_values(lines, key)
+                  if not values:
+                      raise SystemExit(
+                          f"{label} is missing required assignment "
+                          f"{key} = {expected_value}"
+                      )
+
+                  contradictory_values = sorted(
+                      {
+                          value
+                          for value in values
+                          if value != expected_value
+                      }
+                  )
+                  if contradictory_values:
+                      raise SystemExit(
+                          f"{label} contains contradictory assignments "
+                          f"for {key}; expected {expected_value!r}, "
+                          f"found {sorted(set(values))!r}"
+                      )
+
+          def logical_assignment_values(lines, key):
+              values = []
+              prefix = f"{key} ="
+
+              for index, line in enumerate(lines):
+                  if line == prefix:
+                      next_index = index + 1
+                      while (
+                          next_index < len(lines)
+                          and not lines[next_index].strip()
+                      ):
+                          next_index += 1
+
+                      if next_index >= len(lines):
+                          values.append("")
+                      else:
+                          values.append(
+                              lines[next_index].strip()
+                          )
+                  elif line.startswith(prefix):
+                      values.append(
+                          line.split("=", 1)[1].strip()
+                      )
+
+              return values
+
+          def require_exact_logical_assignment(
+              label,
+              lines,
+              key,
+              expected_value,
+          ):
+              values = logical_assignment_values(lines, key)
+
+              if not values:
+                  raise SystemExit(
+                      f"{label} is missing logical assignment for {key}"
+                  )
+
+              contradictory_values = sorted(
+                  {
+                      value
+                      for value in values
+                      if value != expected_value
+                  }
+              )
+              if contradictory_values:
+                  raise SystemExit(
+                      f"{label} contains contradictory logical "
+                      f"assignments for {key}; "
+                      f"expected {expected_value!r}, "
+                      f"found {sorted(set(values))!r}"
+                  )
+
+          def first_text_fence_lines(section, label):
+              fence_start = section.find("```text")
+              if fence_start == -1:
+                  raise SystemExit(
+                      f"{label} is missing its text record"
+                  )
+
+              content_start = section.find("\n", fence_start)
+              fence_end = section.find(
+                  "```",
+                  content_start + 1,
+              )
+              if content_start == -1 or fence_end == -1:
+                  raise SystemExit(
+                      f"{label} contains an incomplete text record"
+                  )
+
+              return section[
+                  content_start + 1:fence_end
+              ].splitlines()
+
+          if c4_active_state:
+              superseded_project_context_lines = {
+                  "current_lifecycle_state = C3_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "phase_status = C3_COMPLETED_AWAITING_SEPARATE_C4_AUTHORIZATION",
+                  "authorization_effect = NONE",
+                  "C4_authorization_effect = NONE",
+                  "next_permitted_workstream = NONE__C4_REQUIRES_SEPARATE_OWNER_AUTHORIZATION",
+                  "latest_material_decision = docs/decisions/C3_completion_decision.md",
+              }
+              required_lines["PROJECT_CONTEXT.md"] = [
+                  line
+                  for line in required_lines["PROJECT_CONTEXT.md"]
+                  if line not in superseded_project_context_lines
+              ] + [
+                  "current_lifecycle_state = C4_ACTIVE",
+                  "active_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "proposed_next_major_phase = NONE",
+                  "phase_status = ACTIVE",
+                  "authorization_effect = C4_SCOPE_ONLY",
+                  "C3_completion_effect = EFFECTIVE",
+                  "C4_authorization_decision = docs/decisions/C4_authorization_decision.md",
+                  "C4_authorization_decision_id = GOV-DEC-0009",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  "next_permitted_workstream = BOUNDED_C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION_ONLY",
+                  "latest_material_decision = docs/decisions/C4_authorization_decision.md",
+              ]
+
+              superseded_readme_lines = {
+                  "current_lifecycle_state = C3_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "phase_status = C3_COMPLETED_AWAITING_SEPARATE_C4_AUTHORIZATION",
+                  "authorization_effect = NONE",
+                  "C4_authorization_effect = NONE",
+              }
+              required_lines["README.md"] = [
+                  line
+                  for line in required_lines["README.md"]
+                  if line not in superseded_readme_lines
+              ] + [
+                  "current_lifecycle_state = C4_ACTIVE",
+                  "active_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "proposed_next_major_phase = NONE",
+                  "phase_status = ACTIVE",
+                  "authorization_effect = C4_SCOPE_ONLY",
+                  "C4_authorization_decision = docs/decisions/C4_authorization_decision.md",
+                  "C4_authorization_decision_id = GOV-DEC-0009",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+              ]
+
+              c4_decision_path = Path(
+                  "docs/decisions/C4_authorization_decision.md"
+              )
+              if not c4_decision_path.is_file():
+                  raise SystemExit(
+                      "C4_ACTIVE requires "
+                      "docs/decisions/C4_authorization_decision.md"
+                  )
+
+              required_lines[
+                  "docs/decisions/C4_authorization_decision.md"
+              ] = [
+                  "document_status = ACCEPTED_C4_AUTHORIZATION_DECISION",
+                  "decision_id = GOV-DEC-0009",
+                  "decision_type = C4_PHASE_AUTHORIZATION_CANONICAL_RECORDING",
+                  "decision_status = ACCEPTED",
+                  "owner_acceptance_status = ACCEPTED",
+                  "OWNER_DECISION_ALREADY_MADE = YES",
+                  "CANONICAL_RECORDING_PREVIOUSLY_MISSING = YES",
+                  "NEW_SUBSTANTIVE_AUTHORIZATION_CREATED_BY_THIS_ALIGNMENT = NO",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "authorization_effect = C4_SCOPE_ONLY",
+                  "authorized_phase =",
+                  "C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "C4_scope =",
+                  "BOUNDED_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "selected_C4_surface =",
+                  "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  "selected_item_count = 21",
+                  "excluded_item_count = 2",
+                  "deferred_item_count = 18",
+                  "C3_completion_effect = EFFECTIVE",
+                  "C4_environment_entry_prerequisite = SATISFIED",
+                  "remaining_material_owner_decisions = NONE",
+              ]
+
+
+          if c4_active_state:
+              project_context_all_lines = Path(
+                  "PROJECT_CONTEXT.md"
+              ).read_text(
+                  encoding="utf-8"
+              ).splitlines()
+
+              require_exact_assignments(
+                  "PROJECT_CONTEXT.md",
+                  project_context_all_lines,
+                  {
+                      "current_lifecycle_state": "C4_ACTIVE",
+                      "active_major_phase": "C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                      "proposed_next_major_phase": "NONE",
+                      "phase_status": "ACTIVE",
+                      "authorization_effect": "C4_SCOPE_ONLY",
+                      "C3_completion_effect": "EFFECTIVE",
+                      "C4_authorization_decision": "docs/decisions/C4_authorization_decision.md",
+                      "C4_authorization_decision_id": "GOV-DEC-0009",
+                      "C4_authorization_status": "AUTHORIZED",
+                      "C4_authorization_effect": "EFFECTIVE",
+                      "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                      "next_permitted_workstream": "BOUNDED_C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION_ONLY",
+                      "latest_material_decision": "docs/decisions/C4_authorization_decision.md",
+                  },
+              )
+
+              readme_all_lines = Path(
+                  "README.md"
+              ).read_text(
+                  encoding="utf-8"
+              ).splitlines()
+
+              require_exact_assignments(
+                  "README.md",
+                  readme_all_lines,
+                  {
+                      "current_lifecycle_state": "C4_ACTIVE",
+                      "active_major_phase": "C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                      "proposed_next_major_phase": "NONE",
+                      "phase_status": "ACTIVE",
+                      "authorization_effect": "C4_SCOPE_ONLY",
+                      "C3_completion_effect": "EFFECTIVE",
+                      "C4_authorization_decision": "docs/decisions/C4_authorization_decision.md",
+                      "C4_authorization_decision_id": "GOV-DEC-0009",
+                      "C4_authorization_status": "AUTHORIZED",
+                      "C4_authorization_effect": "EFFECTIVE",
+                      "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  },
+              )
+
+              c4_decision_text = Path(
+                  "docs/decisions/C4_authorization_decision.md"
+              ).read_text(encoding="utf-8")
+              c4_decision_all_lines = c4_decision_text.splitlines()
+
+              require_exact_assignments(
+                  "GOV-DEC-0009",
+                  c4_decision_all_lines,
+                  {
+                      "document_status": "ACCEPTED_C4_AUTHORIZATION_DECISION",
+                      "intended_repository_path": "docs/decisions/C4_authorization_decision.md",
+                      "decision_id": "GOV-DEC-0009",
+                      "decision_type": "C4_PHASE_AUTHORIZATION_CANONICAL_RECORDING",
+                      "decision_status": "ACCEPTED",
+                      "owner_acceptance_status": "ACCEPTED",
+                      "OWNER_DECISION_ALREADY_MADE": "YES",
+                      "CANONICAL_RECORDING_PREVIOUSLY_MISSING": "YES",
+                      "NEW_SUBSTANTIVE_AUTHORIZATION_CREATED_BY_THIS_ALIGNMENT": "NO",
+                      "C4_authorization_status": "AUTHORIZED",
+                      "C4_authorization_effect": "EFFECTIVE",
+                      "authorization_effect": "C4_SCOPE_ONLY",
+                      "selected_item_count": "21",
+                      "excluded_item_count": "2",
+                      "deferred_item_count": "18",
+                      "C3_completion_effect": "EFFECTIVE",
+                      "C4_environment_entry_prerequisite": "SATISFIED",
+                      "remaining_material_owner_decisions": "NONE",
+                  },
+              )
+
+              require_exact_logical_assignment(
+                  "GOV-DEC-0009",
+                  c4_decision_all_lines,
+                  "authorized_phase",
+                  "C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+              )
+              require_exact_logical_assignment(
+                  "GOV-DEC-0009",
+                  c4_decision_all_lines,
+                  "C4_scope",
+                  "BOUNDED_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+              )
+              require_exact_logical_assignment(
+                  "GOV-DEC-0009",
+                  c4_decision_all_lines,
+                  "selected_C4_surface",
+                  "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+              )
+
+              c4_decision_header_lines = first_text_fence_lines(
+                  c4_decision_text,
+                  "GOV-DEC-0009",
+              )
+              c4_decision_header = "\n".join(
+                  c4_decision_header_lines
+              )
+
+              required_multiline_block = (
+                  "authorized_phase =\n"
+                  "C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION\n"
+                  "\n"
+                  "C4_scope =\n"
+                  "BOUNDED_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION\n"
+                  "\n"
+                  "selected_C4_surface =\n"
+                  "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET"
+              )
+
+              if (
+                  c4_decision_header.count(
+                      required_multiline_block
+                  )
+                  != 1
+              ):
+                  raise SystemExit(
+                      "GOV-DEC-0009 must contain the exact ordered "
+                      "authorized_phase/C4_scope/selected_C4_surface "
+                      "multiline block in its controlling text record"
+                  )
+
+              milestone_text = Path(
+                  "docs/workflows/"
+                  "milestone_review_reference_map.md"
+              ).read_text(encoding="utf-8")
+
+              gov10_heading = (
+                  "### 2v.GOV.10 — "
+                  "C4 authorization canonical recording"
+              )
+              gov10_end_heading = (
+                  "### 2v.LEGACY.01 — "
+                  "C1 bounded historical inventory "
+                  "and functional crosswalk"
+              )
+
+              if milestone_text.count(gov10_heading) != 1:
+                  raise SystemExit(
+                      "Milestone Map must contain exactly one "
+                      "2v.GOV.10 heading"
+                  )
+
+              gov10_start = milestone_text.find(gov10_heading)
+              gov10_end = milestone_text.find(
+                  gov10_end_heading,
+                  gov10_start + len(gov10_heading),
+              )
+
+              if gov10_end == -1:
+                  raise SystemExit(
+                      "Milestone Map is missing the boundary "
+                      "after 2v.GOV.10"
+                  )
+
+              gov10_section = milestone_text[
+                  gov10_start:gov10_end
+              ]
+              gov10_lines = first_text_fence_lines(
+                  gov10_section,
+                  "2v.GOV.10",
+              )
+
+              require_exact_assignments(
+                  "2v.GOV.10",
+                  gov10_lines,
+                  {
+                      "2v_record": "2v.GOV.10",
+                      "record_type": "C4_PHASE_AUTHORIZATION_CANONICAL_RECORDING",
+                      "record_path": "docs/decisions/C4_authorization_decision.md",
+                      "decision_id": "GOV-DEC-0009",
+                      "owner_acceptance_status": "ACCEPTED",
+                      "OWNER_DECISION_ALREADY_MADE": "YES",
+                      "CANONICAL_RECORDING_PREVIOUSLY_MISSING": "YES",
+                      "NEW_SUBSTANTIVE_AUTHORIZATION_CREATED_BY_THIS_ALIGNMENT": "NO",
+                      "authorized_phase": "C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                      "C4_scope": "BOUNDED_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                      "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                      "selected_item_count": "21",
+                      "excluded_item_count": "2",
+                      "deferred_item_count": "18",
+                      "C4_authorization_status": "AUTHORIZED",
+                      "C4_authorization_effect": "EFFECTIVE",
+                      "authorization_effect": "NONE_BY_THIS_MAP",
+                  },
+              )
+
           for path, expected_lines in required_lines.items():
               actual_lines = set(Path(path).read_text(encoding="utf-8").splitlines())
               missing_lines = [line for line in expected_lines if line not in actual_lines]
@@ -846,13 +1263,12 @@ jobs:
               )
 
           print(
-              "Required governance files, CSV schema, accepted C3 decision, "
-              "and C3 activation-alignment documentary fields are consistent."
+              "Required governance files, CSV schema, historical governance "
+              "decisions, and phase-aware current-state fields are consistent."
           )
           print(
-              "This workflow run does not itself establish C3 lifecycle "
-              "effectiveness; successful validation on the exact canonical "
-              "activation-alignment squash commit is required."
+              "This workflow validates documentary consistency only and does "
+              "not independently create or expand lifecycle authorization."
           )
           PY
 
@@ -1009,24 +1425,204 @@ jobs:
 
           project_context_path = Path("PROJECT_CONTEXT.md")
           c3_effective = False
+          c4_effective = False
+
           if project_context_path.is_file():
               project_context_lines = set(
                   project_context_path.read_text(
                       encoding="utf-8"
                   ).splitlines()
               )
-              lifecycle_state_is_c3_or_completed = bool(
+
+              c3_active = (
+                  "current_lifecycle_state = C3_ACTIVE"
+                  in project_context_lines
+              )
+              c3_completed_or_later = bool(
                   {
-                      "current_lifecycle_state = C3_ACTIVE",
                       "current_lifecycle_state = C3_COMPLETED",
+                      "current_lifecycle_state = C4_ACTIVE",
                   }
                   & project_context_lines
               )
+
               c3_effective = (
-                  lifecycle_state_is_c3_or_completed
-                  and "C3_authorization_effect = EFFECTIVE"
+                  "C3_authorization_effect = EFFECTIVE"
                   in project_context_lines
+                  and (
+                      c3_active
+                      or (
+                          c3_completed_or_later
+                          and "C3_completion_effect = EFFECTIVE"
+                          in project_context_lines
+                      )
+                  )
               )
+
+              required_c4_context_lines = {
+                  "current_lifecycle_state = C4_ACTIVE",
+                  "active_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                  "proposed_next_major_phase = NONE",
+                  "phase_status = ACTIVE",
+                  "authorization_effect = C4_SCOPE_ONLY",
+                  "C3_completion_effect = EFFECTIVE",
+                  "C4_authorization_decision = docs/decisions/C4_authorization_decision.md",
+                  "C4_authorization_decision_id = GOV-DEC-0009",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  "next_permitted_workstream = BOUNDED_C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION_ONLY",
+                  "latest_material_decision = docs/decisions/C4_authorization_decision.md",
+              }
+
+              def package_assignment_values(lines, key):
+                  prefix = f"{key} ="
+                  return [
+                      line.split("=", 1)[1].strip()
+                      for line in lines
+                      if line.startswith(prefix)
+                  ]
+
+              def package_exact_assignments(lines, expected):
+                  for key, expected_value in expected.items():
+                      values = package_assignment_values(
+                          lines,
+                          key,
+                      )
+                      if not values:
+                          return False
+                      if any(
+                          value != expected_value
+                          for value in values
+                      ):
+                          return False
+                  return True
+
+              project_context_all_lines = (
+                  project_context_path.read_text(
+                      encoding="utf-8"
+                  ).splitlines()
+              )
+
+              c4_context_effective = (
+                  required_c4_context_lines.issubset(
+                      project_context_lines
+                  )
+                  and package_exact_assignments(
+                      project_context_all_lines,
+                      {
+                          "current_lifecycle_state": "C4_ACTIVE",
+                          "active_major_phase": "C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                          "proposed_next_major_phase": "NONE",
+                          "phase_status": "ACTIVE",
+                          "authorization_effect": "C4_SCOPE_ONLY",
+                          "C3_completion_effect": "EFFECTIVE",
+                          "C4_authorization_decision": "docs/decisions/C4_authorization_decision.md",
+                          "C4_authorization_decision_id": "GOV-DEC-0009",
+                          "C4_authorization_status": "AUTHORIZED",
+                          "C4_authorization_effect": "EFFECTIVE",
+                          "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                          "next_permitted_workstream": "BOUNDED_C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION_ONLY",
+                          "latest_material_decision": "docs/decisions/C4_authorization_decision.md",
+                      },
+                  )
+              )
+
+              c4_decision_path = Path(
+                  "docs/decisions/C4_authorization_decision.md"
+              )
+              c4_decision_effective = False
+
+              if c4_decision_path.is_file():
+                  c4_decision_all_lines = (
+                      c4_decision_path.read_text(
+                          encoding="utf-8"
+                      ).splitlines()
+                  )
+
+                  c4_decision_effective = (
+                      package_exact_assignments(
+                          c4_decision_all_lines,
+                          {
+                              "document_status": "ACCEPTED_C4_AUTHORIZATION_DECISION",
+                              "decision_id": "GOV-DEC-0009",
+                              "decision_type": "C4_PHASE_AUTHORIZATION_CANONICAL_RECORDING",
+                              "decision_status": "ACCEPTED",
+                              "owner_acceptance_status": "ACCEPTED",
+                              "OWNER_DECISION_ALREADY_MADE": "YES",
+                              "CANONICAL_RECORDING_PREVIOUSLY_MISSING": "YES",
+                              "NEW_SUBSTANTIVE_AUTHORIZATION_CREATED_BY_THIS_ALIGNMENT": "NO",
+                              "C4_authorization_status": "AUTHORIZED",
+                              "C4_authorization_effect": "EFFECTIVE",
+                              "authorization_effect": "C4_SCOPE_ONLY",
+                              "selected_item_count": "21",
+                              "excluded_item_count": "2",
+                              "deferred_item_count": "18",
+                          },
+                      )
+                  )
+
+                  def package_logical_values(lines, key):
+                      values = []
+                      prefix = f"{key} ="
+
+                      for index, line in enumerate(lines):
+                          if line == prefix:
+                              next_index = index + 1
+                              while (
+                                  next_index < len(lines)
+                                  and not lines[next_index].strip()
+                              ):
+                                  next_index += 1
+
+                              if next_index >= len(lines):
+                                  values.append("")
+                              else:
+                                  values.append(
+                                      lines[next_index].strip()
+                                  )
+                          elif line.startswith(prefix):
+                              values.append(
+                                  line.split(
+                                      "=",
+                                      1,
+                                  )[1].strip()
+                              )
+
+                      return values
+
+                  for key, expected_value in {
+                      "authorized_phase": "C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                      "C4_scope": "BOUNDED_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION",
+                      "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  }.items():
+                      values = package_logical_values(
+                          c4_decision_all_lines,
+                          key,
+                      )
+                      if (
+                          not values
+                          or any(
+                              value != expected_value
+                              for value in values
+                          )
+                      ):
+                          c4_decision_effective = False
+
+              c4_effective = (
+                  c4_context_effective
+                  and c4_decision_effective
+              )
+
+              if (
+                  "current_lifecycle_state = C4_ACTIVE"
+                  in project_context_lines
+                  and not c4_effective
+              ):
+                  raise SystemExit(
+                      "C4_ACTIVE package validation requires the exact "
+                      "accepted GOV-DEC-0009 C4 state and decision"
+                  )
 
           allowed_python_paths = {Path(path) for path in marker_paths}
           if c3_effective:
@@ -1040,6 +1636,13 @@ jobs:
                           "environment_diagnostics.py"
                       ),
                   }
+              )
+
+          if c4_effective:
+              allowed_python_paths.add(
+                  Path(
+                      "src/quantitative_trading_research/config/paths.py"
+                  )
               )
 
           unexpected_python_paths = sorted(
