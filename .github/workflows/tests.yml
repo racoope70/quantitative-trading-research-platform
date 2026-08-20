@@ -30,8 +30,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          expected_pyproject='942ed2501c36da5273d1d6bf2a5823c1881c1781eea26542eb7ccc01e151c8cb'
-          expected_lock='bdb24fee6df08902c9448c833f07d5240a7cf62f6eee31ad3d870327dc1708e1'
+          expected_pyproject='3d9a606af4bfec1558c05720abf7273a2b9096ef167e5e045d1c837a4c9c0aa8'
+          expected_lock='98723d20ba3581b0026df3ec177b734d5dc038e429a26a81545d93d8baad44db'
 
           actual_pyproject="$(sha256sum pyproject.toml | awk '{print $1}')"
           actual_lock="$(sha256sum requirements.lock | awk '{print $1}')"
@@ -153,12 +153,9 @@ jobs:
           print("diagnostics=TERMINAL_PASS")
           PY
 
-          "$CANONICAL_PYTHON" tests/environment/test_import_contract.py
-          "$CANONICAL_PYTHON" tests/environment/test_offline_boundary.py
-          "$CANONICAL_PYTHON" tests/environment/test_dependency_identity.py
-          "$CANONICAL_PYTHON" tests/config/test_environment_diagnostics.py
+          "$CANONICAL_PYTHON" -m pytest
 
-          printf 'focused_C3_tests=PASS\n'
+          printf 'canonical_pytest_suite=PASS\n'
           printf 'offline_package_acquisition=NO\n'
           printf 'offline_resolver_execution=NO\n'
           printf 'offline_package_index_access=NO\n'
