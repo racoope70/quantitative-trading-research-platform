@@ -16,6 +16,11 @@ dependencies = [
   "exchange-calendars>=4.11,<5",
 ]
 
+[project.optional-dependencies]
+test = [
+  "pytest>=8,<10",
+]
+
 [tool.c3]
 workstream_status = "HOST_NEUTRAL_STATIC_PREPARATION"
 scientific_host_status = "UNRESOLVED_FREEZE_BLOCKER_001"
