@@ -1640,17 +1640,30 @@ jobs:
               )
 
           if c4_effective:
-              allowed_python_paths.add(
-                  Path(
-                      "src/quantitative_trading_research/config/paths.py"
-                  )
+              c4_subsystem_roots = [
+                  package_root / "config",
+                  package_root / "data",
+                  package_root / "features",
+                  package_root / "models",
+                  package_root / "evaluation",
+                  package_root / "artifacts",
+                  package_root / "execution",
+              ]
+
+              # C4 package-structure acceptance does not establish item
+              # authorization. It only requires Python implementation to remain
+              # inside an already-established canonical subsystem after exact
+              # effective C4 state has been established.
+              allowed_python_paths.update(
+                  path
+                  for subsystem_root in c4_subsystem_roots
+                  for path in subsystem_root.rglob("*.py")
               )
 
               c4_adapter_marker = (
                   "src/quantitative_trading_research/execution/"
                   "adapters/__init__.py"
               )
-              allowed_python_paths.add(Path(c4_adapter_marker))
 
               if Path(c4_adapter_marker).is_file():
                   marker_validation_paths.append(c4_adapter_marker)
