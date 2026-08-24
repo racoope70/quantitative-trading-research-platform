@@ -53,7 +53,7 @@ Git history and VS Code verify implementation and completion evidence. They do n
 | C14 — Controlled Paper Trading | Evaluate a promoted candidate in controlled paper operation | Candidate promoted and broker-readiness audit accepted | Operational and economic evidence independently reviewed |
 | C15 — Possible Live-Capital Consideration | Decide whether limited live-capital consideration is justified | Sustained paper evidence and separate risk-review authorization | Explicit live-capital disposition; no automatic deployment |
 
-C1 phase-exit status:
+C1 through C4 phase-exit and authorization chain summary:
 
 ```text
 C1_phase_exit_status = ACCEPTED_AND_EFFECTIVE_THROUGH_ALIGNED_CONTROLLING_STATE
@@ -62,18 +62,30 @@ C2_authorization_decision = docs/decisions/C2_authorization_decision.md
 C2_authorization_status = AUTHORIZED
 C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
-C2_phase_exit_status = ACCEPTED_AND_EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_STATE_AND_SUCCESSFUL_POST_MERGE_VALIDATION
 C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION
 C3_authorization_decision = docs/decisions/C3_authorization_decision.md
 C3_authorization_decision_id = GOV-DEC-0007
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
 C3_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
+C3_completion_decision = docs/decisions/C3_completion_decision.md
+C3_completion_decision_id = GOV-DEC-0008
+C3_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
 C4_authorization_decision = docs/decisions/C4_authorization_decision.md
 C4_authorization_decision_id = GOV-DEC-0009
 C4_authorization_status = AUTHORIZED
 C4_authorization_effect = EFFECTIVE
 selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
+C4_completion_decision = docs/decisions/C4_completion_decision.md
+C4_completion_decision_id = GOV-DEC-0010
+C4_completion_status = ACCEPTED
+accepted_C4_technical_main = 86391543fc1f3b5e2ff8b98624baac004bdf6502
+final_independent_C4_technical_closeout_audit = PASS
+selected_C4_subset_completion = 21_OF_21_COMPLETE
+required_additional_C4_technical_work = NONE
+C4_completion_effect = EFFECTIVE__ALIGNED_TARGET
+C5_entry_prerequisite = SATISFIED__ALIGNED_TARGET
+C5_authorization_effect = NONE
 ```
 
 ## 4. Model-family branching and shared final holdout
@@ -249,7 +261,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.LIVE.*      = Live-capital consideration
 ```
 
-## 8. Canonical C0, C1, C2, and C3 curated lookup
+## 8. Canonical C0, C1, C2, C3, and C4 curated lookup
 
 ```text
 2v.GOV.01 — Accepted C0 governance-foundation decision and package
@@ -261,6 +273,8 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.07 — C2 completion and closure decision
 2v.GOV.08 — C3 phase authorization decision
 2v.GOV.09 — C3 completion and closure decision
+2v.GOV.10 — C4 authorization canonical recording
+2v.GOV.11 — C4 completion and closure decision
 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 2v.LEGACY.02 — C1 legacy evidence retention matrix
 2v.ARCH.01 — C1 technical migration manifest
@@ -493,6 +507,27 @@ navigates to the canonical record of the already-issued Owner authorization.
 Current C4 lifecycle and authorization state remain controlled by
 `PROJECT_CONTEXT.md`.
 
+### 2v.GOV.11 — C4 completion evidence
+
+```text
+2v_record = 2v.GOV.11
+record_type = C4_COMPLETION_AND_CLOSURE_DECISION
+record_path = docs/decisions/C4_completion_decision.md
+decision_id = GOV-DEC-0010
+accepted_C4_technical_main = 86391543fc1f3b5e2ff8b98624baac004bdf6502
+owner_completion_decision_status = ACCEPTED
+owner_decision = ACCEPT_C4_TECHNICAL_COMPLETION_AND_AUTHORIZE_BOUNDED_C4_COMPLETION_ALIGNMENT_RECORDING
+C4_completion_status = ACCEPTED
+final_independent_C4_technical_closeout_audit = PASS
+selected_C4_subset_completion = 21_OF_21_COMPLETE
+required_additional_C4_technical_work = NONE
+C4_completion_effect = EFFECTIVE__ALIGNED_TARGET
+authorization_effect = NONE_BY_THIS_MAP
+C5_authorization_effect = NONE
+```
+
+This map does not independently close C4 or authorize C5. `2v.GOV.11` records the accepted C4 completion evidence for lifecycle navigation. Effective lifecycle completion remains subject to the completion-alignment merge and exact post-merge validation guardrails. C5 still requires both the accepted C4 technical foundation and separate Owner authorization.
+
 ### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 
 ```text
@@ -612,18 +647,30 @@ C2_authorization_decision = docs/decisions/C2_authorization_decision.md
 C2_authorization_status = AUTHORIZED
 C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
-C2_phase_exit_status = ACCEPTED_AND_EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_STATE_AND_SUCCESSFUL_POST_MERGE_VALIDATION
 C2_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_POST_MERGE_VALIDATION
 C3_authorization_decision = docs/decisions/C3_authorization_decision.md
 C3_authorization_decision_id = GOV-DEC-0007
 C3_authorization_status = AUTHORIZED
 C3_authorization_effect = EFFECTIVE
 C3_activation_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
+C3_completion_decision = docs/decisions/C3_completion_decision.md
+C3_completion_decision_id = GOV-DEC-0008
+C3_completion_effect = EFFECTIVE_ONLY_WITH_ALIGNED_CANONICAL_MAIN_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION
 C4_authorization_decision = docs/decisions/C4_authorization_decision.md
 C4_authorization_decision_id = GOV-DEC-0009
 C4_authorization_status = AUTHORIZED
 C4_authorization_effect = EFFECTIVE
 selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
+C4_completion_decision = docs/decisions/C4_completion_decision.md
+C4_completion_decision_id = GOV-DEC-0010
+C4_completion_status = ACCEPTED
+accepted_C4_technical_main = 86391543fc1f3b5e2ff8b98624baac004bdf6502
+final_independent_C4_technical_closeout_audit = PASS
+selected_C4_subset_completion = 21_OF_21_COMPLETE
+required_additional_C4_technical_work = NONE
+C4_completion_effect = EFFECTIVE__ALIGNED_TARGET
+C5_entry_prerequisite = SATISFIED__ALIGNED_TARGET
+C5_authorization_effect = NONE
 ```
 
 ## 12. Chronology and verification

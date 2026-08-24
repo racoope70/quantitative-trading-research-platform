@@ -3,8 +3,8 @@
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
-current_lifecycle_state = C4_ACTIVE
-authorization_effect = C4_SCOPE_ONLY
+current_lifecycle_state = C4_COMPLETED
+authorization_effect = NONE
 ```
 
 ## Mission
@@ -58,38 +58,37 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
-current_lifecycle_state = C4_ACTIVE
-active_major_phase = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
+current_lifecycle_state = C4_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = NONE
-phase_status = ACTIVE
-authorization_effect = C4_SCOPE_ONLY
+phase_status = COMPLETED
+authorization_effect = NONE
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
 C2_phase_status = COMPLETED
-C2_completion_decision = docs/decisions/C2_completion_decision.md
-C2_completion_decision_id = GOV-DEC-0006
 C2_completion_effect = EFFECTIVE
-C3_authorization_decision = docs/decisions/C3_authorization_decision.md
-C3_authorization_decision_id = GOV-DEC-0007
-C3_authorization_status = AUTHORIZED
-C3_authorization_effect = EFFECTIVE
-C3_activation_effect = EFFECTIVE
-C3_technical_work_status = COMPLETE
-C3_completion_decision = docs/decisions/C3_completion_decision.md
-C3_completion_decision_id = GOV-DEC-0008
-C3_completion_owner_decision = ACCEPTED
-C3_completion_alignment_status = RECORDED_AND_ALIGNED
+C3_phase_status = COMPLETED
 C3_completion_effect = EFFECTIVE
-C4_environment_entry_prerequisite = SATISFIED
 C4_authorization_decision = docs/decisions/C4_authorization_decision.md
 C4_authorization_decision_id = GOV-DEC-0009
 C4_authorization_status = AUTHORIZED
 C4_authorization_effect = EFFECTIVE
 selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
+C4_completion_decision = docs/decisions/C4_completion_decision.md
+C4_completion_decision_id = GOV-DEC-0010
+C4_completion_status = ACCEPTED
+C4_completion_effect = EFFECTIVE__ALIGNED_TARGET
+selected_C4_subset_completion = 21_OF_21_COMPLETE
+C4_technical_completion = YES
+final_independent_C4_technical_closeout_audit = PASS
+required_additional_C4_technical_work = NONE
+CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+C5_authorization_effect = NONE
+next_permitted_workstream = NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION
 current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1, C2, and C3 are completed. C4 is the active major phase under the already-issued bounded Owner authorization canonically recorded in `docs/decisions/C4_authorization_decision.md`. C5 and every later phase remain unauthorized.
+C1 through C4 are completed in the aligned target state. No major phase is active. The historical bounded C4 authorization remains accepted evidence, but C4 completion creates no C5 authorization.
 
-The accepted C3 technical scope is complete and remains effective. C4 is limited to the Owner-selected bounded offline code-migration, adaptation, and verification surface. It does not authorize provider operations, model training, final-holdout access, paper or live submission, dependency-policy redesign, canonical Python or lock redesign, scientific-host qualification, CPA implementation, or C5 and later work.
+C5 and later work, provider/data operations, dataset work, model training or selection, shared final-holdout access, scientific-host qualification, paper/live trading, broker activity, public release, and CPA implementation remain unauthorized.
