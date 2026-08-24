@@ -288,6 +288,95 @@ jobs:
           )
           PY
 
+      - name: Validate bounded C4 completion-alignment changed-file scope
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          from pathlib import Path
+
+          decision_path = (
+              "docs/decisions/C4_completion_decision.md"
+          )
+
+          if not Path(decision_path).is_file():
+              print(
+                  "C4 completion decision is not present; "
+                  "completion-alignment scope validation is not applicable."
+              )
+              raise SystemExit(0)
+
+          base_sha = os.environ.get("BASE_SHA", "").strip()
+          zero_sha = "0" * 40
+
+          if not base_sha or base_sha == zero_sha:
+              print(
+                  "No comparison base is available for this event; "
+                  "content and governance-state validation will continue."
+              )
+              raise SystemExit(0)
+
+          subprocess.run(
+              ["git", "cat-file", "-e", f"{base_sha}^{{commit}}"],
+              check=True,
+          )
+
+          base_contains_decision = subprocess.run(
+              [
+                  "git",
+                  "cat-file",
+                  "-e",
+                  f"{base_sha}:{decision_path}",
+              ],
+              stdout=subprocess.DEVNULL,
+              stderr=subprocess.DEVNULL,
+              check=False,
+          ).returncode == 0
+
+          if base_contains_decision:
+              print(
+                  "The comparison base already contains the C4 completion "
+                  "decision; initial completion-alignment scope validation "
+                  "is not applicable."
+              )
+              raise SystemExit(0)
+
+          expected_paths = {
+              ".github/workflows/c0-documentation-consistency.yml",
+              "PROJECT_CONTEXT.md",
+              "README.md",
+              "docs/decisions/C4_completion_decision.md",
+              "docs/workflows/milestone_review_reference_map.md",
+          }
+
+          changed_output = subprocess.check_output(
+              ["git", "diff", "--name-only", base_sha, "HEAD"],
+              text=True,
+          )
+          changed_paths = {
+              line.strip()
+              for line in changed_output.splitlines()
+              if line.strip()
+          }
+
+          if changed_paths != expected_paths:
+              missing = sorted(expected_paths - changed_paths)
+              unauthorized = sorted(changed_paths - expected_paths)
+              raise SystemExit(
+                  "C4 completion-alignment changed-file scope mismatch; "
+                  f"missing authorized paths: {missing}; "
+                  f"unauthorized changed paths: {unauthorized}"
+              )
+
+          print(
+              "Exact five-file C4 completion-alignment "
+              "changed-file scope passed."
+          )
+          PY
+
       - name: Validate required files, CSV, and governance state
         shell: bash
         run: |
@@ -667,11 +756,24 @@ jobs:
               "current_lifecycle_state = C4_ACTIVE"
               in project_context_lines
           )
+          c4_completed_state = (
+              "current_lifecycle_state = C4_COMPLETED"
+              in project_context_lines
+          )
 
-          if c3_completed_state == c4_active_state:
+          supported_state_count = sum(
+              (
+                  c3_completed_state,
+                  c4_active_state,
+                  c4_completed_state,
+              )
+          )
+
+          if supported_state_count != 1:
               raise SystemExit(
                   "PROJECT_CONTEXT.md must establish exactly one supported "
-                  "canonical lifecycle state: C3_COMPLETED or C4_ACTIVE"
+                  "canonical lifecycle state: C3_COMPLETED, C4_ACTIVE, "
+                  "or C4_COMPLETED"
               )
 
           def assignment_values(lines, key):
@@ -780,6 +882,50 @@ jobs:
                   content_start + 1:fence_end
               ].splitlines()
 
+          def bounded_markdown_section(
+              text,
+              start_heading,
+              end_heading,
+              label,
+          ):
+              start_marker = start_heading + "\n"
+              start = text.find(start_marker)
+              if start == -1:
+                  raise SystemExit(
+                      f"{label} is missing start heading: {start_heading}"
+                  )
+              if text.find(
+                  start_marker,
+                  start + len(start_marker),
+              ) != -1:
+                  raise SystemExit(
+                      f"{label} contains duplicate start heading: "
+                      f"{start_heading}"
+                  )
+
+              if end_heading is None:
+                  end = len(text)
+              else:
+                  end_marker = end_heading + "\n"
+                  end = text.find(
+                      end_marker,
+                      start + len(start_marker),
+                  )
+                  if end == -1:
+                      raise SystemExit(
+                          f"{label} is missing end heading: {end_heading}"
+                      )
+                  if text.find(
+                      end_marker,
+                      end + len(end_marker),
+                  ) != -1:
+                      raise SystemExit(
+                          f"{label} contains duplicate end heading: "
+                          f"{end_heading}"
+                      )
+
+              return text[start:end]
+
           if c4_active_state:
               superseded_project_context_lines = {
                   "current_lifecycle_state = C3_COMPLETED",
@@ -871,6 +1017,160 @@ jobs:
                   "C3_completion_effect = EFFECTIVE",
                   "C4_environment_entry_prerequisite = SATISFIED",
                   "remaining_material_owner_decisions = NONE",
+              ]
+
+
+          if c4_completed_state:
+              required_lines["PROJECT_CONTEXT.md"] = [
+                  "document_status = ACTIVE_CURRENT_STATE",
+                  "current_lifecycle_state = C4_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = NONE",
+                  "phase_status = COMPLETED",
+                  "authorization_effect = NONE",
+                  "repository_creation_status = CREATED_PRIVATE",
+                  "C1_phase_status = COMPLETED",
+                  "C1_completion_effect = EFFECTIVE",
+                  "C2_phase_status = COMPLETED",
+                  "C2_authorization_status = AUTHORIZED",
+                  "C2_completion_effect = EFFECTIVE",
+                  "C3_authorization_decision = docs/decisions/C3_authorization_decision.md",
+                  "C3_authorization_decision_id = GOV-DEC-0007",
+                  "C3_authorization_status = AUTHORIZED",
+                  "C3_authorization_effect = EFFECTIVE",
+                  "C3_completion_decision = docs/decisions/C3_completion_decision.md",
+                  "C3_completion_decision_id = GOV-DEC-0008",
+                  "C3_completion_effect = EFFECTIVE",
+                  "C3_technical_work_status = COMPLETE",
+                  "C4_environment_entry_prerequisite = SATISFIED",
+                  "C4_authorization_decision = docs/decisions/C4_authorization_decision.md",
+                  "C4_authorization_decision_id = GOV-DEC-0009",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  "C4_completion_decision = docs/decisions/C4_completion_decision.md",
+                  "C4_completion_decision_id = GOV-DEC-0010",
+                  "C4_completion_status = ACCEPTED",
+                  "selected_C4_subset_completion = 21_OF_21_COMPLETE",
+                  "C4_technical_completion = YES",
+                  "final_independent_C4_technical_closeout_audit = PASS",
+                  "required_additional_C4_technical_work = NONE",
+                  "C4_technical_work_status = COMPLETE",
+                  "C4_completion_effect = EFFECTIVE",
+                  "HISTORICAL_C4_AUTHORIZATION = PRESERVED",
+                  "CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION",
+                  "C5_entry_prerequisite = SATISFIED",
+                  "C5_authorization_effect = NONE",
+                  "next_permitted_workstream = NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION",
+                  "current_material_blocker = NONE",
+                  "current_model_candidate = NONE",
+                  "current_deployment_candidate = NONE",
+                  "latest_material_decision = docs/decisions/C4_completion_decision.md",
+                  "latest_material_completion_record = docs/decisions/C4_completion_decision.md",
+              ]
+
+              required_lines["README.md"] = [
+                  "repository_status = CREATED_PRIVATE",
+                  "current_lifecycle_state = C4_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = NONE",
+                  "phase_status = COMPLETED",
+                  "authorization_effect = NONE",
+                  "C1_phase_status = COMPLETED",
+                  "C1_completion_effect = EFFECTIVE",
+                  "C2_phase_status = COMPLETED",
+                  "C2_completion_effect = EFFECTIVE",
+                  "C3_phase_status = COMPLETED",
+                  "C3_completion_effect = EFFECTIVE",
+                  "C4_authorization_decision = docs/decisions/C4_authorization_decision.md",
+                  "C4_authorization_decision_id = GOV-DEC-0009",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  "C4_completion_decision = docs/decisions/C4_completion_decision.md",
+                  "C4_completion_decision_id = GOV-DEC-0010",
+                  "C4_completion_status = ACCEPTED",
+                  "C4_completion_effect = EFFECTIVE__ALIGNED_TARGET",
+                  "selected_C4_subset_completion = 21_OF_21_COMPLETE",
+                  "C4_technical_completion = YES",
+                  "final_independent_C4_technical_closeout_audit = PASS",
+                  "required_additional_C4_technical_work = NONE",
+                  "CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION",
+                  "C5_authorization_effect = NONE",
+                  "next_permitted_workstream = NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION",
+                  "current_model_candidate = NONE",
+                  "current_deployment_candidate = NONE",
+              ]
+
+              required_lines[
+                  "docs/decisions/C4_authorization_decision.md"
+              ] = [
+                  "document_status = ACCEPTED_C4_AUTHORIZATION_DECISION",
+                  "decision_id = GOV-DEC-0009",
+                  "decision_type = C4_PHASE_AUTHORIZATION_CANONICAL_RECORDING",
+                  "decision_status = ACCEPTED",
+                  "owner_acceptance_status = ACCEPTED",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "authorization_effect = C4_SCOPE_ONLY",
+                  "selected_item_count = 21",
+                  "excluded_item_count = 2",
+                  "deferred_item_count = 18",
+              ]
+
+              c4_completion_path = Path(
+                  "docs/decisions/C4_completion_decision.md"
+              )
+              if not c4_completion_path.is_file():
+                  raise SystemExit(
+                      "C4_COMPLETED requires "
+                      "docs/decisions/C4_completion_decision.md"
+                  )
+
+              required_lines[
+                  "docs/decisions/C4_completion_decision.md"
+              ] = [
+                  "document_status = ACCEPTED_C4_COMPLETION_DECISION",
+                  "decision_id = GOV-DEC-0010",
+                  "decision_type = C4_COMPLETION_AND_CLOSURE",
+                  "decision_status = ACCEPTED",
+                  "owner_completion_decision_status = ACCEPTED",
+                  "owner_decision = ACCEPT_C4_TECHNICAL_COMPLETION_AND_AUTHORIZE_BOUNDED_C4_COMPLETION_ALIGNMENT_RECORDING",
+                  "accepted_C4_technical_main = 86391543fc1f3b5e2ff8b98624baac004bdf6502",
+                  "C4_technical_completion = YES",
+                  "C4_selected_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  "selected_C4_subset_completion = 21_OF_21_COMPLETE",
+                  "final_independent_C4_technical_closeout_audit = PASS",
+                  "required_additional_C4_technical_work = NONE",
+                  "material_alignment_issue = NONE",
+                  "authorization_effect = C4_COMPLETION_ALIGNMENT_ONLY",
+                  "C4_completion_effect = EFFECTIVE__ALIGNED_TARGET",
+                  "C3_completion_effect = EFFECTIVE",
+                  "C3_reopen = NO",
+                  "C5_authorization_effect = NONE",
+              ]
+
+              required_lines[
+                  "docs/workflows/milestone_review_reference_map.md"
+              ] = required_lines[
+                  "docs/workflows/milestone_review_reference_map.md"
+              ] + [
+                  "2v_record = 2v.GOV.10",
+                  "record_type = C4_PHASE_AUTHORIZATION_CANONICAL_RECORDING",
+                  "record_path = docs/decisions/C4_authorization_decision.md",
+                  "decision_id = GOV-DEC-0009",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "2v_record = 2v.GOV.11",
+                  "record_type = C4_COMPLETION_AND_CLOSURE_DECISION",
+                  "record_path = docs/decisions/C4_completion_decision.md",
+                  "decision_id = GOV-DEC-0010",
+                  "accepted_C4_technical_main = 86391543fc1f3b5e2ff8b98624baac004bdf6502",
+                  "final_independent_C4_technical_closeout_audit = PASS",
+                  "selected_C4_subset_completion = 21_OF_21_COMPLETE",
+                  "required_additional_C4_technical_work = NONE",
+                  "C4_completion_effect = EFFECTIVE__ALIGNED_TARGET",
+                  "C5_authorization_effect = NONE",
               ]
 
 
@@ -1069,6 +1369,246 @@ jobs:
                       "authorization_effect": "NONE_BY_THIS_MAP",
                   },
               )
+
+          if c4_completed_state:
+              project_context_text = Path(
+                  "PROJECT_CONTEXT.md"
+              ).read_text(encoding="utf-8")
+              project_top = bounded_markdown_section(
+                  project_context_text,
+                  "# Quantitative Trading Research Platform — Project Context",
+                  "## 1. Project",
+                  "PROJECT_CONTEXT completed-state header",
+              )
+              project_top_lines = first_text_fence_lines(
+                  project_top,
+                  "PROJECT_CONTEXT completed-state header",
+              )
+              require_exact_assignments(
+                  "PROJECT_CONTEXT completed-state header",
+                  project_top_lines,
+                  {
+                      "current_lifecycle_state": "C4_COMPLETED",
+                      "active_major_phase": "NONE",
+                      "proposed_next_major_phase": "NONE",
+                      "phase_status": "COMPLETED",
+                      "authorization_effect": "NONE",
+                      "C3_completion_effect": "EFFECTIVE",
+                      "C4_authorization_decision": "docs/decisions/C4_authorization_decision.md",
+                      "C4_authorization_decision_id": "GOV-DEC-0009",
+                      "C4_authorization_status": "AUTHORIZED",
+                      "C4_authorization_effect": "EFFECTIVE",
+                      "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                      "C4_completion_decision": "docs/decisions/C4_completion_decision.md",
+                      "C4_completion_decision_id": "GOV-DEC-0010",
+                      "C4_completion_status": "ACCEPTED",
+                      "selected_C4_subset_completion": "21_OF_21_COMPLETE",
+                      "C4_technical_completion": "YES",
+                      "final_independent_C4_technical_closeout_audit": "PASS",
+                      "required_additional_C4_technical_work": "NONE",
+                      "C4_completion_effect": "EFFECTIVE",
+                      "CURRENT_C4_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                      "C5_authorization_effect": "NONE",
+                      "next_permitted_workstream": "NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION",
+                  },
+              )
+
+              readme_text = Path("README.md").read_text(
+                  encoding="utf-8"
+              )
+              readme_status = bounded_markdown_section(
+                  readme_text,
+                  "## Current repository status",
+                  None,
+                  "README completed-state section",
+              )
+              readme_status_lines = first_text_fence_lines(
+                  readme_status,
+                  "README completed-state section",
+              )
+              require_exact_assignments(
+                  "README completed-state section",
+                  readme_status_lines,
+                  {
+                      "current_lifecycle_state": "C4_COMPLETED",
+                      "active_major_phase": "NONE",
+                      "proposed_next_major_phase": "NONE",
+                      "phase_status": "COMPLETED",
+                      "authorization_effect": "NONE",
+                      "C4_authorization_decision": "docs/decisions/C4_authorization_decision.md",
+                      "C4_authorization_decision_id": "GOV-DEC-0009",
+                      "C4_authorization_status": "AUTHORIZED",
+                      "C4_authorization_effect": "EFFECTIVE",
+                      "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                      "C4_completion_decision": "docs/decisions/C4_completion_decision.md",
+                      "C4_completion_decision_id": "GOV-DEC-0010",
+                      "C4_completion_status": "ACCEPTED",
+                      "C4_completion_effect": "EFFECTIVE__ALIGNED_TARGET",
+                      "selected_C4_subset_completion": "21_OF_21_COMPLETE",
+                      "C4_technical_completion": "YES",
+                      "final_independent_C4_technical_closeout_audit": "PASS",
+                      "required_additional_C4_technical_work": "NONE",
+                      "CURRENT_C4_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                      "C5_authorization_effect": "NONE",
+                      "next_permitted_workstream": "NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION",
+                  },
+              )
+
+              completion_text = Path(
+                  "docs/decisions/C4_completion_decision.md"
+              ).read_text(encoding="utf-8")
+              completion_header_lines = first_text_fence_lines(
+                  completion_text,
+                  "GOV-DEC-0010 header",
+              )
+              require_exact_assignments(
+                  "GOV-DEC-0010 header",
+                  completion_header_lines,
+                  {
+                      "document_status": "ACCEPTED_C4_COMPLETION_DECISION",
+                      "decision_id": "GOV-DEC-0010",
+                      "decision_type": "C4_COMPLETION_AND_CLOSURE",
+                      "decision_status": "ACCEPTED",
+                      "owner_completion_decision_status": "ACCEPTED",
+                      "owner_decision": "ACCEPT_C4_TECHNICAL_COMPLETION_AND_AUTHORIZE_BOUNDED_C4_COMPLETION_ALIGNMENT_RECORDING",
+                      "accepted_C4_technical_main": "86391543fc1f3b5e2ff8b98624baac004bdf6502",
+                      "C4_technical_completion": "YES",
+                      "C4_selected_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                      "selected_C4_subset_completion": "21_OF_21_COMPLETE",
+                      "final_independent_C4_technical_closeout_audit": "PASS",
+                      "required_additional_C4_technical_work": "NONE",
+                      "material_alignment_issue": "NONE",
+                      "authorization_effect": "C4_COMPLETION_ALIGNMENT_ONLY",
+                      "C4_completion_effect": "EFFECTIVE__ALIGNED_TARGET",
+                      "C3_completion_effect": "EFFECTIVE",
+                      "C3_reopen": "NO",
+                      "C5_authorization_effect": "NONE",
+                  },
+              )
+
+              milestone_text = Path(
+                  "docs/workflows/milestone_review_reference_map.md"
+              ).read_text(encoding="utf-8")
+
+              gov10_section = bounded_markdown_section(
+                  milestone_text,
+                  "### 2v.GOV.10 — C4 authorization canonical recording",
+                  "### 2v.GOV.11 — C4 completion evidence",
+                  "2v.GOV.10",
+              )
+              gov10_lines = first_text_fence_lines(
+                  gov10_section,
+                  "2v.GOV.10",
+              )
+              require_exact_assignments(
+                  "2v.GOV.10",
+                  gov10_lines,
+                  {
+                      "2v_record": "2v.GOV.10",
+                      "record_type": "C4_PHASE_AUTHORIZATION_CANONICAL_RECORDING",
+                      "record_path": "docs/decisions/C4_authorization_decision.md",
+                      "decision_id": "GOV-DEC-0009",
+                      "C4_authorization_status": "AUTHORIZED",
+                      "C4_authorization_effect": "EFFECTIVE",
+                      "authorization_effect": "NONE_BY_THIS_MAP",
+                  },
+              )
+
+              gov11_section = bounded_markdown_section(
+                  milestone_text,
+                  "### 2v.GOV.11 — C4 completion evidence",
+                  "### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk",
+                  "2v.GOV.11",
+              )
+              gov11_lines = first_text_fence_lines(
+                  gov11_section,
+                  "2v.GOV.11",
+              )
+              require_exact_assignments(
+                  "2v.GOV.11",
+                  gov11_lines,
+                  {
+                      "2v_record": "2v.GOV.11",
+                      "record_type": "C4_COMPLETION_AND_CLOSURE_DECISION",
+                      "record_path": "docs/decisions/C4_completion_decision.md",
+                      "decision_id": "GOV-DEC-0010",
+                      "accepted_C4_technical_main": "86391543fc1f3b5e2ff8b98624baac004bdf6502",
+                      "final_independent_C4_technical_closeout_audit": "PASS",
+                      "selected_C4_subset_completion": "21_OF_21_COMPLETE",
+                      "required_additional_C4_technical_work": "NONE",
+                      "C4_completion_effect": "EFFECTIVE__ALIGNED_TARGET",
+                      "authorization_effect": "NONE_BY_THIS_MAP",
+                      "C5_authorization_effect": "NONE",
+                  },
+              )
+
+              chain_expected = {
+                  "C4_authorization_decision": "docs/decisions/C4_authorization_decision.md",
+                  "C4_authorization_decision_id": "GOV-DEC-0009",
+                  "C4_authorization_status": "AUTHORIZED",
+                  "C4_authorization_effect": "EFFECTIVE",
+                  "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  "C4_completion_decision": "docs/decisions/C4_completion_decision.md",
+                  "C4_completion_decision_id": "GOV-DEC-0010",
+                  "C4_completion_status": "ACCEPTED",
+                  "accepted_C4_technical_main": "86391543fc1f3b5e2ff8b98624baac004bdf6502",
+                  "final_independent_C4_technical_closeout_audit": "PASS",
+                  "selected_C4_subset_completion": "21_OF_21_COMPLETE",
+                  "required_additional_C4_technical_work": "NONE",
+                  "C4_completion_effect": "EFFECTIVE__ALIGNED_TARGET",
+                  "C5_authorization_effect": "NONE",
+              }
+
+              chain_one = bounded_markdown_section(
+                  milestone_text,
+                  "## 3. Major phase flow",
+                  "## 4. Model-family branching and shared final holdout",
+                  "Milestone chain summary 1",
+              )
+              require_exact_assignments(
+                  "Milestone chain summary 1",
+                  first_text_fence_lines(
+                      chain_one,
+                      "Milestone chain summary 1",
+                  ),
+                  chain_expected,
+              )
+
+              chain_two = bounded_markdown_section(
+                  milestone_text,
+                  "## 11. C1 completion standard",
+                  "## 12. Chronology and verification",
+                  "Milestone chain summary 2",
+              )
+              require_exact_assignments(
+                  "Milestone chain summary 2",
+                  first_text_fence_lines(
+                      chain_two,
+                      "Milestone chain summary 2",
+                  ),
+                  chain_expected,
+              )
+
+              lookup_section = bounded_markdown_section(
+                  milestone_text,
+                  "## 8. Canonical C0, C1, C2, C3, and C4 curated lookup",
+                  "### 2v.GOV.02 — Canonical independent-audit evidence",
+                  "Milestone curated governance lookup",
+              )
+              lookup_lines = first_text_fence_lines(
+                  lookup_section,
+                  "Milestone curated governance lookup",
+              )
+              for required_lookup in (
+                  "2v.GOV.10 — C4 authorization canonical recording",
+                  "2v.GOV.11 — C4 completion and closure decision",
+              ):
+                  if required_lookup not in lookup_lines:
+                      raise SystemExit(
+                          "Milestone curated lookup is missing "
+                          f"{required_lookup}"
+                      )
+
 
           for path, expected_lines in required_lines.items():
               actual_lines = set(Path(path).read_text(encoding="utf-8").splitlines())
@@ -1443,6 +1983,7 @@ jobs:
                   {
                       "current_lifecycle_state = C3_COMPLETED",
                       "current_lifecycle_state = C4_ACTIVE",
+                      "current_lifecycle_state = C4_COMPLETED",
                   }
                   & project_context_lines
               )
@@ -1474,6 +2015,29 @@ jobs:
                   "selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
                   "next_permitted_workstream = BOUNDED_C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION_ONLY",
                   "latest_material_decision = docs/decisions/C4_authorization_decision.md",
+              }
+
+              required_c4_completed_context_lines = {
+                  "current_lifecycle_state = C4_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = NONE",
+                  "phase_status = COMPLETED",
+                  "authorization_effect = NONE",
+                  "C3_completion_effect = EFFECTIVE",
+                  "C4_authorization_decision = docs/decisions/C4_authorization_decision.md",
+                  "C4_authorization_decision_id = GOV-DEC-0009",
+                  "C4_authorization_status = AUTHORIZED",
+                  "C4_authorization_effect = EFFECTIVE",
+                  "selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                  "C4_completion_decision = docs/decisions/C4_completion_decision.md",
+                  "C4_completion_decision_id = GOV-DEC-0010",
+                  "C4_completion_status = ACCEPTED",
+                  "selected_C4_subset_completion = 21_OF_21_COMPLETE",
+                  "C4_technical_completion = YES",
+                  "C4_completion_effect = EFFECTIVE",
+                  "CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION",
+                  "C5_authorization_effect = NONE",
+                  "next_permitted_workstream = NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION",
               }
 
               def package_assignment_values(lines, key):
@@ -1525,6 +2089,37 @@ jobs:
                           "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
                           "next_permitted_workstream": "BOUNDED_C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION_ONLY",
                           "latest_material_decision": "docs/decisions/C4_authorization_decision.md",
+                      },
+                  )
+              )
+
+              c4_completed_context_effective = (
+                  required_c4_completed_context_lines.issubset(
+                      project_context_lines
+                  )
+                  and package_exact_assignments(
+                      project_context_all_lines,
+                      {
+                          "current_lifecycle_state": "C4_COMPLETED",
+                          "active_major_phase": "NONE",
+                          "proposed_next_major_phase": "NONE",
+                          "phase_status": "COMPLETED",
+                          "authorization_effect": "NONE",
+                          "C3_completion_effect": "EFFECTIVE",
+                          "C4_authorization_decision": "docs/decisions/C4_authorization_decision.md",
+                          "C4_authorization_decision_id": "GOV-DEC-0009",
+                          "C4_authorization_status": "AUTHORIZED",
+                          "C4_authorization_effect": "EFFECTIVE",
+                          "selected_C4_surface": "OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET",
+                          "C4_completion_decision": "docs/decisions/C4_completion_decision.md",
+                          "C4_completion_decision_id": "GOV-DEC-0010",
+                          "C4_completion_status": "ACCEPTED",
+                          "selected_C4_subset_completion": "21_OF_21_COMPLETE",
+                          "C4_technical_completion": "YES",
+                          "C4_completion_effect": "EFFECTIVE",
+                          "CURRENT_C4_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                          "C5_authorization_effect": "NONE",
+                          "next_permitted_workstream": "NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION",
                       },
                   )
               )
@@ -1610,9 +2205,66 @@ jobs:
                       ):
                           c4_decision_effective = False
 
+              c4_completion_decision_effective = False
+              if c4_completed_context_effective:
+                  c4_completion_path = Path(
+                      "docs/decisions/C4_completion_decision.md"
+                  )
+                  if c4_completion_path.is_file():
+                      completion_text = c4_completion_path.read_text(
+                          encoding="utf-8"
+                      )
+                      fence_token = chr(96) * 3 + "text"
+                      fence_start = completion_text.find(fence_token)
+                      content_start = completion_text.find(
+                          "\n",
+                          fence_start,
+                      )
+                      fence_end = completion_text.find(
+                          chr(96) * 3,
+                          content_start + 1,
+                      )
+                      if (
+                          fence_start != -1
+                          and content_start != -1
+                          and fence_end != -1
+                      ):
+                          completion_header_lines = completion_text[
+                              content_start + 1:fence_end
+                          ].splitlines()
+                          c4_completion_decision_effective = (
+                              package_exact_assignments(
+                                  completion_header_lines,
+                                  {
+                                      "document_status": "ACCEPTED_C4_COMPLETION_DECISION",
+                                      "decision_id": "GOV-DEC-0010",
+                                      "decision_type": "C4_COMPLETION_AND_CLOSURE",
+                                      "decision_status": "ACCEPTED",
+                                      "owner_completion_decision_status": "ACCEPTED",
+                                      "owner_decision": "ACCEPT_C4_TECHNICAL_COMPLETION_AND_AUTHORIZE_BOUNDED_C4_COMPLETION_ALIGNMENT_RECORDING",
+                                      "accepted_C4_technical_main": "86391543fc1f3b5e2ff8b98624baac004bdf6502",
+                                      "C4_technical_completion": "YES",
+                                      "selected_C4_subset_completion": "21_OF_21_COMPLETE",
+                                      "final_independent_C4_technical_closeout_audit": "PASS",
+                                      "required_additional_C4_technical_work": "NONE",
+                                      "material_alignment_issue": "NONE",
+                                      "authorization_effect": "C4_COMPLETION_ALIGNMENT_ONLY",
+                                      "C3_completion_effect": "EFFECTIVE",
+                                      "C3_reopen": "NO",
+                                      "C5_authorization_effect": "NONE",
+                                  },
+                              )
+                          )
+
               c4_effective = (
-                  c4_context_effective
-                  and c4_decision_effective
+                  c4_decision_effective
+                  and (
+                      c4_context_effective
+                      or (
+                          c4_completed_context_effective
+                          and c4_completion_decision_effective
+                      )
+                  )
               )
 
               if (
@@ -1623,6 +2275,17 @@ jobs:
                   raise SystemExit(
                       "C4_ACTIVE package validation requires the exact "
                       "accepted GOV-DEC-0009 C4 state and decision"
+                  )
+
+              if (
+                  "current_lifecycle_state = C4_COMPLETED"
+                  in project_context_lines
+                  and not c4_effective
+              ):
+                  raise SystemExit(
+                      "C4_COMPLETED package validation requires the exact "
+                      "accepted GOV-DEC-0009 authorization, GOV-DEC-0010 "
+                      "completion state, and completion decision"
                   )
 
           allowed_python_paths = {Path(path) for path in marker_paths}
