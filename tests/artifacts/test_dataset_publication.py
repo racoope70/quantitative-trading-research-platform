@@ -1,4 +1,10 @@
-"""Offline contract tests for canonical TM-078/TM-081 dataset publication."""
+"""Offline contract tests for canonical TM-078/TM-081 dataset publication.
+
+TM-081 historical source attribution:
+``racoope70/ppo-trading-pipeline`` at immutable source commit
+``072103f43d8b2488c3efca183f637ab0508a193a``, historical path
+``tests/test_ppo_v2_parquet_writer_contract.py``.
+"""
 
 from __future__ import annotations
 
