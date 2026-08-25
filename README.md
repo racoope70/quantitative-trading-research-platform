@@ -3,8 +3,8 @@
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
 repository_status = CREATED_PRIVATE
-current_lifecycle_state = C4_COMPLETED
-authorization_effect = NONE
+current_lifecycle_state = C5_ACTIVE
+authorization_effect = C5_SCOPE_ONLY
 ```
 
 ## Mission
@@ -58,11 +58,11 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
-current_lifecycle_state = C4_COMPLETED
-active_major_phase = NONE
+current_lifecycle_state = C5_ACTIVE
+active_major_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
 proposed_next_major_phase = NONE
-phase_status = COMPLETED
-authorization_effect = NONE
+phase_status = ACTIVE
+authorization_effect = C5_SCOPE_ONLY
 
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
@@ -91,9 +91,9 @@ C5_owner_authorization = ACCEPTED
 C5_authorization_decision = docs/decisions/C5_authorization_decision.md
 C5_authorization_decision_id = GOV-DEC-0011
 C5_authorization_status = AUTHORIZED
-C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
-C5_activation_precondition = NOT_YET_SATISFIED
-C5_current_execution_effect = NONE
+C5_activation_status = EFFECTIVE
+C5_activation_precondition = SATISFIED
+C5_current_execution_effect = EFFECTIVE
 
 C6_and_later = UNAUTHORIZED
 
@@ -101,18 +101,17 @@ current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1 through C4 remain completed and C4 remains the currently effective broad
-lifecycle state.
+C1 through C4 remain completed. C5 is the current active lifecycle phase
+under the already-accepted bounded C5 authorization.
 
 The Owner has accepted the bounded C5 Data Source, Calendar, and Initial
-Universe Decision authorization.
+Universe Decision authorization. Stage A canonical alignment and exact
+post-merge validation are complete, and the C5 activation precondition is
+satisfied.
 
-This Stage A package records that Owner decision but does not yet activate C5
-as the current phase.
-
-Successful exact post-merge Stage A validation establishes the activation
-precondition. A later bounded current-state recording remains required before
-the repository may truthfully report `C5_ACTIVE`.
+This Stage B current-state recording aligns the repository overview with
+`C5_ACTIVE`. Current C5 execution remains limited to the bounded Data Source,
+Calendar, and Initial Universe Decision scope.
 
 Operational provider access, credentials, provider-account activity, API or
 market-data acquisition, dataset generation or acceptance, C6, model
