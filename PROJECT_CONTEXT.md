@@ -2,11 +2,11 @@
 
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C4_COMPLETED
-active_major_phase = NONE
+current_lifecycle_state = C5_ACTIVE
+active_major_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
 proposed_next_major_phase = NONE
-phase_status = COMPLETED
-authorization_effect = NONE
+phase_status = ACTIVE
+authorization_effect = C5_SCOPE_ONLY
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
 
@@ -53,13 +53,13 @@ C5_authorization_decision = docs/decisions/C5_authorization_decision.md
 C5_authorization_decision_id = GOV-DEC-0011
 C5_authorization_status = AUTHORIZED
 C5_owner_decision_status = ACCEPTED
-C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
-C5_activation_precondition = NOT_YET_SATISFIED
-C5_authorization_effect = NONE__PENDING_CANONICAL_ACTIVATION
-C5_current_lifecycle_effect = NONE
+C5_activation_status = EFFECTIVE
+C5_activation_precondition = SATISFIED
+C5_authorization_effect = EFFECTIVE
+C5_current_lifecycle_effect = EFFECTIVE
 
-current_authorized_workstream = NONE
-next_permitted_workstream = NONE__C5_ACTIVATION_PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+current_authorized_workstream = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+next_permitted_workstream = BOUNDED_C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION_ONLY
 
 C6_authorization_effect = NONE
 
@@ -108,25 +108,27 @@ PRE_C0_DRAFT_REVIEW
 → C3_COMPLETED
 → C4_ACTIVE
 → C4_COMPLETED
+→ C5_ACTIVE
 ```
 
-C0 through C4 are completed. C4 completion is effective.
+C0 through C4 are completed. C4 completion remains effective.
 
-The Owner has separately accepted the bounded C5 Data Source, Calendar, and
-Initial Universe Decision authorization. This Stage A package records that
-accepted decision as governance evidence.
+The Owner has accepted the bounded C5 Data Source, Calendar, and Initial
+Universe Decision authorization. Stage A canonical alignment and exact
+post-merge validation are complete, and the C5 activation precondition is
+satisfied.
 
-That Owner authorization does not yet change the currently effective broad
-lifecycle state. Until Stage A is canonically merged and passes successful
-exact post-merge validation, C5 has no current lifecycle effect.
+C5 is the current active lifecycle phase under `C5_SCOPE_ONLY`. This activation
+does not reopen C4 and does not authorize C6 or operational provider, dataset,
+model, holdout, trading, or public-release work outside the bounded C5 scope.
 
 ```text
 current_material_blocker = NONE
-current_lifecycle_state = C4_COMPLETED
-active_major_phase = NONE
+current_lifecycle_state = C5_ACTIVE
+active_major_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
 proposed_next_major_phase = NONE
-phase_status = COMPLETED
-authorization_effect = NONE
+phase_status = ACTIVE
+authorization_effect = C5_SCOPE_ONLY
 
 C3_completion_effect = EFFECTIVE
 
@@ -152,13 +154,13 @@ C5_authorization_decision = docs/decisions/C5_authorization_decision.md
 C5_authorization_decision_id = GOV-DEC-0011
 C5_authorization_status = AUTHORIZED
 C5_owner_decision_status = ACCEPTED
-C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
-C5_activation_precondition = NOT_YET_SATISFIED
-C5_authorization_effect = NONE__PENDING_CANONICAL_ACTIVATION
-C5_current_lifecycle_effect = NONE
+C5_activation_status = EFFECTIVE
+C5_activation_precondition = SATISFIED
+C5_authorization_effect = EFFECTIVE
+C5_current_lifecycle_effect = EFFECTIVE
 
-current_authorized_workstream = NONE
-next_permitted_workstream = NONE__C5_ACTIVATION_PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+current_authorized_workstream = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+next_permitted_workstream = BOUNDED_C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION_ONLY
 
 C6_authorization_effect = NONE
 
@@ -175,10 +177,10 @@ CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
 Successful exact post-merge validation of the Stage A canonical alignment
-establishes the C5 activation precondition only.
+established the C5 activation precondition.
 
-A subsequent bounded current-state recording remains required before the
-controlling state may become `C5_ACTIVE`.
+This current-state recording activates only the already-authorized bounded C5
+Data Source, Calendar, and Initial Universe Decision workstream.
 
 ## 4. Completed C2 scope and preserved C1 evidence
 
@@ -221,9 +223,16 @@ Historical repositories remain read-only evidence and engineering sources. They 
 
 C4 remains completed and effective.
 
-The Owner C5 authorization is accepted and is being canonically recorded by
-Stage A, but C5 is not yet the current active lifecycle phase and there is no
-current C5 execution workstream.
+C5 is active only for the bounded Data Source, Calendar, and Initial Universe
+Decision workstream. Authorized C5 work is limited to research-level provider
+candidate and provider-strategy evaluation, provider/feed characteristics,
+licensing/permitted-use and entitlement review, canonical market-calendar,
+session, timestamp, and source-selection requirements, initial-universe
+selection, and bounded C5 decision evidence and exit review/audit.
+
+Initial-universe criteria may address liquidity, spreads and expected costs,
+coverage, corporate actions, sector/regime diversity, provider availability,
+compute requirements, survivorship bias, and selection bias.
 
 Still not authorized:
 
@@ -310,13 +319,13 @@ public_release = NOT_AUTHORIZED
 
 The accepted C3 environment remains the controlling canonical environment foundation. C4 completion does not redesign or reopen it.
 
-## 10. Completed governance evidence through C4 and accepted C5 authorization
+## 10. Completed governance evidence through C4 and effective C5 authorization
 
 C0 through C4 have accepted lifecycle records and C4 completion is effective.
 
-The Owner C5 authorization has also been accepted. Stage A records that
-authorization without changing the current effective lifecycle from
-`C4_COMPLETED`.
+The Owner C5 authorization is accepted. Stage A canonical alignment and exact
+post-merge validation are complete, and this Stage B current-state recording
+applies the satisfied activation precondition to the bounded C5 workstream.
 
 ```text
 C0_completion_decision = docs/decisions/C0_completion_decision.md
@@ -357,10 +366,10 @@ C5_authorization_decision = docs/decisions/C5_authorization_decision.md
 C5_authorization_decision_id = GOV-DEC-0011
 C5_authorization_status = AUTHORIZED
 C5_owner_decision_status = ACCEPTED
-C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
-C5_activation_precondition = NOT_YET_SATISFIED
-C5_authorization_effect = NONE__PENDING_CANONICAL_ACTIVATION
-C5_current_lifecycle_effect = NONE
+C5_activation_status = EFFECTIVE
+C5_activation_precondition = SATISFIED
+C5_authorization_effect = EFFECTIVE
+C5_current_lifecycle_effect = EFFECTIVE
 
 C6_authorization_effect = NONE
 ```
@@ -373,10 +382,10 @@ or C6.
 
 ```text
 latest_completed_major_milestone = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
-active_major_milestone = NONE
+active_major_milestone = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
 latest_authorization_decision = docs/decisions/C5_authorization_decision.md
 latest_completion_record = docs/decisions/C4_completion_decision.md
-next_permitted_workstream = NONE__C5_ACTIVATION_PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+next_permitted_workstream = BOUNDED_C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION_ONLY
 ```
 
 ## 12. Required reading and new-chat orientation
