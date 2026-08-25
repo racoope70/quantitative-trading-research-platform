@@ -507,20 +507,113 @@ jobs:
 
           project_path = Path("PROJECT_CONTEXT.md")
 
+          project_text = project_path.read_text(
+              encoding="utf-8"
+          )
+
+          def extract_leading_current_state(
+              text,
+              label,
+          ):
+              opening = "```text"
+              opening_index = text.find(opening)
+
+              if opening_index < 0:
+                  raise SystemExit(
+                      f"{label} is missing the leading "
+                      "canonical current-state text fence."
+                  )
+
+              content_start = text.find(
+                  "\n",
+                  opening_index,
+              )
+
+              if content_start < 0:
+                  raise SystemExit(
+                      f"{label} has a malformed leading "
+                      "canonical current-state text fence."
+                  )
+
+              content_start += 1
+
+              content_end = text.find(
+                  "\n```",
+                  content_start,
+              )
+
+              if content_end < 0:
+                  raise SystemExit(
+                      f"{label} has an unterminated leading "
+                      "canonical current-state text fence."
+                  )
+
+              return text[
+                  content_start:content_end
+              ]
+
+          def assignment_values(
+              text,
+              key,
+          ):
+              values = []
+
+              for raw_line in text.splitlines():
+                  line = raw_line.strip()
+
+                  if "=" not in line:
+                      continue
+
+                  lhs, rhs = line.split(
+                      "=",
+                      1,
+                  )
+
+                  if lhs.strip() == key:
+                      values.append(
+                          rhs.strip()
+                      )
+
+              return values
+
+          head_current_state = (
+              extract_leading_current_state(
+                  project_text,
+                  "PROJECT_CONTEXT.md",
+              )
+          )
+
+          head_lifecycle_values = (
+              assignment_values(
+                  head_current_state,
+                  "current_lifecycle_state",
+              )
+          )
+
+          if len(head_lifecycle_values) != 1:
+              raise SystemExit(
+                  "PROJECT_CONTEXT.md leading current-state "
+                  "record must contain exactly one "
+                  "current_lifecycle_state assignment; "
+                  f"found {head_lifecycle_values}"
+              )
+
+          head_lifecycle_state = (
+              head_lifecycle_values[0]
+          )
+
           project_lines = set(
-              project_path.read_text(
-                  encoding="utf-8"
-              ).splitlines()
+              project_text.splitlines()
           )
 
           if (
-              "current_lifecycle_state = C5_ACTIVE"
-              not in project_lines
+              head_lifecycle_state
+              != "C5_ACTIVE"
           ):
               print(
-                  "Current state is not C5_ACTIVE; "
-                  "future Stage B scope validation "
-                  "is not applicable."
+                  "Current controlling state is not "
+                  "C5_ACTIVE; future Stage B scope "
+                  "validation is not applicable."
               )
               raise SystemExit(0)
 
@@ -567,36 +660,123 @@ jobs:
               text=True,
           )
 
-          base_lines = set(
-              base_project.splitlines()
+          base_current_state = (
+              extract_leading_current_state(
+                  base_project,
+                  "comparison-base PROJECT_CONTEXT.md",
+              )
           )
 
-          required_stage_a_base = {
-              "current_lifecycle_state = C4_COMPLETED",
-              "active_major_phase = NONE",
-              "authorization_effect = NONE",
-              "C5_authorization_decision_id = GOV-DEC-0011",
-              "C5_owner_decision_status = ACCEPTED",
-              "C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION",
-              "C5_activation_precondition = NOT_YET_SATISFIED",
-              "C5_authorization_effect = NONE__PENDING_CANONICAL_ACTIVATION",
-              "C5_current_lifecycle_effect = NONE",
-              "current_authorized_workstream = NONE",
-              "next_permitted_workstream = NONE__C5_ACTIVATION_PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION",
-              "C6_authorization_effect = NONE",
+          base_lifecycle_values = (
+              assignment_values(
+                  base_current_state,
+                  "current_lifecycle_state",
+              )
+          )
+
+          if len(base_lifecycle_values) != 1:
+              raise SystemExit(
+                  "C5 Stage B comparison-base leading "
+                  "current-state record must contain "
+                  "exactly one current_lifecycle_state "
+                  "assignment; "
+                  f"found {base_lifecycle_values}"
+              )
+
+          base_lifecycle_state = (
+              base_lifecycle_values[0]
+          )
+
+          if (
+              base_lifecycle_state
+              == "C5_ACTIVE"
+          ):
+              print(
+                  "Comparison base is already C5_ACTIVE; "
+                  "original Stage B transition scope "
+                  "validation is not applicable."
+              )
+              raise SystemExit(0)
+
+          required_stage_a_assignments = {
+              "current_lifecycle_state": "C4_COMPLETED",
+              "active_major_phase": "NONE",
+              "authorization_effect": "NONE",
+              "C5_authorization_decision_id": "GOV-DEC-0011",
+              "C5_owner_decision_status": "ACCEPTED",
+              "C5_activation_status": (
+                  "PENDING_CANONICAL_ALIGNMENT_AND_"
+                  "EXACT_POST_MERGE_VALIDATION"
+              ),
+              "C5_activation_precondition": (
+                  "NOT_YET_SATISFIED"
+              ),
+              "C5_authorization_effect": (
+                  "NONE__PENDING_CANONICAL_ACTIVATION"
+              ),
+              "C5_current_lifecycle_effect": "NONE",
+              "current_authorized_workstream": "NONE",
+              "next_permitted_workstream": (
+                  "NONE__C5_ACTIVATION_PENDING_"
+                  "CANONICAL_ALIGNMENT_AND_EXACT_"
+                  "POST_MERGE_VALIDATION"
+              ),
+              "C6_authorization_effect": "NONE",
           }
 
-          missing_base = sorted(
-              required_stage_a_base
-              - base_lines
-          )
+          for (
+              key,
+              expected_value,
+          ) in required_stage_a_assignments.items():
 
-          if missing_base:
-              raise SystemExit(
-                  "C5 Stage B base does not match "
-                  "the Stage A canonical recording; "
-                  f"missing {missing_base}"
+              controlling_values = (
+                  assignment_values(
+                      base_current_state,
+                      key,
+                  )
               )
+
+              if (
+                  controlling_values
+                  != [expected_value]
+              ):
+                  raise SystemExit(
+                      "C5 Stage B controlling Stage A "
+                      "assignment mismatch for "
+                      f"{key}; expected exactly "
+                      f"{expected_value!r}; found "
+                      f"{controlling_values!r}"
+                  )
+
+              whole_document_values = (
+                  assignment_values(
+                      base_project,
+                      key,
+                  )
+              )
+
+              contradictory_values = sorted(
+                  {
+                      value
+                      for value
+                      in whole_document_values
+                      if value != expected_value
+                  }
+              )
+
+              if contradictory_values:
+                  raise SystemExit(
+                      "C5 Stage B comparison base "
+                      "contains contradictory current-state "
+                      f"assignments for {key}; expected "
+                      f"{expected_value!r}; contradictory "
+                      f"values {contradictory_values!r}"
+                  )
+
+          print(
+              "C5 Stage B structural Stage A "
+              "comparison-base validation passed."
+          )
 
           expected_paths = {
               "PROJECT_CONTEXT.md",
@@ -1737,7 +1917,6 @@ jobs:
               ]
 
               required_lines["README.md"] = [
-                  "repository_status = CREATED_PRIVATE",
                   "current_lifecycle_state = C5_ACTIVE",
                   "active_major_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION",
                   "phase_status = ACTIVE",
@@ -1750,6 +1929,271 @@ jobs:
                   "C5_current_execution_effect = EFFECTIVE",
                   "C6_and_later = UNAUTHORIZED",
               ]
+
+
+              release_project_text = (
+                  Path("PROJECT_CONTEXT.md").read_text(
+                      encoding="utf-8"
+                  )
+              )
+
+              release_readme_text = (
+                  Path("README.md").read_text(
+                      encoding="utf-8"
+                  )
+              )
+
+              project_release_keys = {
+                  "repository_visibility",
+                  "repository_public_release",
+                  "PUBLIC_RELEASE_HYGIENE_CHECK_PENDING",
+                  "PUBLIC_RELEASE_HYGIENE_CHECK_RESULT",
+                  "public_release_action",
+                  "repository_visibility_changed",
+                  "license_policy",
+                  "license_file_present",
+                  "proposed_repository_visibility",
+                  "public_release",
+              }
+
+              readme_release_keys = {
+                  "repository_status",
+                  "repository_public_release",
+                  "license_policy",
+                  "license_file_present",
+              }
+
+              def collect_governed_assignments(
+                  text,
+                  governed_keys,
+              ):
+                  values = {
+                      key: []
+                      for key in governed_keys
+                  }
+
+                  for raw_line in text.splitlines():
+                      line = raw_line.strip()
+
+                      if "=" not in line:
+                          continue
+
+                      lhs, rhs = line.split(
+                          "=",
+                          1,
+                      )
+
+                      key = lhs.strip()
+
+                      if key in governed_keys:
+                          values[key].append(
+                              rhs.strip()
+                          )
+
+                  return values
+
+              def family_errors(
+                  values,
+                  expected,
+                  required_absent,
+                  label,
+              ):
+                  errors = []
+
+                  for (
+                      key,
+                      expected_value,
+                  ) in expected.items():
+
+                      actual_values = (
+                          values.get(
+                              key,
+                              [],
+                          )
+                      )
+
+                      if not actual_values:
+                          errors.append(
+                              f"{label}:{key}=MISSING"
+                          )
+                          continue
+
+                      actual_set = set(
+                          actual_values
+                      )
+
+                      if (
+                          actual_set
+                          != {expected_value}
+                      ):
+                          errors.append(
+                              f"{label}:{key}="
+                              f"{sorted(actual_set)!r};"
+                              f"expected={expected_value!r}"
+                          )
+
+                  for key in sorted(
+                      required_absent
+                  ):
+                      actual_values = (
+                          values.get(
+                              key,
+                              [],
+                          )
+                      )
+
+                      if actual_values:
+                          errors.append(
+                              f"{label}:{key}="
+                              f"{sorted(set(actual_values))!r};"
+                              "expected=ABSENT"
+                          )
+
+                  return errors
+
+              project_values = (
+                  collect_governed_assignments(
+                      release_project_text,
+                      project_release_keys,
+                  )
+              )
+
+              readme_values = (
+                  collect_governed_assignments(
+                      release_readme_text,
+                      readme_release_keys,
+                  )
+              )
+
+              private_project_expected = {
+                  "PUBLIC_RELEASE_HYGIENE_CHECK_PENDING": "YES",
+                  "public_release_action": "DEFERRED",
+                  "repository_visibility_changed": "NO",
+                  "proposed_repository_visibility": "PRIVATE",
+                  "public_release": "NOT_AUTHORIZED",
+              }
+
+              private_readme_expected = {
+                  "repository_status": "CREATED_PRIVATE",
+              }
+
+              public_project_expected = {
+                  "repository_visibility": "PUBLIC",
+                  "repository_public_release": "COMPLETE",
+                  "PUBLIC_RELEASE_HYGIENE_CHECK_PENDING": "NO",
+                  "PUBLIC_RELEASE_HYGIENE_CHECK_RESULT": "PASS",
+                  "public_release_action": "COMPLETE",
+                  "repository_visibility_changed": "YES",
+                  "license_policy": (
+                      "NO_LICENSE__ALL_RIGHTS_RESERVED_BY_DEFAULT"
+                  ),
+                  "license_file_present": "NO",
+              }
+
+              public_readme_expected = {
+                  "repository_status": "PUBLIC",
+                  "repository_public_release": "COMPLETE",
+                  "license_policy": (
+                      "NO_LICENSE__ALL_RIGHTS_RESERVED_BY_DEFAULT"
+                  ),
+                  "license_file_present": "NO",
+              }
+
+              private_project_absent = (
+                  project_release_keys
+                  - set(
+                      private_project_expected
+                  )
+              )
+
+              private_readme_absent = (
+                  readme_release_keys
+                  - set(
+                      private_readme_expected
+                  )
+              )
+
+              public_project_absent = (
+                  project_release_keys
+                  - set(
+                      public_project_expected
+                  )
+              )
+
+              public_readme_absent = (
+                  readme_release_keys
+                  - set(
+                      public_readme_expected
+                  )
+              )
+
+              private_errors = (
+                  family_errors(
+                      project_values,
+                      private_project_expected,
+                      private_project_absent,
+                      "PROJECT_CONTEXT_PRIVATE",
+                  )
+                  + family_errors(
+                      readme_values,
+                      private_readme_expected,
+                      private_readme_absent,
+                      "README_PRIVATE",
+                  )
+              )
+
+              public_errors = (
+                  family_errors(
+                      project_values,
+                      public_project_expected,
+                      public_project_absent,
+                      "PROJECT_CONTEXT_PUBLIC",
+                  )
+                  + family_errors(
+                      readme_values,
+                      public_readme_expected,
+                      public_readme_absent,
+                      "README_PUBLIC",
+                  )
+              )
+
+              private_family_valid = (
+                  not private_errors
+              )
+
+              public_family_valid = (
+                  not public_errors
+              )
+
+              if (
+                  private_family_valid
+                  and public_family_valid
+              ):
+                  raise SystemExit(
+                      "C5_ACTIVE repository release state "
+                      "matches multiple supported families; "
+                      "validation is ambiguous."
+                  )
+
+              if private_family_valid:
+                  print(
+                      "C5_ACTIVE coherent private/"
+                      "pre-release repository state passed."
+                  )
+
+              elif public_family_valid:
+                  print(
+                      "C5_ACTIVE coherent completed-public "
+                      "repository state passed."
+                  )
+
+              else:
+                  raise SystemExit(
+                      "C5_ACTIVE repository release-state "
+                      "coherence failed; "
+                      f"private_errors={private_errors}; "
+                      f"public_errors={public_errors}"
+                  )
 
               if not c5_decision_path.is_file():
                   raise SystemExit(
