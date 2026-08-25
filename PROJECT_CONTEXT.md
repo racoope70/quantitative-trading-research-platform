@@ -1,4 +1,5 @@
 # Quantitative Trading Research Platform — Project Context
+
 ```text
 document_status = ACTIVE_CURRENT_STATE
 current_lifecycle_state = C4_COMPLETED
@@ -8,13 +9,16 @@ phase_status = COMPLETED
 authorization_effect = NONE
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
+
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
+
 C2_phase_status = COMPLETED
 C2_authorization_status = AUTHORIZED
 C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
 C2_completion_effect = EFFECTIVE
+
 C3_authorization_decision = docs/decisions/C3_authorization_decision.md
 C3_authorization_decision_id = GOV-DEC-0007
 C3_authorization_status = AUTHORIZED
@@ -24,6 +28,7 @@ C3_completion_decision_id = GOV-DEC-0008
 C3_completion_owner_decision = ACCEPTED
 C3_completion_effect = EFFECTIVE
 C3_technical_work_status = COMPLETE
+
 C4_environment_entry_prerequisite = SATISFIED
 C4_authorization_decision = docs/decisions/C4_authorization_decision.md
 C4_authorization_decision_id = GOV-DEC-0009
@@ -32,7 +37,6 @@ C4_authorization_effect = EFFECTIVE
 selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 C4_completion_decision = docs/decisions/C4_completion_decision.md
 C4_completion_decision_id = GOV-DEC-0010
-C4_completion_owner_decision = ACCEPT_C4_TECHNICAL_COMPLETION_AND_AUTHORIZE_BOUNDED_C4_COMPLETION_ALIGNMENT_RECORDING
 C4_completion_status = ACCEPTED
 selected_C4_subset_completion = 21_OF_21_COMPLETE
 C4_technical_completion = YES
@@ -40,11 +44,29 @@ final_independent_C4_technical_closeout_audit = PASS
 required_additional_C4_technical_work = NONE
 C4_technical_work_status = COMPLETE
 C4_completion_effect = EFFECTIVE
+C4_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
 HISTORICAL_C4_AUTHORIZATION = PRESERVED
 CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+
 C5_entry_prerequisite = SATISFIED
-C5_authorization_effect = NONE
-next_permitted_workstream = NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION
+C5_authorization_decision = docs/decisions/C5_authorization_decision.md
+C5_authorization_decision_id = GOV-DEC-0011
+C5_authorization_status = AUTHORIZED
+C5_owner_decision_status = ACCEPTED
+C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+C5_activation_precondition = NOT_YET_SATISFIED
+C5_authorization_effect = NONE__PENDING_CANONICAL_ACTIVATION
+C5_current_lifecycle_effect = NONE
+
+current_authorized_workstream = NONE
+next_permitted_workstream = NONE__C5_ACTIVATION_PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+
+C6_authorization_effect = NONE
+
+current_model_candidate = NONE
+current_deployment_candidate = NONE
+
+CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
 ## 1. Project
@@ -88,20 +110,26 @@ PRE_C0_DRAFT_REVIEW
 → C4_COMPLETED
 ```
 
-The aligned target state records C0 through C4 as completed. The bounded C4 authorization recorded by `docs/decisions/C4_authorization_decision.md` remains historical accepted evidence, but no current C4 execution authorization remains after completion. C5 and every later phase remain unauthorized and require separate Owner authorization.
+C0 through C4 are completed. C4 completion is effective.
+
+The Owner has separately accepted the bounded C5 Data Source, Calendar, and
+Initial Universe Decision authorization. This Stage A package records that
+accepted decision as governance evidence.
+
+That Owner authorization does not yet change the currently effective broad
+lifecycle state. Until Stage A is canonically merged and passes successful
+exact post-merge validation, C5 has no current lifecycle effect.
 
 ```text
 current_material_blocker = NONE
 current_lifecycle_state = C4_COMPLETED
 active_major_phase = NONE
+proposed_next_major_phase = NONE
 phase_status = COMPLETED
 authorization_effect = NONE
-C1_status = COMPLETED
-C1_completion_effect = EFFECTIVE
-C2_status = COMPLETED
-C2_completion_effect = EFFECTIVE
-C3_status = COMPLETED
+
 C3_completion_effect = EFFECTIVE
+
 C4_authorization_decision = docs/decisions/C4_authorization_decision.md
 C4_authorization_decision_id = GOV-DEC-0009
 C4_authorization_status = AUTHORIZED
@@ -116,16 +144,41 @@ final_independent_C4_technical_closeout_audit = PASS
 required_additional_C4_technical_work = NONE
 C4_technical_work_status = COMPLETE
 C4_completion_effect = EFFECTIVE
-HISTORICAL_C4_AUTHORIZATION = PRESERVED
+C4_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
 CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+
 C5_entry_prerequisite = SATISFIED
-C5_authorization_effect = NONE
-next_permitted_workstream = NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION
+C5_authorization_decision = docs/decisions/C5_authorization_decision.md
+C5_authorization_decision_id = GOV-DEC-0011
+C5_authorization_status = AUTHORIZED
+C5_owner_decision_status = ACCEPTED
+C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+C5_activation_precondition = NOT_YET_SATISFIED
+C5_authorization_effect = NONE__PENDING_CANONICAL_ACTIVATION
+C5_current_lifecycle_effect = NONE
+
+current_authorized_workstream = NONE
+next_permitted_workstream = NONE__C5_ACTIVATION_PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+
+C6_authorization_effect = NONE
+
+dataset_status = NO_NEW_REPOSITORY_DATASET_SELECTED_OR_ACCEPTED
+provider_acceptance_status = NONE
+dataset_contract_status = NOT_STARTED
+dataset_generation_status = NOT_AUTHORIZED
+final_ticker_universe_status = NOT_SELECTED
+
 current_model_candidate = NONE
 current_deployment_candidate = NONE
+
+CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
-C4 completion does not reopen C3 and does not authorize C5 or any later operational, data, training, holdout, trading, scientific-host, or public-release work.
+Successful exact post-merge validation of the Stage A canonical alignment
+establishes the C5 activation precondition only.
+
+A subsequent bounded current-state recording remains required before the
+controlling state may become `C5_ACTIVE`.
 
 ## 4. Completed C2 scope and preserved C1 evidence
 
@@ -166,21 +219,35 @@ Historical repositories remain read-only evidence and engineering sources. They 
 
 ## 5. Continuing non-authorization
 
-C2- and C3-specific execution restrictions were phase-scoped controls and are retained in their accepted decisions and Git history rather than presented here as current restrictions. The completed C4 state continues to prohibit all work that requires a later authorization.
+C4 remains completed and effective.
 
-C4 completion does not authorize:
+The Owner C5 authorization is accepted and is being canonically recorded by
+Stage A, but C5 is not yet the current active lifecycle phase and there is no
+current C5 execution workstream.
 
-- C5 or any later phase.
-- Provider selection, acceptance, credentials, authenticated access, market-data requests, entitlement checks, or production provider operations.
-- Dataset selection, acceptance, generation, reconstruction, remediation, or final universe selection.
-- Model training, retraining, model selection, qualification, promotion, or new model artifact creation.
+Still not authorized:
+
+- Credentials or authenticated provider access.
+- Network or API data acquisition.
+- Provider-account activity or production market-data requests.
+- Dataset generation or dataset acceptance.
+- C6 dataset-contract freeze.
+- Model training, retraining, selection, qualification, or promotion.
 - Shared final-holdout access.
 - Scientific-host qualification.
-- Broker-account activity, paper orders, live orders, paper trading, or live trading.
-- Public release or deployment-readiness claims.
-- Change Point Analysis implementation.
+- Broker-account activity, paper trading, or live trading.
+- Public release.
+- Change Point Analysis execution.
+- C6 or any later phase.
 
-Historical repository material remains evidence and engineering lineage, not current runtime dependency or authorization.
+```text
+PUBLIC_RELEASE_HYGIENE_CHECK_PENDING = YES
+public_release_action = DEFERRED
+repository_visibility_changed = NO
+```
+
+Historical repository material remains evidence and engineering lineage, not
+current runtime dependency or authorization.
 
 ## 6. Current material decisions
 
@@ -243,26 +310,34 @@ public_release = NOT_AUTHORIZED
 
 The accepted C3 environment remains the controlling canonical environment foundation. C4 completion does not redesign or reopen it.
 
-## 10. Completed governance evidence through C4
+## 10. Completed governance evidence through C4 and accepted C5 authorization
 
-C0 through C4 have accepted lifecycle records. The current controlling target is C4 completed with no active major phase and no C5 authorization.
+C0 through C4 have accepted lifecycle records and C4 completion is effective.
+
+The Owner C5 authorization has also been accepted. Stage A records that
+authorization without changing the current effective lifecycle from
+`C4_COMPLETED`.
 
 ```text
 C0_completion_decision = docs/decisions/C0_completion_decision.md
 C0_completion_decision_id = GOV-DEC-0002
+
 C1_completion_decision = docs/decisions/C1_completion_decision.md
 C1_completion_decision_id = GOV-DEC-0004
 C1_completion_effect = EFFECTIVE
+
 C2_authorization_decision = docs/decisions/C2_authorization_decision.md
 C2_authorization_decision_id = GOV-DEC-0005
 C2_completion_decision = docs/decisions/C2_completion_decision.md
 C2_completion_decision_id = GOV-DEC-0006
 C2_completion_effect = EFFECTIVE
+
 C3_authorization_decision = docs/decisions/C3_authorization_decision.md
 C3_authorization_decision_id = GOV-DEC-0007
 C3_completion_decision = docs/decisions/C3_completion_decision.md
 C3_completion_decision_id = GOV-DEC-0008
 C3_completion_effect = EFFECTIVE
+
 C4_authorization_decision = docs/decisions/C4_authorization_decision.md
 C4_authorization_decision_id = GOV-DEC-0009
 C4_authorization_status = AUTHORIZED
@@ -270,25 +345,38 @@ C4_authorization_effect = EFFECTIVE
 selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 C4_completion_decision = docs/decisions/C4_completion_decision.md
 C4_completion_decision_id = GOV-DEC-0010
-C4_completion_owner_decision = ACCEPT_C4_TECHNICAL_COMPLETION_AND_AUTHORIZE_BOUNDED_C4_COMPLETION_ALIGNMENT_RECORDING
 C4_completion_status = ACCEPTED
 selected_C4_subset_completion = 21_OF_21_COMPLETE
 final_independent_C4_technical_closeout_audit = PASS
 required_additional_C4_technical_work = NONE
 C4_completion_effect = EFFECTIVE
-C5_authorization_effect = NONE
+CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+
+C5_entry_prerequisite = SATISFIED
+C5_authorization_decision = docs/decisions/C5_authorization_decision.md
+C5_authorization_decision_id = GOV-DEC-0011
+C5_authorization_status = AUTHORIZED
+C5_owner_decision_status = ACCEPTED
+C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+C5_activation_precondition = NOT_YET_SATISFIED
+C5_authorization_effect = NONE__PENDING_CANONICAL_ACTIVATION
+C5_current_lifecycle_effect = NONE
+
+C6_authorization_effect = NONE
 ```
 
-No prohibited later-phase technical execution is authorized by these completion records.
+These records do not authorize operational provider activity, dataset
+generation or acceptance, model work, holdout access, trading, public release,
+or C6.
 
 ## 11. Major milestone pointers
 
 ```text
 latest_completed_major_milestone = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
 active_major_milestone = NONE
-latest_authorization_decision = docs/decisions/C4_authorization_decision.md
+latest_authorization_decision = docs/decisions/C5_authorization_decision.md
 latest_completion_record = docs/decisions/C4_completion_decision.md
-next_permitted_workstream = NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION
+next_permitted_workstream = NONE__C5_ACTIVATION_PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
 ```
 
 ## 12. Required reading and new-chat orientation
@@ -298,10 +386,11 @@ A fresh project chat must:
 1. Read `PROJECT_CONTEXT.md`.
 2. Read the applicable Milestone Map section and curated 2v records.
 3. Read the applicable Future Map section.
-4. Inspect Git history and VS Code to verify accepted implementation and completed work.
+4. Inspect Git history and VS Code to verify accepted implementation and
+   completed work.
 
 ```text
-latest_material_decision = docs/decisions/C4_completion_decision.md
+latest_material_decision = docs/decisions/C5_authorization_decision.md
 latest_material_completion_record = docs/decisions/C4_completion_decision.md
 latest_material_independent_audit = FINAL_C4_INDEPENDENT_TECHNICAL_CLOSEOUT_AUDIT__PASS
 ```

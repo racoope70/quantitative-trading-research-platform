@@ -63,12 +63,14 @@ active_major_phase = NONE
 proposed_next_major_phase = NONE
 phase_status = COMPLETED
 authorization_effect = NONE
+
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
 C2_phase_status = COMPLETED
 C2_completion_effect = EFFECTIVE
 C3_phase_status = COMPLETED
 C3_completion_effect = EFFECTIVE
+
 C4_authorization_decision = docs/decisions/C4_authorization_decision.md
 C4_authorization_decision_id = GOV-DEC-0009
 C4_authorization_status = AUTHORIZED
@@ -77,18 +79,43 @@ selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 C4_completion_decision = docs/decisions/C4_completion_decision.md
 C4_completion_decision_id = GOV-DEC-0010
 C4_completion_status = ACCEPTED
-C4_completion_effect = EFFECTIVE__ALIGNED_TARGET
+C4_completion_effect = EFFECTIVE
 selected_C4_subset_completion = 21_OF_21_COMPLETE
 C4_technical_completion = YES
 final_independent_C4_technical_closeout_audit = PASS
 required_additional_C4_technical_work = NONE
 CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
-C5_authorization_effect = NONE
-next_permitted_workstream = NONE__C5_REQUIRES_SEPARATE_OWNER_AUTHORIZATION
+C4 = COMPLETED__EFFECTIVE
+
+C5_owner_authorization = ACCEPTED
+C5_authorization_decision = docs/decisions/C5_authorization_decision.md
+C5_authorization_decision_id = GOV-DEC-0011
+C5_authorization_status = AUTHORIZED
+C5_activation_status = PENDING_CANONICAL_ALIGNMENT_AND_EXACT_POST_MERGE_VALIDATION
+C5_activation_precondition = NOT_YET_SATISFIED
+C5_current_execution_effect = NONE
+
+C6_and_later = UNAUTHORIZED
+
 current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1 through C4 are completed in the aligned target state. No major phase is active. The historical bounded C4 authorization remains accepted evidence, but C4 completion creates no C5 authorization.
+C1 through C4 remain completed and C4 remains the currently effective broad
+lifecycle state.
 
-C5 and later work, provider/data operations, dataset work, model training or selection, shared final-holdout access, scientific-host qualification, paper/live trading, broker activity, public release, and CPA implementation remain unauthorized.
+The Owner has accepted the bounded C5 Data Source, Calendar, and Initial
+Universe Decision authorization.
+
+This Stage A package records that Owner decision but does not yet activate C5
+as the current phase.
+
+Successful exact post-merge Stage A validation establishes the activation
+precondition. A later bounded current-state recording remains required before
+the repository may truthfully report `C5_ACTIVE`.
+
+Operational provider access, credentials, provider-account activity, API or
+market-data acquisition, dataset generation or acceptance, C6, model
+training, final-holdout access, scientific-host qualification, paper/live
+trading, broker activity, public release, and Change Point Analysis execution
+remain unauthorized.

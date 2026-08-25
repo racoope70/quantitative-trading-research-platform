@@ -53,7 +53,7 @@ Git history and VS Code verify implementation and completion evidence. They do n
 | C14 — Controlled Paper Trading | Evaluate a promoted candidate in controlled paper operation | Candidate promoted and broker-readiness audit accepted | Operational and economic evidence independently reviewed |
 | C15 — Possible Live-Capital Consideration | Decide whether limited live-capital consideration is justified | Sustained paper evidence and separate risk-review authorization | Explicit live-capital disposition; no automatic deployment |
 
-C1 through C4 phase-exit and authorization chain summary:
+C1 through C5 phase-exit and authorization chain summary:
 
 ```text
 C1_phase_exit_status = ACCEPTED_AND_EFFECTIVE_THROUGH_ALIGNED_CONTROLLING_STATE
@@ -85,7 +85,13 @@ selected_C4_subset_completion = 21_OF_21_COMPLETE
 required_additional_C4_technical_work = NONE
 C4_completion_effect = EFFECTIVE__ALIGNED_TARGET
 C5_entry_prerequisite = SATISFIED__ALIGNED_TARGET
-C5_authorization_effect = NONE
+C5_authorization_decision = docs/decisions/C5_authorization_decision.md
+C5_authorization_decision_id = GOV-DEC-0011
+C5_authorization_status = AUTHORIZED
+C5_owner_decision_status = ACCEPTED
+authorized_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+C5_activation_condition = REQUIRES_CANONICAL_STAGE_A_ALIGNMENT_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION_BEFORE_CURRENT_STATE_ACTIVATION_RECORDING
+C6_authorization_effect = NONE
 ```
 
 ## 4. Model-family branching and shared final holdout
@@ -261,7 +267,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.LIVE.*      = Live-capital consideration
 ```
 
-## 8. Canonical C0, C1, C2, C3, and C4 curated lookup
+## 8. Canonical C0, C1, C2, C3, C4, and C5 curated lookup
 
 ```text
 2v.GOV.01 — Accepted C0 governance-foundation decision and package
@@ -275,6 +281,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.09 — C3 completion and closure decision
 2v.GOV.10 — C4 authorization canonical recording
 2v.GOV.11 — C4 completion and closure decision
+2v.GOV.12 — C5 authorization canonical recording
 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 2v.LEGACY.02 — C1 legacy evidence retention matrix
 2v.ARCH.01 — C1 technical migration manifest
@@ -526,7 +533,37 @@ authorization_effect = NONE_BY_THIS_MAP
 C5_authorization_effect = NONE
 ```
 
-This map does not independently close C4 or authorize C5. `2v.GOV.11` records the accepted C4 completion evidence for lifecycle navigation. Effective lifecycle completion remains subject to the completion-alignment merge and exact post-merge validation guardrails. C5 still requires both the accepted C4 technical foundation and separate Owner authorization.
+This map does not independently close C4 or authorize C5. `2v.GOV.11`
+records the accepted C4 completion evidence for lifecycle navigation.
+
+The later accepted Owner C5 authorization is recorded separately by
+`2v.GOV.12`; this historical C4 record does not establish current C5
+activation.
+
+### 2v.GOV.12 — C5 authorization canonical recording
+
+```text
+2v_record = 2v.GOV.12
+record_type = C5_PHASE_AUTHORIZATION_CANONICAL_RECORDING
+record_path = docs/decisions/C5_authorization_decision.md
+decision_id = GOV-DEC-0011
+OWNER_DECISION_ALREADY_MADE = YES
+C5_authorization_status = AUTHORIZED
+C5_owner_decision_status = ACCEPTED
+authorized_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+authorization_effect = NONE_BY_THIS_MAP
+C5_activation_condition = REQUIRES_CANONICAL_STAGE_A_ALIGNMENT_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION_BEFORE_CURRENT_STATE_ACTIVATION_RECORDING
+C6_authorization_effect = NONE
+```
+
+This map does not independently authorize or activate C5.
+
+`2v.GOV.12` records the accepted Owner authorization as governance evidence.
+Current lifecycle state continues to come from `PROJECT_CONTEXT.md`.
+
+The Stage A exact post-merge validation is an activation precondition. A
+subsequent bounded current-state recording remains necessary before
+`PROJECT_CONTEXT.md` may establish `C5_ACTIVE`.
 
 ### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 
@@ -670,7 +707,13 @@ selected_C4_subset_completion = 21_OF_21_COMPLETE
 required_additional_C4_technical_work = NONE
 C4_completion_effect = EFFECTIVE__ALIGNED_TARGET
 C5_entry_prerequisite = SATISFIED__ALIGNED_TARGET
-C5_authorization_effect = NONE
+C5_authorization_decision = docs/decisions/C5_authorization_decision.md
+C5_authorization_decision_id = GOV-DEC-0011
+C5_authorization_status = AUTHORIZED
+C5_owner_decision_status = ACCEPTED
+authorized_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+C5_activation_condition = REQUIRES_CANONICAL_STAGE_A_ALIGNMENT_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION_BEFORE_CURRENT_STATE_ACTIVATION_RECORDING
+C6_authorization_effect = NONE
 ```
 
 ## 12. Chronology and verification
