@@ -1,7 +1,7 @@
 # Contribution Conventions
 
 ```text
-document_status = DRAFT_FOR_OWNER_REVIEW
+document_status = ACTIVE_CONTRIBUTION_GUIDE
 authorization_effect = NONE
 repository_operating_model = PRIMARILY_OWNER_OPERATED
 ```
