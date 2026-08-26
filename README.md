@@ -107,10 +107,9 @@ current_deployment_candidate = NONE
 C1 through C4 remain completed. C5 is the current active lifecycle phase
 under the already-accepted bounded C5 authorization.
 
-The Owner has accepted the bounded C5 Data Source, Calendar, and Initial
-Universe Decision authorization. Stage A canonical alignment and exact
-post-merge validation are complete, and the C5 activation precondition is
-satisfied.
+The bounded C5 Data Source, Calendar, and Initial Universe Decision scope 
+is authorized. Stage A canonical alignment and exact post-merge validation 
+are complete, and the C5 activation precondition is satisfied.
 
 After the required Stage A canonical alignment and exact post-merge
 validation were completed, the subsequent bounded current-state alignment
