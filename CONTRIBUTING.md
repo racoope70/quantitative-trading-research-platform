@@ -8,7 +8,7 @@ repository_operating_model = PRIMARILY_OWNER_OPERATED
 
 ## 1. Governing state
 
-Before work begins, read `PROJECT_CONTEXT.md`, the applicable Milestone Map and curated records, and the applicable Future Map section, then inspect Git history and the working tree for implementation state.
+Before work begins, review PROJECT_CONTEXT.md together with the applicable milestone and future-reference sections. Then inspect Git history and the working tree to confirm the current implementation state.
 
 ## 2. Risk-proportional workflow
 
@@ -42,10 +42,9 @@ Create separate records only for material decisions, dataset builds, training ca
 
 Git history, focused PRs, issues, and CI are sufficient for ordinary work.
 
-## 7. Draft status
+## 7. Authority
 
-These conventions become operational only after C0 activation and repository creation.
+These conventions define the repository contribution process. They do not independently authorize work or expand the active lifecycle scope.
 
-```text
-authorization_effect = NONE
-```
+Current authorization remains controlled by `PROJECT_CONTEXT.md` and the applicable accepted decision records.
+
