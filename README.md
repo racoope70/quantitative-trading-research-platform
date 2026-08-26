@@ -1,5 +1,10 @@
 # Quantitative Trading Research Platform
 
+![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Linux%20x86__64-lightgrey)
+[![Tests](https://github.com/racoope70/quantitative-trading-research-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/racoope70/quantitative-trading-research-platform/actions/workflows/tests.yml)
+![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)
+
 ## Mission
 
 Build a canonical, reproducible, leakage-controlled quantitative research and trading platform supporting machine-learning research, publication-quality analysis, controlled paper trading, and potential later deployment.
@@ -14,7 +19,7 @@ The research program will investigate:
 
 The three-family research objective does not guarantee three eligible candidates.
 
-Each applicable family may produce a qualified frozen candidate, be rejected, produce no candidate, or remain inconclusive. RF and XGBoost may be not applicable when PPO is not qualified.
+Each applicable family may produce a qualified frozen candidate, be rejected, produce no candidate, or remain inconclusive. RF and XGBoost are only evaluated if PPO qualifies.
 
 Only `QUALIFIED_AND_FROZEN` candidates are eligible for the shared final holdout.
 
