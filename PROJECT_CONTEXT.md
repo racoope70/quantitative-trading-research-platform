@@ -77,6 +77,9 @@ current_deployment_candidate = NONE
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
+The repository was initially created as private; `repository_visibility = PUBLIC`
+records its current visibility.
+
 ## 1. Project
 
 Build a canonical, reproducible, leakage-controlled quantitative research and trading platform supporting:
@@ -100,7 +103,7 @@ This document is the sole controlling source for:
 - Latest completed phase, active milestone, and next permitted workstream.
 - Required maps and latest material records.
 
-It does not contain detailed chronology or a completed governance chain. Git history and VS Code verify implementation state; they do not establish current authorization.
+It does not contain detailed chronology or a completed governance chain. Git history and the working tree verify implementation state; they do not establish current authorization.
 
 ## 3. Lifecycle, entry gate, and current status
 
@@ -394,15 +397,15 @@ latest_completion_record = docs/decisions/C4_completion_decision.md
 next_permitted_workstream = BOUNDED_C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION_ONLY
 ```
 
-## 12. Required reading and new-chat orientation
+## 12. Required reading and project orientation
 
-A fresh project chat must:
+For project orientation, the following reading and verification are required:
 
 1. Read `PROJECT_CONTEXT.md`.
 2. Read the applicable Milestone Map section and curated 2v records.
 3. Read the applicable Future Map section.
-4. Inspect Git history and VS Code to verify accepted implementation and
-   completed work.
+4. Inspect Git history and the working tree to verify accepted implementation
+   and completed work.
 
 ```text
 latest_material_decision = docs/decisions/C5_authorization_decision.md

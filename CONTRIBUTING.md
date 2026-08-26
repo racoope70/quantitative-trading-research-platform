@@ -8,7 +8,7 @@ repository_operating_model = PRIMARILY_OWNER_OPERATED
 
 ## 1. Governing state
 
-Before work begins, read `PROJECT_CONTEXT.md`, the applicable Milestone Map and curated records, the applicable Future Map section, and Git/VS Code for implementation state.
+Before work begins, read `PROJECT_CONTEXT.md`, the applicable Milestone Map and curated records, and the applicable Future Map section, then inspect Git history and the working tree for implementation state.
 
 ## 2. Risk-proportional workflow
 
@@ -32,7 +32,7 @@ Routine direct commits should remain focused, descriptive, and traceable.
 
 Migrated assets must record immutable source attribution, classification, canonical responsibility, required changes, limitations, tests, destination, and owner disposition.
 
-C4 may migrate provider-neutral interfaces, mocks, offline fixtures, normalization/schema utilities, and provisional provider code. It does not authorize provider acceptance, credentials, authenticated access, network/API testing, market-data requests, entitlement conclusions, or production validation.
+During C4, the authorized migration scope included provider-neutral interfaces, mocks, offline fixtures, normalization/schema utilities, and provisional provider code. C4 did not authorize provider acceptance, credentials, authenticated access, network/API testing, market-data requests, entitlement conclusions, or production validation.
 
 ## 6. Testing and documentation
 

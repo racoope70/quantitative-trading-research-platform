@@ -54,7 +54,7 @@ Project governance and roadmap references:
 - [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md) — roadmap, big-section navigation, governance and evidence reference, and completed/future milestone navigation; non-authorizing.
 - [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — non-authorizing future validation, training, evaluation, and holdout guidance.
 
-A fresh project chat should read `PROJECT_CONTEXT.md`, the applicable Milestone Map and curated 2v records, the applicable Future Map section, and then inspect Git history and VS Code.
+For project orientation, read `PROJECT_CONTEXT.md`, the applicable Milestone Map and curated 2v records, and the applicable Future Map section, then inspect Git history and the working tree.
 
 Files present in the repository do not independently authorize execution.
 
@@ -112,9 +112,11 @@ Universe Decision authorization. Stage A canonical alignment and exact
 post-merge validation are complete, and the C5 activation precondition is
 satisfied.
 
-This Stage B current-state recording aligns the repository overview with
-`C5_ACTIVE`. Current C5 execution remains limited to the bounded Data Source,
-Calendar, and Initial Universe Decision scope.
+After the required Stage A canonical alignment and exact post-merge
+validation were completed, the subsequent bounded current-state alignment
+recorded the repository overview as `C5_ACTIVE`. Current C5 execution remains
+limited to the bounded Data Source, Calendar, and Initial Universe Decision
+scope.
 
 Operational provider access, credentials, provider-account activity, API or
 market-data acquisition, dataset generation or acceptance, C6, model
