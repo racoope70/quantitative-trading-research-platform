@@ -16,21 +16,21 @@ This map identifies:
 - Phase purposes.
 - Entry and exit gates.
 - Material decisions, runs, reports, and audits.
-- Curated 2v evidence that a fresh chat must review before beginning a major phase.
+- Curated 2v evidence required before beginning a major phase.
 
 It does not control current authorization or duplicate the current authorization block.
 
-## 2. New-chat use
+## 2. How to use this map
 
-A fresh project chat should:
+For project orientation, use this map as follows:
 
 1. Read `PROJECT_CONTEXT.md`.
 2. Locate the applicable phase in this map.
 3. Read that phase’s curated 2v records.
 4. Read the applicable Future Map section.
-5. Inspect Git history and VS Code to verify implementation state.
+5. Inspect Git history and the working tree to verify implementation state.
 
-Git history and VS Code verify implementation and completion evidence. They do not independently authorize work.
+Git history and the working tree verify implementation and completion evidence. They do not independently authorize work.
 
 ## 3. Major phase flow
 
@@ -199,9 +199,9 @@ RETURN_TO_A_SEPARATELY_AUTHORIZED_REDESIGN_PHASE
 
 An unqualified model must not be forced into the final holdout merely to produce a three-model comparison.
 
-## 5. C4 provider boundary
+## 5. Historical C4 provider boundary
 
-C4 may migrate and test offline:
+During C4, the authorized offline migration and testing scope included:
 
 - Provider-neutral interfaces.
 - Abstract data-source contracts.
@@ -209,7 +209,7 @@ C4 may migrate and test offline:
 - Parsing, normalization, and schema-validation utilities.
 - Provisionally selected provider components that do not require network or authenticated access.
 
-C4 does not authorize:
+C4 did not authorize:
 
 - Provider acceptance.
 - Credentials or authenticated access.
@@ -220,7 +220,7 @@ C4 does not authorize:
 - Production data-source validation.
 - Final provider, feed, adjustment, calendar, or permitted-use decisions.
 
-Those decisions and activities remain in C5 or a later separately authorized data phase.
+Those decisions and activities were deferred to C5 or a later separately authorized data phase.
 
 ## 6. C1 bounded historical section inventory
 
