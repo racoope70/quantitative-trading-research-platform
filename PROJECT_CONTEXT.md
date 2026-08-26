@@ -9,6 +9,14 @@ phase_status = ACTIVE
 authorization_effect = C5_SCOPE_ONLY
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
+repository_visibility = PUBLIC
+repository_public_release = COMPLETE
+PUBLIC_RELEASE_HYGIENE_CHECK_PENDING = NO
+PUBLIC_RELEASE_HYGIENE_CHECK_RESULT = PASS
+public_release_action = COMPLETE
+repository_visibility_changed = YES
+license_policy = NO_LICENSE__ALL_RIGHTS_RESERVED_BY_DEFAULT
+license_file_present = NO
 
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
@@ -120,7 +128,9 @@ satisfied.
 
 C5 is the current active lifecycle phase under `C5_SCOPE_ONLY`. This activation
 does not reopen C4 and does not authorize C6 or operational provider, dataset,
-model, holdout, trading, or public-release work outside the bounded C5 scope.
+model, holdout, or trading work outside the bounded C5 scope. Repository
+public release was separately authorized and is complete; it does not expand
+the bounded C5 execution scope.
 
 ```text
 current_material_blocker = NONE
@@ -245,15 +255,12 @@ Still not authorized:
 - Shared final-holdout access.
 - Scientific-host qualification.
 - Broker-account activity, paper trading, or live trading.
-- Public release.
 - Change Point Analysis execution.
 - C6 or any later phase.
 
-```text
-PUBLIC_RELEASE_HYGIENE_CHECK_PENDING = YES
-public_release_action = DEFERRED
-repository_visibility_changed = NO
-```
+Repository public release is complete under separate authorization and is not
+part of this continuing non-authorization list. It does not authorize any
+additional operational, model, holdout, trading, or later-phase work.
 
 Historical repository material remains evidence and engineering lineage, not
 current runtime dependency or authorization.
@@ -261,7 +268,6 @@ current runtime dependency or authorization.
 ## 6. Current material decisions
 
 ```text
-proposed_repository_visibility = PRIVATE
 presumptive_architecture_source = racoope70/ppo-trading-pipeline
 canonical_package_name = quantitative_trading_research
 automatic_module_acceptance = NO
@@ -314,7 +320,6 @@ paper_order_activity = NOT_AUTHORIZED
 live_order_activity = NOT_AUTHORIZED
 final_holdout_access = NOT_AUTHORIZED
 scientific_host_qualification = NOT_AUTHORIZED
-public_release = NOT_AUTHORIZED
 ```
 
 The accepted C3 environment remains the controlling canonical environment foundation. C4 completion does not redesign or reopen it.
@@ -375,8 +380,9 @@ C6_authorization_effect = NONE
 ```
 
 These records do not authorize operational provider activity, dataset
-generation or acceptance, model work, holdout access, trading, public release,
-or C6.
+generation or acceptance, model work, holdout access, trading, or C6. The
+separately authorized repository public release is complete and does not expand
+those execution boundaries.
 
 ## 11. Major milestone pointers
 
