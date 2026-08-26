@@ -1,18 +1,10 @@
 # Quantitative Trading Research Platform
 
-```text
-document_status = ACTIVE_REPOSITORY_OVERVIEW
-repository_status = PUBLIC
-repository_public_release = COMPLETE
-license_policy = NO_LICENSE__ALL_RIGHTS_RESERVED_BY_DEFAULT
-license_file_present = NO
-current_lifecycle_state = C5_ACTIVE
-authorization_effect = C5_SCOPE_ONLY
-```
-
 ## Mission
 
-Build a canonical, reproducible, leakage-controlled quantitative research and trading platform supporting serious machine-learning research, publication-quality analysis, controlled paper trading, and possible later deployment consideration.
+Build a canonical, reproducible, leakage-controlled quantitative research and trading platform supporting machine-learning research, publication-quality analysis, controlled paper trading, and potential later deployment.
+
+## Research Program
 
 The research program will investigate:
 
@@ -32,13 +24,13 @@ If no eligible candidate exists, the final holdout is not accessed and the proje
 
 ## Operating principles
 
-The project prioritizes temporal causality, leakage prevention, train-only preprocessing, reproducibility, data and artifact provenance, honest costs, fair candidate comparison, shared final-holdout integrity, fail-closed trading controls, and separation of research, operational, and deployment evidence.
+The project emphasizes leakage control, reproducibility, data provenance, realistic evaluation costs, fair model comparison, final-holdout integrity, and clear separation between research and deployment evidence.
 
 ## Historical lineage
 
 - `racoope70/exploratory-daytrading`: broad historical research archive.
 - `racoope70/quant-trading-model-validation`: historical PPO/PPO+RF validation evidence and specialized components.
-- `racoope70/ppo-trading-pipeline`: presumptive modular architecture, provenance, testing, broker-safety, and deployment-engineering source.
+- `racoope70/ppo-trading-pipeline`: historical source for modular architecture, provenance, testing, broker-safety, and deployment-engineering patterns.
 
 No historical repository or module is automatically accepted. The canonical repository will not require historical repositories as runtime dependencies.
 
@@ -61,6 +53,11 @@ Files present in the repository do not independently authorize execution.
 ## Current repository status
 
 ```text
+repository_status = PUBLIC
+repository_public_release = COMPLETE
+license_policy = NO_LICENSE__ALL_RIGHTS_RESERVED_BY_DEFAULT
+license_file_present = NO
+
 current_lifecycle_state = C5_ACTIVE
 active_major_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
 proposed_next_major_phase = NONE
@@ -69,8 +66,10 @@ authorization_effect = C5_SCOPE_ONLY
 
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
+
 C2_phase_status = COMPLETED
 C2_completion_effect = EFFECTIVE
+
 C3_phase_status = COMPLETED
 C3_completion_effect = EFFECTIVE
 
@@ -104,26 +103,8 @@ current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1 through C4 remain completed. C5 is the current active lifecycle phase
-under the already-accepted bounded C5 authorization.
+C1 through C4 are complete. C5 is the active lifecycle phase under the accepted bounded Data Source, Calendar, and Initial Universe Decision authorization.
 
-The bounded C5 Data Source, Calendar, and Initial Universe Decision scope 
-is authorized. Stage A canonical alignment and exact post-merge validation 
-are complete, and the C5 activation precondition is satisfied.
+Operational provider access, credentials, market-data acquisition, dataset generation or acceptance, C6 and later phases, model training, final-holdout access, paper/live trading, and broker activity remain unauthorized.
 
-After the required Stage A canonical alignment and exact post-merge
-validation were completed, the subsequent bounded current-state alignment
-recorded the repository overview as `C5_ACTIVE`. Current C5 execution remains
-limited to the bounded Data Source, Calendar, and Initial Universe Decision
-scope.
-
-Operational provider access, credentials, provider-account activity, API or
-market-data acquisition, dataset generation or acceptance, C6, model
-training, final-holdout access, scientific-host qualification, paper/live
-trading, broker activity, and Change Point Analysis execution remain
-unauthorized.
-
-The repository is public and remains in development. Its completed public
-release does not imply production readiness, dataset acceptance, model
-qualification, final-holdout completion, or paper/live trading readiness, and
-it does not expand the bounded C5 authorization.
+The repository is public and remains in development. Public release does not imply production readiness, dataset acceptance, model qualification, or trading readiness.
