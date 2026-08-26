@@ -2,7 +2,10 @@
 
 ```text
 document_status = ACTIVE_REPOSITORY_OVERVIEW
-repository_status = CREATED_PRIVATE
+repository_status = PUBLIC
+repository_public_release = COMPLETE
+license_policy = NO_LICENSE__ALL_RIGHTS_RESERVED_BY_DEFAULT
+license_file_present = NO
 current_lifecycle_state = C5_ACTIVE
 authorization_effect = C5_SCOPE_ONLY
 ```
@@ -116,5 +119,10 @@ Calendar, and Initial Universe Decision scope.
 Operational provider access, credentials, provider-account activity, API or
 market-data acquisition, dataset generation or acceptance, C6, model
 training, final-holdout access, scientific-host qualification, paper/live
-trading, broker activity, public release, and Change Point Analysis execution
-remain unauthorized.
+trading, broker activity, and Change Point Analysis execution remain
+unauthorized.
+
+The repository is public and remains in development. Its completed public
+release does not imply production readiness, dataset acceptance, model
+qualification, final-holdout completion, or paper/live trading readiness, and
+it does not expand the bounded C5 authorization.
