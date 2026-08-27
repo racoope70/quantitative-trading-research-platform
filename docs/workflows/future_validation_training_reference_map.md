@@ -1,7 +1,7 @@
 # Future Validation and Training Reference Map
 
 ```text
-document_status = ACTIVE_NON_AUTHORIZING_REFERENCE
+document_status = ESTABLISHED_NON_AUTHORIZING_REFERENCE
 document_role = NON_AUTHORIZING_FUTURE_GUIDANCE_AND_SEQUENCING_REFERENCE
 authorization_effect = NONE
 ```
