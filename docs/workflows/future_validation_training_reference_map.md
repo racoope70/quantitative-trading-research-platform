@@ -1,8 +1,8 @@
 # Future Validation and Training Reference Map
 
 ```text
-document_status = DRAFT_FOR_OWNER_REVIEW
-document_role = GUIDANCE_ONLY
+document_status = ACTIVE_NON_AUTHORIZING_REFERENCE
+document_role = NON_AUTHORIZING_FUTURE_GUIDANCE_AND_SEQUENCING_REFERENCE
 authorization_effect = NONE
 ```
 
