@@ -282,6 +282,7 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.10 — C4 authorization canonical recording
 2v.GOV.11 — C4 completion and closure decision
 2v.GOV.12 — C5 authorization canonical recording
+2v.DATA.01 — C5 provider strategy decision
 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 2v.LEGACY.02 — C1 legacy evidence retention matrix
 2v.ARCH.01 — C1 technical migration manifest
@@ -564,6 +565,29 @@ Current lifecycle state continues to come from `PROJECT_CONTEXT.md`.
 The Stage A exact post-merge validation is an activation precondition. A
 subsequent bounded current-state recording remains necessary before
 `PROJECT_CONTEXT.md` may establish `C5_ACTIVE`.
+
+### 2v.DATA.01 — C5 provider strategy decision
+
+```text
+2v_record = 2v.DATA.01
+record_type = C5_SUBSTANTIVE_PROVIDER_DATA_SOURCE_DECISION_EVIDENCE
+record_path = docs/decisions/C5_provider_strategy_decision.md
+authorization_effect = NONE_BY_THIS_MAP
+provider_purchase_authorization_effect = NONE
+provider_account_authorization_effect = NONE
+market_data_acquisition_authorization_effect = NONE
+dataset_generation_authorization_effect = NONE
+C6_authorization_effect = NONE
+```
+
+This curated record identifies the substantive C5 provider/data-source
+decision evidence. The substantive decision remains in
+`docs/decisions/C5_provider_strategy_decision.md`.
+
+This curated record has no authorization effect by itself. It does not
+control lifecycle state, independently authorize work, authorize a provider
+purchase or provider-account activity, authorize market-data acquisition or
+dataset generation, authorize C6, or establish or track a current checkpoint.
 
 ### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 
