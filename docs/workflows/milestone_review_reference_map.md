@@ -91,6 +91,12 @@ C5_authorization_status = AUTHORIZED
 C5_owner_decision_status = ACCEPTED
 authorized_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
 C5_activation_condition = REQUIRES_CANONICAL_STAGE_A_ALIGNMENT_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION_BEFORE_CURRENT_STATE_ACTIVATION_RECORDING
+C5_completion_decision = docs/decisions/C5_completion_decision.md
+C5_completion_decision_id = GOV-DEC-0012
+C5_completion_status = ACCEPTED
+C5_completion_effect = EFFECTIVE__ALIGNED_TARGET
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT = REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE
+C6_AUTHORIZATION = SEPARATE_OWNER_ADMIN_DECISION
 C6_authorization_effect = NONE
 ```
 
@@ -282,7 +288,11 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.GOV.10 — C4 authorization canonical recording
 2v.GOV.11 — C4 completion and closure decision
 2v.GOV.12 — C5 authorization canonical recording
+2v.GOV.13 — C5 completion and closure decision
 2v.DATA.01 — C5 provider strategy decision
+2v.DATA.02 — C5 historical-universe timing decision
+2v.DATA.03 — C5 historical-universe eligibility and PIT evidence decision
+2v.DATA.04 — C5 calendar, cost, and regime decision
 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 2v.LEGACY.02 — C1 legacy evidence retention matrix
 2v.ARCH.01 — C1 technical migration manifest
@@ -562,9 +572,41 @@ This map does not independently authorize or activate C5.
 `2v.GOV.12` records the accepted Owner authorization as governance evidence.
 Current lifecycle state continues to come from `PROJECT_CONTEXT.md`.
 
-The Stage A exact post-merge validation is an activation precondition. A
-subsequent bounded current-state recording remains necessary before
-`PROJECT_CONTEXT.md` may establish `C5_ACTIVE`.
+The Stage A exact post-merge validation was an activation precondition. C5 was
+subsequently activated and its substantive decision work was completed.
+
+Current lifecycle state remains controlled by `PROJECT_CONTEXT.md`; see
+`2v.GOV.13` for accepted C5 completion and closure evidence.
+
+### 2v.GOV.13 — C5 completion and closure decision
+
+```text
+2v_record = 2v.GOV.13
+record_type = C5_COMPLETION_AND_CLOSURE_DECISION
+record_path = docs/decisions/C5_completion_decision.md
+decision_id = GOV-DEC-0012
+owner_completion_decision_status = ACCEPTED
+owner_decision = ACCEPT_C5_COMPLETION_AND_CLOSURE
+accepted_C5_scientific_main = 1398c972155951b4ec7d1a6b2789587271551754
+C5_exit_readiness = PASS_READY_FOR_OWNER_ADMIN_C5_COMPLETION_DECISION
+DATA_SOURCE_CALENDAR_AND_UNIVERSE_DECISION = ACCEPTED_AND_AUDITED
+C5_scientific_decision_work = COMPLETE
+C5_completion_status = ACCEPTED
+C5_completion_effect = EFFECTIVE__ALIGNED_TARGET
+additional_C5_scientific_work_required = NO
+material_unresolved_C5_items = NONE
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT = REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE
+C6_AUTHORIZATION = SEPARATE_OWNER_ADMIN_DECISION
+C6_authorization_effect = NONE
+authorization_effect = NONE_BY_THIS_MAP
+```
+
+This map does not independently close C5 or authorize C6. `2v.GOV.13`
+navigates to the Owner-accepted C5 completion evidence.
+
+The post-C5/pre-C6 RL-design alignment requirement is a boundary/navigation
+note only. It does not reopen C5, authorize that alignment work, authorize
+model development, or authorize C6.
 
 ### 2v.DATA.01 — C5 provider strategy decision
 
@@ -588,6 +630,46 @@ This curated record has no authorization effect by itself. It does not
 control lifecycle state, independently authorize work, authorize a provider
 purchase or provider-account activity, authorize market-data acquisition or
 dataset generation, authorize C6, or establish or track a current checkpoint.
+
+### 2v.DATA.02 — C5 historical-universe timing decision
+
+```text
+2v_record = 2v.DATA.02
+record_type = C5_SUBSTANTIVE_HISTORICAL_UNIVERSE_TIMING_DECISION_EVIDENCE
+record_path = docs/decisions/C5_historical_universe_timing_decision.md
+authorization_effect = NONE_BY_THIS_MAP
+C6_authorization_effect = NONE
+```
+
+### 2v.DATA.03 — C5 historical-universe eligibility and PIT evidence decision
+
+```text
+2v_record = 2v.DATA.03
+record_type = C5_SUBSTANTIVE_HISTORICAL_UNIVERSE_ELIGIBILITY_PIT_DECISION_EVIDENCE
+record_path = docs/decisions/C5_historical_universe_eligibility_decision.md
+authorization_effect = NONE_BY_THIS_MAP
+provider_account_activity = NONE
+market_data_acquisition = NONE
+dataset_generation = NONE
+C6_authorization_effect = NONE
+```
+
+### 2v.DATA.04 — C5 calendar, cost, and regime decision
+
+```text
+2v_record = 2v.DATA.04
+record_type = C5_SUBSTANTIVE_CALENDAR_COST_REGIME_DECISION_EVIDENCE
+record_path = docs/decisions/C5_calendar_cost_regime_decision.md
+authorization_effect = NONE_BY_THIS_MAP
+CALENDAR_GAP_STATUS = RESOLVED
+SPREADS_EXPECTED_COSTS_GAP_STATUS = RESOLVED
+REGIME_DIVERSITY_GAP_STATUS = RESOLVED
+C6_authorization_effect = NONE
+```
+
+These curated C5 data records provide navigation only. They do not control
+current lifecycle state or authorize provider, data, model, RL-design, or
+later-phase execution.
 
 ### 2v.LEGACY.01 — C1 bounded historical inventory and functional crosswalk
 
@@ -737,6 +819,12 @@ C5_authorization_status = AUTHORIZED
 C5_owner_decision_status = ACCEPTED
 authorized_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
 C5_activation_condition = REQUIRES_CANONICAL_STAGE_A_ALIGNMENT_AND_SUCCESSFUL_EXACT_POST_MERGE_VALIDATION_BEFORE_CURRENT_STATE_ACTIVATION_RECORDING
+C5_completion_decision = docs/decisions/C5_completion_decision.md
+C5_completion_decision_id = GOV-DEC-0012
+C5_completion_status = ACCEPTED
+C5_completion_effect = EFFECTIVE__ALIGNED_TARGET
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT = REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE
+C6_AUTHORIZATION = SEPARATE_OWNER_ADMIN_DECISION
 C6_authorization_effect = NONE
 ```
 

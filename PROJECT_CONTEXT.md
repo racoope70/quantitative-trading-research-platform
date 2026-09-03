@@ -2,11 +2,11 @@
 
 ```text
 document_status = ACTIVE_CURRENT_STATE
-current_lifecycle_state = C5_ACTIVE
-active_major_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+current_lifecycle_state = C5_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = NONE
-phase_status = ACTIVE
-authorization_effect = C5_SCOPE_ONLY
+phase_status = COMPLETED
+authorization_effect = NONE
 working_repository_name = quantitative-trading-research-platform
 repository_creation_status = CREATED_PRIVATE
 repository_visibility = PUBLIC
@@ -61,15 +61,31 @@ C5_authorization_decision = docs/decisions/C5_authorization_decision.md
 C5_authorization_decision_id = GOV-DEC-0011
 C5_authorization_status = AUTHORIZED
 C5_owner_decision_status = ACCEPTED
-C5_activation_status = EFFECTIVE
-C5_activation_precondition = SATISFIED
-C5_authorization_effect = EFFECTIVE
-C5_current_lifecycle_effect = EFFECTIVE
+C5_completion_decision = docs/decisions/C5_completion_decision.md
+C5_completion_decision_id = GOV-DEC-0012
+C5_completion_status = ACCEPTED
+C5_scientific_decision_work = COMPLETE
+C5_completion_effect = EFFECTIVE
+C5_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
+HISTORICAL_C5_AUTHORIZATION = PRESERVED
+CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 
-current_authorized_workstream = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
-next_permitted_workstream = BOUNDED_C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION_ONLY
+current_authorized_workstream = NONE
+next_permitted_workstream = NONE_UNTIL_SEPARATE_OWNER_ADMIN_DECISION
+
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =
+REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE
+
+C6_AUTHORIZATION =
+SEPARATE_OWNER_ADMIN_DECISION
 
 C6_authorization_effect = NONE
+
+dataset_status = NO_NEW_REPOSITORY_DATASET_SELECTED_OR_ACCEPTED
+provider_acceptance_status = NONE
+dataset_contract_status = NOT_STARTED
+dataset_generation_status = NOT_AUTHORIZED
+final_ticker_universe_status = NOT_SELECTED
 
 current_model_candidate = NONE
 current_deployment_candidate = NONE
@@ -120,60 +136,56 @@ PRE_C0_DRAFT_REVIEW
 → C4_ACTIVE
 → C4_COMPLETED
 → C5_ACTIVE
+→ C5_COMPLETED
 ```
 
-C0 through C4 are completed. C4 completion remains effective.
+C0 through C4 remain completed and effective.
 
-The Owner has accepted the bounded C5 Data Source, Calendar, and Initial
-Universe Decision authorization. Stage A canonical alignment and exact
-post-merge validation are complete, and the C5 activation precondition is
-satisfied.
+The Owner has accepted C5 completion and closure after the complete C5
+data-source, calendar, historical-timing, PIT-eligibility, cost, and regime
+decision surface passed final exit-readiness review.
 
-C5 is the current active lifecycle phase under `C5_SCOPE_ONLY`. This activation
-does not reopen C4 and does not authorize C6 or operational provider, dataset,
-model, holdout, or trading work outside the bounded C5 scope. Repository
-public release was separately authorized and is complete; it does not expand
-the bounded C5 execution scope.
+The aligned completed target has no active major phase and no current C5
+execution authorization. Effective lifecycle closure requires canonical
+recording of this aligned target followed by successful required exact
+validation of that canonical commit.
+
+C5 completion does not authorize C6 or any provider, data, model, holdout,
+broker, paper-trading, or live-trading execution.
 
 ```text
 current_material_blocker = NONE
-current_lifecycle_state = C5_ACTIVE
-active_major_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+current_lifecycle_state = C5_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = NONE
-phase_status = ACTIVE
-authorization_effect = C5_SCOPE_ONLY
+phase_status = COMPLETED
+authorization_effect = NONE
 
-C3_completion_effect = EFFECTIVE
-
-C4_authorization_decision = docs/decisions/C4_authorization_decision.md
-C4_authorization_decision_id = GOV-DEC-0009
-C4_authorization_status = AUTHORIZED
-C4_authorization_effect = EFFECTIVE
-selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
-C4_completion_decision = docs/decisions/C4_completion_decision.md
-C4_completion_decision_id = GOV-DEC-0010
-C4_completion_status = ACCEPTED
-selected_C4_subset_completion = 21_OF_21_COMPLETE
-C4_technical_completion = YES
-final_independent_C4_technical_closeout_audit = PASS
-required_additional_C4_technical_work = NONE
-C4_technical_work_status = COMPLETE
 C4_completion_effect = EFFECTIVE
-C4_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
 CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 
-C5_entry_prerequisite = SATISFIED
 C5_authorization_decision = docs/decisions/C5_authorization_decision.md
 C5_authorization_decision_id = GOV-DEC-0011
 C5_authorization_status = AUTHORIZED
 C5_owner_decision_status = ACCEPTED
-C5_activation_status = EFFECTIVE
-C5_activation_precondition = SATISFIED
-C5_authorization_effect = EFFECTIVE
-C5_current_lifecycle_effect = EFFECTIVE
 
-current_authorized_workstream = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
-next_permitted_workstream = BOUNDED_C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION_ONLY
+C5_completion_decision = docs/decisions/C5_completion_decision.md
+C5_completion_decision_id = GOV-DEC-0012
+C5_completion_status = ACCEPTED
+C5_scientific_decision_work = COMPLETE
+C5_completion_effect = EFFECTIVE
+C5_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
+HISTORICAL_C5_AUTHORIZATION = PRESERVED
+CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+
+current_authorized_workstream = NONE
+next_permitted_workstream = NONE_UNTIL_SEPARATE_OWNER_ADMIN_DECISION
+
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =
+REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE
+
+C6_AUTHORIZATION =
+SEPARATE_OWNER_ADMIN_DECISION
 
 C6_authorization_effect = NONE
 
@@ -189,11 +201,8 @@ current_deployment_candidate = NONE
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
-Successful exact post-merge validation of the Stage A canonical alignment
-established the C5 activation precondition.
-
-This current-state recording activates only the already-authorized bounded C5
-Data Source, Calendar, and Initial Universe Decision workstream.
+The post-C5/pre-C6 RL-design alignment requirement does not reopen C5, does not
+block C5 closure, and does not itself authorize the alignment work or C6.
 
 ## 4. Completed C2 scope and preserved C1 evidence
 
@@ -234,36 +243,39 @@ Historical repositories remain read-only evidence and engineering sources. They 
 
 ## 5. Continuing non-authorization
 
-C4 remains completed and effective.
+C5 scientific decision work is complete. No current C5 execution authorization
+remains after effective closure.
 
-C5 is active only for the bounded Data Source, Calendar, and Initial Universe
-Decision workstream. Authorized C5 work is limited to research-level provider
-candidate and provider-strategy evaluation, provider/feed characteristics,
-licensing/permitted-use and entitlement review, canonical market-calendar,
-session, timestamp, and source-selection requirements, initial-universe
-selection, and bounded C5 decision evidence and exit review/audit.
+The accepted historical C5 authorization and substantive decision evidence
+remain preserved as research lineage; they do not create a current executable
+workstream.
 
-Initial-universe criteria may address liquidity, spreads and expected costs,
-coverage, corporate actions, sector/regime diversity, provider availability,
-compute requirements, survivorship bias, and selection bias.
+```text
+C6_authorization_effect = NONE
+dataset_contract_freeze = NOT_AUTHORIZED
+provider_purchase_or_account_activity = NOT_AUTHORIZED
+authenticated_provider_access = NOT_AUTHORIZED
+market_or_reference_data_acquisition = NOT_AUTHORIZED
+historical_universe_construction = NOT_AUTHORIZED
+dataset_generation = NOT_AUTHORIZED
+dataset_acceptance = NOT_AUTHORIZED
+model_training = NOT_AUTHORIZED
+model_selection_or_retraining = NOT_AUTHORIZED
+final_holdout_access = NOT_AUTHORIZED
+scientific_host_qualification = NOT_AUTHORIZED
+paper_trading = NOT_AUTHORIZED
+live_trading = NOT_AUTHORIZED
+broker_account_activity = NOT_AUTHORIZED
+```
 
-Still not authorized:
+The separate post-C5/pre-C6 RL-design alignment must be resolved before any C6
+dataset contract may be frozen. That requirement is a scientific-design
+boundary only and is not authorization to perform the alignment or to begin
+C6.
 
-- Credentials or authenticated provider access.
-- Network or API data acquisition.
-- Provider-account activity or production market-data requests.
-- Dataset generation or dataset acceptance.
-- C6 dataset-contract freeze.
-- Model training, retraining, selection, qualification, or promotion.
-- Shared final-holdout access.
-- Scientific-host qualification.
-- Broker-account activity, paper trading, or live trading.
-- Change Point Analysis execution.
-- C6 or any later phase.
-
-Repository public release is complete under separate authorization and is not
-part of this continuing non-authorization list. It does not authorize any
-additional operational, model, holdout, trading, or later-phase work.
+Repository public release remains complete under its separate historical
+authorization and does not authorize additional operational, model, holdout,
+trading, or later-phase work.
 
 Historical repository material remains evidence and engineering lineage, not
 current runtime dependency or authorization.
@@ -327,13 +339,16 @@ scientific_host_qualification = NOT_AUTHORIZED
 
 The accepted C3 environment remains the controlling canonical environment foundation. C4 completion does not redesign or reopen it.
 
-## 10. Completed governance evidence through C4 and effective C5 authorization
+## 10. Completed governance evidence through C5
 
-C0 through C4 have accepted lifecycle records and C4 completion is effective.
+C0 through C4 remain completed and effective.
 
-The Owner C5 authorization is accepted. Stage A canonical alignment and exact
-post-merge validation are complete, and this Stage B current-state recording
-applies the satisfied activation precondition to the bounded C5 workstream.
+The Owner C5 authorization remains preserved as historical evidence. The Owner
+has now accepted C5 completion and closure after the final C5 exit-readiness
+audit found no material unresolved C5 items.
+
+The completion/current-state alignment target becomes effective only after
+canonical recording and successful required exact validation.
 
 ```text
 C0_completion_decision = docs/decisions/C0_completion_decision.md
@@ -357,44 +372,47 @@ C3_completion_effect = EFFECTIVE
 
 C4_authorization_decision = docs/decisions/C4_authorization_decision.md
 C4_authorization_decision_id = GOV-DEC-0009
-C4_authorization_status = AUTHORIZED
-C4_authorization_effect = EFFECTIVE
-selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 C4_completion_decision = docs/decisions/C4_completion_decision.md
 C4_completion_decision_id = GOV-DEC-0010
 C4_completion_status = ACCEPTED
-selected_C4_subset_completion = 21_OF_21_COMPLETE
-final_independent_C4_technical_closeout_audit = PASS
-required_additional_C4_technical_work = NONE
 C4_completion_effect = EFFECTIVE
 CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 
-C5_entry_prerequisite = SATISFIED
 C5_authorization_decision = docs/decisions/C5_authorization_decision.md
 C5_authorization_decision_id = GOV-DEC-0011
 C5_authorization_status = AUTHORIZED
 C5_owner_decision_status = ACCEPTED
-C5_activation_status = EFFECTIVE
-C5_activation_precondition = SATISFIED
-C5_authorization_effect = EFFECTIVE
-C5_current_lifecycle_effect = EFFECTIVE
+
+C5_completion_decision = docs/decisions/C5_completion_decision.md
+C5_completion_decision_id = GOV-DEC-0012
+C5_completion_status = ACCEPTED
+C5_scientific_decision_work = COMPLETE
+C5_completion_effect = EFFECTIVE
+C5_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
+HISTORICAL_C5_AUTHORIZATION = PRESERVED
+CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =
+REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE
+
+C6_AUTHORIZATION =
+SEPARATE_OWNER_ADMIN_DECISION
 
 C6_authorization_effect = NONE
 ```
 
-These records do not authorize operational provider activity, dataset
-generation or acceptance, model work, holdout access, trading, or C6. The
-separately authorized repository public release is complete and does not expand
-those execution boundaries.
+These records do not authorize provider operations, dataset-contract freeze,
+dataset generation or acceptance, model work, final-holdout access, trading,
+or C6.
 
 ## 11. Major milestone pointers
 
 ```text
-latest_completed_major_milestone = C4_SELECTED_CODE_MIGRATION_ADAPTATION_AND_VERIFICATION
-active_major_milestone = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+latest_completed_major_milestone = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+active_major_milestone = NONE
 latest_authorization_decision = docs/decisions/C5_authorization_decision.md
-latest_completion_record = docs/decisions/C4_completion_decision.md
-next_permitted_workstream = BOUNDED_C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION_ONLY
+latest_completion_record = docs/decisions/C5_completion_decision.md
+next_permitted_workstream = NONE_UNTIL_SEPARATE_OWNER_ADMIN_DECISION
 ```
 
 ## 12. Required reading and project orientation
@@ -408,9 +426,9 @@ For project orientation, the following reading and verification are required:
    and completed work.
 
 ```text
-latest_material_decision = docs/decisions/C5_authorization_decision.md
-latest_material_completion_record = docs/decisions/C4_completion_decision.md
-latest_material_independent_audit = FINAL_C4_INDEPENDENT_TECHNICAL_CLOSEOUT_AUDIT__PASS
+latest_material_decision = docs/decisions/C5_completion_decision.md
+latest_material_completion_record = docs/decisions/C5_completion_decision.md
+latest_material_independent_audit = FINAL_C5_EXIT_READINESS_AUDIT__PASS
 ```
 
 ## 13. Maintenance guidance

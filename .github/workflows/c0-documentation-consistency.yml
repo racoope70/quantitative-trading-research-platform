@@ -377,6 +377,96 @@ jobs:
           )
           PY
 
+      - name: Validate bounded C5 completion-alignment changed-file scope
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          from pathlib import Path
+
+          decision_path = (
+              "docs/decisions/C5_completion_decision.md"
+          )
+
+          if not Path(decision_path).is_file():
+              print(
+                  "C5 completion decision is not present; "
+                  "completion-alignment scope validation is not applicable."
+              )
+              raise SystemExit(0)
+
+          base_sha = os.environ.get("BASE_SHA", "").strip()
+          zero_sha = "0" * 40
+
+          if not base_sha or base_sha == zero_sha:
+              print(
+                  "No comparison base is available for this event; "
+                  "content and governance-state validation will continue."
+              )
+              raise SystemExit(0)
+
+          subprocess.run(
+              ["git", "cat-file", "-e", f"{base_sha}^{{commit}}"],
+              check=True,
+          )
+
+          base_contains_decision = subprocess.run(
+              [
+                  "git",
+                  "cat-file",
+                  "-e",
+                  f"{base_sha}:{decision_path}",
+              ],
+              stdout=subprocess.DEVNULL,
+              stderr=subprocess.DEVNULL,
+              check=False,
+          ).returncode == 0
+
+          if base_contains_decision:
+              print(
+                  "The comparison base already contains the C5 completion "
+                  "decision; initial completion-alignment scope validation "
+                  "is not applicable."
+              )
+              raise SystemExit(0)
+
+          expected_paths = {
+              ".github/workflows/c0-documentation-consistency.yml",
+              "PROJECT_CONTEXT.md",
+              "README.md",
+              "docs/decisions/C5_completion_decision.md",
+              "docs/workflows/milestone_review_reference_map.md",
+          }
+
+          changed_output = subprocess.check_output(
+              ["git", "diff", "--name-only", base_sha, "HEAD"],
+              text=True,
+          )
+
+          changed_paths = {
+              line.strip()
+              for line in changed_output.splitlines()
+              if line.strip()
+          }
+
+          if changed_paths != expected_paths:
+              missing = sorted(expected_paths - changed_paths)
+              unauthorized = sorted(changed_paths - expected_paths)
+              raise SystemExit(
+                  "C5 completion-alignment changed-file scope mismatch; "
+                  f"missing authorized paths: {missing}; "
+                  f"unauthorized changed paths: {unauthorized}"
+              )
+
+          print(
+              "Exact five-file C5 completion-alignment "
+              "changed-file scope passed."
+          )
+          PY
+
       - name: Validate bounded C5 Stage A changed-file scope
         shell: bash
         env:
@@ -1320,6 +1410,10 @@ jobs:
               "current_lifecycle_state = C5_ACTIVE"
               in project_context_lines
           )
+          c5_completed_state = (
+              "current_lifecycle_state = C5_COMPLETED"
+              in project_context_lines
+          )
 
           supported_state_count = sum(
               (
@@ -1327,6 +1421,7 @@ jobs:
                   c4_active_state,
                   c4_completed_state,
                   c5_active_state,
+                  c5_completed_state,
               )
           )
 
@@ -1334,7 +1429,7 @@ jobs:
               raise SystemExit(
                   "PROJECT_CONTEXT.md must establish exactly one supported "
                   "canonical lifecycle state: C3_COMPLETED, C4_ACTIVE, "
-                  "C4_COMPLETED, or C5_ACTIVE"
+                  "C4_COMPLETED, C5_ACTIVE, or C5_COMPLETED"
               )
 
           c5_decision_path = Path(
@@ -2908,6 +3003,245 @@ jobs:
                       "C5_ACTIVE requires GOV-DEC-0011."
                   )
 
+          if c5_completed_state:
+              required_lines["PROJECT_CONTEXT.md"] = [
+                  "document_status = ACTIVE_CURRENT_STATE",
+                  "current_lifecycle_state = C5_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = NONE",
+                  "phase_status = COMPLETED",
+                  "authorization_effect = NONE",
+                  "repository_visibility = PUBLIC",
+                  "repository_public_release = COMPLETE",
+                  "C5_authorization_decision = docs/decisions/C5_authorization_decision.md",
+                  "C5_authorization_decision_id = GOV-DEC-0011",
+                  "C5_authorization_status = AUTHORIZED",
+                  "C5_owner_decision_status = ACCEPTED",
+                  "C5_completion_decision = docs/decisions/C5_completion_decision.md",
+                  "C5_completion_decision_id = GOV-DEC-0012",
+                  "C5_completion_status = ACCEPTED",
+                  "C5_scientific_decision_work = COMPLETE",
+                  "C5_completion_effect = EFFECTIVE",
+                  "C5_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE",
+                  "HISTORICAL_C5_AUTHORIZATION = PRESERVED",
+                  "CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION",
+                  "current_authorized_workstream = NONE",
+                  "next_permitted_workstream = NONE_UNTIL_SEPARATE_OWNER_ADMIN_DECISION",
+                  "POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =",
+                  "REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE",
+                  "C6_AUTHORIZATION =",
+                  "SEPARATE_OWNER_ADMIN_DECISION",
+                  "C6_authorization_effect = NONE",
+                  "dataset_contract_status = NOT_STARTED",
+                  "dataset_generation_status = NOT_AUTHORIZED",
+                  "final_ticker_universe_status = NOT_SELECTED",
+                  "current_model_candidate = NONE",
+                  "current_deployment_candidate = NONE",
+                  "CURRENT_CHECKPOINT_TRACKER = NONE",
+              ]
+
+              required_lines["README.md"] = [
+                  "repository_status = PUBLIC",
+                  "repository_public_release = COMPLETE",
+                  "current_lifecycle_state = C5_COMPLETED",
+                  "active_major_phase = NONE",
+                  "proposed_next_major_phase = NONE",
+                  "phase_status = COMPLETED",
+                  "authorization_effect = NONE",
+                  "C5_owner_authorization = ACCEPTED",
+                  "C5_authorization_decision_id = GOV-DEC-0011",
+                  "C5_completion_decision = docs/decisions/C5_completion_decision.md",
+                  "C5_completion_decision_id = GOV-DEC-0012",
+                  "C5_completion_status = ACCEPTED",
+                  "C5_completion_effect = EFFECTIVE",
+                  "CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION",
+                  "POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =",
+                  "REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE",
+                  "C6_and_later = UNAUTHORIZED",
+              ]
+
+              c5_completion_path = Path(
+                  "docs/decisions/C5_completion_decision.md"
+              )
+
+              if not c5_decision_path.is_file():
+                  raise SystemExit(
+                      "C5_COMPLETED requires GOV-DEC-0011."
+                  )
+
+              if not c5_completion_path.is_file():
+                  raise SystemExit(
+                      "C5_COMPLETED requires GOV-DEC-0012."
+                  )
+
+              required_lines[
+                  "docs/decisions/C5_completion_decision.md"
+              ] = [
+                  "document_status = ACCEPTED_C5_COMPLETION_DECISION",
+                  "intended_repository_path = docs/decisions/C5_completion_decision.md",
+                  "decision_id = GOV-DEC-0012",
+                  "decision_type = C5_COMPLETION_AND_CLOSURE",
+                  "decision_status = ACCEPTED",
+                  "owner_completion_decision_status = ACCEPTED",
+                  "owner_decision = ACCEPT_C5_COMPLETION_AND_CLOSURE",
+                  "accepted_C5_scientific_main =",
+                  "1398c972155951b4ec7d1a6b2789587271551754",
+                  "C5_exit_readiness =",
+                  "PASS_READY_FOR_OWNER_ADMIN_C5_COMPLETION_DECISION",
+                  "DATA_SOURCE_CALENDAR_AND_UNIVERSE_DECISION =",
+                  "ACCEPTED_AND_AUDITED",
+                  "C5_scientific_decision_work = COMPLETE",
+                  "C5_completion = OWNER_ACCEPTED",
+                  "additional_C5_scientific_work_required = NO",
+                  "material_unresolved_C5_items = NONE",
+                  "C5_exit_requires_prohibited_execution = NO",
+                  "C6_boundary_preserved = YES",
+                  "historical_C5_evidence = PRESERVE",
+                  "authorization_effect = C5_COMPLETION_ALIGNMENT_ONLY",
+                  "C5_completion_effect = EFFECTIVE__ALIGNED_TARGET",
+                  "PRE_CANONICAL_RECORDING_C5_completion_effect =",
+                  "NOT_YET_EFFECTIVE",
+                  "POST_CANONICAL_RECORDING_PRE_VALIDATION_C5_completion_effect =",
+                  "NOT_YET_VERIFIED_EFFECTIVE",
+                  "POST_VALIDATION_C5_completion_effect =",
+                  "EFFECTIVE",
+                  "POST_VALIDATION_current_lifecycle_state =",
+                  "C5_COMPLETED",
+                  "POST_VALIDATION_active_major_phase =",
+                  "NONE",
+                  "POST_VALIDATION_phase_status =",
+                  "COMPLETED",
+                  "POST_VALIDATION_authorization_effect =",
+                  "NONE",
+                  "POST_VALIDATION_current_C5_execution_authorization =",
+                  "NONE_AFTER_COMPLETION",
+                  "POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =",
+                  "REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE",
+                  "C6_AUTHORIZATION =",
+                  "SEPARATE_OWNER_ADMIN_DECISION",
+                  "C6_authorization_effect = NONE",
+              ]
+
+              required_lines[
+                  "docs/workflows/milestone_review_reference_map.md"
+              ] = required_lines[
+                  "docs/workflows/milestone_review_reference_map.md"
+              ] + [
+                  "2v.GOV.13 — C5 completion and closure decision",
+                  "2v.DATA.01 — C5 provider strategy decision",
+                  "2v.DATA.02 — C5 historical-universe timing decision",
+                  "2v.DATA.03 — C5 historical-universe eligibility and PIT evidence decision",
+                  "2v.DATA.04 — C5 calendar, cost, and regime decision",
+                  "2v_record = 2v.GOV.13",
+                  "record_type = C5_COMPLETION_AND_CLOSURE_DECISION",
+                  "record_path = docs/decisions/C5_completion_decision.md",
+                  "decision_id = GOV-DEC-0012",
+                  "C5_completion_status = ACCEPTED",
+                  "C5_completion_effect = EFFECTIVE__ALIGNED_TARGET",
+                  "POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT = REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE",
+                  "C6_AUTHORIZATION = SEPARATE_OWNER_ADMIN_DECISION",
+                  "C6_authorization_effect = NONE",
+                  "2v_record = 2v.DATA.02",
+                  "record_path = docs/decisions/C5_historical_universe_timing_decision.md",
+                  "2v_record = 2v.DATA.03",
+                  "record_path = docs/decisions/C5_historical_universe_eligibility_decision.md",
+                  "2v_record = 2v.DATA.04",
+                  "record_path = docs/decisions/C5_calendar_cost_regime_decision.md",
+              ]
+
+              project_all_lines = Path(
+                  "PROJECT_CONTEXT.md"
+              ).read_text(encoding="utf-8").splitlines()
+
+              require_exact_assignments(
+                  "PROJECT_CONTEXT C5 completed state",
+                  project_all_lines,
+                  {
+                      "current_lifecycle_state": "C5_COMPLETED",
+                      "active_major_phase": "NONE",
+                      "proposed_next_major_phase": "NONE",
+                      "phase_status": "COMPLETED",
+                      "authorization_effect": "NONE",
+                      "C5_completion_decision": "docs/decisions/C5_completion_decision.md",
+                      "C5_completion_decision_id": "GOV-DEC-0012",
+                      "C5_completion_status": "ACCEPTED",
+                      "C5_scientific_decision_work": "COMPLETE",
+                      "C5_completion_effect": "EFFECTIVE",
+                      "C5_LIFECYCLE_CLOSURE": "COMPLETE__EFFECTIVE",
+                      "HISTORICAL_C5_AUTHORIZATION": "PRESERVED",
+                      "CURRENT_C5_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                      "current_authorized_workstream": "NONE",
+                      "next_permitted_workstream": "NONE_UNTIL_SEPARATE_OWNER_ADMIN_DECISION",
+                      "C6_authorization_effect": "NONE",
+                  },
+              )
+
+              require_exact_logical_assignment(
+                  "PROJECT_CONTEXT C5 completed state",
+                  project_all_lines,
+                  "POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT",
+                  "REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE",
+              )
+
+              require_exact_logical_assignment(
+                  "PROJECT_CONTEXT C5 completed state",
+                  project_all_lines,
+                  "C6_AUTHORIZATION",
+                  "SEPARATE_OWNER_ADMIN_DECISION",
+              )
+
+              readme_all_lines = Path(
+                  "README.md"
+              ).read_text(encoding="utf-8").splitlines()
+
+              require_exact_assignments(
+                  "README C5 completed state",
+                  readme_all_lines,
+                  {
+                      "current_lifecycle_state": "C5_COMPLETED",
+                      "active_major_phase": "NONE",
+                      "proposed_next_major_phase": "NONE",
+                      "phase_status": "COMPLETED",
+                      "authorization_effect": "NONE",
+                      "C5_completion_decision": "docs/decisions/C5_completion_decision.md",
+                      "C5_completion_decision_id": "GOV-DEC-0012",
+                      "C5_completion_status": "ACCEPTED",
+                      "C5_completion_effect": "EFFECTIVE",
+                      "CURRENT_C5_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                      "C6_and_later": "UNAUTHORIZED",
+                  },
+              )
+
+              require_exact_logical_assignment(
+                  "README C5 completed state",
+                  readme_all_lines,
+                  "POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT",
+                  "REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE",
+              )
+
+              forbidden_completed_lines = {
+                  "current_lifecycle_state = C6_ACTIVE",
+                  "C6_authorization_effect = EFFECTIVE",
+                  "dataset_generation_status = AUTHORIZED",
+                  "final_holdout_access = AUTHORIZED",
+              }
+
+              present_forbidden = sorted(
+                  forbidden_completed_lines
+                  & set(project_all_lines)
+              )
+
+              if present_forbidden:
+                  raise SystemExit(
+                      "C5_COMPLETED contains prohibited C6/later "
+                      f"activation: {present_forbidden}"
+                  )
+
+              print(
+                  "C5 completed-state semantic validation passed."
+              )
+
+
           for path, expected_lines in required_lines.items():
               actual_lines = set(Path(path).read_text(encoding="utf-8").splitlines())
               missing_lines = [line for line in expected_lines if line not in actual_lines]
@@ -3283,6 +3617,7 @@ jobs:
                       "current_lifecycle_state = C4_ACTIVE",
                       "current_lifecycle_state = C4_COMPLETED",
                       "current_lifecycle_state = C5_ACTIVE",
+                      "current_lifecycle_state = C5_COMPLETED",
                   }
                   & project_context_lines
               )
@@ -3451,6 +3786,35 @@ jobs:
                   )
               )
 
+              c5_completed_context_effective = (
+                  "current_lifecycle_state = C5_COMPLETED"
+                  in project_context_lines
+                  and package_exact_assignments(
+                      project_context_all_lines,
+                      {
+                          "current_lifecycle_state": "C5_COMPLETED",
+                          "active_major_phase": "NONE",
+                          "proposed_next_major_phase": "NONE",
+                          "phase_status": "COMPLETED",
+                          "authorization_effect": "NONE",
+                          "C3_completion_effect": "EFFECTIVE",
+                          "C4_authorization_decision_id": "GOV-DEC-0009",
+                          "C4_authorization_effect": "EFFECTIVE",
+                          "C4_completion_decision_id": "GOV-DEC-0010",
+                          "C4_completion_status": "ACCEPTED",
+                          "C4_completion_effect": "EFFECTIVE",
+                          "CURRENT_C4_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                          "C5_authorization_decision_id": "GOV-DEC-0011",
+                          "C5_completion_decision": "docs/decisions/C5_completion_decision.md",
+                          "C5_completion_decision_id": "GOV-DEC-0012",
+                          "C5_completion_status": "ACCEPTED",
+                          "C5_completion_effect": "EFFECTIVE",
+                          "CURRENT_C5_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                          "C6_authorization_effect": "NONE",
+                      },
+                  )
+              )
+
               c4_decision_path = Path(
                   "docs/decisions/C4_authorization_decision.md"
               )
@@ -3536,6 +3900,7 @@ jobs:
               if (
                   c4_completed_context_effective
                   or c5_active_context_effective
+                  or c5_completed_context_effective
               ):
                   c4_completion_path = Path(
                       "docs/decisions/C4_completion_decision.md"
@@ -3594,6 +3959,7 @@ jobs:
                           (
                               c4_completed_context_effective
                               or c5_active_context_effective
+                              or c5_completed_context_effective
                           )
                           and c4_completion_decision_effective
                       )

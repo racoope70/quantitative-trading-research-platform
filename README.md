@@ -63,11 +63,11 @@ repository_public_release = COMPLETE
 license_policy = NO_LICENSE__ALL_RIGHTS_RESERVED_BY_DEFAULT
 license_file_present = NO
 
-current_lifecycle_state = C5_ACTIVE
-active_major_phase = C5_DATA_SOURCE_CALENDAR_AND_INITIAL_UNIVERSE_DECISION
+current_lifecycle_state = C5_COMPLETED
+active_major_phase = NONE
 proposed_next_major_phase = NONE
-phase_status = ACTIVE
-authorization_effect = C5_SCOPE_ONLY
+phase_status = COMPLETED
+authorization_effect = NONE
 
 C1_phase_status = COMPLETED
 C1_completion_effect = EFFECTIVE
@@ -78,19 +78,10 @@ C2_completion_effect = EFFECTIVE
 C3_phase_status = COMPLETED
 C3_completion_effect = EFFECTIVE
 
-C4_authorization_decision = docs/decisions/C4_authorization_decision.md
-C4_authorization_decision_id = GOV-DEC-0009
-C4_authorization_status = AUTHORIZED
-C4_authorization_effect = EFFECTIVE
-selected_C4_surface = OWNER_ACCEPTED_21_ITEM_BOUNDED_OFFLINE_C4_SUBSET
 C4_completion_decision = docs/decisions/C4_completion_decision.md
 C4_completion_decision_id = GOV-DEC-0010
 C4_completion_status = ACCEPTED
 C4_completion_effect = EFFECTIVE
-selected_C4_subset_completion = 21_OF_21_COMPLETE
-C4_technical_completion = YES
-final_independent_C4_technical_closeout_audit = PASS
-required_additional_C4_technical_work = NONE
 CURRENT_C4_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 C4 = COMPLETED__EFFECTIVE
 
@@ -98,9 +89,15 @@ C5_owner_authorization = ACCEPTED
 C5_authorization_decision = docs/decisions/C5_authorization_decision.md
 C5_authorization_decision_id = GOV-DEC-0011
 C5_authorization_status = AUTHORIZED
-C5_activation_status = EFFECTIVE
-C5_activation_precondition = SATISFIED
-C5_current_execution_effect = EFFECTIVE
+
+C5_completion_decision = docs/decisions/C5_completion_decision.md
+C5_completion_decision_id = GOV-DEC-0012
+C5_completion_status = ACCEPTED
+C5_completion_effect = EFFECTIVE
+CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =
+REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE
 
 C6_and_later = UNAUTHORIZED
 
@@ -108,8 +105,20 @@ current_model_candidate = NONE
 current_deployment_candidate = NONE
 ```
 
-C1 through C4 are complete. C5 is the active lifecycle phase under the accepted bounded Data Source, Calendar, and Initial Universe Decision authorization.
+C1 through C5 are complete in the aligned target. C5 completion is
+Owner-accepted and becomes effective through canonical recording plus the
+required exact validation; no current C5 execution authorization remains
+afterward.
 
-Operational provider access, credentials, market-data acquisition, dataset generation or acceptance, C6 and later phases, model training, final-holdout access, paper/live trading, and broker activity remain unauthorized.
+A separate post-C5/pre-C6 RL-design alignment is required before any C6
+dataset-contract freeze. That requirement is not C6 authorization and does not
+authorize model development or training.
 
-The repository is public and remains in development. Public release does not imply production readiness, dataset acceptance, model qualification, or trading readiness.
+Operational provider access, credentials, market/reference-data acquisition,
+historical-universe construction, dataset-contract freeze, dataset generation
+or acceptance, C6 and later phases, model training, final-holdout access,
+paper/live trading, and broker activity remain unauthorized.
+
+The repository is public and remains in development. Public release does not
+imply production readiness, dataset acceptance, model qualification, or
+trading readiness.
