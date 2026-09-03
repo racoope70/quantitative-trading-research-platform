@@ -44,11 +44,11 @@ Git history and the working tree verify implementation and completion evidence. 
 | C5 — Data Source, Calendar, and Initial Universe Decision | Evaluate and accept provider strategy, licensing, permitted use, calendars, and universe criteria | C4 technical foundation accepted and C5 authorized | Data-source, calendar, and universe decision accepted and audited |
 | C6 — Dataset Contract Freeze | Define raw and processed dataset requirements before generation | C5 decision accepted | Dataset contracts frozen and independently audited |
 | C7 — Dataset Generation and Acceptance | Generate and validate the governed dataset | C6 contracts accepted and data access authorized | Dataset passes contract, provenance, and acceptance audit |
-| C8 — PPO v2 Implementation Readiness | Complete tested PPO v2 implementation and training preflight | C7 dataset accepted | PPO implementation and training plan pass readiness audit |
-| C9 — PPO v2 Training, Validation, Qualification, and Freeze | Train and validate PPO using predeclared non-final data and reach an accepted terminal disposition without opening the shared final holdout | C8 readiness accepted and training authorized | `QUALIFIED_AND_FROZEN`, `REJECTED`, `NO_CANDIDATE`, or `INCONCLUSIVE`; shared final holdout untouched |
-| C10 — Random Forest Gate Development and Validation | Develop and validate the RF gate only when a qualified frozen PPO foundation exists | `C9_terminal_disposition = QUALIFIED_AND_FROZEN` and `focused_RF_readiness_audit = PASS` | If entered: `QUALIFIED_AND_FROZEN`, `REJECTED`, `NO_CANDIDATE`, or `INCONCLUSIVE`; if PPO is not qualified: `NOT_APPLICABLE_NO_QUALIFIED_PPO_FOUNDATION`; shared final holdout untouched |
-| C11 — XGBoost Gate Development and Validation | Develop and validate the XGBoost gate only when a qualified frozen PPO foundation exists and C10 has an accepted terminal disposition | `C9_terminal_disposition = QUALIFIED_AND_FROZEN`, `C10_has_accepted_terminal_disposition = YES`, and `focused_XGBoost_readiness_audit = PASS` | If entered: `QUALIFIED_AND_FROZEN`, `REJECTED`, `NO_CANDIDATE`, or `INCONCLUSIVE`; if PPO is not qualified: `NOT_APPLICABLE_NO_QUALIFIED_PPO_FOUNDATION`; shared final holdout untouched |
-| C12 — Eligible-Candidate Freeze, Shared Final Holdout, and Promotion Decision | Freeze all eligible candidates and the common evaluation package; open the shared final holdout once only when at least one eligible candidate exists; otherwise record the no-eligible-candidate outcome without holdout access | All applicable model-family phases have accepted terminal dispositions; all eligible candidates are frozen; common evaluation package is frozen. Final-holdout path additionally requires at least one eligible candidate and express holdout authorization | Eligible-candidate path: shared holdout report and promotion/rejection/inconclusive decision audited. No-eligible-candidate path: `C12_terminal_disposition = NO_ELIGIBLE_CANDIDATE` and `final_holdout_accessed = NO` |
+| C8 — Bounded RL Candidate Implementation Readiness | Assess implementation readiness and compatibility for the predeclared PPO, SAC, and RecurrentPPO set under the common continuous target-position/exposure formulation without forcing an unready candidate forward | C7 dataset accepted and C8 separately authorized | Candidate-specific readiness dispositions accepted; incompatible or unready candidates may stop under predeclared conditions; no training or final-holdout access is implied |
+| C9 — Bounded RL Training, Validation, Comparison, Qualification, and Freeze | Train and validate only applicable ready members of the predeclared PPO, SAC, and RecurrentPPO set using common non-final evaluation controls | C8 readiness dispositions accepted and C9 training separately authorized | Each applicable candidate reaches `QUALIFIED_AND_FROZEN`, `REJECTED`, `NO_CANDIDATE`, `INCONCLUSIVE`, or `NOT_APPLICABLE_WHERE_PREDECLARED_CONDITIONS_FAIL`; shared final holdout untouched |
+| C10 — RF Participation-Gate Ablation | Test Random Forest participation gating as an incremental-value architectural hypothesis against paired ungated control(s) using Option B+ foundation routing | C9 has accepted candidate dispositions; at least one qualified/frozen RL foundation is eligible under the fixed PPO→SAC→RecurrentPPO priority; focused RF readiness passes; C10 separately authorized | Accepted RF-gating terminal disposition recorded without post-hoc foundation selection; shared final holdout untouched |
+| C11 — XGBoost Participation-Gate Ablation | Test XGBoost participation gating as an alternative incremental-value architectural hypothesis against paired ungated control(s) using the same Option B+ routing discipline | C10 has an accepted terminal disposition; at least one qualified/frozen RL foundation remains eligible under the fixed priority; focused XGBoost readiness passes; C11 separately authorized | Accepted XGBoost-gating terminal disposition recorded without post-hoc foundation selection; shared final holdout untouched |
+| C12 — Eligible-Candidate Freeze, One Shared Untouched Final Holdout, and Final Disposition | Freeze the eligible candidate set and common evaluation package, then open the shared final holdout once only when at least one eligible frozen candidate exists and access is separately authorized | All applicable C9-C11 phases have accepted terminal dispositions; eligible candidates and the common evaluation package are frozen; final-holdout access is expressly authorized | Shared final-holdout report plus final disposition audited, or `NO_ELIGIBLE_CANDIDATE` recorded without holdout access |
 | C13 — Publication Release | Produce a publication- or portfolio-ready research package, including negative or inconclusive findings where applicable | C12 disposition accepted and publication scope authorized | Claims, reproducibility, and publication audit pass |
 | C14 — Controlled Paper Trading | Evaluate a promoted candidate in controlled paper operation | Candidate promoted and broker-readiness audit accepted | Operational and economic evidence independently reviewed |
 | C15 — Possible Live-Capital Consideration | Decide whether limited live-capital consideration is justified | Sustained paper evidence and separate risk-review authorization | Explicit live-capital disposition; no automatic deployment |
@@ -100,93 +100,142 @@ C6_AUTHORIZATION = SEPARATE_OWNER_ADMIN_DECISION
 C6_authorization_effect = NONE
 ```
 
-## 4. Model-family branching and shared final holdout
+## 4. Bounded RL candidates, Option B+ gating, and shared final holdout
 
-### C9 — PPO v2 terminal dispositions
+GOV-DEC-0013 is a post-C5/pre-C6 prospective scientific-direction decision.
+
+It is not C5 work, does not reopen C5, and does not authorize C6 or execution.
+
+```text
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_DECISION =
+docs/decisions/post_C5_pre_C6_RL_research_design_decision.md
+
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_DECISION_ID =
+GOV-DEC-0013
+
+authorization_effect =
+SCIENTIFIC_DIRECTION_ONLY__NO_EXECUTION_AUTHORITY
+
+PREDECLARED_RL_CANDIDATES =
+PPO
+SAC
+RECURRENTPPO
+
+PPO =
+MANDATORY_PRIMARY_BASELINE
+
+A2C =
+HISTORICAL_REFERENCE_ONLY
+
+OTHER_RL_MODELS =
+OUT_OF_SCOPE
+
+CANDIDATE_SET_EXPANSION =
+NOT_AUTHORIZED
+
+FORCED_TRAINING_OF_UNREADY_CANDIDATE =
+NO
+
+COMMON_ACTION_FORMULATION =
+CONTINUOUS_TARGET_POSITION_OR_EXPOSURE
+```
+
+### C8 — Bounded RL candidate implementation readiness
+
+C8 prospectively evaluates readiness and compatibility for the three
+predeclared RL families.
+
+Predeclaration does not require every family to proceed through implementation
+or training.
+
+A failed predeclared readiness or compatibility condition may yield:
+
+```text
+NOT_APPLICABLE_WHERE_PREDECLARED_CONDITIONS_FAIL
+```
+
+No fourth candidate may be substituted merely to preserve a three-model
+comparison.
+
+### C9 — Bounded RL training, validation, comparison, qualification, and freeze
+
+Only candidates satisfying their applicable readiness and compatibility
+conditions may proceed under separate C9 training authorization.
+
+Permitted future terminal outcomes are:
 
 ```text
 QUALIFIED_AND_FROZEN
 REJECTED
 NO_CANDIDATE
 INCONCLUSIVE
+NOT_APPLICABLE_WHERE_PREDECLARED_CONDITIONS_FAIL
 ```
 
-### C10 — Random Forest gate
+The shared final holdout remains untouched during C9.
 
-C10 may begin only when:
+### C10 and C11 — supervised participation-gate ablations
+
+Random Forest and XGBoost are alternative participation-gate ablations.
 
 ```text
-C9_terminal_disposition = QUALIFIED_AND_FROZEN
-focused_RF_readiness_audit = PASS
+SUPERVISED_GATING =
+TESTABLE_ARCHITECTURAL_HYPOTHESIS
+
+RF_XGB_ROLE =
+ALTERNATIVE_PARTICIPATION_GATE_ABLATIONS
+
+QUALIFICATION_ROUTING =
+OPTION_B_PLUS
+
+PRIMARY_GATING_FOUNDATION_COUNT =
+1
+
+OPTIONAL_ROBUSTNESS_GATING_FOUNDATION_COUNT =
+AT_MOST_1
+
+PRIMARY_FOUNDATION_PRIORITY =
+PPO
+THEN_SAC
+THEN_RECURRENTPPO
+
+POST_HOC_BEST_SCORE_ROUTING =
+NOT_AUTHORIZED
 ```
 
-When PPO is not qualified:
+The primary gating foundation must be a qualified/frozen RL policy selected
+from eligible policies by the fixed priority rather than observed best
+development score.
 
-```text
-C10_terminal_disposition = NOT_APPLICABLE_NO_QUALIFIED_PPO_FOUNDATION
-```
+At most one additional qualified/frozen RL policy may be used for robustness,
+selected from the remaining eligible candidates using the same priority.
 
-When C10 proceeds, valid terminal dispositions are:
+No candidate is forced through readiness, implementation, training,
+qualification, or freeze merely to populate a gating foundation.
 
-```text
-QUALIFIED_AND_FROZEN
-REJECTED
-NO_CANDIDATE
-INCONCLUSIVE
-```
+Each gated experiment must preserve its paired ungated control so incremental
+gating value can be evaluated.
 
-### C11 — XGBoost gate
+### C12 — eligible candidates and one shared untouched final holdout
 
-C11 may begin only when:
-
-```text
-C9_terminal_disposition = QUALIFIED_AND_FROZEN
-C10_has_accepted_terminal_disposition = YES
-focused_XGBoost_readiness_audit = PASS
-```
-
-C10 does not need to produce a qualified RF candidate. Any accepted C10 terminal disposition is sufficient when PPO remains qualified.
-
-When PPO is not qualified:
-
-```text
-C11_terminal_disposition = NOT_APPLICABLE_NO_QUALIFIED_PPO_FOUNDATION
-```
-
-When C11 proceeds, valid terminal dispositions are:
-
-```text
-QUALIFIED_AND_FROZEN
-REJECTED
-NO_CANDIDATE
-INCONCLUSIVE
-```
-
-### C12 — Eligible-candidate path
-
-Only model families with:
-
-```text
-QUALIFIED_AND_FROZEN
-```
-
-are eligible for the shared final holdout.
+Only eligible frozen candidates may enter the final-holdout path.
 
 The final-holdout path requires:
 
 ```text
-all_applicable_model_family_phases_have_accepted_terminal_dispositions = YES
+all_applicable_candidate_and_gate_phases_have_accepted_terminal_dispositions = YES
 all_eligible_candidates_are_frozen = YES
 at_least_one_eligible_candidate_exists = YES
 common_evaluation_package_is_frozen = YES
 final_holdout_access_is_expressly_authorized = YES
 ```
 
-The final holdout must be opened once and applied consistently to every eligible frozen candidate.
+The final holdout must be opened once and applied consistently under the common
+frozen evaluation package.
 
-Rejected, no-candidate, inconclusive, and not-applicable outcomes remain visible in the final research report.
-
-### C12 — No-eligible-candidate path
+It must not be used for model selection, reward redesign, candidate
+replacement, gate-feature selection, gate-threshold selection, Option B+
+routing, or iterative debugging.
 
 When no eligible candidate exists:
 
@@ -195,15 +244,8 @@ C12_terminal_disposition = NO_ELIGIBLE_CANDIDATE
 final_holdout_accessed = NO
 ```
 
-The owner must select one next disposition:
-
-```text
-STOP_CURRENT_RESEARCH_CYCLE
-PUBLISH_NEGATIVE_OR_INCONCLUSIVE_RESULT
-RETURN_TO_A_SEPARATELY_AUTHORIZED_REDESIGN_PHASE
-```
-
-An unqualified model must not be forced into the final holdout merely to produce a three-model comparison.
+Rejected, no-candidate, inconclusive, and not-applicable outcomes remain
+visible in the final research record.
 
 ## 5. Historical C4 provider boundary
 
@@ -298,6 +340,30 @@ The curated 2v lookup points to the minimum material evidence required for a pha
 2v.ARCH.01 — C1 technical migration manifest
 2v.ARCH.02 — C1 legacy evidence and architecture report
 ```
+
+### Post-C5 / pre-C6 scientific-design decision navigation
+
+```text
+navigation_record =
+POST_C5_PRE_C6_RL_RESEARCH_DESIGN_ALIGNMENT
+
+record_path =
+docs/decisions/post_C5_pre_C6_RL_research_design_decision.md
+
+decision_id =
+GOV-DEC-0013
+
+decision_status =
+ACCEPTED_WITH_REFINEMENTS
+
+authorization_effect =
+SCIENTIFIC_DIRECTION_ONLY__NO_EXECUTION_AUTHORITY
+```
+
+This pointer is prospective and non-authorizing.
+
+It does not renumber or rewrite an existing curated `2v` record, does not
+control current lifecycle state, and does not activate C6.
 
 ### 2v.GOV.02 — Canonical independent-audit evidence
 

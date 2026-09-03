@@ -4,6 +4,7 @@
 document_status = ESTABLISHED_NON_AUTHORIZING_REFERENCE
 document_role = NON_AUTHORIZING_FUTURE_GUIDANCE_AND_SEQUENCING_REFERENCE
 authorization_effect = NONE
+current_state_control = NO
 ```
 
 ## 1. Purpose
@@ -53,7 +54,9 @@ Future data phases must define:
 - Schema, dtypes, missing-slot policy, exclusions, and imputation policy.
 - Symbols, date ranges, provenance, checksums, and immutable dataset identity.
 
-Universe selection should consider liquidity, spreads, expected costs, coverage, corporate actions, sector and regime diversity, provider availability, compute requirements, survivorship bias, and selection bias.
+Universe selection should consider liquidity, spreads, expected costs,
+coverage, corporate actions, sector and regime diversity, provider
+availability, compute requirements, survivorship bias, and selection bias.
 
 Recommended progression:
 
@@ -63,126 +66,231 @@ single-ticker engineering verification
 → accepted final comparison universe
 ```
 
+### Future C6 model-family-neutral compatibility envelope
+
+GOV-DEC-0013 establishes prospective scientific direction only.
+
+C6 remains separately unauthorized and the dataset contract is not frozen.
+
+Any future separately authorized C6 contract must remain model-family neutral
+while supporting:
+
+```text
+COMMON_ACTION_FORMULATION =
+CONTINUOUS_TARGET_POSITION_OR_EXPOSURE
+
+PPO_COMPATIBILITY =
+REQUIRED
+
+SAC_COMPATIBILITY =
+REQUIRED
+
+RECURRENTPPO_COMPATIBILITY =
+REQUIRED
+
+C6_DATASET_CONTRACT =
+NOT_FROZEN
+```
+
+The future contract must be capable of preserving:
+
+- chronological sequence construction;
+- recurrent lookback and warm-up requirements;
+- recurrent episode and session boundaries;
+- common economic, cost, and execution inputs;
+- deterministic chronological folds;
+- gate-feature and outcome alignment;
+- leakage-safe gate-target construction;
+- provenance;
+- stable row, security, and time identity; and
+- untouched final-holdout isolation.
+
+This guidance does not authorize provider activity, data acquisition, dataset
+generation, dataset acceptance, or dataset-contract freeze.
+
 ## 5. Validation and leakage guidance
 
 Future validation must define training, validation, development-test or qualification data, embargo, refit rules, benchmarks, costs, and terminal disposition criteria.
 
 Controls must prevent full-series fitting, centered rolling windows, future-aware joins, label leakage, random time-series splitting, holdout-driven changes, invalid preprocessor reuse, and future-aware missing-data treatment.
 
-## 6. PPO terminal disposition
+## 6. Bounded RL candidate readiness, training, qualification, and freeze
 
-PPO v2 is a fresh second-generation implementation.
+The accepted prospective scientific direction is:
 
-Its active phase record should define observation and action spaces, reward, costs, position constraints, training procedure, artifact contract, and qualification criteria.
+```text
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_DECISION =
+docs/decisions/post_C5_pre_C6_RL_research_design_decision.md
 
-A predeclared PPO development-test or qualification period may be used. It must remain distinct from the shared final holdout.
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_DECISION_ID =
+GOV-DEC-0013
 
-C9 may close with:
+PREDECLARED_RL_CANDIDATES =
+PPO
+SAC
+RECURRENTPPO
+
+PPO =
+MANDATORY_PRIMARY_BASELINE
+
+A2C =
+HISTORICAL_REFERENCE_ONLY
+
+OTHER_RL_MODELS =
+OUT_OF_SCOPE
+
+CANDIDATE_SET_EXPANSION =
+NOT_AUTHORIZED
+
+FORCED_TRAINING_OF_UNREADY_CANDIDATE =
+NO
+
+COMMON_ACTION_FORMULATION =
+CONTINUOUS_TARGET_POSITION_OR_EXPOSURE
+
+C8 =
+BOUNDED_RL_CANDIDATE_IMPLEMENTATION_READINESS
+
+C9 =
+BOUNDED_RL_TRAINING_VALIDATION_COMPARISON_QUALIFICATION_AND_FREEZE
+```
+
+PPO, SAC, and RecurrentPPO are predeclared candidate families.
+
+Predeclaration does not require every family to be implemented or trained.
+
+Candidate-specific readiness and compatibility conditions must be satisfied
+before a family proceeds under separate future authorization.
+
+Permitted future terminal outcomes include, as applicable:
 
 ```text
 QUALIFIED_AND_FROZEN
 REJECTED
 NO_CANDIDATE
 INCONCLUSIVE
+NOT_APPLICABLE_WHERE_PREDECLARED_CONDITIONS_FAIL
 ```
 
-## 7. Random Forest and XGBoost branching
+No fourth RL family may be substituted merely because a predeclared candidate
+fails readiness, compatibility, qualification, or applicability requirements.
 
-C10 may begin only when:
+The shared final holdout remains distinct from all C8/C9 readiness,
+development, comparison, qualification, and freeze activity.
+
+## 7. RF and XGBoost participation-gate ablations
+
+Supervised participation gating is an architectural hypothesis to be tested
+against qualified ungated RL controls.
 
 ```text
-C9_terminal_disposition = QUALIFIED_AND_FROZEN
-focused_RF_readiness_audit = PASS
+SUPERVISED_GATING =
+TESTABLE_ARCHITECTURAL_HYPOTHESIS
+
+RF_XGB_ROLE =
+ALTERNATIVE_PARTICIPATION_GATE_ABLATIONS
+
+C10 =
+RF_PARTICIPATION_GATE_ABLATION
+
+C11 =
+XGBOOST_PARTICIPATION_GATE_ABLATION
+
+QUALIFICATION_ROUTING =
+OPTION_B_PLUS
+
+PRIMARY_GATING_FOUNDATION_COUNT =
+1
+
+OPTIONAL_ROBUSTNESS_GATING_FOUNDATION_COUNT =
+AT_MOST_1
+
+PRIMARY_FOUNDATION_PRIORITY =
+PPO
+THEN_SAC
+THEN_RECURRENTPPO
+
+POST_HOC_BEST_SCORE_ROUTING =
+NOT_AUTHORIZED
 ```
 
-When PPO is not qualified:
+The primary gating foundation must be selected from qualified and frozen RL
+policies using the fixed priority rather than observed best development score.
 
-```text
-C10_terminal_disposition = NOT_APPLICABLE_NO_QUALIFIED_PPO_FOUNDATION
-```
+At most one additional qualified and frozen RL policy may be used for
+robustness.
 
-When C10 proceeds, it may close with:
+If used, it must be selected from the remaining eligible candidates using the
+same fixed priority.
 
-```text
-QUALIFIED_AND_FROZEN
-REJECTED
-NO_CANDIDATE
-INCONCLUSIVE
-```
+No candidate is forced through implementation, training, qualification, or
+freeze merely to populate either gating foundation.
 
-C11 may begin only when:
+Each RF or XGBoost gate experiment must preserve a paired ungated control under
+the same comparable evaluation framework.
 
-```text
-C9_terminal_disposition = QUALIFIED_AND_FROZEN
-C10_has_accepted_terminal_disposition = YES
-focused_XGBoost_readiness_audit = PASS
-```
-
-C10 does not need to produce a qualified RF candidate. It needs only an accepted terminal disposition while PPO remains qualified.
-
-When PPO is not qualified:
-
-```text
-C11_terminal_disposition = NOT_APPLICABLE_NO_QUALIFIED_PPO_FOUNDATION
-```
-
-When C11 proceeds, it may close with:
-
-```text
-QUALIFIED_AND_FROZEN
-REJECTED
-NO_CANDIDATE
-INCONCLUSIVE
-```
-
-RF and XGBoost readiness reviews should address targets, feature availability, temporal alignment, train-only fitting, thresholds, interaction with PPO, costs, and terminal disposition criteria.
+Gate features, gate targets, thresholds, and outcomes must remain
+chronologically aligned and leakage controlled.
 
 Feature importance and SHAP analysis must not be presented as causal evidence.
 
-## 8. Eligible candidates and shared final holdout
+## 8. Eligible candidates and one shared untouched final holdout
 
-The research objective is to investigate PPO, PPO plus Random Forest, and PPO plus XGBoost fairly. It does not guarantee that all three families will produce eligible candidates.
-
-Only model families with:
+Prospective C12 interpretation:
 
 ```text
-QUALIFIED_AND_FROZEN
+C12 =
+ELIGIBLE_CANDIDATE_FREEZE
++
+ONE_SHARED_UNTOUCHED_FINAL_HOLDOUT
++
+FINAL_DISPOSITION
 ```
 
-are eligible for the shared final holdout.
+Only eligible `QUALIFIED_AND_FROZEN` candidates may enter the final-holdout
+path.
 
 The final-holdout path requires:
 
 ```text
-all_applicable_model_family_phases_have_accepted_terminal_dispositions = YES
+all_applicable_candidate_and_gate_phases_have_accepted_terminal_dispositions = YES
 all_eligible_candidates_are_frozen = YES
 at_least_one_eligible_candidate_exists = YES
 common_evaluation_package_is_frozen = YES
 final_holdout_access_is_expressly_authorized = YES
 ```
 
-The final holdout must be opened once and applied consistently to every eligible frozen candidate.
+The final holdout must be opened once and applied consistently under one common
+frozen evaluation package.
 
-It must not be used for tuning, feature selection, threshold selection, reward redesign, candidate replacement, or iterative debugging.
+It must not be used for:
 
-Rejected, no-candidate, inconclusive, and not-applicable outcomes must remain visible in the final research report.
+- RL model selection;
+- reward redesign;
+- candidate replacement;
+- feature selection;
+- gate-target redesign;
+- gate-threshold selection;
+- Option B+ foundation routing; or
+- iterative debugging.
+
+Rejected, no-candidate, inconclusive, and not-applicable outcomes remain
+visible in the final research report.
 
 When no eligible candidate exists:
 
 ```text
-C12_terminal_disposition = NO_ELIGIBLE_CANDIDATE
-final_holdout_accessed = NO
+C12_terminal_disposition =
+NO_ELIGIBLE_CANDIDATE
+
+final_holdout_accessed =
+NO
 ```
 
-The owner must choose one:
+The Owner must separately decide whether to stop the research cycle, publish a
+negative or inconclusive result, or authorize a redesign.
 
-```text
-STOP_CURRENT_RESEARCH_CYCLE
-PUBLISH_NEGATIVE_OR_INCONCLUSIVE_RESULT
-RETURN_TO_A_SEPARATELY_AUTHORIZED_REDESIGN_PHASE
-```
-
-An unqualified model must not be forced into the final holdout.
+A viewed holdout cannot become untouched again.
 
 ## 9. Publication, paper trading, and deployment
 

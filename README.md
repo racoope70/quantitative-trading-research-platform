@@ -11,21 +11,51 @@ Build a canonical, reproducible, leakage-controlled quantitative research and tr
 
 ## Research Program
 
-The research program will investigate:
+The accepted prospective research design uses a bounded, predeclared RL set:
 
-1. Standalone PPO v2.
-2. PPO plus Random Forest gating when a qualified PPO foundation exists.
-3. PPO plus XGBoost gating when a qualified PPO foundation exists and C10 has an accepted terminal disposition.
+1. PPO — mandatory primary scientific baseline.
+2. SAC — bounded alternative candidate.
+3. RecurrentPPO — bounded recurrent candidate.
 
-The three-family research objective does not guarantee three eligible candidates.
+The common action formulation is:
 
-Each applicable family may produce a qualified frozen candidate, be rejected, produce no candidate, or remain inconclusive. RF and XGBoost are only evaluated if PPO qualifies.
+```text
+CONTINUOUS_TARGET_POSITION_OR_EXPOSURE
+```
 
-Only `QUALIFIED_AND_FROZEN` candidates are eligible for the shared final holdout.
+Predeclaration does not force an unready or incompatible candidate through
+implementation or training.
 
-If at least one eligible candidate exists, the final holdout is opened once and applied consistently to every eligible frozen candidate under the common evaluation package.
+Random Forest and XGBoost are treated as alternative supervised participation-
+gate ablations. Supervised gating is a testable architectural hypothesis, not
+an assumed improvement.
 
-If no eligible candidate exists, the final holdout is not accessed and the project records `NO_ELIGIBLE_CANDIDATE` before the owner decides whether to stop the cycle, publish a negative or inconclusive result, or authorize a redesign phase.
+The primary gating foundation is selected prospectively from qualified/frozen
+RL policies using the fixed priority:
+
+```text
+PPO
+THEN SAC
+THEN RECURRENTPPO
+```
+
+Observed best development score must not be used post hoc to choose that
+primary foundation.
+
+At most one additional qualified/frozen RL policy may be used as an optional
+robustness foundation.
+
+Candidate-set expansion is not authorized.
+
+A2C remains historical reference evidence only.
+
+SAC and RecurrentPPO are prospective candidates; this repository does not
+claim that either has been implemented, trained, or qualified.
+
+Only eligible frozen candidates may eventually enter the separately governed
+shared final evaluation. The final holdout remains untouched during candidate
+development, qualification, gating, and model/gate selection and requires
+separate authorization before access.
 
 ## Operating principles
 
@@ -96,8 +126,29 @@ C5_completion_status = ACCEPTED
 C5_completion_effect = EFFECTIVE
 CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_DECISION =
+docs/decisions/post_C5_pre_C6_RL_research_design_decision.md
+
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_DECISION_ID =
+GOV-DEC-0013
+
 POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =
-REQUIRED_BEFORE_C6_DATASET_CONTRACT_FREEZE
+OWNER_ACCEPTED_WITH_REFINEMENTS
+
+POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_EFFECT =
+SCIENTIFIC_DIRECTION_ONLY
+
+PREDECLARED_RL_CANDIDATE_SET =
+PPO_SAC_RECURRENTPPO
+
+COMMON_ACTION_FORMULATION =
+CONTINUOUS_TARGET_POSITION_OR_EXPOSURE
+
+CANDIDATE_SET_EXPANSION =
+NOT_AUTHORIZED
+
+FORCED_TRAINING_OF_UNREADY_CANDIDATE =
+NO
 
 C6_and_later = UNAUTHORIZED
 
@@ -110,9 +161,10 @@ Owner-accepted and becomes effective through canonical recording plus the
 required exact validation; no current C5 execution authorization remains
 afterward.
 
-A separate post-C5/pre-C6 RL-design alignment is required before any C6
-dataset-contract freeze. That requirement is not C6 authorization and does not
-authorize model development or training.
+The post-C5/pre-C6 RL-design alignment is Owner-accepted with refinements under
+GOV-DEC-0013. It establishes prospective scientific direction only and does
+not authorize C6, dataset-contract freeze, model implementation or training,
+gate training, backtesting, or final-holdout access.
 
 Operational provider access, credentials, market/reference-data acquisition,
 historical-universe construction, dataset-contract freeze, dataset generation
