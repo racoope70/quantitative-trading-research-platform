@@ -37,9 +37,9 @@ The prospective comparison preserves one shared untouched final holdout.
 Final-holdout access is separately governed and is not authorized during model
 development, qualification, gating, or model/gate selection.
 
-Detailed scientific methodology and routing are recorded in GOV-DEC-0013 and
-the non-authorizing Future Validation and Training Reference Map rather than
-duplicated here.
+Detailed scientific methodology and routing remain in the accepted decision
+records and the non-authorizing Future Validation and Training Reference Map
+rather than being duplicated in this project-orientation document.
 
 ## Operating principles
 
@@ -63,65 +63,26 @@ runtime dependencies or sources of current authorization.
 
 ## Governance and navigation
 
-`PROJECT_CONTEXT.md` controls broad current lifecycle state and authorization
-boundaries.
+`PROJECT_CONTEXT.md` is the authoritative source for broad current lifecycle
+and authorization state.
 
 Key navigation:
 
-- [Project Context](PROJECT_CONTEXT.md) — broad current lifecycle,
-  authorization, and non-authorization state.
-- [GOV-DEC-0013](docs/decisions/post_C5_pre_C6_RL_research_design_decision.md)
-  — accepted post-C5/pre-C6 RL research-design decision.
-- [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md)
-  — non-authorizing roadmap, governance, evidence, and historical navigation.
-- [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md)
-  — non-authorizing future validation, training, evaluation, and holdout
-  guidance.
+- [Project Context](PROJECT_CONTEXT.md) — authoritative broad lifecycle and authorization state.
+- [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md) — non-authorizing roadmap, governance, evidence, and historical navigation.
+- [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — non-authorizing future validation, training, evaluation, and holdout guidance.
 
 Files and reference maps do not independently authorize execution.
 
 ## Current repository status
 
 ```text
-repository_status = PUBLIC
-repository_public_release = COMPLETE
-project_status = IN_DEVELOPMENT
+STATUS =
+IN_DEVELOPMENT
 
-current_lifecycle_state = C5_COMPLETED
-active_major_phase = NONE
-phase_status = COMPLETED
-authorization_effect = NONE
-
-C5_completion_effect = EFFECTIVE
-C5_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
-CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
-
-POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_DECISION =
-docs/decisions/post_C5_pre_C6_RL_research_design_decision.md
-
-POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_DECISION_ID =
-GOV-DEC-0013
-
-POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT =
-OWNER_ACCEPTED_WITH_REFINEMENTS
-
-POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_EFFECT =
-SCIENTIFIC_DIRECTION_ONLY
-
-C6_and_later = UNAUTHORIZED
-
-current_model_candidate = NONE
-current_deployment_candidate = NONE
-
-CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
-C5 is completed and effective. No current C5 execution authorization remains.
+No model is currently qualified for deployment.
+Final evaluation and trading stages remain separately governed.
 
-GOV-DEC-0013 records prospective scientific direction only; it does not
-authorize C6, dataset-contract freeze, model implementation or training, gate
-training, backtesting, final-holdout access, paper trading, or live trading.
-
-The repository is public and remains in development. Public availability does
-not imply dataset acceptance, model qualification, production readiness, or
-trading readiness.
+See `PROJECT_CONTEXT.md` for authoritative lifecycle and authorization state.
