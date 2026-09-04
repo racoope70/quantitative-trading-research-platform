@@ -3164,12 +3164,17 @@ jobs:
               ]
 
               required_lines["README.md"] = [
-                  "document_role =",
-                  "PROJECT_ORIENTATION",
-                  "HIGH_LEVEL_PUBLIC_STATUS",
-                  "NAVIGATION_ENTRY_POINT",
-                  "STATUS =",
-                  "IN_DEVELOPMENT",
+                  "> **Status: In development**",
+                  (
+                      "> No model is currently qualified for deployment. "
+                      "Final evaluation and trading"
+                  ),
+                  "> stages remain separately governed. See",
+                  (
+                      "> [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) "
+                      "for authoritative lifecycle and"
+                  ),
+                  "> authorization state.",
                   (
                       "- [Project Context](PROJECT_CONTEXT.md) — "
                       "authoritative broad lifecycle and authorization state."
@@ -3186,14 +3191,12 @@ jobs:
                       "non-authorizing future validation, training, evaluation, "
                       "and holdout guidance."
                   ),
-                  "- PPO — mandatory primary baseline;",
-                  "- SAC — bounded alternative candidate; and",
-                  "- RecurrentPPO — bounded recurrent candidate.",
-                  "No model is currently qualified for deployment.",
-                  "Final evaluation and trading stages remain separately governed.",
+                  "- PPO — mandatory primary baseline",
+                  "- SAC — bounded alternative candidate",
+                  "- RecurrentPPO — bounded recurrent candidate",
                   (
-                      "See `PROJECT_CONTEXT.md` for authoritative lifecycle "
-                      "and authorization state."
+                      "Files and reference maps do not independently "
+                      "authorize execution."
                   ),
               ]
 
@@ -3365,20 +3368,13 @@ jobs:
                   "README.md"
               ).read_text(encoding="utf-8")
 
-              readme_all_lines = readme_text.splitlines()
-
-              require_exact_logical_assignment(
-                  "README durable public status",
-                  readme_all_lines,
-                  "STATUS",
-                  "IN_DEVELOPMENT",
-              )
+              # README status is validated as public presentation
+              # content rather than as an internal logical assignment.
 
               readme_required_snippets = (
-                  "document_role =",
-                  "PROJECT_ORIENTATION",
-                  "HIGH_LEVEL_PUBLIC_STATUS",
-                  "NAVIGATION_ENTRY_POINT",
+                  "> **Status: In development**",
+                  "No model is currently qualified for deployment.",
+                  "[`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md)",
                   "[Project Context](PROJECT_CONTEXT.md)",
                   (
                       "[Milestone Review Reference Map]"
@@ -3400,14 +3396,9 @@ jobs:
                       "value rather than"
                   ),
                   "one shared untouched final holdout",
-                  "No model is currently qualified for deployment.",
                   (
-                      "Final evaluation and trading stages remain "
-                      "separately governed."
-                  ),
-                  (
-                      "See `PROJECT_CONTEXT.md` for authoritative "
-                      "lifecycle and authorization state."
+                      "Files and reference maps do not independently "
+                      "authorize execution."
                   ),
               )
 
@@ -3419,11 +3410,63 @@ jobs:
 
               if missing_readme_snippets:
                   raise SystemExit(
-                      "README durable role validation is missing: "
+                      "README public presentation validation is missing: "
                       f"{missing_readme_snippets}"
                   )
 
-              forbidden_readme_ledger_tokens = (
+              expected_readme_status_callout = (
+                  "> **Status: In development**\n"
+                  ">\n"
+                  "> No model is currently qualified for deployment. "
+                  "Final evaluation and trading\n"
+                  "> stages remain separately governed. See\n"
+                  "> [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) "
+                  "for authoritative lifecycle and\n"
+                  "> authorization state."
+              )
+
+              if expected_readme_status_callout not in readme_text:
+                  raise SystemExit(
+                      "README public status callout does not match "
+                      "the accepted presentation."
+                  )
+
+              expected_readme_mission = (
+                  "## Mission\n\n"
+                  "Build a canonical, reproducible, leakage-controlled "
+                  "quantitative research\n"
+                  "platform for machine learning and reinforcement learning "
+                  "applications. The\n"
+                  "platform supports controlled progression to paper trading "
+                  "and possible later\n"
+                  "deployment under separate authorization."
+              )
+
+              if expected_readme_mission not in readme_text:
+                  raise SystemExit(
+                      "README Mission does not match the accepted "
+                      "public presentation text."
+                  )
+
+              expected_rl_bullets = (
+                  "- PPO — mandatory primary baseline\n"
+                  "- SAC — bounded alternative candidate\n"
+                  "- RecurrentPPO — bounded recurrent candidate"
+              )
+
+              if expected_rl_bullets not in readme_text:
+                  raise SystemExit(
+                      "README bounded RL bullets do not match the "
+                      "accepted public presentation."
+                  )
+
+              forbidden_readme_internal_metadata = (
+                  "## Current repository status",
+                  "document_role =",
+                  "PROJECT_ORIENTATION",
+                  "HIGH_LEVEL_PUBLIC_STATUS",
+                  "NAVIGATION_ENTRY_POINT",
+                  "STATUS =",
                   "GOV-DEC-0013",
                   "post_C5_pre_C6_RL_research_design_decision.md",
                   "current_lifecycle_state",
@@ -3445,17 +3488,18 @@ jobs:
                   "CURRENT_CHECKPOINT_TRACKER",
               )
 
-              retained_readme_ledger_tokens = [
+              retained_readme_internal_metadata = [
                   token
-                  for token in forbidden_readme_ledger_tokens
+                  for token in forbidden_readme_internal_metadata
                   if token in readme_text
               ]
 
-              if retained_readme_ledger_tokens:
+              if retained_readme_internal_metadata:
                   raise SystemExit(
-                      "README retained detailed lifecycle, decision, "
-                      "authorization, or checkpoint ledger content: "
-                      f"{retained_readme_ledger_tokens}"
+                      "README retained obsolete internal lifecycle, "
+                      "decision, authorization, status, or checkpoint "
+                      "metadata: "
+                      f"{retained_readme_internal_metadata}"
                   )
 
               forbidden_completed_lines = {

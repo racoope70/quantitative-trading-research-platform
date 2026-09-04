@@ -5,29 +5,27 @@
 [![Tests](https://github.com/racoope70/quantitative-trading-research-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/racoope70/quantitative-trading-research-platform/actions/workflows/tests.yml)
 ![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)
 
+> **Status: In development**
+>
+> No model is currently qualified for deployment. Final evaluation and trading
+> stages remain separately governed. See
+> [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) for authoritative lifecycle and
+> authorization state.
+
 ## Mission
 
-Build a canonical, reproducible, leakage-controlled quantitative research and
-trading platform for machine-learning and reinforcement-learning research,
-publication-quality analysis, controlled paper-trading progression, and
-possible later deployment under separate authorization.
-
-```text
-document_role =
-PROJECT_ORIENTATION
-+
-HIGH_LEVEL_PUBLIC_STATUS
-+
-NAVIGATION_ENTRY_POINT
-```
+Build a canonical, reproducible, leakage-controlled quantitative research
+platform for machine learning and reinforcement learning applications. The
+platform supports controlled progression to paper trading and possible later
+deployment under separate authorization.
 
 ## Research program
 
 The accepted prospective research direction uses a bounded RL set:
 
-- PPO — mandatory primary baseline;
-- SAC — bounded alternative candidate; and
-- RecurrentPPO — bounded recurrent candidate.
+- PPO — mandatory primary baseline
+- SAC — bounded alternative candidate
+- RecurrentPPO — bounded recurrent candidate
 
 Random Forest and XGBoost are future participation-gate ablations. The research
 program asks whether supervised gating adds incremental value rather than
@@ -73,16 +71,3 @@ Key navigation:
 - [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — non-authorizing future validation, training, evaluation, and holdout guidance.
 
 Files and reference maps do not independently authorize execution.
-
-## Current repository status
-
-```text
-STATUS =
-IN_DEVELOPMENT
-
-```
-
-No model is currently qualified for deployment.
-Final evaluation and trading stages remain separately governed.
-
-See `PROJECT_CONTEXT.md` for authoritative lifecycle and authorization state.
