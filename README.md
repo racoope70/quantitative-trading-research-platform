@@ -5,12 +5,9 @@
 [![Tests](https://github.com/racoope70/quantitative-trading-research-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/racoope70/quantitative-trading-research-platform/actions/workflows/tests.yml)
 ![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)
 
-> **Status: In development**
+> **Status: Current canonical research platform — in development**
 >
-> No model is currently qualified for deployment. Final evaluation and trading
-> stages remain separately governed. See
-> [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) for authoritative lifecycle and
-> authorization state.
+> No model is currently qualified for deployment.
 
 ## Mission
 
@@ -41,23 +38,30 @@ rather than being duplicated in this project-orientation document.
 
 ## Operating principles
 
-The project emphasizes leakage control, reproducibility, data provenance,
-realistic transaction and execution costs, chronological evaluation, fair model
-comparison, final-holdout integrity, and separation between research evidence
-and deployment readiness.
+- Leakage control
+- Reproducibility
+- Data provenance
+- Realistic transaction and execution costs
+- Chronological evaluation
+- Fair model comparison
+- Final-holdout integrity
+- Clear separation between research evidence and deployment readiness
 
-## Historical lineage
+## Research progression
 
-- `racoope70/exploratory-daytrading` — broad historical exploratory ML/RL
-  research.
-- `racoope70/quant-trading-model-validation` — historical structured PPO and
-  PPO+RF validation research.
-- `racoope70/ppo-trading-pipeline` — historical source for modular
-  architecture, provenance, testing, broker-safety, and
-  deployment-engineering patterns.
+1. **Exploration — [`exploratory-daytrading`](https://github.com/racoope70/exploratory-daytrading)**  
+   Historical exploratory ML/RL research, feature engineering, model experimentation, and early evaluation work.
 
-Historical repositories are evidence and engineering lineage. They are not
-runtime dependencies or sources of current authorization.
+2. **Structured model validation — [`quant-trading-model-validation`](https://github.com/racoope70/quant-trading-model-validation)**  
+   Historical PPO and PPO + Random Forest research with chronological / walk-forward validation, backtesting, signal evaluation, and preserved model artifacts.
+
+3. **Modular PPO implementation and execution research — [`ppo-trading-pipeline`](https://github.com/racoope70/ppo-trading-pipeline)**  
+   Historical modular PPO research covering implementation structure, provenance, testing, execution realism, broker integration, and stricter model-quality review.
+
+4. **Current canonical research platform — this repository**  
+   Current research platform focused on reproducibility, leakage control, data provenance, chronological evaluation, fair RL model comparison, supervised-gating research, and final-holdout integrity.
+
+This progression reflects an evolution in research methodology and engineering discipline. Historical repositories provide research evidence and engineering lineage, but they are not runtime dependencies or sources of current authorization.
 
 ## Governance and navigation
 
