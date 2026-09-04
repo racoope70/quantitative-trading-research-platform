@@ -70,9 +70,10 @@ single-ticker engineering verification
 
 GOV-DEC-0013 establishes prospective scientific direction only.
 
-C6 remains separately unauthorized and the dataset contract is not frozen.
+Current C6 authorization and lifecycle status are controlled by
+`PROJECT_CONTEXT.md`; this reference map grants no authorization.
 
-Any future separately authorized C6 contract must remain model-family neutral
+Any C6 dataset contract must remain model-family neutral
 while supporting:
 
 ```text

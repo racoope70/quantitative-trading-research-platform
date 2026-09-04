@@ -12,10 +12,10 @@ CURRENT_NON_AUTHORIZATION_STATE
 +
 AUTHORITATIVE_POINTERS_TO_MATERIAL_DECISIONS
 
-current_lifecycle_state = C5_COMPLETED
-active_major_phase = NONE
-phase_status = COMPLETED
-authorization_effect = NONE
+current_lifecycle_state = C6_ACTIVE
+active_major_phase = C6
+phase_status = ACTIVE
+authorization_effect = C6_SCOPE_ONLY
 
 working_repository_name = quantitative-trading-research-platform
 repository_visibility = PUBLIC
@@ -47,12 +47,18 @@ OWNER_ACCEPTED_WITH_REFINEMENTS
 POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT_EFFECT =
 SCIENTIFIC_DIRECTION_ONLY
 
-C6_AUTHORIZATION = NONE
-C6_authorization_effect = NONE
+C6_authorization_decision =
+docs/decisions/C6_authorization_decision.md
 
-current_authorized_workstream = NONE
+C6_authorization_decision_id =
+GOV-DEC-0014
 
-dataset_contract_status = NOT_STARTED
+C6_AUTHORIZATION = AUTHORIZED__SPECIFICATION_AND_CONTRACT_FREEZE_ONLY
+C6_authorization_effect = EFFECTIVE
+
+current_authorized_workstream = C6_DATASET_CONTRACT_FREEZE
+
+dataset_contract_status = AUTHORIZED__NOT_FROZEN
 dataset_generation_status = NOT_AUTHORIZED
 
 current_model_candidate = NONE
@@ -108,16 +114,19 @@ guidance and sequencing reference material.
 
 ## 3. Current lifecycle and authorization state
 
-C5 is completed and effective.
+C5 remains completed and effective and is not reopened.
 
-There is no active major phase, no current C5 execution authorization, and no
-C6 authorization.
+C6 is active only for bounded dataset-contract specification, independent
+review, and final contract freeze.
+
+Dataset generation, model implementation or training, final-holdout access,
+paper trading, live trading, and deployment remain unauthorized.
 
 ```text
-current_lifecycle_state = C5_COMPLETED
-active_major_phase = NONE
-phase_status = COMPLETED
-authorization_effect = NONE
+current_lifecycle_state = C6_ACTIVE
+active_major_phase = C6
+phase_status = ACTIVE
+authorization_effect = C6_SCOPE_ONLY
 
 C5_completion_effect = EFFECTIVE
 C5_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
@@ -126,10 +135,16 @@ CURRENT_C5_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 C5_REOPEN = NO
 C5_CURRENT_WORK = NONE
 
-C6_AUTHORIZATION = NONE
-C6_authorization_effect = NONE
+C6_authorization_decision =
+docs/decisions/C6_authorization_decision.md
 
-current_authorized_workstream = NONE
+C6_authorization_decision_id =
+GOV-DEC-0014
+
+C6_AUTHORIZATION = AUTHORIZED__SPECIFICATION_AND_CONTRACT_FREEZE_ONLY
+C6_authorization_effect = EFFECTIVE
+
+current_authorized_workstream = C6_DATASET_CONTRACT_FREEZE
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
@@ -165,6 +180,21 @@ GOV-DEC-0013 is the detailed scientific-design record. This document does not
 duplicate its detailed candidate-routing, gating, readiness, phase-sequencing,
 or future evaluation methodology.
 
+The Owner-authorized bounded C6 scope is recorded in:
+
+```text
+C6_authorization_decision =
+docs/decisions/C6_authorization_decision.md
+
+C6_authorization_decision_id =
+GOV-DEC-0014
+```
+
+GOV-DEC-0014 is supporting authorization evidence for bounded C6
+dataset-contract specification, independent review, and freeze.
+`PROJECT_CONTEXT.md` remains the controlling broad lifecycle and authorization
+source.
+
 ## 5. High-level prospective research direction
 
 The accepted prospective research direction is bounded RL research using PPO,
@@ -184,7 +214,7 @@ evaluation is authorized.
 ## 6. Current dataset, model, and execution boundary
 
 ```text
-dataset_contract_status = NOT_STARTED
+dataset_contract_status = AUTHORIZED__NOT_FROZEN
 dataset_generation_status = NOT_AUTHORIZED
 
 current_model_candidate = NONE
@@ -195,10 +225,12 @@ paper_trading = NOT_AUTHORIZED
 live_trading = NOT_AUTHORIZED
 ```
 
-No dataset-contract freeze, provider activity, data acquisition, dataset
-generation, model implementation, model training, gate training, backtesting,
-final-holdout access, paper trading, or live trading is authorized by the
-current state.
+Dataset-contract specification, independent review, and final contract
+freeze are authorized only within bounded C6.
+
+Provider activity, data acquisition, dataset generation, model implementation,
+model training, gate training, backtesting, final-holdout access, paper
+trading, live trading, and deployment remain unauthorized.
 
 ## 7. Navigation
 
@@ -208,6 +240,9 @@ Use:
 - `docs/decisions/C5_completion_decision.md` for C5 completion and closure;
 - `docs/decisions/post_C5_pre_C6_RL_research_design_decision.md` for the
   accepted prospective RL/gating scientific design;
+- `docs/decisions/C6_authorization_decision.md` for the supporting record of
+  the Owner-authorized bounded C6 dataset-contract specification, review, and
+  freeze scope;
 - `docs/workflows/milestone_review_reference_map.md` for non-authorizing
   roadmap, governance, evidence, and historical navigation;
 - `docs/workflows/future_validation_training_reference_map.md` for
