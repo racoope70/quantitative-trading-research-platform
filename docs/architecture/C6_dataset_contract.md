@@ -1,8 +1,8 @@
 # C6 Dataset Contract
 
 ```text
-document_status = C6_G_INITIAL_REVIEW_COMPLETE__BOUNDED_CORRECTION_OPEN__NOT_FROZEN
-document_role = C6_DATASET_CONTRACT__C6_A_THROUGH_C6_F_PUBLISHED__C6_G_BOUNDED_CORRECTION_OPEN
+document_status = C6_G_REVIEW_HISTORY_RECORDED__INDEPENDENT_EVIDENCE_CONTROLS__NOT_FROZEN
+document_role = C6_DATASET_CONTRACT__C6_A_THROUGH_C6_F_PUBLISHED__C6_G_REVIEW_HISTORY
 current_state_control = NO
 authorization_effect = NONE
 
@@ -68,12 +68,24 @@ C6_F_status = COMPLETE__PUBLISHED__EFFECTIVE
 C6_F_PUBLICATION_COMMIT = 5ae9557d823aa2e82ca507af72b147f1efbdad59
 C6_F_PUBLICATION_CI = PASS
 
-C6_G_status = INITIAL_REVIEW_COMPLETE__PASS_WITH_BOUNDED_CORRECTION__OPEN
 C6_G_INITIAL_REVIEW_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
-C6_G_MATERIAL_FINDING_COUNT = 0
-C6_G_BOUNDED_CORRECTABLE_FINDING_COUNT = 3
-C6_G_final_review_pass = NO
-C6_G_CLOSED = NO
+C6_G_INITIAL_MATERIAL_FINDING_COUNT = 0
+C6_G_INITIAL_BOUNDED_CORRECTABLE_FINDING_COUNT = 3
+C6_G_REVERIFICATION_1_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
+C6G_FIND_001_REVERIFICATION_1 = OPEN
+C6G_FIND_002_REVERIFICATION_1 = OPEN
+C6G_FIND_003_REVERIFICATION_1 = CLOSED
+C6_G_REVERIFICATION_1_OPEN_BOUNDED_CORRECTABLE_FINDING_COUNT = 2
+C6_G_REVERIFICATION_1_MATERIAL_FINDING_COUNT = 0
+C6_G_FINAL_REVIEW_DISPOSITION =
+NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
+C6_G_REVIEW_CLOSURE =
+NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
+
+CORRECTION_PUBLICATION_AUTHORITY = EXTERNAL_TO_THIS_DOCUMENT
+CORRECTION_PUBLICATION_STATE =
+ESTABLISHED_BY_CANONICAL_GIT_HISTORY_AND_GOVERNANCE_EVIDENCE
+THIS_DOCUMENT_CREATES_PUBLICATION_AUTHORIZATION = NO
 C6_H_FREEZE_ELIGIBLE = NO
 C6_DATASET_CONTRACT = NOT_FROZEN
 
@@ -118,8 +130,11 @@ qualification, final-holdout isolation, and gate alignment, and the
 published/effective C6-F requirements for dataset acceptance, independent
 review, and contract freeze. The complete initial C6-G review returned
 PASS_WITH_BOUNDED_CORRECTION with zero material findings and three bounded
-correctable findings. Those findings remain open pending independent
-re-verification; this authoring-context correction is not a review result.
+correctable findings. The first independent re-verification returned
+PASS_WITH_BOUNDED_CORRECTION, closing C6G-FIND-003 and leaving C6G-FIND-001
+and C6G-FIND-002 open at that review. These are historical review facts;
+subsequent independent evidence controls closure and final disposition.
+Authoring or publishing corrections does not itself establish a review result.
 
 It remains a draft C6 dataset contract and is not frozen.
 
@@ -188,10 +203,12 @@ candidate set and support:
 - final contract freeze.
 
 C6-A through C6-F are complete, published, and effective within their bounded
-surfaces and are not reopened. C6-G initial review has occurred and remains
-open with three bounded findings awaiting independent re-verification.
-The current correction addresses only C6G-FIND-001, C6G-FIND-002, and
-C6G-FIND-003. Historical statements describing what an earlier work package
+surfaces and are not reopened. C6-G initial review and first re-verification
+are recorded as historical evidence. The latter closed C6G-FIND-003 and left
+two findings open at that review. This second correction addresses only the
+remaining C6G-FIND-001 and state-representation portion of C6G-FIND-002;
+it does not modify C6G-FIND-003 or independently determine finding closure.
+Historical statements describing what an earlier work package
 did not execute retain that historical scope. Dataset acceptance, C6-H freeze,
 and C7 execution remain unauthorized.
 
@@ -1424,7 +1441,7 @@ are frozen; this draft does not invent a numeric feature dimension or tensor.
 
 `state_interface_identity` is the immutable structural identity of the common
 PPO/SAC/RecurrentPPO logical state interface. The canonical specification
-contains at least the following identity-bearing fields:
+contains exactly the following 16 identity-bearing fields and no others in V1:
 
 ```text
 state_interface_spec_version
@@ -1449,7 +1466,8 @@ SHA256(CANONICAL_JSON_OF_STATE_INTERFACE_SPECIFICATION)
 ```
 
 Use section-17 canonical JSON/SHA-256 rules. The specification version is
-explicit; `MAX_UNIVERSE_SLOTS` is 60. Ordered descriptors expand the existing
+exactly the JSON string "1"; `MAX_UNIVERSE_SLOTS` is the JSON integer 60.
+Ordered descriptors expand the existing
 eight logical field groups above in their declared order, with each field's
 name, logical dtype, encoding, shape, units where applicable, and requiredness.
 Global fields occur once; slot-indexed fields reserve 60 entries. Feature axes
@@ -1488,6 +1506,608 @@ order, shape, encoding, mask/boundary layout, required economic-state layout,
 or max-slot envelope creates a different identity; affected later work must
 use it under then-applicable governance. No actual state identity is generated
 by this correction.
+
+### C6G-FIND-002 second correction — exact V1 representation
+
+A materialized `STATE_INTERFACE_SPECIFICATION_V1` has exactly the 16 keys
+listed above, `state_interface_spec_version = "1"`, and `MAX_UNIVERSE_SLOTS = 60`.
+No optional top-level extension is permitted. Adding, removing, or renaming
+a key requires a new specification version. The rules below define how the
+later frozen configuration is represented, without selecting that scientific
+configuration or generating an identity now.
+
+#### V1 representation — exact ordered logical field expansion
+
+`ordered_logical_state_field_descriptors` must contain EXACTLY 20 descriptor
+objects in this order:
+
+```text
+1  decision_time_utc
+2  exchange_local_session_identity_by_slot
+3  security_slot_id
+4  slot_to_canonical_security_id
+5  active_security_mask
+6  ordered_market_feature_schema_identity
+7  ordered_market_feature_values_by_slot
+8  feature_input_validity_mask
+9  feature_input_availability_mask
+10 portfolio_equity_usd
+11 cash_usd
+12 position_quantity_by_slot
+13 position_market_value_usd_by_slot
+14 current_exposure_fraction_by_slot
+15 previous_target_exposure_fraction_by_slot
+16 gross_exposure_fraction
+17 net_exposure_fraction
+18 session_start_flag
+19 formation_boundary_flag
+20 episode_start_flag
+```
+
+This is only the exact expansion of the already accepted eight logical groups.
+
+Do not add another policy input.
+
+Do not remove one.
+
+#### V1 representation — exact field-descriptor object schema
+
+Every entry in `ordered_logical_state_field_descriptors` must be a JSON object
+with EXACTLY these seven keys:
+
+```text
+field_name
+scope
+logical_dtype
+encoding
+shape
+units
+requiredness
+```
+
+No additional key is permitted in V1.
+
+Represent:
+
+##### `field_name`
+
+exact UTF-8 string from the required ordered field-name list.
+
+##### `scope`
+
+one exact frozen token from:
+
+```text
+GLOBAL
+SLOT_INDEXED
+SLOT_FEATURE_INDEXED
+REFERENCE_METADATA
+ALIGNED_MASK
+```
+
+The materialized layout must select one concrete permitted scope.
+
+##### `logical_dtype`
+
+nonempty exact UTF-8 token frozen by the governed layout.
+
+##### `encoding`
+
+nonempty exact UTF-8 token frozen by the governed layout.
+
+Do not case-fold, trim, alias, or otherwise normalize these token values before
+hashing.
+
+##### `shape`
+
+the exact shape representation defined below.
+
+##### `units`
+
+either:
+
+* an exact nonempty UTF-8 unit token; or
+* JSON `null` when units are not applicable.
+
+Do not omit `units`.
+
+##### `requiredness`
+
+exactly one:
+
+```text
+REQUIRED
+CONDITIONAL
+```
+
+No other requiredness token is valid in V1.
+
+Any required descriptor value that is not yet frozen means the structural
+identity remains:
+
+```text
+NOT_YET_MATERIALIZED
+```
+
+It is not replaced with a placeholder inside a materialized payload.
+
+#### V1 representation — exact shape representation
+
+Every `shape` value is a JSON array.
+
+A scalar/global scalar shape is:
+
+```json
+[]
+```
+
+Every non-scalar dimension is represented by an object with EXACTLY:
+
+```text
+kind
+value
+```
+
+Allowed dimension forms are:
+
+Fixed:
+
+```json
+{"kind":"FIXED","value":60}
+```
+
+or another positive JSON integer only when that exact fixed extent has been
+separately frozen as part of the accepted state layout.
+
+Reference-derived:
+
+```json
+{"kind":"REFERENCE","value":"ORDERED_MARKET_FEATURE_COUNT"}
+```
+
+For V1, `REFERENCE` dimensions may use only the exact reference token:
+
+```text
+ORDERED_MARKET_FEATURE_COUNT
+```
+
+unless a later separately governed new state-interface version adds another
+reference dimension.
+
+Canonical examples:
+
+global:
+
+```json
+[]
+```
+
+slot indexed:
+
+```json
+[{"kind":"FIXED","value":60}]
+```
+
+slot x market feature:
+
+```json
+[
+  {"kind":"FIXED","value":60},
+  {"kind":"REFERENCE","value":"ORDERED_MARKET_FEATURE_COUNT"}
+]
+```
+
+No shorthand such as `"60xF"`, tuples, omitted scalar shape, or implementation
+language shape object is permitted.
+
+#### V1 representation — exact global / slot shape-rule object
+
+`global_vs_slot_indexed_shape_rules` is a JSON object with EXACTLY:
+
+```text
+global_shape
+slot_indexed_shape
+slot_feature_shape
+```
+
+Its V1 values are the exact canonical shape arrays defined above.
+
+No additional key is permitted.
+
+#### V1 representation — exact slot-mapping semantics object
+
+`slot_ordering_and_mapping_semantics` is a JSON object with EXACTLY:
+
+```text
+slot_index_base
+max_slots
+formation_order_rule
+identity_tie_break_rule
+unassigned_slot_rule
+hard_terminal_vacancy_rule
+mid_cycle_compaction_rule
+security_identity_mapping_rule
+```
+
+Require:
+
+```text
+slot_index_base = 0
+max_slots = 60
+```
+
+The remaining string values must be exact UTF-8 canonical tokens transcribing
+ONLY the already accepted section-10/11 rules:
+
+* liquidity ranking descending;
+* stable security identifier ascending tie-break with namespace;
+* unassigned slots inactive;
+* hard-terminal vacancy retained until scheduled reformation;
+* no mid-cycle compaction/replacement;
+* explicit slot-to-canonical-security identity mapping.
+
+Do not change any scientific rule.
+
+The exact token values are fixed by the V1 object below.
+
+No additional object key is permitted.
+
+The exact V1 slot semantics object is:
+
+```json
+{
+  "slot_index_base": 0,
+  "max_slots": 60,
+  "formation_order_rule": "LIQUIDITY_RANK_DESCENDING",
+  "identity_tie_break_rule": "STABLE_SECURITY_IDENTIFIER_ASCENDING_WITH_NAMESPACE_PRESERVED",
+  "unassigned_slot_rule": "INACTIVE",
+  "hard_terminal_vacancy_rule": "VACANT_UNTIL_SCHEDULED_REFORMATION",
+  "mid_cycle_compaction_rule": "NO_COMPACTION_OR_REPLACEMENT",
+  "security_identity_mapping_rule": "EXPLICIT_SLOT_TO_CANONICAL_SECURITY_ID"
+}
+```
+
+#### V1 representation — exact market-feature-schema identity value
+
+Within a MATERIALIZED state-interface payload:
+
+`ordered_market_feature_schema_identity`
+
+must be the exact frozen identity value of that schema using its governed
+identity format.
+
+It cannot equal:
+
+```text
+NOT_YET_MATERIALIZED
+UNKNOWN
+TBD
+null
+```
+
+If that upstream identity is not frozen:
+
+```text
+state_interface_identity =
+NOT_YET_MATERIALIZED
+```
+
+and no materialized state-interface payload/hash exists yet.
+
+#### V1 representation — exact economic-schema representation
+
+`ordered_required_economic_state_field_schema` is represented as an ordered
+JSON array of EXACTLY these eight field-name strings:
+
+```json
+[
+  "portfolio_equity_usd",
+  "cash_usd",
+  "position_quantity_by_slot",
+  "position_market_value_usd_by_slot",
+  "current_exposure_fraction_by_slot",
+  "previous_target_exposure_fraction_by_slot",
+  "gross_exposure_fraction",
+  "net_exposure_fraction"
+]
+```
+
+The complete shape/dtype/encoding/unit/requiredness definitions are the
+corresponding entries in `ordered_logical_state_field_descriptors`.
+
+Do NOT duplicate independent descriptor objects here.
+
+This prevents inconsistent duplicated schemas.
+
+The underlying economic meanings and units remain exactly those already defined
+in section 14.
+
+#### V1 representation — exact mask-schema objects
+
+Both:
+
+`feature_input_validity_mask_schema`
+
+and:
+
+`feature_input_availability_mask_schema`
+
+must be JSON objects with EXACTLY:
+
+```text
+field_name
+masked_field_names
+logical_dtype
+encoding
+alignment_rule
+true_semantics
+false_semantics
+```
+
+##### `field_name`
+
+the exact corresponding mask field name.
+
+##### `masked_field_names`
+
+an ordered JSON array of exact field-name strings from the 20-field descriptor
+list.
+
+The exact applicable list is part of the frozen identity-bearing layout.
+
+Its order is identity-bearing.
+
+`logical_dtype`
+and
+`encoding`
+
+exact frozen UTF-8 tokens.
+
+`alignment_rule`
+must be the exact canonical rule equivalent to:
+
+```text
+MASKED_FIELD_NAMES_IN_ORDER__MASK_LAYOUT_EXACTLY_ALIGNS_WITH_REFERENCED_INPUT_LAYOUT
+```
+
+The exact validity and availability semantic tokens are fixed below,
+consistent with the existing section-11 rules.
+
+Do not invent an imputation permission.
+
+A mask still does not authorize financial-zero replacement.
+
+No additional mask-schema key is permitted.
+
+V1 mask semantic values are exact strings:
+
+| Schema | `true_semantics` | `false_semantics` |
+|---|---|---|
+| `feature_input_validity_mask_schema` | `INPUT_VALID_UNDER_GOVERNED_RULES` | `INPUT_NOT_ESTABLISHED_VALID__NO_SILENT_FINANCIAL_ZERO_REPLACEMENT` |
+| `feature_input_availability_mask_schema` | `INPUT_AVAILABLE_BY_DECISION_TIME_T` | `INPUT_NOT_ESTABLISHED_AVAILABLE_BY_DECISION_TIME_T` |
+
+Both mask schemas use the exact `alignment_rule` string
+`MASKED_FIELD_NAMES_IN_ORDER__MASK_LAYOUT_EXACTLY_ALIGNS_WITH_REFERENCED_INPUT_LAYOUT`.
+Their dtype and encoding values must equal the corresponding descriptor's
+values. The frozen masked-field list must satisfy existing section-11 coverage,
+including required economic inputs; this does not permit omitting required
+inputs or weakening applicability/fail-closed rules.
+
+#### V1 representation — exact boundary-flag object schema
+
+Each of:
+
+`session_start_flag_schema`
+`formation_boundary_flag_schema`
+`episode_start_flag_schema`
+
+is a JSON object with EXACTLY:
+
+```text
+field_name
+scope
+logical_dtype
+encoding
+shape
+slot_specific_affected_slot_representation
+```
+
+`field_name`
+must equal the corresponding exact field name.
+
+`scope`
+must be one concrete frozen permitted scope:
+
+```text
+GLOBAL
+SLOT_INDEXED
+```
+
+`shape` uses the V1 shape representation above and must agree with `scope`.
+
+`logical_dtype`
+and
+`encoding`
+are exact frozen UTF-8 tokens.
+
+`slot_specific_affected_slot_representation`
+must be exactly one frozen canonical token describing the already accepted
+behavior that affected slots are explicitly identified when slot-specific.
+
+No additional key is permitted.
+
+For V1, `slot_specific_affected_slot_representation` is the exact string
+`GLOBAL_BOUNDARY_APPLIES_TO_ALL_SLOTS` for GLOBAL scope, or
+`SLOT_INDEXED_FLAGS_EXPLICITLY_IDENTIFY_AFFECTED_SLOTS` for SLOT_INDEXED scope.
+The scope, shape, dtype, and encoding must match the corresponding logical
+field descriptor; these schema objects cannot create contradictory duplicate
+layouts. GLOBAL shape is `[]`; SLOT_INDEXED shape is
+`[{"kind":"FIXED","value":60}]`.
+
+#### V1 representation — exact semantic token fields
+
+These top-level values are exact UTF-8 canonical tokens, not free-form nested
+objects:
+
+```text
+inactive_slot_representation_semantics
+required_active_slot_fail_closed_semantics
+```
+
+Their exact V1 values below transcribe the already accepted section-11 rules:
+
+* inactive placeholders are masked non-observations distinct from valid
+  financial zeros and unresolved active input;
+* unresolved required active-slot state fails closed and no policy action may
+  be emitted.
+
+Do not alter those semantics.
+
+Exact V1 values:
+
+```text
+inactive_slot_representation_semantics =
+MASKED_NON_OBSERVATIONS_DISTINCT_FROM_VALID_FINANCIAL_ZEROS_AND_UNRESOLVED_ACTIVE_INPUT
+required_active_slot_fail_closed_semantics =
+UNRESOLVED_REQUIRED_ACTIVE_SLOT_STATE_FAILS_CLOSED__NO_POLICY_ACTION
+```
+
+These values are JSON strings in the materialized payload.
+
+#### V1 representation — exact dtype / encoding rule object
+
+`field_dtype_and_encoding_rules` is a JSON object containing EXACTLY:
+
+```text
+logical_dtype_value_representation
+encoding_value_representation
+string_normalization
+units_not_applicable_representation
+unfrozen_required_value_effect
+```
+
+Use exactly these V1 string values:
+
+```text
+logical_dtype_value_representation = EXACT_UTF8_TOKEN
+encoding_value_representation = EXACT_UTF8_TOKEN
+string_normalization = NONE
+units_not_applicable_representation = JSON_NULL
+unfrozen_required_value_effect = STATE_INTERFACE_IDENTITY_NOT_YET_MATERIALIZED
+```
+
+No additional key is permitted.
+
+#### V1 representation — exact identity-reference definition objects
+
+`required_identity_reference_field_definitions` is an ordered JSON array.
+
+Every entry is an object with EXACTLY:
+
+```text
+field_name
+reference_kind
+reference_semantics
+requiredness
+runtime_referenced_value_in_structural_hash
+```
+
+##### `field_name`
+
+exact governed reference-field name.
+
+`reference_kind`
+and
+`reference_semantics`
+
+exact frozen UTF-8 tokens.
+
+##### `requiredness`
+
+`REQUIRED` or `CONDITIONAL`.
+
+##### `runtime_referenced_value_in_structural_hash`
+
+JSON Boolean.
+
+For reference fields whose runtime/sample referenced value is explicitly
+excluded from the structural identity, require:
+
+```json
+false
+```
+
+Array order follows first occurrence in the governed logical interface; do not
+sort lexicographically unless the contract explicitly defines that order as
+the interface order.
+
+The exact reference list is part of the frozen layout/configuration and must be
+complete before identity materialization.
+
+#### V1 representation — extension / optional-field rules
+
+For `STATE_INTERFACE_SPECIFICATION_V1`:
+
+```text
+UNDECLARED_TOP_LEVEL_KEYS = PROHIBITED
+UNDECLARED_NESTED_KEYS = PROHIBITED
+OMITTED_REQUIRED_KEYS = PROHIBITED
+```
+
+Only `units` may use JSON `null`, and only where units are not applicable.
+
+No other missing value is represented by omission or null.
+
+All arrays preserve the explicit contract-defined order.
+
+No array is automatically sorted unless explicitly defined as set-like.
+
+No object/value string is trimmed, case-folded, alias-normalized, or rewritten
+before hashing.
+
+Any representational extension requiring:
+
+* another top-level key;
+* another descriptor key;
+* another dimension kind;
+* another symbolic dimension reference;
+* another nested schema member
+
+requires a new:
+
+```text
+state_interface_spec_version
+```
+
+and therefore a different state-interface identity once materialized.
+
+#### V1 representation — canonical serialization / hash
+
+Preserve section-17 canonical JSON rules.
+
+After all required values are frozen and the materialization precondition is
+satisfied:
+
+```text
+state_interface_identity =
+SHA256(CANONICAL_JSON_OF_STATE_INTERFACE_SPECIFICATION_V1)
+```
+
+The payload excludes:
+
+* `state_interface_identity` itself;
+* runtime/sample values already excluded by the existing contract;
+* observational timestamps;
+* local filesystem paths.
+
+Before all required payload values are frozen:
+
+```text
+state_interface_identity =
+NOT_YET_MATERIALIZED
+```
+
+No placeholder payload is hashed.
 
 ## 12. Recurrent sequence, lookback, warm-up, and boundary contract
 
@@ -3726,11 +4346,13 @@ C7 still requires separate authorization.
 ## 21. Explicit exclusions / non-authorization boundary
 
 C6-A through C6-F are complete, published, and effective; none is reopened.
-C6-G initial independent review executed under its separate authorization and
-returned PASS_WITH_BOUNDED_CORRECTION. C6-G remains open; this correction does
-not establish final PASS or close findings. Publication of these corrections,
-C6-H freeze, and C7 execution are not authorized. This text creates no
-correction, review, publication, or freeze authorization.
+C6-G initial review and first re-verification history are recorded above.
+Authoring or publishing a correction does not independently close a finding;
+independent review evidence controls closure and final PASS. Publication
+authority is external to this document and publication state is established
+by canonical Git history and governance evidence. This contract creates no
+correction, publication, review, or freeze authorization. C6-H and C7 execution
+remain unauthorized.
 
 The authorization boundary remains:
 
@@ -3763,8 +4385,10 @@ final_holdout_access = NOT_AUTHORIZED
 
 C6_G_INITIAL_REVIEW_EXECUTED = YES
 C6_G_INITIAL_REVIEW_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
-C6_G_FINAL_REVIEW_PASS = NO
-C6_G_REVIEW_CLOSED = NO
+C6_G_FINAL_REVIEW_DISPOSITION =
+NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
+C6_G_REVIEW_CLOSURE =
+NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
 C6_H_contract_freeze_execution = NOT_AUTHORIZED
 
 paper_trading = NOT_AUTHORIZED
@@ -3931,15 +4555,15 @@ has been accessed.
 
 `C6_F_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
 
-The bounded C6-F specification is COMPLETE__PUBLISHED__EFFECTIVE. The complete
-initial C6-G audit returned PASS_WITH_BOUNDED_CORRECTION with
-MATERIAL_FINDING_COUNT = 0 and BOUNDED_CORRECTABLE_FINDING_COUNT = 3.
-C6G-FIND-001, C6G-FIND-002, and C6G-FIND-003 remain open pending correction
-and independent re-verification. Applying this bounded correction does not
-independently close them. After a later separately authorized corrected
-publication, the independent reviewer must verify all three surfaces and all
-affected invariants before final PASS is possible. No independent-review
-result or `c6_independent_review_identity` is created by this execution actor.
+The bounded C6-F specification is COMPLETE__PUBLISHED__EFFECTIVE. The initial
+C6-G audit recorded zero material findings and three bounded findings. The
+first independent re-verification returned PASS_WITH_BOUNDED_CORRECTION,
+closed C6G-FIND-003, and left C6G-FIND-001 and C6G-FIND-002 open at that review.
+These immutable historical dispositions do not predict subsequent review
+results. Later authoring corrections do not themselves close findings; only
+subsequent independent evidence establishes closure and final disposition.
+No independent-review result or `c6_independent_review_identity` is created
+by this execution actor.
 Dataset acceptance has not executed, the source note remains unresolved,
 C6-H has not occurred, C6 is not complete, and C7 is not authorized.
 
@@ -3967,9 +4591,10 @@ must identify or establish a canonical source before freeze if a separate
   unauthorized during this specification/freeze scope.
 
 C6-A through C6-F are complete, published, and effective and are not reopened.
-C6-G initial review has executed with PASS_WITH_BOUNDED_CORRECTION, zero
-material findings, and three bounded correctable findings. Final review PASS
-has not occurred and C6-G remains open pending independent re-verification.
+C6-G initial review recorded three bounded findings and zero material findings.
+The first re-verification closed Finding 003 and left Findings 001 and 002 open.
+Final review disposition and closure are not asserted by this document;
+independent review evidence controls them.
 C6-H freeze remains unexecuted and unauthorized. C6 is not complete.
 
 C6 cannot be represented as complete or frozen merely because the earlier
@@ -3993,10 +4618,12 @@ C6_D_REOPEN = NO
 C6_E_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_E_REOPEN = NO
 C6_F_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
-C6_G_STATUS = INITIAL_REVIEW_COMPLETE__PASS_WITH_BOUNDED_CORRECTION__OPEN
+C6_G_REVIEW_HISTORY = INITIAL_REVIEW_AND_REVERIFICATION_1_RECORDED
 C6_G_INITIAL_REVIEW_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
-C6_G_FINAL_REVIEW_PASS = NO
-C6_G_REVIEW_CLOSED = NO
+C6_G_FINAL_REVIEW_DISPOSITION =
+NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
+C6_G_REVIEW_CLOSURE =
+NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
 C6_H_FREEZE_ELIGIBLE = NO
 C6_DATASET_CONTRACT = NOT_FROZEN
 DATASET_GENERATION = NOT_AUTHORIZED
