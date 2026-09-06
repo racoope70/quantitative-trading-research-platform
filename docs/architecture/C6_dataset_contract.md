@@ -1,8 +1,8 @@
 # C6 Dataset Contract
 
 ```text
-document_status = C6_G_REVIEW_HISTORY_RECORDED__INDEPENDENT_EVIDENCE_CONTROLS__NOT_FROZEN
-document_role = C6_DATASET_CONTRACT__C6_A_THROUGH_C6_F_PUBLISHED__C6_G_REVIEW_HISTORY
+document_status = C6_H_COMPLETE__FROZEN__EFFECTIVE
+document_role = FROZEN_C6_DATASET_CONTRACT
 current_state_control = NO
 authorization_effect = NONE
 
@@ -10,7 +10,7 @@ controlling_current_state_document = PROJECT_CONTEXT.md
 supporting_C6_authorization_decision =
 docs/decisions/C6_authorization_decision.md
 
-C6_phase = C6_ACTIVE
+C6_phase = CONTRACT_FREEZE_COMPLETE__C6_COMPLETION_DISPOSITION_EXTERNAL_TO_THIS_DOCUMENT
 C6_authorization =
 AUTHORIZED__SPECIFICATION_AND_CONTRACT_FREEZE_ONLY
 
@@ -77,19 +77,30 @@ C6G_FIND_002_REVERIFICATION_1 = OPEN
 C6G_FIND_003_REVERIFICATION_1 = CLOSED
 C6_G_REVERIFICATION_1_OPEN_BOUNDED_CORRECTABLE_FINDING_COUNT = 2
 C6_G_REVERIFICATION_1_MATERIAL_FINDING_COUNT = 0
-C6_G_FINAL_REVIEW_DISPOSITION =
-NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
-C6_G_REVIEW_CLOSURE =
-NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
+C6_G_FINAL_REVIEW_DISPOSITION = PASS
+C6_G_REVIEW_CLOSURE = CLOSED
+
+C6_G_status = COMPLETE__INDEPENDENT_REVIEW_PASS
+C6_G_REOPEN = NO
+C6G_FIND_001 = CLOSED
+C6G_FIND_002 = CLOSED
+C6G_FIND_003 = CLOSED
+c6_independent_review_identity = 5a69af6f2eca2b87ceb937beb71eccbd67d5fb51e15fc4a4e695d3adbbf15576
+SOURCE_RECONCILIATION_75_STATUS = RESOLVED_AS_NONCONTROLLING__RETIRED
+SOURCE_RECONCILIATION_75_DECISION = GOV-DEC-0015
+source_reconciliation_disposition_identity = 50c5e643692a9eeb326b622c0f8056d49e50c6672f686c69d9545680853c0488
+CONTROLLING_75_SECURITY_RULE = NONE
+C6_H_status = COMPLETE__FROZEN__EFFECTIVE
+C6_H_FREEZE_EXECUTED = YES
 
 CORRECTION_PUBLICATION_AUTHORITY = EXTERNAL_TO_THIS_DOCUMENT
 CORRECTION_PUBLICATION_STATE =
 ESTABLISHED_BY_CANONICAL_GIT_HISTORY_AND_GOVERNANCE_EVIDENCE
 THIS_DOCUMENT_CREATES_PUBLICATION_AUTHORIZATION = NO
-C6_H_FREEZE_ELIGIBLE = NO
-C6_DATASET_CONTRACT = NOT_FROZEN
+C6_H_FREEZE_ELIGIBLE = YES
+C6_DATASET_CONTRACT = FROZEN
 
-dataset_contract_status = AUTHORIZED__NOT_FROZEN
+dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
 
 ACCEPTED_REQUIREMENT =
@@ -136,7 +147,14 @@ and C6G-FIND-002 open at that review. These are historical review facts;
 subsequent independent evidence controls closure and final disposition.
 Authoring or publishing corrections does not itself establish a review result.
 
-It remains a draft C6 dataset contract and is not frozen.
+Final external independent-review evidence establishes C6-G PASS and closure
+of all three findings. GOV-DEC-0015 authoritatively retired the 75-security
+source note as noncontrolling without changing accepted universe rules.
+C6-H has performed the permitted lifecycle/status freeze transition. This
+is the frozen C6 dataset contract; it creates no downstream execution
+authorization. Historical authoring-stage status and conditional requirements
+in sections 3–20 retain their original scope; current freeze status is
+recorded in these lifecycle surfaces.
 
 `PROJECT_CONTEXT.md` remains the controlling source of truth for broad current
 lifecycle state and authorization boundaries.
@@ -203,14 +221,14 @@ candidate set and support:
 - final contract freeze.
 
 C6-A through C6-F are complete, published, and effective within their bounded
-surfaces and are not reopened. C6-G initial review and first re-verification
-are recorded as historical evidence. The latter closed C6G-FIND-003 and left
-two findings open at that review. This second correction addresses only the
-remaining C6G-FIND-001 and state-representation portion of C6G-FIND-002;
-it does not modify C6G-FIND-003 or independently determine finding closure.
-Historical statements describing what an earlier work package
-did not execute retain that historical scope. Dataset acceptance, C6-H freeze,
-and C7 execution remain unauthorized.
+surfaces and are not reopened. Contract definition is complete. External
+independent evidence establishes final C6-G PASS and closure of all three
+findings. GOV-DEC-0015 resolves the source reconciliation as noncontrolling
+and retired. C6-H contract freeze is complete. Historical statements about
+what earlier work packages did not execute retain their historical scope.
+Dataset acceptance execution, dataset generation, model work, final-holdout
+access, and C7 remain unauthorized.
+
 
 ## 3. Controlling scientific and governance inputs
 
@@ -4346,13 +4364,12 @@ C7 still requires separate authorization.
 ## 21. Explicit exclusions / non-authorization boundary
 
 C6-A through C6-F are complete, published, and effective; none is reopened.
-C6-G initial review and first re-verification history are recorded above.
-Authoring or publishing a correction does not independently close a finding;
-independent review evidence controls closure and final PASS. Publication
-authority is external to this document and publication state is established
-by canonical Git history and governance evidence. This contract creates no
-correction, publication, review, or freeze authorization. C6-H and C7 execution
-remain unauthorized.
+Final external independent-review evidence establishes C6-G PASS and closed
+findings. The separately Owner-authorized C6-H contract freeze is complete.
+Publication authority remains external to this document; canonical Git history
+and governance evidence establish publication state. This contract creates
+no correction, publication, review, freeze, or downstream authorization.
+C7 remains unauthorized.
 
 The authorization boundary remains:
 
@@ -4385,11 +4402,9 @@ final_holdout_access = NOT_AUTHORIZED
 
 C6_G_INITIAL_REVIEW_EXECUTED = YES
 C6_G_INITIAL_REVIEW_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
-C6_G_FINAL_REVIEW_DISPOSITION =
-NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
-C6_G_REVIEW_CLOSURE =
-NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
-C6_H_contract_freeze_execution = NOT_AUTHORIZED
+C6_G_FINAL_REVIEW_DISPOSITION = PASS
+C6_G_REVIEW_CLOSURE = CLOSED
+C6_H_contract_freeze_execution = COMPLETE__FROZEN__EFFECTIVE
 
 paper_trading = NOT_AUTHORIZED
 live_trading = NOT_AUTHORIZED
@@ -4398,7 +4413,7 @@ deployment = NOT_AUTHORIZED
 candidate_set_expansion = NOT_AUTHORIZED
 host_or_compute_authorization = NOT_AUTHORIZED
 C6_F_SPECIFICATION = COMPLETE__PUBLISHED__EFFECTIVE
-C6_H_OR_LATER_EXECUTION = NOT_AUTHORIZED
+C6_H_FURTHER_CONTRACT_MUTATION = NOT_AUTHORIZED_WITHOUT_NEW_GOVERNANCE
 C7_or_later_execution = NOT_AUTHORIZED
 
 C5_REOPEN = NO
@@ -4411,6 +4426,10 @@ authorize no downstream execution. This non-controlling document creates no
 authorization.
 
 ## 22. Open C6 specification items by later work package
+
+The C6-B through C6-F routing descriptions below preserve their historical
+authoring-stage scope. Their draft-level and non-freeze statements describe
+those work packages, not the final C6-H contract status recorded below.
 
 ### C6-B — Raw/processed schema, identity, and provenance
 
@@ -4564,17 +4583,32 @@ results. Later authoring corrections do not themselves close findings; only
 subsequent independent evidence establishes closure and final disposition.
 No independent-review result or `c6_independent_review_identity` is created
 by this execution actor.
-Dataset acceptance has not executed, the source note remains unresolved,
-C6-H has not occurred, C6 is not complete, and C7 is not authorized.
+Dataset acceptance has not executed and C7 remains unauthorized. Final external
+independent evidence subsequently established PASS and closure of all three
+findings; this execution actor records that evidence without creating a new
+independent-review result.
+
+```text
+C6_G = COMPLETE__INDEPENDENT_REVIEW_PASS
+C6G_FIND_001 = CLOSED
+C6G_FIND_002 = CLOSED
+C6G_FIND_003 = CLOSED
+C6_H = COMPLETE__FROZEN__EFFECTIVE
+```
 
 ### Source reconciliation before freeze
 
-The C6-A brief's separate `50 to 75` acceptable-range wording is not directly
-established by the current canonical C5 eligibility decision reviewed.
+The C6-A brief's separate `50 to 75` wording was not established by the
+canonical C5 eligibility decision reviewed. C6-B through C6-F did not resolve
+that note as technical design. Owner/Admin subsequently retired it as
+noncontrolling in GOV-DEC-0015. No accepted universe rule changed.
 
-This is not silently resolved as C6-B through C6-F technical design. Managing
-must identify or establish a canonical source before freeze if a separate
-75-security upper bound is intended.
+```text
+SOURCE_RECONCILIATION_75_STATUS = RESOLVED_AS_NONCONTROLLING__RETIRED
+SOURCE_RECONCILIATION_75_DECISION = GOV-DEC-0015
+CONTROLLING_75_SECURITY_RULE = NONE
+```
+
 
 ## 23. C6 completion criteria
 
@@ -4591,20 +4625,17 @@ must identify or establish a canonical source before freeze if a separate
   unauthorized during this specification/freeze scope.
 
 C6-A through C6-F are complete, published, and effective and are not reopened.
-C6-G initial review recorded three bounded findings and zero material findings.
-The first re-verification closed Finding 003 and left Findings 001 and 002 open.
-Final review disposition and closure are not asserted by this document;
-independent review evidence controls them.
-C6-H freeze remains unexecuted and unauthorized. C6 is not complete.
+Final external C6-G evidence establishes independent PASS and closure of all
+three bounded findings. GOV-DEC-0015 retired source reconciliation 75 as
+noncontrolling. The permitted C6-H lifecycle/status transition is complete;
+this is the frozen contract under the section-20 technical requirements.
 
-C6 cannot be represented as complete or frozen merely because the earlier
-work packages are published/effective and the three bounded corrections
-exist.
-
-`C6_F_DETAIL_DEFINED` — sections 18–20 define acceptance/review/freeze evidence
-requirements. Actual review, source-reconciliation dispositions, and freeze
-evidence must be established in separately authorized later work before C6
-completion can be considered.
+The separate freeze manifest records the finalized contract and deterministic
+freeze identities without inserting those identities into their own inputs.
+C6 completion-disposition preparation is ready after C6-H publication
+reconciliation. This document does not make a separate Owner/Admin C6
+completion decision. PROJECT_CONTEXT.md remains controlling for broad
+lifecycle and authorization. No downstream execution is authorized.
 
 ```text
 C6_A_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
@@ -4620,12 +4651,17 @@ C6_E_REOPEN = NO
 C6_F_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_G_REVIEW_HISTORY = INITIAL_REVIEW_AND_REVERIFICATION_1_RECORDED
 C6_G_INITIAL_REVIEW_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
-C6_G_FINAL_REVIEW_DISPOSITION =
-NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
-C6_G_REVIEW_CLOSURE =
-NOT_ASSERTED_BY_THIS_DOCUMENT__INDEPENDENT_REVIEW_EVIDENCE_CONTROLS
-C6_H_FREEZE_ELIGIBLE = NO
-C6_DATASET_CONTRACT = NOT_FROZEN
+C6_G_FINAL_REVIEW_DISPOSITION = PASS
+C6_G_REVIEW_CLOSURE = CLOSED
+C6_G_STATUS = COMPLETE__INDEPENDENT_REVIEW_PASS
+C6_G_REOPEN = NO
+C6_H_STATUS = COMPLETE__FROZEN__EFFECTIVE
+SOURCE_RECONCILIATION_75_STATUS = RESOLVED_AS_NONCONTROLLING__RETIRED
+dataset_contract_status = FROZEN__EFFECTIVE
+C6_COMPLETION_DISPOSITION_PREPARATION = READY_AFTER_C6_H_PUBLICATION_RECONCILIATION
+C7_AUTHORIZATION = NONE
+C6_H_FREEZE_ELIGIBLE = YES
+C6_DATASET_CONTRACT = FROZEN
 DATASET_GENERATION = NOT_AUTHORIZED
 DATASET_ACCEPTANCE_EXECUTION = NOT_AUTHORIZED
 FEATURE_GENERATION = NOT_AUTHORIZED
@@ -4634,6 +4670,6 @@ MODEL_TRAINING = NOT_AUTHORIZED
 QUALIFICATION_EXECUTION = NOT_AUTHORIZED
 FINAL_HOLDOUT_ACCESS = NOT_AUTHORIZED
 C6_G_INITIAL_REVIEW_EXECUTED = YES
-C6_H_FREEZE_EXECUTED = NO
+C6_H_FREEZE_EXECUTED = YES
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
