@@ -1,8 +1,8 @@
 # C6 Dataset Contract
 
 ```text
-document_status = C6_D_DRAFT__NOT_FROZEN
-document_role = C6_DATASET_CONTRACT__C6_A_C6_B_C6_C_PUBLISHED_PLUS_C6_D_RL_STATE_RECURRENT_ACTION_AND_ECONOMIC_REPRESENTATION
+document_status = C6_E_DRAFT__NOT_FROZEN
+document_role = C6_DATASET_CONTRACT__C6_A_C6_B_C6_C_C6_D_PUBLISHED_PLUS_C6_E_DEVELOPMENT_VALIDATION_HOLDOUT_AND_GATE_ALIGNMENT
 current_state_control = NO
 authorization_effect = NONE
 
@@ -46,7 +46,16 @@ RL_STATE_RECURRENT_ACTION_AND_ECONOMIC_REPRESENTATION
 C6_D_scope =
 TECHNICAL_RL_STATE_RECURRENT_ACTION_AND_ECONOMIC_REPRESENTATION_SPECIFICATION_ONLY
 
-C6_D_status = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_D_status = COMPLETE__PUBLISHED__EFFECTIVE
+C6_D_REOPEN = NO
+
+C6_E_work_package =
+DEVELOPMENT_VALIDATION_HOLDOUT_AND_GATE_ALIGNMENT
+
+C6_E_scope =
+TECHNICAL_DEVELOPMENT_VALIDATION_QUALIFICATION_HOLDOUT_AND_GATE_ALIGNMENT_SPECIFICATION_ONLY
+
+C6_E_status = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
 C6_DATASET_CONTRACT = NOT_FROZEN
 
 dataset_contract_status = AUTHORIZED__NOT_FROZEN
@@ -62,7 +71,10 @@ C6_C_DETAIL_DEFINED =
 TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_C6_C_SCOPE
 
 C6_D_DETAIL_DEFINED =
-TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_D_SCOPE__PENDING_MANAGING_REVIEW
+TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_C6_D_SCOPE
+
+C6_E_DETAIL_DEFINED =
+TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_E_SCOPE__PENDING_MANAGING_REVIEW
 
 C6_DETAIL_TO_BE_DEFINED =
 TECHNICAL_CONTRACT_DETAIL_INTENTIONALLY_DEFERRED_TO_A_LATER_C6_WORK_PACKAGE
@@ -77,8 +89,10 @@ skeleton and accepted-input inventory, the published/effective C6-B technical
 definitions for raw and processed schemas, identity, lineage, provenance, and
 reproducibility, the published/effective C6-C technical definitions for
 chronology, leakage, calendar/session validation, PIT availability, and
-missingness/reconstruction, and the active bounded C6-D draft definitions for
-RL state, recurrent sequences, continuous actions, and economic representation.
+missingness/reconstruction, the published/effective C6-D definitions for RL
+state, recurrent sequences, continuous actions, and economic representation,
+and the active bounded C6-E draft definitions for development, validation,
+qualification, final-holdout isolation, and gate alignment.
 
 It remains a draft C6 dataset contract and is not frozen.
 
@@ -92,7 +106,7 @@ This document creates no new authorization and is not a checkpoint tracker,
 execution log, dataset-acceptance record, model specification, training plan,
 or final-holdout approval.
 
-Requirements and technical specifications in this document use five states:
+Requirements and technical specifications in this document use six states:
 
 - `ACCEPTED_REQUIREMENT` — already established by canonical decisions or
   accepted methodological guidance.
@@ -103,10 +117,13 @@ Requirements and technical specifications in this document use five states:
   PIT-availability, or missingness/reconstruction detail defined within the
   completed, published, and effective bounded C6-C surface.
 - `C6_D_DETAIL_DEFINED` — an RL state, recurrent sequence, continuous action,
-  or economic-interface detail within the authorized active C6-D bounded draft
-  and presented for Managing review.
+  or economic-interface detail within the completed, published, and effective
+  bounded C6-D surface.
+- `C6_E_DETAIL_DEFINED` — a partition, evaluation-isolation, or gate-alignment
+  detail within the authorized active C6-E bounded draft and presented for
+  Managing review.
 - `C6_DETAIL_TO_BE_DEFINED` — a technical C6 contract detail assigned to a
-  later work package and intentionally not resolved by the current C6-D work
+  later work package and intentionally not resolved by the current C6-E work
   package.
 
 A separate notation is used only where source reconciliation is required:
@@ -142,10 +159,10 @@ candidate set and support:
 - independent C6 review; and
 - final contract freeze.
 
-C6-A, C6-B, and C6-C are complete, published, and effective within their
-bounded surfaces; C6-B and C6-C are not reopened. C6-D resolves only the common
-RL state, recurrent sequence, continuous action, and economic-interface
-specifications in sections 11–14. C6-E and C6-F details remain deferred.
+C6-A through C6-D are complete, published, and effective within their bounded
+surfaces; C6-B, C6-C, and C6-D are not reopened. C6-E resolves only the
+partition, development/validation/qualification/holdout, and gate-alignment
+specifications in sections 15–16. C6-F details remain deferred.
 
 ## 3. Controlling scientific and governance inputs
 
@@ -1559,14 +1576,219 @@ features, datasets, or model implementation are generated.
 - `ACCEPTED_REQUIREMENT` [S1, S2]: final-holdout access is not authorized
   during C6.
 
-### Deferred detail
+### C6-E technical definition — chronological regions and walk-forward folds
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-E must define exact development, walk-forward
-validation, qualification, and final-holdout partition identities and date
-boundaries; fold geometry; step sizes; horizon/embargo treatment; split
-versioning; and deterministic partition-generation rules.
+`C6_E_DETAIL_DEFINED` — all dates below are inclusive and refer to official
+accepted regular sessions under the C6-C calendar contract. Region assignment
+uses the decision observation's accepted exchange-local session identity;
+calendar-derived UTC instants govern dependency checks. No observations are
+manufactured for holidays, weekends, or closed sessions.
 
-No final experiment is defined or executed in C6-A.
+```text
+STUDY_WINDOW = 2024-09-03 THROUGH 2026-08-31 INCLUSIVE
+DEVELOPMENT_REGION = 2024-09-03 THROUGH 2026-03-31 INCLUSIVE
+QUALIFICATION_REGION = 2026-04-01 THROUGH 2026-05-29 INCLUSIVE
+FINAL_HOLDOUT_REGION = 2026-06-01 THROUGH 2026-08-31 INCLUSIVE
+REGION_OVERLAP = NONE
+REGION_ORDER = DEVELOPMENT THEN QUALIFICATION THEN FINAL_HOLDOUT
+
+WALK_FORWARD_TRAIN_START = 2024-09-03
+TRAIN_WINDOW_STYLE = EXPANDING
+VALIDATION_WINDOW_STYLE = ONE_CALENDAR_MONTH_OF_ACCEPTED_REGULAR_SESSIONS
+WALK_FORWARD_STEP = ONE_CALENDAR_MONTH
+VALIDATION_FOLD_COUNT = 7
+```
+
+No observation may belong to more than one top-level region in the same
+governed research cycle. Development contains exactly these seven validation
+folds, in the listed order:
+
+| Fold | Train start | Train end | Validation start | Validation end |
+|---|---|---|---|---|
+| FOLD_1 | 2024-09-03 | 2025-08-29 | 2025-09-02 | 2025-09-30 |
+| FOLD_2 | 2024-09-03 | 2025-09-30 | 2025-10-01 | 2025-10-31 |
+| FOLD_3 | 2024-09-03 | 2025-10-31 | 2025-11-03 | 2025-11-28 |
+| FOLD_4 | 2024-09-03 | 2025-11-28 | 2025-12-01 | 2025-12-31 |
+| FOLD_5 | 2024-09-03 | 2025-12-31 | 2026-01-02 | 2026-01-30 |
+| FOLD_6 | 2024-09-03 | 2026-01-30 | 2026-02-02 | 2026-02-27 |
+| FOLD_7 | 2024-09-03 | 2026-02-27 | 2026-03-02 | 2026-03-31 |
+
+A completed validation region may enter the next fold's expanding training
+history. No validation observation enters its own fold's training set. No
+random split is permitted. These date ranges are nominal membership bounds;
+the dependency and validity exclusions below still apply.
+
+### C6-E technical definition — forward dependencies, purge, and embargo
+
+`C6_E_DETAIL_DEFINED` — every example preserves:
+
+```text
+example_information_cutoff_utc
+target_or_outcome_start_utc
+target_or_outcome_end_utc
+
+BOUNDARY_PURGE_RULE =
+IF target_or_outcome_end_utc >= next_governed_partition_start_utc
+THEN EXCLUDE_EXAMPLE_FROM_EARLIER_PARTITION
+
+EMBARGO_DURATION =
+DERIVED_FROM_THE_MAXIMUM_FORWARD_INFORMATION_DEPENDENCY_OF_THE_APPLICABLE_TARGET_OR_OUTCOME
+FIXED_ARBITRARY_CALENDAR_DAY_EMBARGO = NONE
+```
+
+The information cutoff is the latest permitted input instant for the example;
+all features must satisfy C6-C availability/applicability at that cutoff.
+Target/outcome start and end describe the complete forward dependency, not
+merely the stored label timestamp. Unknown or invalid dependency bounds remain
+explicit and fail closed for partition eligibility.
+
+An example is eligible only when its complete target/outcome dependency stays
+inside its permitted temporal boundary. The next partition's start is the
+calendar-derived UTC start instant of its first accepted regular session.
+An inclusive end date permits dependencies only through that date's applicable
+official session close, not through later closed-session time.
+
+- Fold training purges every example whose forward target/outcome reaches
+  that fold's validation start, including equality.
+- Fold validation excludes every example whose target/outcome extends beyond
+  that validation fold's official end, even if the next fold starts later.
+- Qualification excludes every example whose target/outcome reaches the
+  final-holdout start; it also requires the full outcome within the
+  qualification region's own inclusive end.
+- Final holdout requires the complete target/outcome inside the holdout region
+  under the later frozen final evaluation package.
+
+The same rule applies to development refitting at the qualification boundary.
+Embargo/purge is derived from the maximum forward information dependency of
+the applicable target/outcome identities and the actual example intervals;
+no arbitrary calendar-day duration is selected. A row timestamp before a
+boundary never excuses a label/outcome dependency across it. Gate horizons
+in section 16 participate in these checks. Sequence and warm-up partition
+resets and non-crossing requirements in section 12 remain unchanged.
+
+### C6-E technical definition — preprocessing and split identity
+
+`C6_E_DETAIL_DEFINED`:
+
+```text
+PREPROCESSOR_FIT_REGION = THAT_FOLD_TRAIN_REGION_ONLY
+```
+
+For each fold, fit preprocessing only on its eligible training information,
+then apply the fitted transformation unchanged to that fold's validation
+region. Fitting on train plus validation, qualification, final holdout, or the
+full study is prohibited. Future-aware normalization and re-estimation using
+the validation period being evaluated are prohibited. Preserve section-11
+ordered feature, transformation, fitted-parameter, and training-partition
+identities; candidate-specific feature reordering is not allowed.
+
+After development choices are frozen, any later authorized final
+pre-qualification training refit may use only the complete DEVELOPMENT_REGION,
+subject to forward-dependency purge at the qualification boundary.
+Qualification and final-holdout observations never contribute to fitted
+preprocessing parameters.
+
+The immutable partition specification's complete canonical identity payload
+contains at least:
+
+```text
+split_spec_version
+study_window_start
+study_window_end
+calendar_identity_ref
+development_region
+walk_forward_fold_definitions
+qualification_region
+final_holdout_region
+boundary_purge_rule
+embargo_rule
+applicable_target_horizon_identities
+preprocessing_fit_policy
+ordering_rules
+
+split_identity = SHA256(CANONICAL_JSON_OF_COMPLETE_SPLIT_SPECIFICATION)
+```
+
+Use section-17 canonical JSON and lowercase-hex SHA-256 rules. Include exact
+bounds, inclusive-end/session-to-UTC semantics, the ordered seven fold
+records, and the complete dependency/fit rules; material specification or
+horizon changes produce a different identity. `split_identity` itself is not
+part of its hash payload. Ordering is chronological decision time ascending,
+then the accepted deterministic security/slot ordering where a tie applies;
+folds are ordered FOLD_1 through FOLD_7. Duplicate decision examples are not
+introduced by ordering or assignment.
+
+`split_identity` is the authoritative value referenced by the already-reserved
+`split_identity_ref` in later applicable dataset provenance. A partition's
+identity is resolved by that split identity plus its region role and, where
+applicable, fold identifier and train/validation role. This defines no new
+C6-B canonical table and does not change dataset-instance hash membership.
+No actual split identity value, dataset instance, partition artifact, or
+physical split is generated in C6-E.
+
+### C6-E technical definition — qualification and candidate comparability
+
+`C6_E_DETAIL_DEFINED` — qualification is a separate pre-holdout evaluation
+region, usable later only after applicable candidate/gate development choices
+are frozen and evaluation is separately authorized. It determines only
+predeclared dispositions such as:
+
+```text
+QUALIFIED_AND_FROZEN
+REJECTED
+NO_CANDIDATE
+INCONCLUSIVE
+NOT_APPLICABLE_WHERE_PREDECLARED_CONDITIONS_FAIL
+```
+
+Qualification is not used for architecture redesign, hyperparameter tuning,
+feature selection, normalization refitting, gate-target redesign,
+gate-threshold tuning, Option B+ foundation rerouting, or reward redesign.
+If an artifact/configuration changes because qualification results were
+observed, the prior result no longer qualifies the changed artifact. Viewed
+qualification observations cannot be represented as untouched evidence for
+that modified artifact. Redesign/requalification disposition requires later
+governance and is not authorized by C6-E.
+
+PPO, SAC, and RecurrentPPO use the same study-window identity, split identity,
+development/validation/qualification date geometry, canonical dataset identity,
+calendar identity, universe-formation history, economic/cost interface,
+decision-time chronology, and comparable evaluation definitions.
+Candidate-specific recurrent warm-up or compatibility exclusions may produce
+explicitly reported unusable examples, but never candidate-specific partition
+dates. Candidate-specific availability counts and reasons remain visible; no
+model family receives a more favorable temporal partition.
+
+### C6-E technical definition — one shared untouched final holdout
+
+`C6_E_DETAIL_DEFINED`:
+
+```text
+FINAL_HOLDOUT = ONE_SHARED_UNTOUCHED_FINAL_HOLDOUT
+FINAL_HOLDOUT_REGION = 2026-06-01 THROUGH 2026-08-31 INCLUSIVE
+```
+
+Specifying this date identity is not final-holdout data access. Row-level data,
+metrics, outcome summaries, diagnostics, model outputs, and performance
+results remain inaccessible until separately authorized. Before any future
+opening, all of the following must hold:
+
+```text
+ALL_APPLICABLE_CANDIDATE_AND_GATE_PHASES_HAVE_ACCEPTED_TERMINAL_DISPOSITIONS = YES
+ALL_ELIGIBLE_CANDIDATES_ARE_FROZEN = YES
+AT_LEAST_ONE_ELIGIBLE_CANDIDATE_EXISTS = YES
+COMMON_EVALUATION_PACKAGE_IS_FROZEN = YES
+FINAL_HOLDOUT_ACCESS_IS_EXPRESSLY_AUTHORIZED = YES
+```
+
+The holdout is opened once under that common frozen package. It cannot be
+used for PPO/SAC/RecurrentPPO selection, candidate replacement, feature or
+preprocessing selection, hyperparameter tuning, reward redesign, gate-feature
+or gate-target redesign, gate-threshold selection, Option B+ routing,
+debugging, or repeated evaluation. If no eligible frozen candidate exists,
+`FINAL_HOLDOUT_ACCESSED = NO`. Accidental/viewed holdout information must be
+recorded as viewed and cannot become untouched again. C6-E accesses no
+final-holdout data and authorizes no evaluation.
 
 ## 16. RF/XGBoost gate-feature and target-alignment contract
 
@@ -1585,14 +1807,358 @@ No final experiment is defined or executed in C6-A.
   development score.
 - `ACCEPTED_REQUIREMENT` [S3]: candidate-set expansion is not authorized.
 
-### Deferred detail
+### C6-E technical definition — gate decision and feature interface
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-E must define the exact gate-feature dataset
-interface, target/outcome definition, prediction horizon, feature-availability
-cutoff, RL-action/outcome alignment, paired gated/ungated dataset identity,
-and leakage checks.
+`C6_E_DETAIL_DEFINED`:
 
-C6-A does not define gate features, labels, thresholds, or train a gate.
+```text
+SUPERVISED_GATING = TESTABLE_ARCHITECTURAL_HYPOTHESIS
+RF_XGB_ROLE = ALTERNATIVE_PARTICIPATION_GATE_ABLATIONS
+RL_POLICY_DECISION_TIME = T
+GATE_DECISION_ORDER =
+FROZEN_RL_STATE_AT_T
+→ FROZEN_RL_POLICY_PROPOSAL_AT_T
+→ GATE_DECISION
+→ LATER_EXECUTION_TRANSITION
+```
+
+The participation gate acts after a frozen RL foundation policy produces its
+requested target exposure for T and before the requested rebalance is
+executed. It decides only whether that rebalance participates; it does not
+replace the continuous target-exposure action formulation in section 13.
+
+Each logical gate example preserves at least the following fields, in this
+order, with feature values and masks aligned to the immutable gate schema:
+
+```text
+split_identity
+dataset_instance_id
+foundation_policy_identity
+foundation_policy_configuration_identity
+decision_time_utc
+gate_decision_time_utc
+canonical_security_id
+security_slot_id
+state_interface_identity
+gate_feature_schema_identity
+gate_feature_values
+gate_feature_validity_mask
+gate_feature_availability_mask
+current_realized_exposure_fraction
+ungated_requested_target_exposure_fraction
+required_exposure_change
+outcome_start_utc
+outcome_end_utc
+gate_target_state
+portfolio_action_context_identity
+paired_control_identity
+```
+
+This is a model-neutral gate dataset interface, not a generated dataset or
+additional C6-B canonical table. Identity and future target/outcome fields
+remain provenance/label metadata, not implicitly policy-visible gate features.
+Required unresolved inputs fail closed; masks never silently turn unavailable
+financial information into zero. Slot identity must resolve to the same
+canonical security and formation mapping as the RL observation.
+
+Permissible features include information already valid in RL state at T,
+current economic state available at T, and the frozen policy's requested
+target/action magnitude/direction, generated before the gate decision.
+Future price movement, action-T realized execution price, slippage or cost,
+later reward or P&L, future labels, qualification results, and final-holdout
+information are prohibited gate features.
+
+```text
+GATE_FEATURE_AVAILABILITY_CUTOFF = GATE_DECISION_TIME_UTC
+```
+
+`GATE_DECISION_TIME_UTC` is the example's `gate_decision_time_utc`. All
+market/economic information must already satisfy C6-C availability and
+applicability at the original RL decision time T; a later gate timestamp does
+not allow newer market inputs. The policy proposal is permissible because it
+was produced from that already-valid state before the gate acts, and is not
+future market information. Feature transformations obey section-15 fit
+boundaries and preserve their schema and fitted-parameter identities.
+
+### C6-E technical definition — incremental participation target
+
+`C6_E_DETAIL_DEFINED` — the gate learns whether executing the frozen policy's
+proposed rebalance adds positive incremental economic value relative to
+suppressing that rebalance. Eligibility requires:
+
+```text
+ungated_requested_target_exposure_fraction != current_realized_exposure_fraction
+```
+
+Exact no-rebalance proposals receive
+`gate_target_state = NO_REBALANCE_NOT_GATE_ELIGIBLE` and create no artificial
+participation label. For each actionable example, later authorized target
+construction compares two outcomes from the same pre-decision state and
+same governed market path:
+
+```text
+UNGATED_OUTCOME = EXECUTE_THE_FROZEN_RL_REQUESTED_REBALANCE
+SUPPRESSED_OUTCOME =
+DO_NOT_EXECUTE_THAT_REQUESTED_REBALANCE
+AND MAINTAIN_THE_PRE_DECISION_REALIZED_EXPOSURE
+SUBJECT_TO_THE_SAME_MANDATORY_EXOGENOUS_RULES
+
+incremental_net_value_usd = UNGATED_END_VALUE_USD - SUPPRESSED_END_VALUE_USD
+
+GATE_TARGET_PARTICIPATE = 1 IF incremental_net_value_usd > 0
+GATE_TARGET_SUPPRESS = 0 IF incremental_net_value_usd <= 0
+```
+
+The pair shares starting state, market path, calendar, execution/cost
+configuration, mandatory terminal/event treatment, and evaluation horizon.
+End values include all incremental transaction/execution costs attributable
+to participation, using section-14 accounting without double-counting.
+Suppression means retaining the pre-decision position rather than requesting
+the proposed rebalance; market valuation can subsequently change its exposure
+fraction. It does not introduce extra trades to hold a numerical fraction
+constant. Mandatory exogenous rules apply identically to both branches.
+
+A zero incremental difference does not claim participation adds value.
+Unresolved paired outcomes remain explicit and cannot be converted into a
+binary target. The valid binary target is separate from `gate_target_state`,
+which records target eligibility/availability. C6-E generates no target value,
+paired outcome, reward, or P&L.
+
+### C6-E technical definition — single-slot counterfactual attribution
+
+`C6_E_DETAIL_DEFINED`:
+
+```text
+GATE_COUNTERFACTUAL_SCOPE = SINGLE_SLOT_PARTICIPATION_DECISION_AT_T
+```
+
+For the gate example's target slot s, `UNGATED_OUTCOME` executes the frozen
+RL requested rebalance for s, while `SUPPRESSED_OUTCOME` suppresses only that
+rebalance. The only intended experimental difference is participation for s.
+Both branches share the pre-decision portfolio state, market path, outcome
+horizon, transaction/execution-cost assumptions, mandatory exogenous rules,
+and non-target-slot decision context.
+
+For every other slot j != s, both branches preserve identically the frozen RL
+proposal at T, non-target-slot gate participation decision/status,
+active/inactive slot mapping, mandatory exogenous actions, portfolio constraint
+configuration, execution/cost configuration, execution ordering or simultaneity
+convention, applicable market path, and evaluation horizon. Neither branch may
+silently re-optimize another slot, change its gate decision, substitute another
+security, change execution priority, change portfolio constraints or cost
+assumptions, or rebalance another slot merely because s was suppressed.
+
+`portfolio_action_context_identity` identifies the immutable contemporaneous
+portfolio-action context held fixed for target slot s. Its canonical payload
+contains at least:
+
+```text
+decision_time_utc
+foundation_policy_identity
+foundation_policy_configuration_identity
+ordered_simultaneous_RL_requested_target_exposures
+ordered_non_target_slot_participation_statuses
+non_target_slot_reference_policy_identity
+active_inactive_slot_mapping
+portfolio_constraint_configuration_identity
+execution_ordering_or_simultaneity_convention_identity
+execution_cost_configuration_identity
+mandatory_exogenous_action_context
+
+portfolio_action_context_identity =
+SHA256(CANONICAL_JSON_OF_PORTFOLIO_ACTION_CONTEXT_SPECIFICATION)
+```
+
+Use section-17 canonical JSON and SHA-256 rules, excluding the computed
+identity itself from its payload. Ordered entries retain explicit slot and
+canonical security mapping in the accepted slot order; non-target participation
+statuses explicitly identify j != s. The target remains separately identified
+by `canonical_security_id` plus `security_slot_id`. Including this context
+identity in both the logical gate example and the paired-control payload makes
+the pair uniquely encode the target-slot decision plus its fixed contemporaneous
+portfolio context. Missing or ambiguous required context cannot yield a
+supervised binary target.
+
+```text
+GATE_TARGET_STATE = COUNTERFACTUAL_NOT_IDENTIFIABLE
+```
+
+Use this state whenever shared portfolio feasibility or execution coupling
+prevents the branches from differing only in target-slot participation. This
+includes binding cash, gross exposure, net exposure, leverage, concentration,
+shared execution-allocation, or other portfolio-wide feasibility constraints
+that necessarily change another slot when s executes or is suppressed. Do not
+silently reallocate other slots, invent a binary target, label PARTICIPATE, or
+label SUPPRESS; exclude the example from supervised gate-target use. A later
+separately frozen deterministic attribution rule could govern such cases, but
+C6-E neither chooses nor authorizes one.
+
+The existing `incremental_net_value_usd = UNGATED_END_VALUE_USD -
+SUPPRESSED_END_VALUE_USD` and positive-value PARTICIPATE / nonpositive-value
+SUPPRESS rules remain unchanged. Their binary values are valid only under
+`SINGLE_SLOT_PARTICIPATION_DECISION_AT_T` with uniquely reproducible fixed
+contemporaneous portfolio context and an identifiable comparison, in addition
+to the existing eligibility, availability, and horizon requirements.
+
+### C6-E technical definition — supervised label reference context
+
+`C6_E_DETAIL_DEFINED`:
+
+```text
+GATE_LABEL_COUNTERFACTUAL_REFERENCE = FROZEN_UNGATED_RL_REFERENCE
+RF_XGB_GATE_OUTPUTS_IN_TARGET_CONSTRUCTION = PROHIBITED
+non_target_slot_reference_policy_identity = FROZEN_UNGATED_RL_REFERENCE
+GATE_TARGET_CONSTRUCTION_CIRCULARITY = PROHIBITED
+```
+
+For supervised label construction for target slot s, the branch difference
+remains EXECUTE versus SUPPRESS the frozen RL proposal for s. Every non-target
+slot j != s uses a deterministic reference status derived only from the frozen
+ungated RL foundation policy and already-governed pre-decision state:
+
+| Non-target slot condition | NON_TARGET_REFERENCE_STATUS |
+|---|---|
+| j is inactive | `INACTIVE_NO_ACTION` |
+| j is active and `ungated_requested_target_exposure_fraction == current_realized_exposure_fraction` | `NO_REBALANCE_REFERENCE` |
+| j is active and `ungated_requested_target_exposure_fraction != current_realized_exposure_fraction` | `PARTICIPATE_UNGATED_REFERENCE` |
+
+The active-slot comparisons require valid, resolved inputs under the existing
+fail-closed rules. These statuses measure s's marginal participation value
+relative to the frozen ungated RL portfolio context. Mandatory exogenous
+actions remain separately governed and identical in both branches; existing
+shared-constraint and `COUNTERFACTUAL_NOT_IDENTIFIABLE` rules remain fully
+effective, including the prohibition on silent other-slot reallocation.
+
+For supervised target construction,
+`ordered_non_target_slot_participation_statuses` in the existing
+`portfolio_action_context_identity` payload means precisely these deterministic
+reference statuses in the accepted slot order. The added
+`non_target_slot_reference_policy_identity` field identifies the
+`FROZEN_UNGATED_RL_REFERENCE` rule. No RF/XGBoost gate identity, prediction, or
+learned threshold is used inside this label-reference identity. No RF
+prediction, XGBoost prediction, learned gate threshold, qualification result,
+or later gate output may determine a non-target reference status for a label.
+
+A supervised target must be fully constructible before its RF or XGBoost gate
+model or threshold is trained. RF labels cannot depend on RF predictions, and
+XGBoost labels cannot depend on XGBoost predictions; neither may depend on the
+other gate's predictions. Target construction is independent of which gate
+later consumes the label. RF and XGBoost can consume the same frozen target
+definition/reference context and remain alternative ablations of the same
+gating hypothesis, subject to the existing shared-schema/target requirement.
+Neither model may redefine its own target through model-dependent context.
+
+This frozen ungated reference applies specifically to supervised label
+construction. It does not require every non-target slot to execute in a later
+gated portfolio evaluation. Later separately authorized evaluation may apply
+trained gates to multiple slots under frozen inference rules. Interactions
+among simultaneous gate decisions are measured in the actual paired
+gated-versus-ungated experiment; they must not feed backward into label
+construction through model-dependent non-target statuses. The existing
+single-slot counterfactual, incremental net value, binary target, market-path,
+horizon, cost, portfolio-constraint, and mandatory-exogenous-action rules are
+unchanged.
+
+### C6-E technical definition — outcome horizon and leakage controls
+
+`C6_E_DETAIL_DEFINED`:
+
+```text
+GATE_OUTCOME_START = THE_GOVERNED_EXECUTION_TRANSITION_FOR_ACTION_T
+GATE_OUTCOME_END =
+THE_NEXT_GOVERNED_DECISION_TIME_FOR_THE_SAME_SLOT_WITHIN_THE_SAME_PARTITION_AND_EPISODE
+
+GATE_TARGET_STATE = OUTCOME_HORIZON_NOT_AVAILABLE
+IF NO_VALID_NEXT_GOVERNED_DECISION_EXISTS_INSIDE_THE_SAME_PARTITION_AND_EPISODE
+```
+
+`outcome_start_utc` and `outcome_end_utc` resolve these governed instants.
+The end is evaluated before the next decision's action/transition, so that
+next action does not contaminate action-T participation value. A remapped slot
+is not continuity of the prior security; section-12 resets and identity
+requirements apply. An unavailable horizon produces no supervised gate target.
+The horizon must never cross a walk-forward validation boundary, the
+development/qualification boundary, the qualification/final-holdout boundary,
+or an episode-reset boundary that invalidates comparison identity.
+
+Gate examples preserve the section-15 information cutoff and complete
+forward-dependency bounds; this outcome horizon is an applicable target-horizon
+identity for split hashing and purge/embargo. No target may survive because
+its feature timestamp precedes a boundary if its outcome crosses that
+boundary. Outcome/label computation, when later authorized, is separate from
+feature assembly and cannot feed future outcomes into the gate's decision.
+
+### C6-E technical definition — paired control identity and development boundary
+
+`C6_E_DETAIL_DEFINED` — an immutable paired-control specification includes at
+least:
+
+```text
+dataset_instance_id
+split_identity
+foundation_policy_identity
+foundation_policy_configuration_identity
+decision_time_utc
+canonical_security_id
+security_slot_id
+pre_decision_state_identity
+ungated_policy_action_identity
+execution_cost_configuration_identity
+gate_feature_schema_identity
+gate_target_definition_identity
+outcome_horizon_identity
+portfolio_action_context_identity
+
+paired_control_identity = SHA256(CANONICAL_JSON_OF_PAIRED_CONTROL_SPECIFICATION)
+```
+
+Use section-17 canonical JSON/SHA-256 rules, excluding the computed identity
+itself from its payload. These are references to the governed source dataset
+and immutable policy/state/configuration identities; do not create a circular
+source dataset identity by including an identity-bearing gate artifact in its
+own referenced source dataset hash inputs.
+
+For RF or XGBoost gated experiments, the paired ungated control differs only
+in the participation decision mechanism. No hidden differences in data,
+temporal partitions, foundation policy, initial state, transaction-cost
+assumptions, outcome horizon, or evaluation metrics are permitted. Downstream
+state divergence caused by participation is an outcome, not permission to
+change the common experiment configuration. RF and XGBoost ablations for the
+same foundation use the same gate-feature schema and target definition unless
+a separately authorized prospective redesign changes the experiment family.
+
+C6-E selects no RF or XGBoost threshold. Later authorized gate threshold
+selection uses DEVELOPMENT_REGION only; the threshold is frozen before
+applicable qualification. Qualification and final-holdout results cannot tune
+a threshold, select RF versus XGBoost, change gate features, target, or horizon,
+or alter the foundation policy. Gate development remains subject to section-15
+chronological folds, train-only fitting, and dependency purge rules.
+
+### C6-E technical definition — Option B+ foundation routing
+
+`C6_E_DETAIL_DEFINED`:
+
+```text
+QUALIFICATION_ROUTING = OPTION_B_PLUS
+PRIMARY_GATING_FOUNDATION_COUNT = 1
+OPTIONAL_ROBUSTNESS_GATING_FOUNDATION_COUNT = AT_MOST_1
+PRIMARY_FOUNDATION_PRIORITY =
+PPO
+THEN_SAC
+THEN_RECURRENTPPO
+POST_HOC_BEST_SCORE_ROUTING = NOT_AUTHORIZED
+```
+
+Primary routing is only among later candidates with accepted eligible frozen
+dispositions. Use this priority, never the observed best development or
+qualification score: PPO if eligible/frozen; otherwise SAC; otherwise
+RecurrentPPO. At most one additional eligible/frozen candidate is an optional
+robustness foundation, chosen from the remaining candidates by the same
+priority. No candidate is forced through implementation/training to populate
+a foundation, and no fourth RL model may be substituted. If none is eligible,
+there is no foundation; the count does not override eligibility or authorize
+work. These interfaces do not implement, train, qualify, or route a live
+candidate or gate.
 
 ## 17. Provider/source provenance and reproducibility identity
 
@@ -1918,10 +2484,11 @@ C6-A does not freeze this document.
 
 ## 21. Explicit exclusions / non-authorization boundary
 
-C6 remains specification/freeze work only. C6-A, C6-B, and C6-C are complete,
-published, and effective; C6-B and C6-C are not reopened. C6-D is authorized
-only as an active bounded draft specification of RL state, recurrent sequences,
-actions, and economic representation. Publication is not authorized.
+C6 remains specification/freeze work only. C6-A through C6-D are complete,
+published, and effective; C6-B, C6-C, and C6-D are not reopened. C6-E is
+an active bounded draft specification only for development, validation,
+qualification, holdout isolation, and gate alignment. Publication of this
+C6-E draft is not authorized.
 
 The authorization boundary remains:
 
@@ -1947,6 +2514,7 @@ XGBoost_training = NOT_AUTHORIZED
 
 backtest_execution = NOT_AUTHORIZED
 model_qualification = NOT_AUTHORIZED
+model_qualification_execution = NOT_AUTHORIZED
 
 final_holdout_access = NOT_AUTHORIZED
 
@@ -1956,16 +2524,16 @@ deployment = NOT_AUTHORIZED
 
 candidate_set_expansion = NOT_AUTHORIZED
 host_or_compute_authorization = NOT_AUTHORIZED
-C6_D_SPECIFICATION = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
-C6_E_OR_LATER_EXECUTION = NOT_AUTHORIZED
+C6_E_SPECIFICATION = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_F_OR_LATER_EXECUTION = NOT_AUTHORIZED
 C7_or_later_execution = NOT_AUTHORIZED
 
 C5_REOPEN = NO
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
-The explicit C6 exclusions are controlled by S1/S2. C6-C timing definitions
-and C6-D state/interface definitions authorize no feature computation or
+The explicit C6 exclusions are controlled by S1/S2. C6-C timing, C6-D state,
+and C6-E partition/gate definitions authorize no feature computation or
 execution. This non-controlling document creates no authorization.
 
 ## 22. Open C6 specification items by later work package
@@ -2042,28 +2610,44 @@ model work is authorized.
 
 `C6_D_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
 
-This means only the bounded C6-D specification is ready for Managing review.
-Required later configuration values and feature-schema identities remain to be
-recorded/frozen before their applicable use; the interfaces do not select them.
-It does not mean C6 is frozen, a dataset or features have been generated, a
-model has been implemented or trained, or C6-E has started. C6-E and C6-F
-remain unresolved.
+The bounded C6-D specification is complete, published, effective, and not
+reopened. Required later configuration values and feature-schema identities
+remain to be recorded/frozen before applicable use; the interfaces do not
+select them. This does not mean C6 is frozen, a dataset or features have been
+generated, or a model has been implemented or trained.
 
 ### C6-E — Development, validation, holdout, and gate alignment
 
-`C6_DETAIL_TO_BE_DEFINED`:
+`C6_E_DETAIL_DEFINED` — bounded definitions are routed as follows:
 
-- exact chronological development partitions;
-- walk-forward fold geometry;
-- validation and qualification partition identities;
-- split date boundaries and version identity;
-- horizon/embargo treatment;
-- final-holdout partition identity and isolation controls;
-- gate-feature dataset interface;
-- gate-target/outcome definition;
-- gate feature/target time alignment;
-- paired gated/ungated dataset comparability; and
-- leakage-safe gate-target construction checks.
+- top-level chronological regions — section 15;
+- walk-forward fold geometry — section 15;
+- validation/qualification partition identities — section 15;
+- exact split boundaries — section 15;
+- step/window geometry — section 15;
+- horizon-overlap/purge/embargo — section 15;
+- preprocessing fit boundaries — section 15;
+- split/version identity — section 15;
+- candidate partition comparability — section 15;
+- qualification isolation — section 15;
+- final-holdout identity/isolation — section 15;
+- gate decision interface — section 16;
+- gate-feature dataset interface — section 16;
+- gate target/outcome — section 16;
+- gate horizon — section 16;
+- gate feature-availability cutoff — section 16;
+- RL action/outcome alignment — section 16;
+- paired gated/ungated identity — section 16;
+- leakage-safe gate-target construction — sections 15–16; and
+- Option B+ routing — section 16.
+
+`C6_E_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
+
+This means only the bounded C6-E specification is ready for Managing review.
+It does not mean C6 is frozen, a dataset exists, partitions or features have
+been physically generated, a model has been implemented or trained,
+qualification has been executed, a gate has been trained, final holdout has
+been accessed, or C6-F has begun. C6-F remains unresolved later work.
 
 ### C6-F — Dataset acceptance and independent review rules
 
@@ -2101,13 +2685,14 @@ must identify or establish a canonical source before freeze if a separate
   execution, model implementation/training, and final-holdout access remain
   unauthorized during this specification/freeze scope.
 
-C6-A, C6-B, and C6-C are complete, published, and effective. C6-B and C6-C
-are not reopened. C6-D is the authorized active bounded draft specification
-for RL state, recurrent sequences, continuous actions, and economic
-representation. C6-D is not C6 completion; C6-E and C6-F remain unresolved.
+C6-A through C6-D are complete, published, and effective. C6-B, C6-C, and
+C6-D are not reopened. C6-E is the authorized active bounded draft
+specification for development, validation, qualification, holdout isolation,
+and gate alignment. C6-E is not C6 completion; C6-F remains unresolved later
+work.
 
 C6 cannot be represented as complete or frozen merely because the earlier
-work packages are published/effective and the bounded C6-D draft definitions
+work packages are published/effective and the bounded C6-E draft definitions
 exist.
 
 `C6_DETAIL_TO_BE_DEFINED` — the exact acceptance/review/freeze evidence package
@@ -2121,11 +2706,15 @@ C6_B_REOPEN = NO
 C6_B_DETAILS_ADDED = YES
 C6_C_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_C_REOPEN = NO
-C6_D_STATUS = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_D_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
+C6_D_REOPEN = NO
+C6_E_STATUS = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
 C6_DATASET_CONTRACT = NOT_FROZEN
 DATASET_GENERATION = NOT_AUTHORIZED
+FEATURE_GENERATION = NOT_AUTHORIZED
 MODEL_IMPLEMENTATION = NOT_AUTHORIZED
 MODEL_TRAINING = NOT_AUTHORIZED
+QUALIFICATION_EXECUTION = NOT_AUTHORIZED
 FINAL_HOLDOUT_ACCESS = NOT_AUTHORIZED
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
