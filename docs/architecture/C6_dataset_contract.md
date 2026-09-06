@@ -1,8 +1,8 @@
 # C6 Dataset Contract
 
 ```text
-document_status = C6_E_DRAFT__NOT_FROZEN
-document_role = C6_DATASET_CONTRACT__C6_A_C6_B_C6_C_C6_D_PUBLISHED_PLUS_C6_E_DEVELOPMENT_VALIDATION_HOLDOUT_AND_GATE_ALIGNMENT
+document_status = C6_F_DRAFT__NOT_FROZEN
+document_role = C6_DATASET_CONTRACT__C6_A_THROUGH_C6_E_PUBLISHED_PLUS_C6_F_DATASET_ACCEPTANCE_AND_INDEPENDENT_REVIEW_RULES
 current_state_control = NO
 authorization_effect = NONE
 
@@ -55,7 +55,16 @@ DEVELOPMENT_VALIDATION_HOLDOUT_AND_GATE_ALIGNMENT
 C6_E_scope =
 TECHNICAL_DEVELOPMENT_VALIDATION_QUALIFICATION_HOLDOUT_AND_GATE_ALIGNMENT_SPECIFICATION_ONLY
 
-C6_E_status = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_E_status = COMPLETE__PUBLISHED__EFFECTIVE
+C6_E_REOPEN = NO
+
+C6_F_work_package =
+DATASET_ACCEPTANCE_AND_INDEPENDENT_REVIEW_RULES
+
+C6_F_scope =
+TECHNICAL_DATASET_ACCEPTANCE_INDEPENDENT_REVIEW_AND_CONTRACT_FREEZE_REQUIREMENTS_SPECIFICATION_ONLY
+
+C6_F_status = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
 C6_DATASET_CONTRACT = NOT_FROZEN
 
 dataset_contract_status = AUTHORIZED__NOT_FROZEN
@@ -74,7 +83,10 @@ C6_D_DETAIL_DEFINED =
 TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_C6_D_SCOPE
 
 C6_E_DETAIL_DEFINED =
-TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_E_SCOPE__PENDING_MANAGING_REVIEW
+TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_C6_E_SCOPE
+
+C6_F_DETAIL_DEFINED =
+TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_F_SCOPE__PENDING_MANAGING_REVIEW
 
 C6_DETAIL_TO_BE_DEFINED =
 TECHNICAL_CONTRACT_DETAIL_INTENTIONALLY_DEFERRED_TO_A_LATER_C6_WORK_PACKAGE
@@ -91,8 +103,10 @@ reproducibility, the published/effective C6-C technical definitions for
 chronology, leakage, calendar/session validation, PIT availability, and
 missingness/reconstruction, the published/effective C6-D definitions for RL
 state, recurrent sequences, continuous actions, and economic representation,
-and the active bounded C6-E draft definitions for development, validation,
-qualification, final-holdout isolation, and gate alignment.
+the published/effective C6-E definitions for development, validation,
+qualification, final-holdout isolation, and gate alignment, and the active
+bounded C6-F draft requirements for dataset acceptance, independent review,
+and contract freeze.
 
 It remains a draft C6 dataset contract and is not frozen.
 
@@ -106,7 +120,7 @@ This document creates no new authorization and is not a checkpoint tracker,
 execution log, dataset-acceptance record, model specification, training plan,
 or final-holdout approval.
 
-Requirements and technical specifications in this document use six states:
+Requirements and technical specifications in this document use seven states:
 
 - `ACCEPTED_REQUIREMENT` — already established by canonical decisions or
   accepted methodological guidance.
@@ -120,10 +134,12 @@ Requirements and technical specifications in this document use six states:
   or economic-interface detail within the completed, published, and effective
   bounded C6-D surface.
 - `C6_E_DETAIL_DEFINED` — a partition, evaluation-isolation, or gate-alignment
-  detail within the authorized active C6-E bounded draft and presented for
-  Managing review.
+  detail within the completed, published, and effective bounded C6-E surface.
+- `C6_F_DETAIL_DEFINED` — a dataset-acceptance, independent-review, or freeze
+  requirement within the authorized active C6-F bounded draft and presented
+  for Managing review.
 - `C6_DETAIL_TO_BE_DEFINED` — a technical C6 contract detail assigned to a
-  later work package and intentionally not resolved by the current C6-E work
+  later work package and intentionally not resolved by the current C6-F work
   package.
 
 A separate notation is used only where source reconciliation is required:
@@ -159,10 +175,11 @@ candidate set and support:
 - independent C6 review; and
 - final contract freeze.
 
-C6-A through C6-D are complete, published, and effective within their bounded
-surfaces; C6-B, C6-C, and C6-D are not reopened. C6-E resolves only the
-partition, development/validation/qualification/holdout, and gate-alignment
-specifications in sections 15–16. C6-F details remain deferred.
+C6-A through C6-E are complete, published, and effective within their bounded
+surfaces; C6-B through C6-E are not reopened. C6-F defines only dataset
+acceptance, independent-review, and contract-freeze requirements in sections
+18–20. Dataset acceptance, C6-G review, C6-H freeze, and C7 execution remain
+unauthorized.
 
 ## 3. Controlling scientific and governance inputs
 
@@ -2438,13 +2455,533 @@ access, acquisition, dataset rebuild, or research rerun occurs in C6-B.
 - `ACCEPTED_REQUIREMENT` [S11, S12]: silent imputation and silent dataset
   acceptance are prohibited.
 
-### Deferred detail
+### C6-F technical definition — acceptance execution precondition
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-F must define exact dataset acceptance checks,
-thresholds, pass/fail/unresolved dispositions, evidence package, fail-closed
-conditions, and acceptance-report requirements.
+`C6_F_DETAIL_DEFINED` — future actual acceptance execution requires:
 
-C6-A performs no dataset acceptance.
+```text
+DATASET_ACCEPTANCE_EXECUTION_PRECONDITION =
+C6_DATASET_CONTRACT == FROZEN
+AND dataset_contract_status == FROZEN__EFFECTIVE
+AND C6_H_STATUS == COMPLETE__FROZEN__EFFECTIVE
+AND SEPARATE_DATASET_ACCEPTANCE_EXECUTION_AUTHORIZATION == YES
+
+UNFROZEN_CONTRACT_DATASET_ACCEPTANCE = PROHIBITED
+DATASET_ACCEPTANCE_PASS_AGAINST_UNFROZEN_CONTRACT = PROHIBITED
+NOT_EXECUTABLE = PRECONDITION_STATE_BEFORE_ACCEPTANCE_CHECK_EXECUTION
+```
+
+C6-F defines this precondition only and does not satisfy it. C6-H freeze alone
+does not authorize acceptance; separate later acceptance-execution
+authorization is required. Before execution, the frozen/effective lifecycle
+state, accepted C6-H freeze evidence, and applicable authorization identity
+must be established. If the contract is not frozen/effective, authorization is
+absent, or required freeze identity evidence cannot be established, the
+procedure is `NOT_EXECUTABLE`: acceptance checks must not run against an
+unfrozen or unverified contract.
+
+`NOT_EXECUTABLE` is exclusively a pre-execution state, not a fourth
+`DATASET_ACCEPTANCE_DISPOSITION` result and not an executed acceptance report's
+`final_disposition`. Once execution is validly authorized against the frozen
+contract, actual evaluation uses exactly PASS, FAIL, and UNRESOLVED with the
+existing FAIL, then UNRESOLVED, then PASS precedence. An observed mismatch
+between the acceptance execution's contract identity and accepted freeze
+evidence is FAIL; it cannot yield PASS or justify proceeding on a different
+contract. If detected before execution, the mismatch blocks execution rather
+than authorizing acceptance checks.
+
+### C6-F technical definition — dataset acceptance disposition model
+
+`C6_F_DETAIL_DEFINED`
+
+The acceptance unit is one declared governed dataset instance and role.
+
+Define final dispositions only:
+
+```text
+DATASET_ACCEPTANCE_DISPOSITION =
+PASS
+|
+FAIL
+|
+UNRESOLVED
+```
+
+Define deterministic precedence:
+
+```text
+ACCEPTANCE_PRECEDENCE =
+FAIL
+THEN
+UNRESOLVED
+THEN
+PASS
+```
+
+Meaning:
+
+PASS =
+every applicable required check passes and no required check is unresolved.
+
+FAIL =
+at least one observed contract violation or hard-fail condition exists.
+
+UNRESOLVED =
+no observed hard failure exists, but required evidence is unavailable,
+ambiguous, incomplete, or insufficient to establish compliance.
+
+If both FAIL and UNRESOLVED conditions exist:
+
+FINAL_DISPOSITION =
+FAIL
+
+Define:
+
+```text
+SILENT_DATASET_ACCEPTANCE = PROHIBITED
+UNRESOLVED_AS_PASS = PROHIBITED
+FAIL_CLOSED_ACCEPTANCE = REQUIRED
+```
+
+A dataset with FAIL or UNRESOLVED disposition is not an accepted governed
+dataset for downstream scientific use.
+
+C6-F defines these rules only.
+
+No acceptance evaluation is executed in C6-F.
+
+### C6-F technical definition — exact acceptance checks and thresholds
+
+`C6_F_DETAIL_DEFINED`
+
+Define deterministic checks with zero tolerance for contract violations.
+
+Do not introduce arbitrary statistical tolerances where the earlier contract
+defines exact invariants.
+
+Applicability is determined from the declared role and claimed interfaces before
+results are aggregated. Each check records its scope and applicability with
+supporting evidence. A demonstrably inapplicable check is excluded from the
+required-check denominator, not counted as a passed check or a fourth final
+disposition. Unknown applicability is UNRESOLVED. An observed violation is
+FAIL even when other required evidence is unavailable. Missing required fields
+or references in an inspected artifact are observed violations; inability to
+obtain the evidence needed to inspect or verify them is UNRESOLVED absent an
+observed contradiction. Counts cover the complete applicable scope, not a
+sample, and unavailable counts are never silently recorded as zero.
+
+#### A. Schema conformity
+
+Require:
+
+* declared dataset role is explicit;
+* schema version is explicit;
+* recomputed schema identity equals declared schema identity exactly;
+* 100% of required fields are present;
+* 100% of field logical dtypes match the governed schema;
+* requiredness and nullable behavior match exactly;
+* canonical key fields match the applicable contract;
+* canonical ordering fields match the applicable contract.
+
+Hard thresholds:
+
+```text
+SCHEMA_IDENTITY_MISMATCH_COUNT = 0
+MISSING_REQUIRED_FIELD_COUNT = 0
+DTYPE_CONTRACT_VIOLATION_COUNT = 0
+REQUIREDNESS_VIOLATION_COUNT = 0
+```
+
+Any nonzero count above =
+FAIL.
+
+#### B. Identity, provenance, hashes, and lineage
+
+Where applicable require exact recomputation/verification of:
+
+* source object SHA-256 values;
+* source provenance identity;
+* schema identity;
+* transformation identity;
+* adjustment lineage identity;
+* security identity registry identity;
+* universe definition identity;
+* calendar identity reference;
+* canonical data-artifact SHA-256 values;
+* dataset instance identity;
+* provenance manifest identity;
+* raw-to-processed lineage;
+* row-level source lineage;
+* adjustment lineage records.
+
+Hard thresholds:
+
+```text
+HASH_MISMATCH_COUNT = 0
+DANGLING_LINEAGE_REFERENCE_COUNT = 0
+MISSING_REQUIRED_PROVENANCE_REFERENCE_COUNT = 0
+IDENTITY_RECOMPUTATION_MISMATCH_COUNT = 0
+```
+
+Require:
+
+```text
+REQUIRED_ARTIFACT_HASH_VERIFICATION_RATE = 100_PERCENT
+REQUIRED_PROVENANCE_REFERENCE_COVERAGE = 100_PERCENT
+```
+
+Any required mismatch or dangling reference =
+FAIL.
+
+Required source/provenance evidence that cannot be established but has no
+observed contradiction =
+UNRESOLVED.
+
+#### C. Uniqueness and deterministic ordering
+
+Require exact contract keys and ordering.
+
+Hard thresholds:
+
+```text
+DUPLICATE_CANONICAL_KEY_COUNT = 0
+ORDERING_INVERSION_COUNT = 0
+AMBIGUOUS_SECURITY_IDENTITY_COUNT = 0
+```
+
+Any nonzero value =
+FAIL.
+
+#### D. Calendar and session conformity
+
+Require applicable rows and expected-slot representations to agree with the
+accepted C6-C calendar/session contract.
+
+Hard thresholds:
+
+```text
+UNEXPECTED_REGULAR_SESSION_ROW_COUNT = 0
+INVALID_SESSION_MAPPING_COUNT = 0
+DUPLICATE_SECURITY_TIMESTAMP_COUNT = 0
+DST_RULE_VIOLATION_COUNT = 0
+EARLY_CLOSE_RULE_VIOLATION_COUNT = 0
+BAR_INTERVAL_SEMANTIC_VIOLATION_COUNT = 0
+```
+
+Require:
+
+```text
+EXPECTED_SLOT_ACCOUNTING_RATE = 100_PERCENT
+UNCLASSIFIED_EXPECTED_SLOT_COUNT = 0
+```
+
+`EXPECTED_SLOT_ACCOUNTING_RATE = 100_PERCENT` means every expected slot is
+represented either by a valid observed record or by the explicit governed
+missingness/reconstruction state required by section 9.
+
+It does NOT mean 100% of expected market bars must be observed.
+
+Do not invent a minimum observed-bar percentage.
+
+#### E. Missingness and reconstruction
+
+Require every missing/affected expected slot to have an explicit permitted
+state.
+
+Hard thresholds:
+
+```text
+UNCLASSIFIED_MISSINGNESS_COUNT = 0
+PROHIBITED_RECONSTRUCTION_COUNT = 0
+SILENT_FORWARD_FILL_COUNT = 0
+SYNTHETIC_FINANCIAL_OBSERVATION_COUNT = 0
+RECONSTRUCTION_WITHOUT_REQUIRED_LINEAGE_COUNT = 0
+```
+
+Any nonzero count =
+FAIL.
+
+Provider missingness, by itself, is NOT scientific eligibility failure when it
+is correctly classified and handled under the existing contract.
+
+If missing provider/source evidence prevents a required scientific identity or
+PIT determination from being established:
+
+DISPOSITION =
+UNRESOLVED
+
+unless a direct contract violation is also observed.
+
+#### F. Chronology, PIT, and leakage
+
+Require all historically applied information to satisfy the accepted C6-C
+availability/applicability rules.
+
+Hard thresholds:
+
+```text
+FUTURE_INFORMATION_VIOLATION_COUNT = 0
+AVAILABLE_BY_T_VIOLATION_COUNT = 0
+APPLICABLE_BY_T_VIOLATION_COUNT = 0
+FORMATION_CUTOFF_VIOLATION_COUNT = 0
+FUTURE_AWARE_TRANSFORMATION_COUNT = 0
+```
+
+Any nonzero value =
+FAIL.
+
+#### G. Historical-universe conformity
+
+Require deterministic reproduction of applicable accepted formation and
+reformation rules from the declared PIT evidence.
+
+Hard thresholds:
+
+```text
+UNAUTHORIZED_MID_CYCLE_REPLACEMENT_COUNT = 0
+HARD_TERMINAL_REMOVAL_RULE_VIOLATION_COUNT = 0
+SECURITY_SLOT_MAPPING_VIOLATION_COUNT = 0
+```
+
+Membership evidence that cannot be established because required PIT evidence
+is unavailable or ambiguous =
+UNRESOLVED.
+
+Do not convert provider missingness into an eligibility failure.
+
+#### H. Split / partition conformity
+
+For any artifact or dataset role that claims governed split/partition
+membership, require exact C6-E split identity and geometry.
+
+Hard thresholds:
+
+```text
+PARTITION_OVERLAP_COUNT = 0
+OUTCOME_BOUNDARY_CROSSING_COUNT = 0
+TRAIN_VALIDATION_LEAKAGE_COUNT = 0
+QUALIFICATION_LEAKAGE_COUNT = 0
+FINAL_HOLDOUT_LEAKAGE_COUNT = 0
+PREPROCESSOR_FIT_BOUNDARY_VIOLATION_COUNT = 0
+```
+
+Any nonzero count =
+FAIL.
+
+The recomputed `split_identity` must equal the declared value exactly.
+
+#### I. RL state / recurrent interface compatibility
+
+For any later artifact claiming to instantiate the applicable C6-D RL
+state/recurrent interface, require:
+
+* exact state-interface identity;
+* maximum 60-slot envelope semantics;
+* explicit slot-to-security identity;
+* correct active/inactive masks;
+* no unresolved required active-slot state treated as valid;
+* recurrent validity masks/lengths;
+* no forbidden sequence partition crossing;
+* required episode/session/formation boundary behavior;
+* no silent candidate-specific feature reordering.
+
+Hard thresholds:
+
+```text
+STATE_INTERFACE_IDENTITY_MISMATCH_COUNT = 0
+ACTIVE_SLOT_IDENTITY_VIOLATION_COUNT = 0
+UNMASKED_INVALID_STATE_COUNT = 0
+RECURRENT_BOUNDARY_VIOLATION_COUNT = 0
+```
+
+Any nonzero count =
+FAIL.
+
+This check is applicable only when the accepted dataset/artifact role actually
+claims to instantiate those interfaces.
+
+#### J. Gate dataset / target compatibility
+
+For any later artifact claiming to instantiate the C6-E supervised gate
+interface, require:
+
+* gate feature cutoff compliance;
+* exact foundation-policy identity;
+* single-slot counterfactual scope;
+* frozen ungated RL label-reference context;
+* no RF/XGBoost output used in target construction;
+* valid portfolio-action context identity;
+* valid paired-control identity;
+* correct outcome horizon;
+* no binary label when counterfactual is not identifiable;
+* no binary label when outcome horizon is unavailable.
+
+Hard thresholds:
+
+```text
+GATE_FEATURE_LOOKAHEAD_COUNT = 0
+MODEL_DEPENDENT_TARGET_CONSTRUCTION_COUNT = 0
+COUNTERFACTUAL_CONTEXT_MISMATCH_COUNT = 0
+INVALID_BINARY_GATE_TARGET_COUNT = 0
+```
+
+Any nonzero count =
+FAIL.
+
+#### K. Coverage accounting
+
+Require explicit coverage metrics by applicable:
+
+* dataset role;
+* security;
+* formation/reformation interval;
+* regular session;
+* expected-slot status;
+* source/provenance state.
+
+Define:
+
+```text
+COVERAGE_ACCOUNTING_COMPLETENESS = 100_PERCENT
+ARBITRARY_MINIMUM_OBSERVED_BAR_PERCENTAGE = NONE
+```
+
+Every expected observation position must be accounted for, but an explicit
+governed missing observation is not silently converted into a failure merely
+because it is absent.
+
+### C6-F technical definition — acceptance evidence package
+
+`C6_F_DETAIL_DEFINED`
+
+Define a deterministic acceptance report containing at least:
+
+```text
+acceptance_spec_version
+dataset_role
+dataset_instance_id
+schema_identity
+source_provenance_identity
+transformation_identity
+calendar_identity_ref
+universe_definition_identity
+split_identity_or_NOT_APPLICABLE
+evaluated_frozen_contract_sha256
+evaluated_frozen_contract_git_blob_sha
+evaluated_c6_contract_version_identity
+evaluated_c6_freeze_manifest_identity
+acceptance_execution_authorization_identity
+evaluation_code_commit_identity
+evaluation_environment_identity
+check_results
+hard_fail_count
+unresolved_count
+final_disposition
+evidence_references
+material_change_state
+source_reconciliation_state
+```
+
+Each `check_results` entry must contain at least:
+
+```text
+check_id
+check_scope
+observed_value_or_count
+required_threshold_or_invariant
+check_disposition
+evidence_reference
+```
+
+`evaluated_frozen_contract_sha256` is the authoritative exact frozen-contract
+byte hash; no unfrozen placeholder or duplicate generic contract hash is used.
+All four frozen-contract identities must agree exactly with accepted C6-H
+freeze evidence. `acceptance_execution_authorization_identity` identifies the
+separate authorization under which this acceptance was actually executed.
+Required freeze evidence must be established before execution; inability to
+establish it makes the procedure NOT_EXECUTABLE. An observed identity mismatch
+in actual acceptance execution is FAIL.
+
+The identity-bearing report payload includes these frozen-contract identities
+and the acceptance-execution authorization identity, cryptographically binding
+the report to the exact frozen C6 contract, contract version, freeze manifest,
+and execution authorization. Mutable local paths and observational timestamps
+are excluded from this payload under the existing section-17 canonical JSON
+and SHA-256 rules.
+
+The acceptance-report identity is:
+
+```text
+dataset_acceptance_report_identity =
+SHA256(CANONICAL_JSON_OF_IDENTITY_BEARING_ACCEPTANCE_REPORT_PAYLOAD)
+```
+
+Use section-17 canonical JSON/SHA-256 rules.
+
+Exclude the report identity itself and observational generation timestamp from
+its own identity payload.
+
+The final serialized report may include observational timestamps and local
+paths as non-identity metadata.
+
+Identity-bearing check results are ordered by `check_id` and `check_scope`;
+evidence references identify immutable evidence content rather than mutable
+local paths. `hard_fail_count` and `unresolved_count` count check entries with
+those dispositions; observed row-level violation counts remain in each entry.
+The final disposition follows the stated precedence over all required checks.
+No acceptance report is generated in C6-F.
+
+### C6-F technical definition — material change / reacceptance
+
+`C6_F_DETAIL_DEFINED`
+
+Preserve section-17 material-change classifications.
+
+Define:
+
+* a material source change;
+* schema change;
+* transformation change;
+* data revision;
+* material universe-definition change;
+* material calendar change;
+* material split change
+
+as requiring the affected later dataset to have the appropriate new identity
+and a new acceptance evaluation when separately authorized.
+
+A prior PASS must not silently transfer to a different dataset instance.
+A material split change requires a new split identity and acceptance of the
+affected role/membership claim; it changes the dataset instance identity only
+when section-17 dataset identity inputs change. This does not add split
+identity to the earlier dataset-instance hash payload.
+
+Non-material descriptive metadata changes do not create a new scientific
+dataset identity when section-17 identity inputs are unchanged.
+
+### C6-F technical definition — 75-security source note
+
+`C6_F_DETAIL_DEFINED`
+
+Preserve the existing 75-security reconciliation note as:
+
+```text
+SOURCE_RECONCILIATION_75_STATUS =
+UNRESOLVED_NONCONTROLLING_NOTE
+```
+
+It is NOT an acceptance criterion.
+
+Do not:
+
+* require 75 securities;
+* treat 75 as a maximum;
+* reject a dataset for not satisfying the unverified `50 to 75` wording;
+* promote that wording into an accepted scientific rule.
+
+Dataset acceptance uses only controlling accepted universe requirements.
+
+C6-F does not resolve this source note.
 
 ## 19. Independent C6 review requirements
 
@@ -2455,13 +2992,246 @@ C6-A performs no dataset acceptance.
 - `ACCEPTED_REQUIREMENT` [S9]: the C6 exit gate requires dataset contracts to
   be frozen and independently audited.
 
-### Deferred detail
+### C6-F technical definition — C6-G review unit and independence
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-F must define the exact independent-review
-scope, evidence package, review checklist, material-finding treatment,
-correction boundary, and PASS/FAIL disposition requirements.
+`C6_F_DETAIL_DEFINED`
 
-C6-A does not perform the independent C6 review.
+Define:
+
+```text
+C6_G_INITIAL_MODE =
+INDEPENDENT_READ_ONLY_COMPLETE_CONTRACT_REVIEW
+```
+
+The reviewer must:
+
+* operate from a review context distinct from the authoring/execution context
+  that produced the C6-F draft;
+* not mutate repository content during the initial review;
+* inspect the actual published contract rather than relying on Managing
+  summaries;
+* inspect the actual canonical scientific/governance sources cited by the
+  contract;
+* review C6-A through C6-F as one integrated contract;
+* remain independent of any later bounded correction execution until the full
+  initial audit has been returned.
+
+C6-F does NOT execute this review.
+
+### C6-F technical definition — C6-G evidence package
+
+`C6_F_DETAIL_DEFINED`
+
+Require the later independent reviewer to receive/establish at least:
+
+```text
+canonical_main_sha
+contract_path
+contract_byte_count
+contract_sha256
+contract_git_blob_sha
+C6_A_publication_identity
+C6_B_publication_identity
+C6_C_publication_identity
+C6_D_publication_identity
+C6_E_publication_identity
+C6_F_publication_identity
+controlling_source_file_identities
+supporting_decision_identities
+research_design_decision_identity
+current_source_reconciliation_notes
+CURRENT_CHECKPOINT_TRACKER
+```
+
+The reviewer must verify the contract against actual source content and current
+canonical repository state.
+
+### C6-F technical definition — complete independent review checklist
+
+`C6_F_DETAIL_DEFINED`
+
+Require review of at least:
+
+1. governance/lifecycle consistency;
+2. C6 authorization boundaries;
+3. accepted-source traceability;
+4. schema/dtype/requiredness consistency;
+5. stable identity/key/ordering rules;
+6. provenance/hash/lineage non-circularity;
+7. calendar/session/DST/early-close semantics;
+8. chronology/PIT/as-of/effective-time controls;
+9. missingness/reconstruction behavior;
+10. historical-universe formation/reformation behavior;
+11. PPO/SAC/RecurrentPPO model-family neutrality;
+12. RL state and 60-slot semantics;
+13. recurrent sequence/reset rules;
+14. continuous target-exposure action semantics;
+15. economic/cost interface;
+16. seven-fold walk-forward geometry;
+17. development/qualification/final-holdout isolation;
+18. purge/embargo rules;
+19. final-holdout untouched-use controls;
+20. RF/XGBoost gate-feature availability;
+21. single-slot counterfactual attribution;
+22. frozen ungated RL gate-label reference;
+23. gate-target non-circularity;
+24. paired gated/ungated identity;
+25. Option B+ routing;
+26. dataset acceptance rules;
+27. acceptance disposition determinism;
+28. freeze requirements;
+29. source-reconciliation treatment;
+30. internal consistency and absence of identity circularity;
+31. absence of authorization leakage into data/model/holdout execution.
+
+### C6-F technical definition — finding classification
+
+`C6_F_DETAIL_DEFINED`
+
+Define:
+
+```text
+C6_G_FINDING_CLASS =
+MATERIAL_FINDING
+|
+BOUNDED_CORRECTABLE_FINDING
+|
+NON_MATERIAL_FINDING
+```
+
+`MATERIAL_FINDING` includes a contradiction or defect that would require
+changing accepted scientific/lifecycle design, such as:
+
+* candidate-set change;
+* material universe-rule change;
+* chronology/PIT weakening;
+* partition/final-holdout redesign;
+* action/reward research redesign;
+* gate research-question redesign;
+* material provider/scientific requirement change;
+* authorization-boundary change;
+* unresolved identity/leakage defect with scientific consequences.
+
+Material findings return to Managing/Owner/Admin.
+
+Do not silently repair them.
+
+`BOUNDED_CORRECTABLE_FINDING` means a deterministic ambiguity, internal
+inconsistency, missing identity detail, or other correction that:
+
+* remains within accepted C6-A through C6-F science;
+* does not alter the Owner-authorized research design;
+* has an exact bounded correction surface.
+
+`NON_MATERIAL_FINDING` means editorial or descriptive presentation noise with
+no scientific, identity, lifecycle, or authorization effect.
+
+### C6-F technical definition — review dispositions
+
+`C6_F_DETAIL_DEFINED`
+
+Define exactly:
+
+```text
+C6_G_REVIEW_DISPOSITION =
+PASS
+|
+PASS_WITH_BOUNDED_CORRECTION
+|
+FAIL
+```
+
+PASS requires:
+
+* no MATERIAL_FINDING;
+* no open BOUNDED_CORRECTABLE_FINDING;
+* sufficient evidence to complete the full review.
+
+Explicitly represented external pre-freeze blockers may coexist with PASS when
+they are not defects in the contract itself.
+
+PASS therefore does NOT automatically mean:
+
+```text
+C6_H_FREEZE_ELIGIBLE = YES
+```
+
+PASS_WITH_BOUNDED_CORRECTION requires:
+
+* no material finding;
+* at least one bounded correctable finding;
+* exact bounded correction surface identified.
+
+It does NOT close C6-G.
+
+After Managing separately authorizes and the correction is applied, the
+independent reviewer must verify the corrected surface and all affected
+invariants before C6-G can receive final PASS.
+
+FAIL applies when:
+
+* any material finding exists; or
+* evidence is insufficient to complete a scientifically valid independent
+  review.
+
+Initial review remains read-only.
+
+No correction is automatically authorized by a review disposition.
+
+### C6-F technical definition — independent review evidence identity
+
+`C6_F_DETAIL_DEFINED`
+
+Define the later review report to contain at least:
+
+```text
+review_spec_version
+reviewed_contract_sha256
+reviewed_contract_git_blob_sha
+reviewed_canonical_main_sha
+reviewed_source_identities
+review_check_results
+finding_inventory
+external_freeze_blockers
+final_review_disposition
+bounded_correction_references
+```
+
+Define:
+
+```text
+c6_independent_review_identity =
+SHA256(CANONICAL_JSON_OF_IDENTITY_BEARING_C6_G_REVIEW_PAYLOAD)
+```
+
+Use section-17 canonical JSON/SHA-256 rules.
+
+Exclude its own identity and observational review timestamp from the identity
+payload.
+
+C6-G closes only with a final PASS and an immutable review identity.
+
+### C6-F technical definition — 75-security note during review
+
+`C6_F_DETAIL_DEFINED`
+
+Require C6-G to verify that the separate `50 to 75` source note:
+
+* remains explicitly identified;
+* remains noncontrolling while unresolved;
+* has not silently altered the accepted universe contract;
+* is represented as a pre-freeze source-reconciliation item.
+
+An unresolved but correctly represented source note may be listed as:
+
+```text
+EXTERNAL_FREEZE_BLOCKER =
+SOURCE_RECONCILIATION_75_UNRESOLVED
+```
+
+without making the technical C6-G review itself fail.
+
+However C6-H freeze remains prohibited until it is dispositioned.
 
 ## 20. Contract-freeze requirements
 
@@ -2474,21 +3244,289 @@ C6-A does not perform the independent C6 review.
 - `ACCEPTED_REQUIREMENT` [S2, S9]: final C6 contract freeze is required before
   later governed dataset generation/acceptance may proceed.
 
-### Deferred detail
+### C6-F technical definition — freeze eligibility
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-F must define the freeze artifact identity,
-version/checksum requirements, evidence of review acceptance, immutable
-post-freeze representation, and exact completion-signoff package.
+`C6_F_DETAIL_DEFINED`
 
-C6-A does not freeze this document.
+C6-F does NOT execute the freeze. All eligibility and post-freeze status
+values in this section are conditional future requirements, not declarations
+of current eligibility or completion. Separate C6-H authorization is required
+in addition to meeting eligibility; unestablished conditions cannot establish
+eligibility.
+
+Define:
+
+```text
+C6_H_FREEZE_ELIGIBLE =
+YES
+```
+
+only when ALL of the following are true:
+
+```text
+C6_A_COMPLETE_PUBLISHED_EFFECTIVE = YES
+C6_B_COMPLETE_PUBLISHED_EFFECTIVE = YES
+C6_C_COMPLETE_PUBLISHED_EFFECTIVE = YES
+C6_D_COMPLETE_PUBLISHED_EFFECTIVE = YES
+C6_E_COMPLETE_PUBLISHED_EFFECTIVE = YES
+C6_F_COMPLETE_PUBLISHED_EFFECTIVE = YES
+
+C6_G_FINAL_REVIEW_DISPOSITION = PASS
+
+OPEN_MATERIAL_FINDING_COUNT = 0
+OPEN_BOUNDED_CORRECTABLE_FINDING_COUNT = 0
+
+SOURCE_RECONCILIATION_BLOCKER_COUNT = 0
+
+UNRESOLVED_FREEZE_BLOCKER_COUNT = 0
+
+UNAUTHORIZED_EXECUTION_BREACH_REQUIRING_OWNER_DISPOSITION = NO
+
+CURRENT_CHECKPOINT_TRACKER = NONE
+```
+
+Any false condition above:
+
+```text
+C6_H_FREEZE_ELIGIBLE =
+NO
+```
+
+### C6-F technical definition — 75-security freeze blocker
+
+`C6_F_DETAIL_DEFINED`
+
+Preserve:
+
+```text
+SOURCE_RECONCILIATION_75_STATUS =
+UNRESOLVED_NONCONTROLLING_NOTE
+```
+
+while unresolved.
+
+Before freeze it must receive one explicit authoritative disposition such as:
+
+```text
+RESOLVED_AS_NONCONTROLLING__RETIRED
+```
+
+or:
+
+```text
+RESOLVED_AS_CONTROLLING_WITH_CANONICAL_AUTHORITY
+```
+
+C6-F does not choose that disposition.
+
+If an Owner/Admin decision or newly established canonical source makes the
+75-security wording controlling and it materially conflicts with accepted
+C6-A through C6-E requirements:
+
+```text
+STOP
++
+OWNER_AUTHORIZED_REDESIGN_OR_REOPEN_REQUIRED
++
+NEW_C6_G_REVIEW_REQUIRED_AFTER_CORRECTION
+```
+
+C6-H may not freeze while the reconciliation remains unresolved.
+
+### C6-F technical definition — reviewed contract vs final freeze status transition
+
+`C6_F_DETAIL_DEFINED`
+
+Define:
+
+```text
+C6_G_REVIEWED_CONTRACT_SHA256 =
+THE_EXACT_CONTRACT_SHA256_ACCEPTED_BY_FINAL_C6_G_PASS
+```
+
+C6-H may perform only a predeclared lifecycle/status freeze transition after
+that PASS.
+
+Allowed H status-transition surface:
+
+* document status/governance block;
+* section 1;
+* section 2;
+* section 21;
+* section 22;
+* section 23.
+
+No substantive C6-H modification to sections 3–20 is permitted without
+invalidating the prior review.
+
+Define:
+
+```text
+POST_C6_G_SUBSTANTIVE_CHANGE_TO_SECTIONS_3_THROUGH_20 =
+REQUIRES_NEW_INDEPENDENT_REVIEW
+```
+
+The C6-H actual diff from the reviewed contract to the frozen contract must be
+captured and mechanically verified.
+
+### C6-F technical definition — freeze artifact identities
+
+`C6_F_DETAIL_DEFINED`
+
+At future C6-H, after the permitted status transition, compute:
+
+```text
+frozen_contract_sha256 =
+SHA256(EXACT_UTF8_BYTES_OF_FROZEN_C6_DATASET_CONTRACT)
+
+frozen_contract_git_blob_sha =
+GIT_BLOB_ID_OF_FROZEN_C6_DATASET_CONTRACT
+```
+
+Define a deterministic contract version identity over canonical JSON containing
+at least:
+
+```text
+freeze_spec_version
+contract_path
+frozen_contract_sha256
+C6_G_reviewed_contract_sha256
+c6_independent_review_identity
+source_reconciliation_disposition_identity
+C6_A_publication_identity
+C6_B_publication_identity
+C6_C_publication_identity
+C6_D_publication_identity
+C6_E_publication_identity
+C6_F_publication_identity
+C6_H_status_transition_diff_sha256
+```
+
+Then:
+
+```text
+c6_contract_version_identity =
+SHA256(CANONICAL_JSON_OF_C6_CONTRACT_VERSION_PAYLOAD)
+```
+
+Use section-17 canonical JSON/SHA-256 rules.
+
+The computed identity itself is excluded from its own payload.
+
+Do not require the future C6-H commit SHA inside this identity payload, avoiding
+commit/self-reference circularity.
+
+The eventual published freeze commit SHA is recorded as non-circular
+publication evidence after publication. The exact frozen contract bytes are
+finalized first. Computed contract-byte hashes, the contract version identity,
+and manifests that depend on them are stored in separate evidence artifacts,
+not inserted back into those hashed contract bytes. The reviewed-to-frozen
+diff hash is SHA-256 of the exact captured diff bytes; the capture convention
+and both endpoint identities are retained for reproducibility.
+
+### C6-F technical definition — freeze acceptance evidence package
+
+`C6_F_DETAIL_DEFINED`
+
+Require future C6-H evidence to contain at least:
+
+```text
+freeze_spec_version
+C6_G_reviewed_contract_sha256
+c6_independent_review_identity
+C6_G_final_disposition
+resolved_finding_inventory
+source_reconciliation_dispositions
+C6_H_status_transition_diff_sha256
+frozen_contract_sha256
+frozen_contract_git_blob_sha
+c6_contract_version_identity
+freeze_publication_commit_sha
+freeze_publication_parent_sha
+published_changed_file_surface
+post_publication_remote_main_sha
+CI_results
+CURRENT_CHECKPOINT_TRACKER
+```
+
+Define a deterministic freeze-manifest identity from the identity-bearing
+portion of this package while excluding:
+
+* the freeze manifest identity itself;
+* observational timestamps;
+* local paths;
+* the future publication commit SHA if inclusion would create circularity.
+
+The published commit SHA remains evidence, not an input that creates
+self-reference. Define:
+
+```text
+c6_freeze_manifest_identity =
+SHA256(CANONICAL_JSON_OF_IDENTITY_BEARING_FREEZE_MANIFEST_PAYLOAD)
+```
+
+Use section-17 canonical JSON/SHA-256 rules. The deterministic payload contains
+`freeze_spec_version`, `C6_G_reviewed_contract_sha256`,
+`c6_independent_review_identity`, `C6_G_final_disposition`,
+`resolved_finding_inventory`, `source_reconciliation_dispositions`,
+`C6_H_status_transition_diff_sha256`, `frozen_contract_sha256`,
+`frozen_contract_git_blob_sha`, `c6_contract_version_identity`, and
+`CURRENT_CHECKPOINT_TRACKER`. Finding and disposition inventories use stable
+identity order. Publication commit/parent, published changed-file surface,
+remote reconciliation, and CI results are retained as subsequent publication
+evidence outside this payload. This keeps later publication observations from
+creating a manifest/commit dependency cycle.
+
+### C6-F technical definition — immutable post-freeze behavior
+
+`C6_F_DETAIL_DEFINED`
+
+After valid C6-H freeze:
+
+```text
+C6_DATASET_CONTRACT =
+FROZEN
+```
+
+The frozen contract is immutable for the accepted C6 lifecycle.
+
+Any later substantive contract change requires explicit new governance and may
+require reopening/requalification of affected downstream work.
+
+No silent edit may retain the prior frozen contract identity.
+
+The final H status semantics must represent at least:
+
+```text
+C6_F_status = COMPLETE__PUBLISHED__EFFECTIVE
+C6_G_status = COMPLETE__INDEPENDENT_REVIEW_PASS
+C6_H_status = COMPLETE__FROZEN__EFFECTIVE
+
+C6_DATASET_CONTRACT = FROZEN
+dataset_contract_status = FROZEN__EFFECTIVE
+
+CURRENT_CHECKPOINT_TRACKER = NONE
+```
+
+C6-H completion/freeze does NOT itself authorize:
+
+* data purchase;
+* data download;
+* dataset generation;
+* dataset-acceptance execution;
+* model work;
+* final-holdout access;
+* C7 execution.
+
+C7 still requires separate authorization.
 
 ## 21. Explicit exclusions / non-authorization boundary
 
-C6 remains specification/freeze work only. C6-A through C6-D are complete,
-published, and effective; C6-B, C6-C, and C6-D are not reopened. C6-E is
-an active bounded draft specification only for development, validation,
-qualification, holdout isolation, and gate alignment. Publication of this
-C6-E draft is not authorized.
+C6 remains specification/freeze work only. C6-A through C6-E are complete,
+published, and effective; C6-B through C6-E are not reopened. C6-F is an active
+bounded draft specification only for dataset acceptance, independent review,
+and contract-freeze requirements. Publication of this C6-F draft, C6-G review,
+C6-H freeze, and C7 execution are not authorized.
 
 The authorization boundary remains:
 
@@ -2501,6 +3539,7 @@ data_download = NOT_AUTHORIZED
 
 dataset_generation = NOT_AUTHORIZED
 dataset_acceptance_execution = NOT_AUTHORIZED
+physical_partition_generation = NOT_AUTHORIZED
 feature_generation = NOT_AUTHORIZED
 
 RL_model_implementation = NOT_AUTHORIZED
@@ -2518,14 +3557,17 @@ model_qualification_execution = NOT_AUTHORIZED
 
 final_holdout_access = NOT_AUTHORIZED
 
+C6_G_independent_review_execution = NOT_AUTHORIZED
+C6_H_contract_freeze_execution = NOT_AUTHORIZED
+
 paper_trading = NOT_AUTHORIZED
 live_trading = NOT_AUTHORIZED
 deployment = NOT_AUTHORIZED
 
 candidate_set_expansion = NOT_AUTHORIZED
 host_or_compute_authorization = NOT_AUTHORIZED
-C6_E_SPECIFICATION = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
-C6_F_OR_LATER_EXECUTION = NOT_AUTHORIZED
+C6_F_SPECIFICATION = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_G_OR_LATER_EXECUTION = NOT_AUTHORIZED
 C7_or_later_execution = NOT_AUTHORIZED
 
 C5_REOPEN = NO
@@ -2533,8 +3575,9 @@ CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
 The explicit C6 exclusions are controlled by S1/S2. C6-C timing, C6-D state,
-and C6-E partition/gate definitions authorize no feature computation or
-execution. This non-controlling document creates no authorization.
+C6-E partition/gate definitions, and C6-F acceptance/review/freeze requirements
+authorize no downstream execution. This non-controlling document creates no
+authorization.
 
 ## 22. Open C6 specification items by later work package
 
@@ -2643,24 +3686,48 @@ generated, or a model has been implemented or trained.
 
 `C6_E_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
 
-This means only the bounded C6-E specification is ready for Managing review.
-It does not mean C6 is frozen, a dataset exists, partitions or features have
-been physically generated, a model has been implemented or trained,
-qualification has been executed, a gate has been trained, final holdout has
-been accessed, or C6-F has begun. C6-F remains unresolved later work.
+The bounded C6-E specification is complete, published, effective, and not
+reopened. This does not mean C6 is frozen, a dataset exists, partitions or
+features have been generated, a model has been implemented or trained,
+qualification has been executed, a gate has been trained, or final holdout
+has been accessed.
 
 ### C6-F — Dataset acceptance and independent review rules
 
-`C6_DETAIL_TO_BE_DEFINED`:
+`C6_F_DETAIL_DEFINED` — bounded definitions are routed as follows:
 
-- exact dataset-acceptance checks and thresholds;
-- PASS/FAIL/UNRESOLVED dispositions;
-- acceptance evidence package;
-- independent-review checklist and evidence;
-- material-finding/correction rules;
-- freeze artifact version/checksum;
-- freeze acceptance evidence; and
-- final C6 contract-freeze/completion signoff requirements.
+- acceptance disposition model — section 18;
+- schema checks — section 18;
+- identity/provenance/hash/lineage checks — section 18;
+- calendar/session/expected-slot checks — section 18;
+- missingness/reconstruction checks — section 18;
+- chronology/PIT/leakage checks — section 18;
+- historical-universe checks — section 18;
+- split/partition checks — section 18;
+- RL state/recurrent compatibility checks — section 18;
+- gate-interface/target checks — section 18;
+- coverage-accounting requirements — section 18;
+- acceptance evidence/report identity — section 18;
+- material-change/reacceptance rules — section 18;
+- C6-G independence — section 19;
+- C6-G evidence package — section 19;
+- complete review checklist — section 19;
+- finding classifications — section 19;
+- PASS / PASS_WITH_BOUNDED_CORRECTION / FAIL rules — section 19;
+- review evidence identity — section 19;
+- freeze eligibility — section 20;
+- source-reconciliation freeze treatment — section 20;
+- reviewed-to-frozen status transition — section 20;
+- freeze identities — section 20;
+- freeze evidence package — section 20;
+- immutable post-freeze behavior — section 20.
+
+`C6_F_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
+
+This means only bounded C6-F specification is ready for Managing review. It
+does not mean dataset acceptance or C6-G has been executed, the 75-security
+source note has been resolved, the contract is frozen, C6-H has been performed,
+C6 is complete, or C7 is authorized.
 
 ### Source reconciliation before freeze
 
@@ -2685,19 +3752,20 @@ must identify or establish a canonical source before freeze if a separate
   execution, model implementation/training, and final-holdout access remain
   unauthorized during this specification/freeze scope.
 
-C6-A through C6-D are complete, published, and effective. C6-B, C6-C, and
-C6-D are not reopened. C6-E is the authorized active bounded draft
-specification for development, validation, qualification, holdout isolation,
-and gate alignment. C6-E is not C6 completion; C6-F remains unresolved later
-work.
+C6-A through C6-E are complete, published, and effective. C6-B through C6-E
+are not reopened. C6-F is the authorized active bounded draft specification
+for dataset acceptance, independent-review, and contract-freeze requirements.
+C6-F is not C6 completion; C6-G review and C6-H freeze remain unexecuted and
+require separate authorization.
 
 C6 cannot be represented as complete or frozen merely because the earlier
-work packages are published/effective and the bounded C6-E draft definitions
+work packages are published/effective and the bounded C6-F draft definitions
 exist.
 
-`C6_DETAIL_TO_BE_DEFINED` — the exact acceptance/review/freeze evidence package
-must be resolved in the later authorized C6 work before C6 completion can be
-considered.
+`C6_F_DETAIL_DEFINED` — sections 18–20 define acceptance/review/freeze evidence
+requirements. Actual review, source-reconciliation dispositions, and freeze
+evidence must be established in separately authorized later work before C6
+completion can be considered.
 
 ```text
 C6_A_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
@@ -2708,13 +3776,18 @@ C6_C_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_C_REOPEN = NO
 C6_D_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_D_REOPEN = NO
-C6_E_STATUS = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_E_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
+C6_E_REOPEN = NO
+C6_F_STATUS = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
 C6_DATASET_CONTRACT = NOT_FROZEN
 DATASET_GENERATION = NOT_AUTHORIZED
+DATASET_ACCEPTANCE_EXECUTION = NOT_AUTHORIZED
 FEATURE_GENERATION = NOT_AUTHORIZED
 MODEL_IMPLEMENTATION = NOT_AUTHORIZED
 MODEL_TRAINING = NOT_AUTHORIZED
 QUALIFICATION_EXECUTION = NOT_AUTHORIZED
 FINAL_HOLDOUT_ACCESS = NOT_AUTHORIZED
+C6_G_REVIEW_EXECUTED = NO
+C6_H_FREEZE_EXECUTED = NO
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
