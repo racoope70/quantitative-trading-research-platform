@@ -1,8 +1,8 @@
 # C6 Dataset Contract
 
 ```text
-document_status = C6_C_DRAFT__NOT_FROZEN
-document_role = C6_DATASET_CONTRACT__C6_A_C6_B_PUBLISHED_PLUS_C6_C_CHRONOLOGY_LEAKAGE_CALENDAR_MISSINGNESS
+document_status = C6_D_DRAFT__NOT_FROZEN
+document_role = C6_DATASET_CONTRACT__C6_A_C6_B_C6_C_PUBLISHED_PLUS_C6_D_RL_STATE_RECURRENT_ACTION_AND_ECONOMIC_REPRESENTATION
 current_state_control = NO
 authorization_effect = NONE
 
@@ -37,8 +37,17 @@ CHRONOLOGY_LEAKAGE_CALENDAR_AND_MISSINGNESS
 C6_C_scope =
 TECHNICAL_CHRONOLOGY_LEAKAGE_CALENDAR_SESSION_PIT_AND_MISSINGNESS_SPECIFICATION_ONLY
 
-C6_C_status =
-AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_C_status = COMPLETE__PUBLISHED__EFFECTIVE
+C6_C_REOPEN = NO
+
+C6_D_work_package =
+RL_STATE_RECURRENT_ACTION_AND_ECONOMIC_REPRESENTATION
+
+C6_D_scope =
+TECHNICAL_RL_STATE_RECURRENT_ACTION_AND_ECONOMIC_REPRESENTATION_SPECIFICATION_ONLY
+
+C6_D_status = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_DATASET_CONTRACT = NOT_FROZEN
 
 dataset_contract_status = AUTHORIZED__NOT_FROZEN
 dataset_generation_status = NOT_AUTHORIZED
@@ -50,7 +59,10 @@ C6_B_DETAIL_DEFINED =
 TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_C6_B_SCOPE
 
 C6_C_DETAIL_DEFINED =
-TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_C_SCOPE__PENDING_MANAGING_REVIEW
+TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_C6_C_SCOPE
+
+C6_D_DETAIL_DEFINED =
+TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_D_SCOPE__PENDING_MANAGING_REVIEW
 
 C6_DETAIL_TO_BE_DEFINED =
 TECHNICAL_CONTRACT_DETAIL_INTENTIONALLY_DEFERRED_TO_A_LATER_C6_WORK_PACKAGE
@@ -63,9 +75,10 @@ CURRENT_CHECKPOINT_TRACKER = NONE
 This document contains the published/effective C6-A dataset-contract
 skeleton and accepted-input inventory, the published/effective C6-B technical
 definitions for raw and processed schemas, identity, lineage, provenance, and
-reproducibility, and the active bounded C6-C draft technical definitions for
+reproducibility, the published/effective C6-C technical definitions for
 chronology, leakage, calendar/session validation, PIT availability, and
-missingness/reconstruction.
+missingness/reconstruction, and the active bounded C6-D draft definitions for
+RL state, recurrent sequences, continuous actions, and economic representation.
 
 It remains a draft C6 dataset contract and is not frozen.
 
@@ -79,7 +92,7 @@ This document creates no new authorization and is not a checkpoint tracker,
 execution log, dataset-acceptance record, model specification, training plan,
 or final-holdout approval.
 
-Requirements and technical specifications in this document use four states:
+Requirements and technical specifications in this document use five states:
 
 - `ACCEPTED_REQUIREMENT` — already established by canonical decisions or
   accepted methodological guidance.
@@ -88,12 +101,15 @@ Requirements and technical specifications in this document use four states:
   effective bounded C6-B surface.
 - `C6_C_DETAIL_DEFINED` — a chronology, leakage, calendar/session,
   PIT-availability, or missingness/reconstruction detail defined within the
-  authorized active C6-C bounded draft and presented for Managing review.
+  completed, published, and effective bounded C6-C surface.
+- `C6_D_DETAIL_DEFINED` — an RL state, recurrent sequence, continuous action,
+  or economic-interface detail within the authorized active C6-D bounded draft
+  and presented for Managing review.
 - `C6_DETAIL_TO_BE_DEFINED` — a technical C6 contract detail assigned to a
-  later work package and intentionally not resolved by the current C6-C work
+  later work package and intentionally not resolved by the current C6-D work
   package.
 
-A third notation is used only where source reconciliation is required:
+A separate notation is used only where source reconciliation is required:
 
 - `SOURCE_RECONCILIATION_NOTE` — wording supplied to C6-A that is not directly
   established by the current canonical source documents reviewed. It must not
@@ -126,10 +142,10 @@ candidate set and support:
 - independent C6 review; and
 - final contract freeze.
 
-C6-A and C6-B are complete, published, and effective within their bounded
-surfaces. C6-C now resolves only the chronology, leakage, calendar/session,
-PIT-availability, and missingness/reconstruction details explicitly assigned
-to C6-C. C6-D through C6-F details remain deferred.
+C6-A, C6-B, and C6-C are complete, published, and effective within their
+bounded surfaces; C6-B and C6-C are not reopened. C6-D resolves only the common
+RL state, recurrent sequence, continuous action, and economic-interface
+specifications in sections 11–14. C6-E and C6-F details remain deferred.
 
 ## 3. Controlling scientific and governance inputs
 
@@ -1211,13 +1227,87 @@ rule, or the separate 75-security source-reconciliation note.
   economic inputs, and stable row/security/time identity without encoding one
   RL family's implementation assumptions as the common data contract.
 
-### Deferred detail
+### C6-D technical definition — common logical decision state
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-D must define the exact common observation/state
-fields, ordering, data availability at decision time, normalization interface,
-history dependencies, state dimensions, and model-neutral representation.
+`C6_D_DETAIL_DEFINED` — PPO, SAC, and RecurrentPPO consume the same
+model-family-neutral logical decision observation. This is an interface over
+the accepted C6-B identities and C6-C timing rules, not another canonical
+table, a chosen model architecture, or generated features or tensors.
 
-C6-A does not choose an observation vector or model architecture.
+The logical field order is the following; per-slot fields use ascending slot
+index, and per-feature fields use the immutable ordered feature schema:
+
+1. `decision_time_utc` — decision instant T in UTC.
+2. `exchange_local_session_identity_by_slot` — official exchange calendar,
+   exchange-local session date, and time-zone identity under section 7.
+3. `security_slot_id` and `slot_to_canonical_security_id` — deterministic slot
+   indices and explicit stable security identity mapping, with identifier
+   namespace preserved; an unassigned slot has an explicit absent mapping.
+4. `active_security_mask` — whether each slot is active for this decision.
+5. `ordered_market_feature_schema_identity` and
+   `ordered_market_feature_values_by_slot` — immutable ordered feature
+   definitions and their values when later generated.
+6. `feature_input_validity_mask` and `feature_input_availability_mask` —
+   explicit validity and availability for each corresponding input, including
+   required economic inputs; masks are aligned with the ordered fields.
+7. Current portfolio/position state and previous target-exposure state —
+   the pre-decision fields in section 14, in that section's listed order.
+8. `session_start_flag`, `formation_boundary_flag`, and `episode_start_flag`
+   — explicit session, formation/reformation, and episode-start/reset
+   indicators; affected slots are identified when a boundary is slot-specific.
+
+```text
+MAX_UNIVERSE_SLOTS = 60
+USABLE_INPUT_AT_T = AVAILABLE_BY_T AND APPLICABLE_BY_T
+```
+
+For N selected securities, N <= 60, initial slot order follows the accepted
+liquidity rank descending by trailing median dollar volume and the accepted
+stable security identifier ascending tie-break with namespace preserved
+(section 10). Assign slots 0 through N-1 in that order; remaining slots are
+inactive. This does not relax accepted underfill/review requirements.
+Hard-terminal removal deactivates the affected slot at the governed effective
+and available time; there is no mid-cycle replacement or compaction. A vacated
+slot remains vacant until scheduled reformation. Slot position alone is never
+security identity: the explicit mapping and formation identity must accompany
+each observation and remain traceable across remapping.
+
+All inputs must satisfy section 8 availability and applicability at T.
+Future information and current-bar information not yet available at T are
+excluded. Unresolved required active-slot state remains explicitly unresolved
+and fail-closed: no policy action may be emitted. A mask documents missingness;
+it does not authorize silently replacing financial values with zero or
+bypassing required-input checks. Inactive-slot placeholders are masked
+non-observations, distinct from valid financial zeros and from unresolved
+active-slot inputs.
+
+### C6-D technical definition — normalization and state dimension
+
+`C6_D_DETAIL_DEFINED` — the normalization interface requires immutable ordered
+feature identity, preprocessing/transformation identity, fitted-parameter
+identity when fitting applies, and the later governed training-partition
+identity. Fitting uses only that training partition; the same transformation,
+feature order, and fitted parameters apply identically to later governed
+evaluation data. Full-sample fitting, future-aware normalization, and silent
+candidate-specific reordering are prohibited. No normalization algorithm or
+future market-feature set is selected here.
+
+```text
+STATE_DIMENSION = DETERMINISTIC_LAYOUT(
+    FROZEN_ORDERED_FEATURE_SCHEMA,
+    FIXED_REQUIRED_ECONOMIC_STATE_FIELDS,
+    FIXED_MASK_BOUNDARY_FIELDS,
+    MAX_UNIVERSE_SLOTS
+)
+```
+
+The later frozen schema must declare each field's shape, encoding, and order,
+including mask/boundary shapes and any history dependencies. Slot-indexed
+fields always reserve 60 slots; global fields occur once. Feature dimensions
+are derived from that schema, not from the observed active count or candidate
+family. Identity metadata stays attached to the layout even if not numerically
+encoded as policy features. The dimension is deterministic once these inputs
+are frozen; this draft does not invent a numeric feature dimension or tensor.
 
 ## 12. Recurrent sequence, lookback, warm-up, and boundary contract
 
@@ -1232,13 +1322,61 @@ C6-A does not choose an observation vector or model architecture.
 - `ACCEPTED_REQUIREMENT` [S7]: recurrent sequences must remain compatible with
   official session boundaries, early closes, and truncated final bars.
 
-### Deferred detail
+### C6-D technical definition — chronological recurrent interface
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-D must define exact sequence length, lookback,
-warm-up length, reset/boundary semantics, cross-session rules, padding/masking
-rules if any, and the model-neutral sequence tensor/interface contract.
+`C6_D_DETAIL_DEFINED` — recurrent sequences contain ordered section-11
+decision observations, with an additional chronological sequence axis. This
+does not change ordinary PPO/SAC observation semantics.
 
-No recurrent hyperparameter is selected in C6-A.
+```text
+recurrent_lookback_steps = L
+recurrent_warmup_steps = W
+L >= 1
+0 <= W <= L
+recurrent_session_boundary_policy =
+RESET_AT_SESSION_START | CARRY_WITH_EXPLICIT_SESSION_BOUNDARY
+```
+
+L is the required number of valid decision observations in an applicable
+recurrent window; W is the leading subset used to initialize/advance hidden
+state before scored/learning steps. Warm-up observations are not scored or
+used as learning targets. W = L permits a warm-up-only window, not a scored
+sample. Numeric L and W and the chosen session-boundary policy must be
+recorded as configuration identity and frozen before applicable recurrent
+training; none is selected here.
+
+Sequences ascend strictly by decision time, ending no later than the decision
+being evaluated. No future rows, random ordering, duplicate decision steps,
+or synthetic financial observations to fill history are permitted. Sequences,
+warm-up, and carried hidden state may not cross later governed partition
+boundaries; this requirement does not define those partitions or start C6-E.
+
+The sequence interface carries `sequence_valid_length`,
+`sequence_valid_mask`, `episode_start_flag`, `session_start_flag`, and
+`formation_boundary_flag`, with per-step and affected-slot alignment.
+`sequence_valid_length` counts real valid decision observations, and
+`sequence_valid_mask` distinguishes them from non-observation padding.
+Episode/partition starts reset hidden state. Formation/reformation remapping
+resets affected hidden state before the remapped security is consumed;
+hard-terminal removal resets and deactivates the affected state. Shared hidden
+state must reset wherever needed to prevent affected-security history from
+surviving through a coupled representation.
+
+`RESET_AT_SESSION_START` resets at each official session start and history
+requirements must be satisfied after that reset.
+`CARRY_WITH_EXPLICIT_SESSION_BOUNDARY` permits chronological carry between
+real sessions while retaining explicit session-start flags and respecting all
+other reset and partition rules. Neither policy creates a synthetic overnight
+timestep; official early closes and truncated final bars retain section-7
+semantics.
+
+`INSUFFICIENT_RECURRENT_HISTORY` is explicit when L valid observations or W
+valid warm-up steps cannot be provided under these timing, validity, and reset
+rules. Such a window cannot produce a recurrent action or scored sample;
+future backfill is prohibited. Any later fixed-shape padding is masked
+`NON-OBSERVATION` padding, excluded from valid length, warm-up, hidden-state
+updates, and scoring. It must not represent zero OHLCV, zero volume, or flat
+price and cannot satisfy a history requirement.
 
 ## 13. Continuous target-position/exposure action representation
 
@@ -1250,14 +1388,49 @@ No recurrent hyperparameter is selected in C6-A.
   the bounded PPO/SAC/RecurrentPPO comparison and does not imply any model has
   been implemented, trained, qualified, or authorized for execution.
 
-### Deferred detail
+### C6-D technical definition — continuous target exposure
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-D must define the exact action domain, scaling,
-position/exposure units, action-to-position transition representation,
-decision timing, rebalance semantics, and any model-neutral constraints.
+`C6_D_DETAIL_DEFINED`:
 
-C6-A does not choose leverage, long/short bounds, position limits, or
-rebalancing parameters.
+```text
+COMMON_ACTION_FORMULATION = CONTINUOUS_TARGET_POSITION_OR_EXPOSURE
+normalized_policy_action ∈ [-1, 1] per active security slot
+PHYSICAL_EXPOSURE_UNITS =
+SIGNED_NOTIONAL_EXPOSURE_AS_FRACTION_OF_PRE_TRADE_PORTFOLIO_EQUITY
+
+target_exposure = target_exposure_min
+    + ((normalized_policy_action + 1) / 2)
+    * (target_exposure_max - target_exposure_min)
+
+required_rebalance = target_exposure - current_realized_exposure
+```
+
+`target_exposure_min` and `target_exposure_max` are configured finite bounds
+with min <= max, resolved for each active slot. The affine mapping is
+deterministic and monotone nondecreasing, maps the endpoints to the configured
+bounds, and is constant if the bounds coincide. Invalid/nonfinite actions or
+configuration fail closed, without silent clipping. Inactive slots are masked
+and have physical target exposure zero; their policy values are ignored.
+
+Exposure bounds, their slot/security applicability, and later gross, net,
+leverage, and concentration constraints and their enforcement rule are
+identity-bearing configuration common to the governed comparison. This draft
+selects no numerical limits, leverage, long-only, or short-selling policy.
+Later constraint handling must preserve the requested target distinctly from
+any feasible or executed outcome.
+
+At decision time T, establish the section-11/14 pre-decision state before
+choosing action T. The action is a target exposure, not buy/sell/hold and not
+executed trade quantity. `current_realized_exposure` is the corresponding
+pre-decision exposure on the same pre-trade-equity denominator;
+`required_rebalance` is the required exposure change, not an execution promise.
+Crossing zero needs no special discrete action. Preserve pre-decision exposure,
+requested target exposure, required exposure change, and later execution
+outcome separately. An inactive target of zero does not assert that a residual
+holding has already been liquidated; holdings and any later execution remain
+explicit economic state. No action may be emitted from unresolved fail-closed
+state. Decision scheduling and later execution timing/latency must have
+explicit governed configuration consistent with sections 7–8.
 
 ## 14. Economic, execution-price, turnover, spread, slippage, and cost inputs
 
@@ -1275,15 +1448,94 @@ rebalancing parameters.
 - `ACCEPTED_REQUIREMENT` [S3, S10]: C6 must support common economic, cost, and
   execution inputs across the accepted RL candidate set.
 
-### Deferred detail
+### C6-D technical definition — pre-decision economic state
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-D must define the exact execution-price input,
-turnover representation, spread input, slippage input, transaction-cost input,
-position-sizing/economic fields, and the frozen interface through which later
-models and evaluations consume them.
+`C6_D_DETAIL_DEFINED` — the ordered required pre-decision economic fields are:
 
-C6-A does not invent spread, slippage, fee, market-impact, latency, or other
-cost-model parameter values.
+```text
+portfolio_equity_usd
+cash_usd
+position_quantity_by_slot
+position_market_value_usd_by_slot
+current_exposure_fraction_by_slot
+previous_target_exposure_fraction_by_slot
+gross_exposure_fraction
+net_exposure_fraction
+```
+
+All policy-visible state at T must be established and usable by T. Quantities
+and market values are signed; current exposure is signed position market value
+divided by applicable pre-trade portfolio equity. Gross exposure is the sum of
+absolute current slot exposures and net exposure their signed sum. Prior
+requested targets remain distinct from current realized positions. Valuation
+price source, timing, currency treatment, and portfolio accounting conventions
+must be explicit configuration/provenance. Required values must be finite and
+the equity denominator strictly positive; unresolved or invalid required
+state fails closed, without silent financial-zero replacement. Residual
+holdings remain accounted for even if their policy slot is inactive.
+
+### C6-D technical definition — later transition and cost interface
+
+`C6_D_DETAIL_DEFINED` — a later transition preserves decision time, slot/security
+mapping, action/configuration identity, execution/outcome timing, and at least
+the following ordered fields:
+
+```text
+requested_target_exposure_fraction_by_slot
+required_exposure_change_by_slot
+trade_quantity_by_slot
+trade_notional_usd_by_slot
+execution_reference_price_usd_by_slot
+executed_price_usd_by_slot
+turnover_fraction
+spread_cost_usd
+slippage_cost_usd
+fees_usd
+other_transaction_cost_usd
+total_transaction_cost_usd
+post_trade_cash_usd
+post_trade_equity_usd
+post_trade_exposure_fraction_by_slot
+```
+
+Trade quantity is signed executed quantity; trade notional is signed executed
+quantity times executed price in USD. Execution reference and executed prices
+remain separate, with explicit source, timestamp, aggregation, and no-fill
+applicability/validity. Multiple fills retain the detail needed to reconcile
+slot aggregates and costs. Post-trade exposure uses post-trade equity and
+therefore need not equal the requested pre-trade-equity-based target.
+
+```text
+turnover_fraction =
+SUM_OVER_EXECUTED_FILLS(ABS(trade_notional_usd))
+/ applicable_pre_trade_portfolio_equity_usd
+
+total_transaction_cost_usd = spread_cost_usd + slippage_cost_usd
+    + fees_usd + other_transaction_cost_usd
+```
+
+Turnover is dimensionless; each executed fill is counted once. Do not add both
+a fill and its slot aggregate, net opposing fills before taking absolute
+notional, or add requested rebalances to executed turnover. No additional
+two-sided multiplier applies. The denominator is the same strictly positive
+pre-trade equity for the represented transition.
+
+Execution-price conventions, spread, slippage, fees, latency, market impact,
+and related assumptions must later be explicit configuration/provenance
+inputs, including units, timing, source, version, and aggregation conventions.
+Cost attribution must make components mutually exclusive: distinguish spread
+from residual slippage and allocate market impact once. Specify which costs
+are already embedded in executed prices and which are cash charges so later
+cash/equity accounting does not deduct embedded costs twice. Preserve cost
+component validity and reconciliation with the execution outcome; missing
+costs are not silently zero. No numerical cost assumption is selected here.
+
+Realized action-T execution, slippage, and cost outcomes belong to the later
+transition and cannot enter the state used to choose action T. Prior outcomes
+may enter later state only when available and applicable. Spread/cost
+diagnostics remain diagnostics, not new security eligibility quotas. These
+are interface definitions only; no economic values, execution outcomes,
+features, datasets, or model implementation are generated.
 
 ## 15. Development, validation, qualification, and final-holdout partition contract
 
@@ -1666,12 +1918,12 @@ C6-A does not freeze this document.
 
 ## 21. Explicit exclusions / non-authorization boundary
 
-C6 remains specification/freeze work only. C6-B is complete and published
-for schema, identity, lineage, and provenance. C6-C is chronology, leakage,
-calendar/session, PIT-availability, and missingness/reconstruction
-specification only.
+C6 remains specification/freeze work only. C6-A, C6-B, and C6-C are complete,
+published, and effective; C6-B and C6-C are not reopened. C6-D is authorized
+only as an active bounded draft specification of RL state, recurrent sequences,
+actions, and economic representation. Publication is not authorized.
 
-The following remain prohibited:
+The authorization boundary remains:
 
 ```text
 data_purchase = NOT_AUTHORIZED
@@ -1682,7 +1934,7 @@ data_download = NOT_AUTHORIZED
 
 dataset_generation = NOT_AUTHORIZED
 dataset_acceptance_execution = NOT_AUTHORIZED
-feature_generation = NOT_AUTHORIZED_BY_C6_C
+feature_generation = NOT_AUTHORIZED
 
 RL_model_implementation = NOT_AUTHORIZED
 
@@ -1704,18 +1956,17 @@ deployment = NOT_AUTHORIZED
 
 candidate_set_expansion = NOT_AUTHORIZED
 host_or_compute_authorization = NOT_AUTHORIZED
-C6_D_OR_LATER_EXECUTION = NOT_AUTHORIZED
+C6_D_SPECIFICATION = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_E_OR_LATER_EXECUTION = NOT_AUTHORIZED
 C7_or_later_execution = NOT_AUTHORIZED
 
 C5_REOPEN = NO
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
-The explicit C6 exclusions are controlled by S1/S2. The additional
-`feature_generation = NOT_AUTHORIZED_BY_C6_C` line records that C6-C may define
-feature-availability and lagging chronology without authorizing feature
-computation or feature-generation execution. It creates no broader C6
-authorization.
+The explicit C6 exclusions are controlled by S1/S2. C6-C timing definitions
+and C6-D state/interface definitions authorize no feature computation or
+execution. This non-controlling document creates no authorization.
 
 ## 22. Open C6 specification items by later work package
 
@@ -1739,9 +1990,9 @@ in this draft and routed as follows:
 - material-provider-change recording and rebuild identity — section 17.
 
 `C6_B_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
-This means the bounded C6-B specification surface is defined for Managing
-review; it does not mean the overall C6 dataset contract is frozen or that any
-data has been generated or accepted.
+The bounded C6-B specification surface is complete, published, and effective;
+it does not mean the overall C6 dataset contract is frozen or that any data has
+been generated or accepted.
 
 ### C6-C — Chronology, leakage, calendar, and missingness
 
@@ -1764,27 +2015,39 @@ routed as follows:
 
 `C6_C_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
 
-This means only the bounded C6-C chronology, leakage, calendar/session,
-PIT-availability, and missingness/reconstruction specification surface is
-defined for Managing review. It does not mean the full C6 dataset contract is
-frozen, C6-D has begun, a dataset exists, dataset acceptance has occurred, or
-any model work is authorized.
+The bounded C6-C chronology, leakage, calendar/session, PIT-availability,
+and missingness/reconstruction specification surface is complete, published,
+and effective, and is not reopened. This does not mean the full C6 dataset
+contract is frozen, a dataset exists, dataset acceptance has occurred, or any
+model work is authorized.
 
 ### C6-D — RL state, recurrent, action, and economic representation
 
-`C6_DETAIL_TO_BE_DEFINED`:
+`C6_D_DETAIL_DEFINED` — the bounded definitions are routed as follows:
 
-- exact common observation/state fields;
-- availability timing of state inputs;
-- model-neutral normalization interface;
-- recurrent sequence and lookback length;
-- recurrent warm-up and reset/boundary rules;
-- common continuous action domain/scaling;
-- target-position/exposure units and transition representation;
-- execution-price inputs;
-- turnover representation;
-- spread/slippage/cost inputs; and
-- exact economic-interface parameters.
+- common state fields/order — section 11;
+- availability/PIT timing — section 11;
+- normalization — section 11;
+- slot/state dimension — section 11;
+- recurrent sequence/lookback/warm-up — section 12;
+- recurrent reset/session/formation boundary — section 12;
+- insufficient-history/masking — section 12;
+- continuous action domain/scaling — section 13;
+- target exposure/transition — section 13;
+- decision/rebalance — section 13;
+- economic state — section 14;
+- execution-price interface — section 14;
+- turnover — section 14; and
+- spread/slippage/fees/cost — section 14.
+
+`C6_D_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
+
+This means only the bounded C6-D specification is ready for Managing review.
+Required later configuration values and feature-schema identities remain to be
+recorded/frozen before their applicable use; the interfaces do not select them.
+It does not mean C6 is frozen, a dataset or features have been generated, a
+model has been implemented or trained, or C6-E has started. C6-E and C6-F
+remain unresolved.
 
 ### C6-E — Development, validation, holdout, and gate alignment
 
@@ -1838,14 +2101,14 @@ must identify or establish a canonical source before freeze if a separate
   execution, model implementation/training, and final-holdout access remain
   unauthorized during this specification/freeze scope.
 
-C6-A and C6-B are complete, published, and effective. C6-B is not
-reopened. C6-C is the authorized active bounded draft specification for
-chronology, leakage, calendar/session, PIT availability, and
-missingness/reconstruction. Neither the completed earlier work packages nor
-this active C6-C draft equals C6 completion.
+C6-A, C6-B, and C6-C are complete, published, and effective. C6-B and C6-C
+are not reopened. C6-D is the authorized active bounded draft specification
+for RL state, recurrent sequences, continuous actions, and economic
+representation. C6-D is not C6 completion; C6-E and C6-F remain unresolved.
 
-C6 cannot be represented as complete or frozen merely because C6-A and C6-B
-are published/effective and the bounded C6-C draft definitions exist.
+C6 cannot be represented as complete or frozen merely because the earlier
+work packages are published/effective and the bounded C6-D draft definitions
+exist.
 
 `C6_DETAIL_TO_BE_DEFINED` — the exact acceptance/review/freeze evidence package
 must be resolved in the later authorized C6 work before C6 completion can be
@@ -1856,9 +2119,13 @@ C6_A_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_B_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_B_REOPEN = NO
 C6_B_DETAILS_ADDED = YES
-C6_C_STATUS = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_C_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
+C6_C_REOPEN = NO
+C6_D_STATUS = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
 C6_DATASET_CONTRACT = NOT_FROZEN
 DATASET_GENERATION = NOT_AUTHORIZED
+MODEL_IMPLEMENTATION = NOT_AUTHORIZED
+MODEL_TRAINING = NOT_AUTHORIZED
 FINAL_HOLDOUT_ACCESS = NOT_AUTHORIZED
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
