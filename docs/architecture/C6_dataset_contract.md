@@ -1,8 +1,8 @@
 # C6 Dataset Contract
 
 ```text
-document_status = C6_F_DRAFT__NOT_FROZEN
-document_role = C6_DATASET_CONTRACT__C6_A_THROUGH_C6_E_PUBLISHED_PLUS_C6_F_DATASET_ACCEPTANCE_AND_INDEPENDENT_REVIEW_RULES
+document_status = C6_G_INITIAL_REVIEW_COMPLETE__BOUNDED_CORRECTION_OPEN__NOT_FROZEN
+document_role = C6_DATASET_CONTRACT__C6_A_THROUGH_C6_F_PUBLISHED__C6_G_BOUNDED_CORRECTION_OPEN
 current_state_control = NO
 authorization_effect = NONE
 
@@ -64,7 +64,17 @@ DATASET_ACCEPTANCE_AND_INDEPENDENT_REVIEW_RULES
 C6_F_scope =
 TECHNICAL_DATASET_ACCEPTANCE_INDEPENDENT_REVIEW_AND_CONTRACT_FREEZE_REQUIREMENTS_SPECIFICATION_ONLY
 
-C6_F_status = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_F_status = COMPLETE__PUBLISHED__EFFECTIVE
+C6_F_PUBLICATION_COMMIT = 5ae9557d823aa2e82ca507af72b147f1efbdad59
+C6_F_PUBLICATION_CI = PASS
+
+C6_G_status = INITIAL_REVIEW_COMPLETE__PASS_WITH_BOUNDED_CORRECTION__OPEN
+C6_G_INITIAL_REVIEW_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
+C6_G_MATERIAL_FINDING_COUNT = 0
+C6_G_BOUNDED_CORRECTABLE_FINDING_COUNT = 3
+C6_G_final_review_pass = NO
+C6_G_CLOSED = NO
+C6_H_FREEZE_ELIGIBLE = NO
 C6_DATASET_CONTRACT = NOT_FROZEN
 
 dataset_contract_status = AUTHORIZED__NOT_FROZEN
@@ -86,7 +96,7 @@ C6_E_DETAIL_DEFINED =
 TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_C6_E_SCOPE
 
 C6_F_DETAIL_DEFINED =
-TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_F_SCOPE__PENDING_MANAGING_REVIEW
+TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_EFFECTIVE_C6_F_SCOPE
 
 C6_DETAIL_TO_BE_DEFINED =
 TECHNICAL_CONTRACT_DETAIL_INTENTIONALLY_DEFERRED_TO_A_LATER_C6_WORK_PACKAGE
@@ -104,9 +114,12 @@ chronology, leakage, calendar/session validation, PIT availability, and
 missingness/reconstruction, the published/effective C6-D definitions for RL
 state, recurrent sequences, continuous actions, and economic representation,
 the published/effective C6-E definitions for development, validation,
-qualification, final-holdout isolation, and gate alignment, and the active
-bounded C6-F draft requirements for dataset acceptance, independent review,
-and contract freeze.
+qualification, final-holdout isolation, and gate alignment, and the
+published/effective C6-F requirements for dataset acceptance, independent
+review, and contract freeze. The complete initial C6-G review returned
+PASS_WITH_BOUNDED_CORRECTION with zero material findings and three bounded
+correctable findings. Those findings remain open pending independent
+re-verification; this authoring-context correction is not a review result.
 
 It remains a draft C6 dataset contract and is not frozen.
 
@@ -136,11 +149,10 @@ Requirements and technical specifications in this document use seven states:
 - `C6_E_DETAIL_DEFINED` — a partition, evaluation-isolation, or gate-alignment
   detail within the completed, published, and effective bounded C6-E surface.
 - `C6_F_DETAIL_DEFINED` — a dataset-acceptance, independent-review, or freeze
-  requirement within the authorized active C6-F bounded draft and presented
-  for Managing review.
+  requirement within the completed, published, and effective C6-F scope.
 - `C6_DETAIL_TO_BE_DEFINED` — a technical C6 contract detail assigned to a
-  later work package and intentionally not resolved by the current C6-F work
-  package.
+  later work package; historical authoring-stage deferrals must be read with
+  their fulfilled references where subsequently defined.
 
 A separate notation is used only where source reconciliation is required:
 
@@ -175,11 +187,13 @@ candidate set and support:
 - independent C6 review; and
 - final contract freeze.
 
-C6-A through C6-E are complete, published, and effective within their bounded
-surfaces; C6-B through C6-E are not reopened. C6-F defines only dataset
-acceptance, independent-review, and contract-freeze requirements in sections
-18–20. Dataset acceptance, C6-G review, C6-H freeze, and C7 execution remain
-unauthorized.
+C6-A through C6-F are complete, published, and effective within their bounded
+surfaces and are not reopened. C6-G initial review has occurred and remains
+open with three bounded findings awaiting independent re-verification.
+The current correction addresses only C6G-FIND-001, C6G-FIND-002, and
+C6G-FIND-003. Historical statements describing what an earlier work package
+did not execute retain that historical scope. Dataset acceptance, C6-H freeze,
+and C7 execution remain unauthorized.
 
 ## 3. Controlling scientific and governance inputs
 
@@ -543,7 +557,8 @@ work, not to this canonical processed identity.
 ```text
 FEATURE_GENERATION = OUT_OF_SCOPE
 MODEL_SPECIFIC_TENSORS = OUT_OF_SCOPE
-C6_C_CHRONOLOGY_RULES = DEFERRED
+C6_C_CHRONOLOGY_RULES =
+DEFINED_IN_SECTIONS_7_THROUGH_10__C6_C_COMPLETE_PUBLISHED_EFFECTIVE
 ```
 
 Feature generation remains outside C6-B and is not performed or specified as
@@ -981,14 +996,14 @@ EMBARGO_APPLICABILITY =
 REQUIRED_WHEN_FORWARD_TARGET_OR_LABEL_INFORMATION_WOULD_CROSS_A_GOVERNED_PARTITION_BOUNDARY
 
 EXACT_FOLD_GEOMETRY =
-DEFERRED_TO_C6_E
+DEFINED_IN_SECTION_15__C6_E_COMPLETE_PUBLISHED_EFFECTIVE
 
 EXACT_PARTITION_BOUNDARIES =
-DEFERRED_TO_C6_E
+DEFINED_IN_SECTION_15__C6_E_COMPLETE_PUBLISHED_EFFECTIVE
 ```
 
-C6-E later instantiates the exact chronological partition geometry and embargo
-implementation.
+Published/effective C6-E instantiates the exact chronological partition
+geometry and embargo rules in section 15.
 
 ## 9. Missingness and reconstruction representation
 
@@ -1099,11 +1114,15 @@ representation and fail-closed chronology validation only; it does not execute
 reconstruction or dataset acceptance.
 
 ```text
-MISSINGNESS_ACCEPTANCE_THRESHOLD =
-DEFERRED_TO_C6_F
+MISSINGNESS_ACCEPTANCE_RULES =
+DEFINED_IN_SECTION_18__C6_F_COMPLETE_PUBLISHED_EFFECTIVE
+
+ARBITRARY_MINIMUM_OBSERVED_BAR_PERCENTAGE = NONE
 ```
 
-C6-A does not choose an imputation or reconstruction algorithm.
+Acceptance uses explicit missingness classification and complete expected-slot
+accounting, not an arbitrary observed-bar threshold. C6-A did not choose an
+imputation or reconstruction algorithm.
 
 ## 10. Universe-membership and eligibility provenance
 
@@ -1246,6 +1265,64 @@ Nothing in this C6-C definition changes the accepted ranking rule, 60-security
 selection rule, 50-to-59 underfill handling, below-50 review state, tie-break
 rule, or the separate 75-security source-reconciliation note.
 
+### C6G-FIND-002 correction — universe rule specification identity
+
+`universe_definition_identity` is the upstream RULE_SPECIFICATION_IDENTITY of
+the accepted universe definition, not REALIZED_MEMBERSHIP_IDENTITY and not a
+dataset identity. The complete versioned canonical payload has these fields
+and values, transcribing the accepted rules above:
+
+| Field | Canonical value |
+|---|---|
+| `universe_definition_spec_version` | `"1"` |
+| `eligible_security_type_rule` | `"US_INCORPORATED_ORDINARY_COMMON_SHARES_ONLY__SEPARATELY_LISTED_CLASSES_ARE_SEPARATE_SECURITIES"` |
+| `eligible_primary_listing_exchange_set` | `["NYSE", "NYSE American", "Nasdaq"]` |
+| `excluded_security_structure_rules` | `["ADRs", "ETFs", "ETNs", "OTC securities at formation", "SPAC/pre-combination securities", "closed-end funds", "foreign ordinary shares", "other non-ordinary equity structures", "preferred stock", "rights", "units", "warrants"]` |
+| `formation_PIT_active_listing_rule` | `"PIT_ACTIVE_AND_PRIMARY_LISTED_ON_ELIGIBLE_EXCHANGE_AT_FORMATION"` |
+| `hard_terminal_event_rule` | `"NO_EFFECTIVE_HARD_TERMINAL_EVENT_AT_OR_BEFORE_FORMATION_OPEN"` |
+| `minimum_completed_history_sessions` | `252` |
+| `minimum_valid_history_observations` | `240` |
+| `immediately_preceding_valid_close_minimum_usd` | `5` |
+| `median_close_lookback_sessions` | `20` |
+| `minimum_valid_median_close_observations` | `19` |
+| `median_close_minimum_usd` | `5` |
+| `liquidity_lookback_sessions` | `60` |
+| `minimum_valid_liquidity_observations` | `57` |
+| `median_daily_dollar_volume_minimum_usd` | `20000000` |
+| `daily_dollar_volume_definition` | `"REGULAR_SESSION_CLOSE_TIMES_REGULAR_SESSION_SHARE_VOLUME"` |
+| `applicable_liquidity_feed_rule` | `"ALPACA_HISTORICAL_STOCK_SIP__EXPLICIT_feed=sip_WHEN_APPLICABLE__NO_IEX_SIP_VOLUME_MIXING"` |
+| `first_formation_rule` | `"2024-09-03_REGULAR_SESSION_OPEN"` |
+| `scheduled_reformation_rule` | `"MONTHLY_FIRST_REGULAR_SESSION_OPEN"` |
+| `formation_information_cutoff_rule` | `"OFFICIAL_CLOSE_OF_IMMEDIATELY_PRECEDING_COMPLETED_REGULAR_SESSION__FIRST_CUTOFF_2024-08-30__AVAILABLE_BY_CUTOFF_ONLY"` |
+| `hard_terminal_removal_rule` | `"REMOVE_WHEN_EFFECTIVE_AND_HISTORICALLY_AVAILABLE__NEVER_BEFORE_EITHER"` |
+| `mid_cycle_backfill_rule` | `"NONE__VACATED_SLOT_REMAINS_VACANT_UNTIL_NEXT_SCHEDULED_MONTHLY_REFORMATION"` |
+| `liquidity_ranking_rule` | `"TRAILING_60_COMPLETED_SESSION_MEDIAN_DAILY_DOLLAR_VOLUME_DESCENDING"` |
+| `ranking_tie_break_rule` | `"STABLE_SECURITY_IDENTIFIER_ASCENDING_WITH_NAMESPACE_PRESERVED"` |
+| `selection_rule_when_eligible_count_ge_60` | `"SELECT_EXACTLY_60"` |
+| `selection_rule_when_eligible_count_50_through_59` | `"USE_ALL_ELIGIBLE_WITHOUT_RELAXING_THRESHOLDS"` |
+| `underfilled_below_50_rule` | `"UNDERFILLED_BELOW_ACCEPTED_RANGE__REVIEW_REQUIRED_BEFORE_UNIVERSE_CONSTRUCTION"` |
+| `security_level_diversity_quota_rule` | `"NONE__NO_SECTOR_INDUSTRY_MARKET_CAP_MARKET_REGIME_OR_OTHER_DIVERSITY_QUOTA"` |
+
+Numeric thresholds retain the accepted at-least comparison and completed
+pre-formation regular-session lookbacks; median closes remain as-traded.
+These semantics are part of the version-1 field definitions, not new rules.
+Set-like arrays are lexicographically sorted and unique; all payload values
+use the exact JSON representations above under section-17 serialization.
+
+```text
+universe_definition_identity =
+SHA256(CANONICAL_JSON_OF_UNIVERSE_DEFINITION_SPECIFICATION)
+```
+
+Exclude the identity itself, realized monthly membership rows,
+`processed_universe_membership` artifact hashes, evidence bundle IDs,
+source-lineage IDs, `dataset_instance_id`, `provenance_manifest_identity`,
+downstream model/gate identities, local paths, and observational timestamps.
+The specification is upstream of membership and dataset artifacts. A material
+accepted-rule change creates a new identity; ordinary monthly membership
+changes under unchanged rules do not. The 75-security note is not a rule or
+payload input. No actual universe identity is generated in this correction.
+
 ## 11. Common PPO/SAC/RecurrentPPO observation/state contract
 
 ### Accepted requirements
@@ -1342,6 +1419,75 @@ are derived from that schema, not from the observed active count or candidate
 family. Identity metadata stays attached to the layout even if not numerically
 encoded as policy features. The dimension is deterministic once these inputs
 are frozen; this draft does not invent a numeric feature dimension or tensor.
+
+### C6G-FIND-002 correction — structural state interface identity
+
+`state_interface_identity` is the immutable structural identity of the common
+PPO/SAC/RecurrentPPO logical state interface. The canonical specification
+contains at least the following identity-bearing fields:
+
+```text
+state_interface_spec_version
+MAX_UNIVERSE_SLOTS
+ordered_logical_state_field_descriptors
+global_vs_slot_indexed_shape_rules
+slot_ordering_and_mapping_semantics
+ordered_market_feature_schema_identity
+ordered_required_economic_state_field_schema
+feature_input_validity_mask_schema
+feature_input_availability_mask_schema
+session_start_flag_schema
+formation_boundary_flag_schema
+episode_start_flag_schema
+inactive_slot_representation_semantics
+required_active_slot_fail_closed_semantics
+field_dtype_and_encoding_rules
+required_identity_reference_field_definitions
+
+state_interface_identity =
+SHA256(CANONICAL_JSON_OF_STATE_INTERFACE_SPECIFICATION)
+```
+
+Use section-17 canonical JSON/SHA-256 rules. The specification version is
+explicit; `MAX_UNIVERSE_SLOTS` is 60. Ordered descriptors expand the existing
+eight logical field groups above in their declared order, with each field's
+name, logical dtype, encoding, shape, units where applicable, and requiredness.
+Global fields occur once; slot-indexed fields reserve 60 entries. Feature axes
+follow the frozen ordered market-feature schema. Mapping, inactive-slot,
+required-input fail-closed, and mask/boundary semantics are those already
+specified in this section; their exact layout and encodings must be recorded.
+Required identity-reference definitions describe reference names and meanings,
+not sample-specific referenced values.
+
+The economic schema preserves section-14 pre-decision order:
+`portfolio_equity_usd`, `cash_usd`, `position_quantity_by_slot`,
+`position_market_value_usd_by_slot`, `current_exposure_fraction_by_slot`,
+`previous_target_exposure_fraction_by_slot`, `gross_exposure_fraction`, then
+`net_exposure_fraction`. USD, signed quantities, and exposure-fraction units
+and denominators remain as defined there. This definition selects no feature
+set, numeric recurrent L/W, exposure bounds, or model architecture.
+
+Exclude decision timestamp values, current active security IDs, actual slot
+assignments, feature values, mask values, current portfolio values, policy
+actions, `dataset_instance_id`, policy/model identity, gate identity, and the
+computed `state_interface_identity` itself. Normalization transformation,
+fitted-parameter, and training-partition identities remain required separate
+provenance. Their fitted/run-specific values do not redefine this structural
+identity; the interface still defines the required external reference fields.
+
+```text
+STATE_INTERFACE_IDENTITY_MATERIALIZATION_PRECONDITION =
+ORDERED_MARKET_FEATURE_SCHEMA_IDENTITY_IS_FROZEN
+AND ALL_IDENTITY_BEARING_STATE_LAYOUT_AND_ENCODING_CONFIGURATION_IS_FROZEN
+```
+
+Before that condition, `state_interface_identity = NOT_YET_MATERIALIZED` is a
+specification state, not an error. The exact interface must be frozen before
+applicable model training. A material change in ordered feature schema, field
+order, shape, encoding, mask/boundary layout, required economic-state layout,
+or max-slot envelope creates a different identity; affected later work must
+use it under then-applicable governance. No actual state identity is generated
+by this correction.
 
 ## 12. Recurrent sequence, lookback, warm-up, and boundary contract
 
@@ -1871,6 +2017,9 @@ portfolio_action_context_identity
 paired_control_identity
 ```
 
+The gate example's `state_interface_identity` references the exact frozen
+structural interface identity defined in section 11.
+
 This is a model-neutral gate dataset interface, not a generated dataset or
 additional C6-B canonical table. Identity and future target/outcome fields
 remain provenance/label metadata, not implicitly policy-visible gate features.
@@ -2284,6 +2433,22 @@ recorded explicitly. In particular, applicable Alpaca historical stock bars
 record `source_feed = sip`; Alpaca remains provisional market-bar/later
 paper-feed infrastructure and is not promoted to the sole PIT reference source.
 
+#### Binding of universe and state interface identity references
+
+The existing provenance-manifest and dataset-instance
+`universe_definition_identity` references mean the exact upstream rule
+specification identity in section 10. They never identify realized membership
+or include membership artifact hashes that later feed the same dataset
+identity. Rule specification precedes realized membership, canonical artifact
+hashes, dataset identity, and provenance manifest identity in the existing
+acyclic dependency order.
+
+`state_interface_identity` is the section-11 structural identity, not a new
+`dataset_instance_id` input. No input is added to the existing hash payload;
+any separately governed dataset-role requirement must preserve that explicit
+payload and its identity boundaries. `DATASET_IDENTITY_CIRCULARITY = NONE`
+and `PROVENANCE_MANIFEST_SELF_REFERENCE = NONE` remain unchanged.
+
 #### Identity envelopes
 
 `source_provenance_identity` is SHA-256 over the canonically ordered source
@@ -2637,6 +2802,14 @@ Required source/provenance evidence that cannot be established but has no
 observed contradiction =
 UNRESOLVED.
 
+For exact acceptance recomputation, `universe_definition_identity` uses the
+section-10 canonical payload; `state_interface_identity` uses the section-11
+canonical payload when the artifact claims that interface. A required identity
+whose required upstream frozen inputs cannot be established is UNRESOLVED
+unless a direct observed contract violation exists. A declared identity that
+recomputes differently is FAIL. This does not bypass the separate frozen-C6
+acceptance execution precondition.
+
 #### C. Uniqueness and deterministic ordering
 
 Require exact contract keys and ordering.
@@ -2651,6 +2824,36 @@ AMBIGUOUS_SECURITY_IDENTITY_COUNT = 0
 
 Any nonzero value =
 FAIL.
+
+The ambiguous-identity counter has this exact population:
+
+```text
+AMBIGUOUS_SECURITY_IDENTITY_COUNT =
+COUNT_OF_APPLICABLE_RECORDS_OR_USES_WHERE
+AN_UNRESOLVED_OR_CONFLICTING_SECURITY_IDENTITY
+IS_ASSERTED_OR_CONSUMED_AS_A_SINGLE_VALID_RESOLVED_CANONICAL_SECURITY_ID
+
+REQUIRED_SECURITY_IDENTITY_UNRESOLVED_COUNT =
+COUNT_OF_REQUIRED_USABLE_SCOPE_IDENTITIES
+THAT_CANNOT_BE_ESTABLISHED_AS_RESOLVED
+WITHOUT_AN_OBSERVED_FALSE_RESOLUTION_VIOLATION
+```
+
+The zero threshold above remains mandatory. False-resolution violations
+include an UNRESOLVED mapping consumed as an established security, a CONFLICT
+mapping with one candidate silently selected, multiple conflicting candidates
+consumed as one without governed resolution, or a required usable row claiming
+resolved identity contrary to evidence. Any nonzero hard-fail counter is FAIL.
+
+Correctly retained unresolved/conflicting evidence does not itself increment
+that counter when it is not consumed as resolved. For the role's required
+usable scope, `REQUIRED_SECURITY_IDENTITY_UNRESOLVED_COUNT > 0` yields
+UNRESOLVED unless another observed hard failure yields FAIL under the existing
+precedence. Evidence outside that claimed scope remains preserved and must
+not be silently deleted; it does not itself force UNRESOLVED unless the role
+claims dependency on it. Every applicable scope decision is explicit in the
+acceptance report. Ambiguity is not converted into PASS; FAIL, then UNRESOLVED,
+then PASS precedence and provider-missingness/PIT protections remain intact.
 
 #### D. Calendar and session conformity
 
@@ -3522,11 +3725,12 @@ C7 still requires separate authorization.
 
 ## 21. Explicit exclusions / non-authorization boundary
 
-C6 remains specification/freeze work only. C6-A through C6-E are complete,
-published, and effective; C6-B through C6-E are not reopened. C6-F is an active
-bounded draft specification only for dataset acceptance, independent review,
-and contract-freeze requirements. Publication of this C6-F draft, C6-G review,
-C6-H freeze, and C7 execution are not authorized.
+C6-A through C6-F are complete, published, and effective; none is reopened.
+C6-G initial independent review executed under its separate authorization and
+returned PASS_WITH_BOUNDED_CORRECTION. C6-G remains open; this correction does
+not establish final PASS or close findings. Publication of these corrections,
+C6-H freeze, and C7 execution are not authorized. This text creates no
+correction, review, publication, or freeze authorization.
 
 The authorization boundary remains:
 
@@ -3557,7 +3761,10 @@ model_qualification_execution = NOT_AUTHORIZED
 
 final_holdout_access = NOT_AUTHORIZED
 
-C6_G_independent_review_execution = NOT_AUTHORIZED
+C6_G_INITIAL_REVIEW_EXECUTED = YES
+C6_G_INITIAL_REVIEW_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
+C6_G_FINAL_REVIEW_PASS = NO
+C6_G_REVIEW_CLOSED = NO
 C6_H_contract_freeze_execution = NOT_AUTHORIZED
 
 paper_trading = NOT_AUTHORIZED
@@ -3566,8 +3773,8 @@ deployment = NOT_AUTHORIZED
 
 candidate_set_expansion = NOT_AUTHORIZED
 host_or_compute_authorization = NOT_AUTHORIZED
-C6_F_SPECIFICATION = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
-C6_G_OR_LATER_EXECUTION = NOT_AUTHORIZED
+C6_F_SPECIFICATION = COMPLETE__PUBLISHED__EFFECTIVE
+C6_H_OR_LATER_EXECUTION = NOT_AUTHORIZED
 C7_or_later_execution = NOT_AUTHORIZED
 
 C5_REOPEN = NO
@@ -3724,10 +3931,17 @@ has been accessed.
 
 `C6_F_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
 
-This means only bounded C6-F specification is ready for Managing review. It
-does not mean dataset acceptance or C6-G has been executed, the 75-security
-source note has been resolved, the contract is frozen, C6-H has been performed,
-C6 is complete, or C7 is authorized.
+The bounded C6-F specification is COMPLETE__PUBLISHED__EFFECTIVE. The complete
+initial C6-G audit returned PASS_WITH_BOUNDED_CORRECTION with
+MATERIAL_FINDING_COUNT = 0 and BOUNDED_CORRECTABLE_FINDING_COUNT = 3.
+C6G-FIND-001, C6G-FIND-002, and C6G-FIND-003 remain open pending correction
+and independent re-verification. Applying this bounded correction does not
+independently close them. After a later separately authorized corrected
+publication, the independent reviewer must verify all three surfaces and all
+affected invariants before final PASS is possible. No independent-review
+result or `c6_independent_review_identity` is created by this execution actor.
+Dataset acceptance has not executed, the source note remains unresolved,
+C6-H has not occurred, C6 is not complete, and C7 is not authorized.
 
 ### Source reconciliation before freeze
 
@@ -3752,14 +3966,14 @@ must identify or establish a canonical source before freeze if a separate
   execution, model implementation/training, and final-holdout access remain
   unauthorized during this specification/freeze scope.
 
-C6-A through C6-E are complete, published, and effective. C6-B through C6-E
-are not reopened. C6-F is the authorized active bounded draft specification
-for dataset acceptance, independent-review, and contract-freeze requirements.
-C6-F is not C6 completion; C6-G review and C6-H freeze remain unexecuted and
-require separate authorization.
+C6-A through C6-F are complete, published, and effective and are not reopened.
+C6-G initial review has executed with PASS_WITH_BOUNDED_CORRECTION, zero
+material findings, and three bounded correctable findings. Final review PASS
+has not occurred and C6-G remains open pending independent re-verification.
+C6-H freeze remains unexecuted and unauthorized. C6 is not complete.
 
 C6 cannot be represented as complete or frozen merely because the earlier
-work packages are published/effective and the bounded C6-F draft definitions
+work packages are published/effective and the three bounded corrections
 exist.
 
 `C6_F_DETAIL_DEFINED` — sections 18–20 define acceptance/review/freeze evidence
@@ -3778,7 +3992,12 @@ C6_D_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_D_REOPEN = NO
 C6_E_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
 C6_E_REOPEN = NO
-C6_F_STATUS = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+C6_F_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
+C6_G_STATUS = INITIAL_REVIEW_COMPLETE__PASS_WITH_BOUNDED_CORRECTION__OPEN
+C6_G_INITIAL_REVIEW_DISPOSITION = PASS_WITH_BOUNDED_CORRECTION
+C6_G_FINAL_REVIEW_PASS = NO
+C6_G_REVIEW_CLOSED = NO
+C6_H_FREEZE_ELIGIBLE = NO
 C6_DATASET_CONTRACT = NOT_FROZEN
 DATASET_GENERATION = NOT_AUTHORIZED
 DATASET_ACCEPTANCE_EXECUTION = NOT_AUTHORIZED
@@ -3787,7 +4006,7 @@ MODEL_IMPLEMENTATION = NOT_AUTHORIZED
 MODEL_TRAINING = NOT_AUTHORIZED
 QUALIFICATION_EXECUTION = NOT_AUTHORIZED
 FINAL_HOLDOUT_ACCESS = NOT_AUTHORIZED
-C6_G_REVIEW_EXECUTED = NO
+C6_G_INITIAL_REVIEW_EXECUTED = YES
 C6_H_FREEZE_EXECUTED = NO
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
