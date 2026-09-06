@@ -12,10 +12,10 @@ CURRENT_NON_AUTHORIZATION_STATE
 +
 AUTHORITATIVE_POINTERS_TO_MATERIAL_DECISIONS
 
-current_lifecycle_state = C6_ACTIVE
-active_major_phase = C6
-phase_status = ACTIVE
-authorization_effect = C6_SCOPE_ONLY
+current_lifecycle_state = C6_COMPLETED
+active_major_phase = NONE
+phase_status = COMPLETED
+authorization_effect = NONE
 
 working_repository_name = quantitative-trading-research-platform
 repository_visibility = PUBLIC
@@ -53,12 +53,19 @@ docs/decisions/C6_authorization_decision.md
 C6_authorization_decision_id =
 GOV-DEC-0014
 
-C6_AUTHORIZATION = AUTHORIZED__SPECIFICATION_AND_CONTRACT_FREEZE_ONLY
-C6_authorization_effect = EFFECTIVE
+C6_completion_decision =
+docs/decisions/C6_completion_decision.md
 
-current_authorized_workstream = C6_DATASET_CONTRACT_FREEZE
+C6_completion_decision_id =
+GOV-DEC-0016
 
-dataset_contract_status = AUTHORIZED__NOT_FROZEN
+C6_completion_effect = EFFECTIVE
+C6_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
+CURRENT_C6_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+C6_REOPEN = NO
+C6_CURRENT_WORK = NONE
+
+dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
 
 current_model_candidate = NONE
@@ -67,6 +74,8 @@ current_deployment_candidate = NONE
 final_holdout_access = NOT_AUTHORIZED
 paper_trading = NOT_AUTHORIZED
 live_trading = NOT_AUTHORIZED
+deployment = NOT_AUTHORIZED
+C7_authorization = NONE
 
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
@@ -116,17 +125,19 @@ guidance and sequencing reference material.
 
 C5 remains completed and effective and is not reopened.
 
-C6 is active only for bounded dataset-contract specification, independent
-review, and final contract freeze.
+C6 is completed and effective and is not reopened. The dataset contract is
+frozen and effective. There is no active major phase or current C6 execution
+authorization. C7 is not authorized.
 
-Dataset generation, model implementation or training, final-holdout access,
-paper trading, live trading, and deployment remain unauthorized.
+Dataset generation, dataset acceptance execution, model implementation or
+training, final-holdout access, paper trading, live trading, and deployment
+remain unauthorized.
 
 ```text
-current_lifecycle_state = C6_ACTIVE
-active_major_phase = C6
-phase_status = ACTIVE
-authorization_effect = C6_SCOPE_ONLY
+current_lifecycle_state = C6_COMPLETED
+active_major_phase = NONE
+phase_status = COMPLETED
+authorization_effect = NONE
 
 C5_completion_effect = EFFECTIVE
 C5_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
@@ -141,10 +152,26 @@ docs/decisions/C6_authorization_decision.md
 C6_authorization_decision_id =
 GOV-DEC-0014
 
-C6_AUTHORIZATION = AUTHORIZED__SPECIFICATION_AND_CONTRACT_FREEZE_ONLY
-C6_authorization_effect = EFFECTIVE
+C6_completion_decision =
+docs/decisions/C6_completion_decision.md
 
-current_authorized_workstream = C6_DATASET_CONTRACT_FREEZE
+C6_completion_decision_id =
+GOV-DEC-0016
+
+C6_completion_effect = EFFECTIVE
+C6_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
+CURRENT_C6_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
+C6_REOPEN = NO
+C6_CURRENT_WORK = NONE
+dataset_contract_status = FROZEN__EFFECTIVE
+dataset_generation_status = NOT_AUTHORIZED
+current_model_candidate = NONE
+current_deployment_candidate = NONE
+final_holdout_access = NOT_AUTHORIZED
+paper_trading = NOT_AUTHORIZED
+live_trading = NOT_AUTHORIZED
+deployment = NOT_AUTHORIZED
+C7_authorization = NONE
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
@@ -180,7 +207,7 @@ GOV-DEC-0013 is the detailed scientific-design record. This document does not
 duplicate its detailed candidate-routing, gating, readiness, phase-sequencing,
 or future evaluation methodology.
 
-The Owner-authorized bounded C6 scope is recorded in:
+The historical Owner-authorized bounded C6 scope is recorded in:
 
 ```text
 C6_authorization_decision =
@@ -190,10 +217,23 @@ C6_authorization_decision_id =
 GOV-DEC-0014
 ```
 
-GOV-DEC-0014 is supporting authorization evidence for bounded C6
+GOV-DEC-0014 is historical authorization evidence for bounded C6
 dataset-contract specification, independent review, and freeze.
 `PROJECT_CONTEXT.md` remains the controlling broad lifecycle and authorization
 source.
+
+GOV-DEC-0016 records Owner-accepted C6 completion and closure:
+
+```text
+C6_completion_decision =
+docs/decisions/C6_completion_decision.md
+C6_completion_decision_id =
+GOV-DEC-0016
+```
+
+The frozen contract and freeze manifest remain immutable technical evidence.
+The completion decision does not authorize C7; GOV-DEC-0014 is no longer
+current execution authorization.
 
 ## 5. High-level prospective research direction
 
@@ -214,7 +254,7 @@ evaluation is authorized.
 ## 6. Current dataset, model, and execution boundary
 
 ```text
-dataset_contract_status = AUTHORIZED__NOT_FROZEN
+dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
 
 current_model_candidate = NONE
@@ -223,13 +263,17 @@ current_deployment_candidate = NONE
 final_holdout_access = NOT_AUTHORIZED
 paper_trading = NOT_AUTHORIZED
 live_trading = NOT_AUTHORIZED
+deployment = NOT_AUTHORIZED
+C7_authorization = NONE
 ```
 
-Dataset-contract specification, independent review, and final contract
-freeze are authorized only within bounded C6.
+C6 contract specification, independent review, and freeze are complete.
+No active post-C6 execution workstream exists. C7 requires a separate
+Owner/Admin decision.
 
-Provider activity, data acquisition, dataset generation, model implementation,
-model training, gate training, backtesting, final-holdout access, paper
+Provider activity, data acquisition, dataset generation, dataset acceptance
+execution, model implementation, model training, gate training, backtesting,
+final-holdout access, paper
 trading, live trading, and deployment remain unauthorized.
 
 ## 7. Navigation
@@ -240,7 +284,9 @@ Use:
 - `docs/decisions/C5_completion_decision.md` for C5 completion and closure;
 - `docs/decisions/post_C5_pre_C6_RL_research_design_decision.md` for the
   accepted prospective RL/gating scientific design;
-- `docs/decisions/C6_authorization_decision.md` for the supporting record of
+- `docs/decisions/C6_completion_decision.md` for the authoritative supporting
+  record of C6 completion and closure;
+- `docs/decisions/C6_authorization_decision.md` for the historical record of
   the Owner-authorized bounded C6 dataset-contract specification, review, and
   freeze scope;
 - `docs/workflows/milestone_review_reference_map.md` for non-authorizing

@@ -467,6 +467,94 @@ jobs:
           )
           PY
 
+      - name: Validate bounded C6 completion-alignment changed-file scope
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          from pathlib import Path
+
+          decision_path = (
+              "docs/decisions/C6_completion_decision.md"
+          )
+
+          if not Path(decision_path).is_file():
+              print(
+                  "C6 completion decision is not present; "
+                  "completion-alignment scope validation is not applicable."
+              )
+              raise SystemExit(0)
+
+          base_sha = os.environ.get("BASE_SHA", "").strip()
+          zero_sha = "0" * 40
+
+          if not base_sha or base_sha == zero_sha:
+              print(
+                  "No comparison base is available for this event; "
+                  "content and governance-state validation will continue."
+              )
+              raise SystemExit(0)
+
+          subprocess.run(
+              ["git", "cat-file", "-e", f"{base_sha}^{{commit}}"],
+              check=True,
+          )
+
+          base_contains_decision = subprocess.run(
+              [
+                  "git",
+                  "cat-file",
+                  "-e",
+                  f"{base_sha}:{decision_path}",
+              ],
+              stdout=subprocess.DEVNULL,
+              stderr=subprocess.DEVNULL,
+              check=False,
+          ).returncode == 0
+
+          if base_contains_decision:
+              print(
+                  "The comparison base already contains the C6 completion "
+                  "decision; initial completion-alignment scope validation "
+                  "is not applicable."
+              )
+              raise SystemExit(0)
+
+          expected_paths = {
+              ".github/workflows/c0-documentation-consistency.yml",
+              "PROJECT_CONTEXT.md",
+              "docs/decisions/C6_completion_decision.md",
+          }
+
+          changed_output = subprocess.check_output(
+              ["git", "diff", "--name-only", base_sha, "HEAD"],
+              text=True,
+          )
+
+          changed_paths = {
+              line.strip()
+              for line in changed_output.splitlines()
+              if line.strip()
+          }
+
+          if changed_paths != expected_paths:
+              missing = sorted(expected_paths - changed_paths)
+              unauthorized = sorted(changed_paths - expected_paths)
+              raise SystemExit(
+                  "C6 completion-alignment changed-file scope mismatch; "
+                  f"missing authorized paths: {missing}; "
+                  f"unauthorized changed paths: {unauthorized}"
+              )
+
+          print(
+              "Exact three-file C6 completion-alignment "
+              "changed-file scope passed."
+          )
+          PY
+
       - name: Validate bounded C5 Stage A changed-file scope
         shell: bash
         env:
@@ -1419,6 +1507,11 @@ jobs:
               in project_context_lines
           )
 
+          c6_completed_state = (
+              "current_lifecycle_state = C6_COMPLETED"
+              in project_context_lines
+          )
+
           supported_state_count = sum(
               (
                   c3_completed_state,
@@ -1427,6 +1520,7 @@ jobs:
                   c5_active_state,
                   c5_completed_state,
                   c6_active_state,
+                  c6_completed_state,
               )
           )
 
@@ -1434,7 +1528,7 @@ jobs:
               raise SystemExit(
                   "PROJECT_CONTEXT.md must establish exactly one supported "
                   "canonical lifecycle state: C3_COMPLETED, C4_ACTIVE, "
-                  "C4_COMPLETED, C5_ACTIVE, C5_COMPLETED, or C6_ACTIVE"
+                  "C4_COMPLETED, C5_ACTIVE, C5_COMPLETED, C6_ACTIVE, or C6_COMPLETED"
               )
 
           if (
@@ -3017,6 +3111,249 @@ jobs:
                   raise SystemExit(
                       "C5_ACTIVE requires GOV-DEC-0011."
                   )
+
+          if c6_completed_state:
+              import hashlib
+              import json
+              import subprocess
+
+              for path in (
+                  "docs/decisions/C6_authorization_decision.md",
+                  "docs/decisions/C6_source_reconciliation_75_decision.md",
+                  "docs/decisions/C6_completion_decision.md",
+                  "docs/architecture/C6_dataset_contract.md",
+                  "docs/reports/C6_dataset_contract_freeze_manifest.json",
+              ):
+                  if not Path(path).is_file():
+                      raise SystemExit(f"C6_COMPLETED requires {path}")
+
+              project_all_lines = Path("PROJECT_CONTEXT.md").read_text(encoding="utf-8").splitlines()
+              expected_context = {
+                  "current_lifecycle_state": "C6_COMPLETED",
+                  "active_major_phase": "NONE",
+                  "phase_status": "COMPLETED",
+                  "authorization_effect": "NONE",
+                  "C6_completion_decision": "docs/decisions/C6_completion_decision.md",
+                  "C6_completion_decision_id": "GOV-DEC-0016",
+                  "C6_completion_effect": "EFFECTIVE",
+                  "C6_LIFECYCLE_CLOSURE": "COMPLETE__EFFECTIVE",
+                  "CURRENT_C6_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                  "C6_REOPEN": "NO",
+                  "C6_CURRENT_WORK": "NONE",
+                  "dataset_contract_status": "FROZEN__EFFECTIVE",
+                  "dataset_generation_status": "NOT_AUTHORIZED",
+                  "current_model_candidate": "NONE",
+                  "current_deployment_candidate": "NONE",
+                  "final_holdout_access": "NOT_AUTHORIZED",
+                  "paper_trading": "NOT_AUTHORIZED",
+                  "live_trading": "NOT_AUTHORIZED",
+                  "C7_authorization": "NONE",
+                  "CURRENT_CHECKPOINT_TRACKER": "NONE",
+                  "C5_completion_effect": "EFFECTIVE",
+                  "C5_REOPEN": "NO",
+                  "project_status": "IN_DEVELOPMENT",
+                  "deployment": "NOT_AUTHORIZED"
+              }
+              for key, value in expected_context.items():
+                  require_exact_logical_assignment("PROJECT_CONTEXT C6_COMPLETED", project_all_lines, key, value)
+              for key in ("C6_authorization_effect", "current_authorized_workstream", "C6_AUTHORIZATION"):
+                  if logical_assignment_values(project_all_lines, key):
+                      raise SystemExit(f"C6_COMPLETED retains stale current authorization: {key}")
+              required_lines["PROJECT_CONTEXT.md"] = [
+                  "current_lifecycle_state = C6_COMPLETED",
+                  "CURRENT_CHECKPOINT_TRACKER = NONE",
+              ]
+
+              completion_lines = Path("docs/decisions/C6_completion_decision.md").read_text(encoding="utf-8").splitlines()
+              for key, value in {
+                  "decision_id": "GOV-DEC-0016",
+                  "decision_type": "C6_COMPLETION_AND_CLOSURE",
+                  "decision_status": "ACCEPTED",
+                  "owner_completion_decision_status": "ACCEPTED",
+                  "owner_decision": "ACCEPT_C6_COMPLETION_AND_CLOSURE",
+                  "accepted_C6_freeze_main": "1bea16498a33253f6c0e5f6415c2cdfef6b35b89",
+                  "C6_exit_readiness": "PASS_READY_FOR_OWNER_ADMIN_C6_COMPLETION_DECISION",
+                  "C6_completion": "OWNER_ACCEPTED",
+                  "additional_C6_work_required": "NO",
+                  "material_unresolved_C6_items": "NONE",
+                  "C6_REOPEN": "NO",
+                  "C7_AUTHORIZATION": "NONE",
+                  "CURRENT_C6_EXECUTION_AUTHORIZATION": "NONE_AFTER_COMPLETION",
+                  "CURRENT_CHECKPOINT_TRACKER": "NONE",
+                  "FROZEN_C6_DATASET_CONTRACT_SHA256": "7ff481059499639aef51f38d3b3999cef56fb977da90b7ae44da43da244ae775",
+                  "FROZEN_C6_DATASET_CONTRACT_GIT_BLOB_SHA": "7f139021e1cd70bf2aec601b3a67cd9ebe4dbe84",
+                  "C6_CONTRACT_VERSION_IDENTITY": "eae70d87ff3879b5113007eaf5cb9799a6ae1d674b088a2fa1febc74a3a0db61",
+                  "C6_FREEZE_MANIFEST_IDENTITY": "db6c932b03688f6d8827346db1ecb0facbaca636dee1a363444bef8ac92efd5f",
+                  "C6_INDEPENDENT_REVIEW_IDENTITY": "5a69af6f2eca2b87ceb937beb71eccbd67d5fb51e15fc4a4e695d3adbbf15576",
+                  "SOURCE_RECONCILIATION_DISPOSITION_IDENTITY": "50c5e643692a9eeb326b622c0f8056d49e50c6672f686c69d9545680853c0488"
+              }.items():
+                  require_exact_logical_assignment("GOV-DEC-0016", completion_lines, key, value)
+
+              contract_path = Path("docs/architecture/C6_dataset_contract.md")
+              if hashlib.sha256(contract_path.read_bytes()).hexdigest() != "7ff481059499639aef51f38d3b3999cef56fb977da90b7ae44da43da244ae775":
+                  raise SystemExit("Frozen C6 contract SHA-256 mismatch")
+              if subprocess.check_output(["git", "hash-object", str(contract_path)], text=True).strip() != "7f139021e1cd70bf2aec601b3a67cd9ebe4dbe84":
+                  raise SystemExit("Frozen C6 contract Git blob mismatch")
+              # Current status is in the opening block; later sections preserve historical/conditional values.
+              contract_lines = contract_path.read_text(encoding="utf-8").split("## 1.", 1)[0].splitlines()
+              for key, value in {
+                  "document_status": "C6_H_COMPLETE__FROZEN__EFFECTIVE",
+                  "C6_G_FINAL_REVIEW_DISPOSITION": "PASS",
+                  "C6_G_REVIEW_CLOSURE": "CLOSED",
+                  "C6_H_status": "COMPLETE__FROZEN__EFFECTIVE",
+                  "C6_H_FREEZE_EXECUTED": "YES",
+                  "C6_DATASET_CONTRACT": "FROZEN",
+                  "dataset_contract_status": "FROZEN__EFFECTIVE"
+              }.items():
+                  require_exact_logical_assignment("Frozen C6 contract", contract_lines, key, value)
+              manifest = json.loads(Path("docs/reports/C6_dataset_contract_freeze_manifest.json").read_text(encoding="utf-8"))
+              for key, value in {
+                  "c6_contract_version_identity": "eae70d87ff3879b5113007eaf5cb9799a6ae1d674b088a2fa1febc74a3a0db61",
+                  "c6_freeze_manifest_identity": "db6c932b03688f6d8827346db1ecb0facbaca636dee1a363444bef8ac92efd5f",
+                  "c6_independent_review_identity": "5a69af6f2eca2b87ceb937beb71eccbd67d5fb51e15fc4a4e695d3adbbf15576",
+                  "source_reconciliation_disposition_identity": "50c5e643692a9eeb326b622c0f8056d49e50c6672f686c69d9545680853c0488"
+              }.items():
+                  if manifest.get(key) != value:
+                      raise SystemExit(f"Frozen C6 manifest mismatch: {key}")
+
+              c6_decision_path = Path("docs/decisions/C6_authorization_decision.md")
+              c6_lines = c6_decision_path.read_text(
+                  encoding="utf-8"
+              ).splitlines()
+
+              require_exact_assignments(
+                  "GOV-DEC-0014",
+                  c6_lines,
+                  {
+                      (
+                          "document_status"
+                      ): "ACCEPTED_C6_AUTHORIZATION_DECISION",
+                      (
+                          "document_role"
+                      ): "SUPPORTING_MATERIAL_AUTHORIZATION_EVIDENCE",
+                      (
+                          "authorization_effect"
+                      ): "SUPPORTS_CONTROLLING_PROJECT_CONTEXT_STATE",
+                      "decision_id": "GOV-DEC-0014",
+                      (
+                          "decision_type"
+                      ): "C6_PHASE_AUTHORIZATION_CANONICAL_RECORDING",
+                      "decision_status": "ACCEPTED",
+                      "owner_acceptance_status": "ACCEPTED",
+                      "OWNER_DECISION_ALREADY_MADE": "YES",
+                      (
+                          "NEW_SUBSTANTIVE_AUTHORIZATION_CREATED_BY_THIS_RECORD"
+                      ): "NO",
+                      "authorized_phase": "C6_DATASET_CONTRACT_FREEZE",
+                      (
+                          "C6_AUTHORIZATION"
+                      ): (
+                          "AUTHORIZED__SPECIFICATION_AND_"
+                          "CONTRACT_FREEZE_ONLY"
+                      ),
+                      "C6_authorization_scope": "C6_SCOPE_ONLY",
+                      "C5_completion_effect": "EFFECTIVE",
+                      "C5_REOPEN": "NO",
+                      (
+                          "POST_C5_PRE_C6_RL_DESIGN_ALIGNMENT"
+                      ): "ACCEPTED",
+                      "PPO": "MANDATORY_PRIMARY_BASELINE",
+                      (
+                          "COMMON_ACTION_FORMULATION"
+                      ): "CONTINUOUS_TARGET_POSITION_OR_EXPOSURE",
+                      (
+                          "SUPERVISED_GATING"
+                      ): "TESTABLE_ARCHITECTURAL_HYPOTHESIS",
+                      (
+                          "RL_CANDIDATE_EXPANSION"
+                      ): "NOT_AUTHORIZED",
+                      "CURRENT_CHECKPOINT_TRACKER": "NONE",
+                  },
+              )
+
+              c6_required_exclusions = {
+                  "data_purchase": "NOT_AUTHORIZED",
+                  "provider_purchase": "NOT_AUTHORIZED",
+                  "provider_account_activity": "NOT_AUTHORIZED",
+                  "data_download": "NOT_AUTHORIZED",
+                  "network_or_API_data_acquisition": "NOT_AUTHORIZED",
+                  "dataset_generation": "NOT_AUTHORIZED",
+                  "dataset_acceptance_execution": "NOT_AUTHORIZED",
+                  "RL_model_implementation": "NOT_AUTHORIZED",
+                  "PPO_training": "NOT_AUTHORIZED",
+                  "SAC_training": "NOT_AUTHORIZED",
+                  "RecurrentPPO_training": "NOT_AUTHORIZED",
+                  "RF_training": "NOT_AUTHORIZED",
+                  "XGBoost_training": "NOT_AUTHORIZED",
+                  "backtest_execution": "NOT_AUTHORIZED",
+                  "model_qualification": "NOT_AUTHORIZED",
+                  "final_holdout_access": "NOT_AUTHORIZED",
+                  "paper_trading": "NOT_AUTHORIZED",
+                  "live_trading": "NOT_AUTHORIZED",
+                  "deployment": "NOT_AUTHORIZED",
+                  "candidate_set_expansion": "NOT_AUTHORIZED",
+                  "host_or_compute_authorization": "NOT_AUTHORIZED",
+                  "C7_or_later_execution": "NOT_AUTHORIZED",
+              }
+
+              require_exact_assignments(
+                  "GOV-DEC-0014 exclusions",
+                  c6_lines,
+                  c6_required_exclusions,
+              )
+
+              c6_text = c6_decision_path.read_text(
+                  encoding="utf-8"
+              )
+
+              if (
+                  c6_text.count(
+                      "PREDECLARED_RL_CANDIDATES =\n"
+                      "PPO\n"
+                      "+\n"
+                      "SAC\n"
+                      "+\n"
+                      "RECURRENTPPO"
+                  )
+                  != 1
+              ):
+                  raise SystemExit(
+                      "GOV-DEC-0014 candidate block is missing "
+                      "or duplicated."
+                  )
+
+              required_lines["README.md"] = [
+                  (
+                      "> **Status: Current canonical research platform "
+                      "— in development**"
+                  ),
+                  "> No model is currently qualified for deployment.",
+                  (
+                      "- [Project Context](PROJECT_CONTEXT.md) — "
+                      "authoritative broad lifecycle and authorization state."
+                  ),
+                  (
+                      "- [Milestone Review Reference Map]"
+                      "(docs/workflows/milestone_review_reference_map.md) — "
+                      "non-authorizing roadmap, governance, evidence, "
+                      "and historical navigation."
+                  ),
+                  (
+                      "- [Future Validation and Training Reference Map]"
+                      "(docs/workflows/future_validation_training_reference_map.md) — "
+                      "non-authorizing future validation, training, evaluation, "
+                      "and holdout guidance."
+                  ),
+                  "- PPO — mandatory primary baseline",
+                  "- SAC — bounded alternative candidate",
+                  "- RecurrentPPO — bounded recurrent candidate",
+                  (
+                      "Files and reference maps do not independently "
+                      "authorize execution."
+                  ),
+              ]
+
+              print("C6 completed-state and immutable freeze evidence validation passed.")
 
           if c6_active_state:
               c5_completion_path = Path(
