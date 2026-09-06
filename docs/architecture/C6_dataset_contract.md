@@ -1,8 +1,8 @@
 # C6 Dataset Contract
 
 ```text
-document_status = C6_B_DRAFT__NOT_FROZEN
-document_role = C6_DATASET_CONTRACT__C6_A_INPUTS_PLUS_C6_B_SCHEMA_IDENTITY_PROVENANCE
+document_status = C6_C_DRAFT__NOT_FROZEN
+document_role = C6_DATASET_CONTRACT__C6_A_C6_B_PUBLISHED_PLUS_C6_C_CHRONOLOGY_LEAKAGE_CALENDAR_MISSINGNESS
 current_state_control = NO
 authorization_effect = NONE
 
@@ -28,6 +28,18 @@ RAW_PROCESSED_SCHEMA_IDENTITY_AND_PROVENANCE
 C6_B_scope =
 TECHNICAL_SCHEMA_IDENTITY_LINEAGE_AND_PROVENANCE_SPECIFICATION_ONLY
 
+C6_B_status = COMPLETE__PUBLISHED__EFFECTIVE
+C6_B_REOPEN = NO
+
+C6_C_work_package =
+CHRONOLOGY_LEAKAGE_CALENDAR_AND_MISSINGNESS
+
+C6_C_scope =
+TECHNICAL_CHRONOLOGY_LEAKAGE_CALENDAR_SESSION_PIT_AND_MISSINGNESS_SPECIFICATION_ONLY
+
+C6_C_status =
+AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
+
 dataset_contract_status = AUTHORIZED__NOT_FROZEN
 dataset_generation_status = NOT_AUTHORIZED
 
@@ -35,7 +47,10 @@ ACCEPTED_REQUIREMENT =
 REQUIREMENT_ALREADY_ESTABLISHED_BY_CANONICAL_DECISION_OR_ACCEPTED_GUIDANCE
 
 C6_B_DETAIL_DEFINED =
-TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_B_SCOPE__PENDING_MANAGING_REVIEW
+TECHNICAL_DETAIL_DEFINED_WITHIN_COMPLETED_PUBLISHED_C6_B_SCOPE
+
+C6_C_DETAIL_DEFINED =
+TECHNICAL_DETAIL_DEFINED_WITHIN_AUTHORIZED_C6_C_SCOPE__PENDING_MANAGING_REVIEW
 
 C6_DETAIL_TO_BE_DEFINED =
 TECHNICAL_CONTRACT_DETAIL_INTENTIONALLY_DEFERRED_TO_A_LATER_C6_WORK_PACKAGE
@@ -45,9 +60,12 @@ CURRENT_CHECKPOINT_TRACKER = NONE
 
 ## 1. Document role and governance status
 
-This document contains the published C6-A dataset-contract skeleton and
-accepted-input inventory plus the bounded C6-B technical definitions for raw
-and processed schemas, identity, lineage, provenance, and reproducibility.
+This document contains the published/effective C6-A dataset-contract
+skeleton and accepted-input inventory, the published/effective C6-B technical
+definitions for raw and processed schemas, identity, lineage, provenance, and
+reproducibility, and the active bounded C6-C draft technical definitions for
+chronology, leakage, calendar/session validation, PIT availability, and
+missingness/reconstruction.
 
 It remains a draft C6 dataset contract and is not frozen.
 
@@ -61,15 +79,19 @@ This document creates no new authorization and is not a checkpoint tracker,
 execution log, dataset-acceptance record, model specification, training plan,
 or final-holdout approval.
 
-Requirements and technical specifications in this document use three states:
+Requirements and technical specifications in this document use four states:
 
 - `ACCEPTED_REQUIREMENT` — already established by canonical decisions or
   accepted methodological guidance.
 - `C6_B_DETAIL_DEFINED` — a technical schema, identity, lineage, provenance,
-  or reproducibility detail defined within the bounded C6-B authority and
-  presented for Managing review.
+  or reproducibility detail defined within the completed, published, and
+  effective bounded C6-B surface.
+- `C6_C_DETAIL_DEFINED` — a chronology, leakage, calendar/session,
+  PIT-availability, or missingness/reconstruction detail defined within the
+  authorized active C6-C bounded draft and presented for Managing review.
 - `C6_DETAIL_TO_BE_DEFINED` — a technical C6 contract detail assigned to a
-  later work package and intentionally not resolved by C6-B.
+  later work package and intentionally not resolved by the current C6-C work
+  package.
 
 A third notation is used only where source reconciliation is required:
 
@@ -104,10 +126,10 @@ candidate set and support:
 - independent C6 review; and
 - final contract freeze.
 
-C6-A organized accepted requirements and identified unresolved specification
-work. C6-B now resolves only the raw/processed schema, identity, lineage,
-provenance, reproducibility, and material-source-change details explicitly
-assigned to C6-B. C6-C through C6-F details remain deferred.
+C6-A and C6-B are complete, published, and effective within their bounded
+surfaces. C6-C now resolves only the chronology, leakage, calendar/session,
+PIT-availability, and missingness/reconstruction details explicitly assigned
+to C6-C. C6-D through C6-F details remain deferred.
 
 ## 3. Controlling scientific and governance inputs
 
@@ -631,8 +653,38 @@ The already accepted liquidity-ranking tie-break remains stable security
 identifier ascending with namespace preserved; nothing in this ordering
 contract introduces future information.
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-C must define the exact time-order validation
-rules that operate on these identities.
+### C6-C technical definition — chronological validity and duplicate conflicts
+
+`C6_C_DETAIL_DEFINED` — persisted deterministic ordering remains exactly the
+C6-B ordering contract. Chronological validity is a separate C6-C validation
+property and does not alter C6-B row identity, security identity, natural-key
+construction, or deterministic persisted ordering.
+
+For `processed_market_bar`, the canonical natural key remains:
+
+```text
+canonical_security_id
++
+bar_start_utc
+```
+
+More than one processed market-bar row for the same
+`canonical_security_id` and `bar_start_utc` is a chronology/uniqueness
+conflict. Such a conflict must not be resolved through last-write-wins
+selection, silent deduplication, averaging, retrieval order, or any equivalent
+implicit preference.
+
+Equal-looking OHLCV or other values do not erase the duplicate-lineage
+conflict. Every underlying raw/source record and lineage edge remains
+preserved. The conflict remains explicit and fail-closed until separately
+governed source reconciliation establishes the valid canonical observation.
+
+```text
+DUPLICATE_SECURITY_TIMESTAMP_RULE =
+FAIL_CLOSED_UNTIL_GOVERNED_SOURCE_RECONCILIATION
+
+C6_B_IDENTITY_CONSTRUCTION_CHANGED = NO
+```
 
 ## 7. Timestamp, time-zone, session, and calendar contract
 
@@ -666,12 +718,78 @@ rules that operate on these identities.
   authoritative; if a material authoritative divergence exists, the
   security's primary-listing exchange controls.
 
-### Deferred detail
+### C6-C technical definition — calendar, session, and expected-slot validation
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-C must define the exact calendar-version
-identity, calendar fields, expected-slot representation, DST conversion
-contract, early-close metadata, local-session-date fields, UTC serialization,
-and conflict-validation rules.
+`C6_C_DETAIL_DEFINED` — calendar/session chronology is represented through
+governed validation metadata and artifacts operating on the existing C6-B
+schema. C6-C adds no canonical raw or processed table and no new C6-B persisted
+schema field.
+
+For each applicable security/session validation context, the governed
+representation must establish:
+
+| Validation item | Required representation |
+|---|---|
+| `eligible_primary_listing_exchange` | Governed eligible primary-listing exchange identity |
+| `authoritative_calendar_source_identity` | Identity of the authoritative exchange-calendar source |
+| `calendar_version_or_snapshot_identity` | Immutable version or snapshot identity of the governed calendar representation |
+| `calendar_identity_ref` | Deterministic calendar identity defined below |
+| `exchange_timezone` | Exactly `America/New_York` |
+| `session_date_local` | Exchange-local regular-session date |
+| `official_session_open_local` | Published official regular-session open local time |
+| `official_session_close_local` | Published official regular-session close local time |
+| `session_open_utc` | UTC instant derived from the official local open |
+| `session_close_utc` | UTC instant derived from the official local close |
+| `official_early_close_flag` | Boolean indicator that the published official close is earlier than the normal close |
+| `expected_bar_slot_ordinal` | Zero-based deterministic slot ordinal within the applicable regular session |
+| `expected_bar_start_local` | Expected slot start in exchange-local time |
+| `expected_bar_end_local` | Expected slot end in exchange-local time |
+| `expected_bar_start_utc` | UTC conversion of the expected local slot start |
+| `expected_bar_end_utc` | UTC conversion of the expected local slot end |
+| `final_partial_slot_flag` | Boolean indicator that the final slot is truncated by the official session close |
+
+`calendar_identity_ref` is the lowercase-hex SHA-256 of canonical JSON
+containing the governed authoritative calendar-source identity,
+calendar-version/snapshot identity, eligible primary-listing exchange,
+`America/New_York` timezone interpretation, and the deterministically ordered
+official session representation required for the applicable calendar scope.
+A machine-local path, mutable filename, provider default, or unrecorded
+timezone assumption is not a calendar identity.
+
+Expected hourly slots are derived from the applicable official session. The
+grid is anchored at 09:30 local time, uses half-open `[START, END)` intervals,
+uses nominal 60-minute intervals, caps each interval end at the official
+session close, preserves the resulting final truncated interval, and never
+crosses a session boundary.
+
+```text
+EXPECTED_SLOT =
+DERIVED_FROM_THE_APPLICABLE_OFFICIAL_SESSION
+
+CLOSED_SESSION =
+NO_EXPECTED_REGULAR_SESSION_SLOTS
+
+EXTENDED_HOURS =
+OUT_OF_SCOPE
+```
+
+DST handling is deterministic: construct the official session in
+`America/New_York` first, resolve that local date under the applicable IANA
+timezone rules, and only then convert the resulting instants to UTC. Fixed
+UTC-5, fixed UTC-4, or any other hard-coded offset assumption is prohibited.
+
+For an official early close, the published official close controls. The
+expected slot grid is regenerated for that shortened session; the truncated
+last interval is preserved, the session is not extended to 16:00, and the
+short final interval is not padded to 60 minutes.
+
+Official exchange-specific calendar identity is preserved. If material
+authoritative calendars diverge, the security's governed primary-listing
+exchange controls. Unresolved or conflicting primary-exchange evidence must
+not silently fall back to a different exchange calendar, and unresolved
+calendar identity is fail-closed for affected chronology validation.
+
+No calendar data is acquired by this specification work package.
 
 ## 8. Point-in-time and chronology/leakage contract
 
@@ -701,12 +819,126 @@ and conflict-validation rules.
 - `ACCEPTED_REQUIREMENT` [S10]: preprocessing/fitting must respect training
   boundaries, with explicit embargo where required.
 
-### Deferred detail
+### C6-C technical definition — PIT availability and leakage control
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-C must define the exact as-of/availability
-fields, event-effective-time representation, chronological integrity checks,
-lookahead rejection rules, horizon-overlap treatment, and conditions under
-which an embargo is required.
+`C6_C_DETAIL_DEFINED` — the controlling chronology principle is:
+
+```text
+INFORMATION_USABLE_AT_DECISION_TIME_T =
+ONLY_INFORMATION_ESTABLISHED_AS_AVAILABLE_BY_T
+AND
+ONLY_STATE_OR_EVENT_EFFECTS_APPLICABLE_BY_T
+```
+
+Retrieval time is provenance and is not historical availability evidence by
+itself. C6-C distinguishes:
+
+- source/event observation time — the source observation, event, evidence, or
+  bar time represented by existing fields such as `source_time_utc`,
+  `event_time_utc`, or `evidence_time_utc`;
+- effective time — `effective_time_utc`, when the represented state or event
+  takes effect;
+- source as-of time — `source_asof_utc`, when the source explicitly represents
+  a snapshot or as-of semantic;
+- retrieval time — `retrieved_at_utc`, when the source object was obtained for
+  project provenance; and
+- decision/formation cutoff time — the governed instant at which historical
+  usability is evaluated.
+
+```text
+RETRIEVED_AT_UTC =
+PROVENANCE_ONLY__NOT_PROOF_OF_HISTORICAL_AVAILABILITY
+
+SOURCE_ASOF_UTC =
+SOURCE_SNAPSHOT_OR_AS_OF_SEMANTIC_WHEN_APPLICABLE
+
+EFFECTIVE_TIME_UTC =
+WHEN_THE_REPRESENTED_STATE_OR_EVENT_TAKES_EFFECT
+```
+
+Historical use requires sufficient governed dated evidence and lineage
+showing that the information was available no later than the applicable
+decision cutoff. A later retrieval does not by itself prove or disprove
+historical availability; the historical source/as-of/event evidence must
+establish it.
+
+For a state or event change, knowledge and effectiveness are separate
+conditions. Information becoming known does not make a future effective state
+apply before `effective_time_utc`. Conversely, an event whose effective time
+has arrived cannot be used in historical reconstruction before its historical
+availability is established. Applicable historical state therefore requires
+both the availability condition and the effective-time condition to be
+satisfied.
+
+For completed market bars, `bar_start_utc` remains the canonical interval-start
+identity. OHLC, volume, VWAP, trade count, and other completed-bar contents are
+not available at that interval start. Such contents become eligible for
+downstream feature use only after `bar_end_utc` and after any stricter governed
+source-availability condition has been satisfied. A decision at a bar open
+cannot use that bar's eventual close, high, low, volume, VWAP, or trade count.
+
+Although feature-generation execution remains unauthorized, any later feature
+or transformation governed by this contract must satisfy all of the following:
+
+- every value depends only on inputs available by its decision cutoff;
+- rolling windows are trailing-only;
+- centered rolling windows are prohibited;
+- negative shifts or future leads are prohibited;
+- future-normalized statistics are prohibited;
+- full-sample fitted transformations are prohibited;
+- future-informed imputation is prohibited;
+- fitted preprocessing uses training information only;
+- transformation availability cannot precede the latest required input
+  availability; and
+- cross-sectional calculations at a decision time use only securities and
+  values valid under that same cutoff.
+
+Formation chronology remains:
+
+```text
+FIRST_FORMATION =
+2024-09-03_REGULAR_SESSION_OPEN
+
+FIRST_FORMATION_INFORMATION_CUTOFF =
+THROUGH_THE_COMPLETED_2024-08-30_REGULAR_SESSION
+
+MONTHLY_REFORMATION =
+FIRST_REGULAR_SESSION_OPEN_OF_EACH_CALENDAR_MONTH
+
+REFORMATION_INFORMATION_CUTOFF =
+THROUGH_THE_IMMEDIATELY_PRECEDING_COMPLETED_REGULAR_SESSION
+```
+
+Formation-morning information arising after the immediately preceding
+completed regular session is not usable for the formation decision.
+
+C6-C also establishes a no-overlap invariant for forward targets and labels. A
+training example whose target/label depends on future information extending
+into a later validation, qualification, or other governed decision region
+cannot remain in the earlier training information set. Such observations must
+be excluded from the earlier information set under the later partition
+implementation.
+
+Embargo applicability is required whenever forward target/label information
+would otherwise cross a governed partition boundary. C6-C establishes that
+invariant but does not choose partition dates or fold geometry.
+
+```text
+HORIZON_OVERLAP_ACROSS_GOVERNED_PARTITION_BOUNDARY =
+PROHIBITED
+
+EMBARGO_APPLICABILITY =
+REQUIRED_WHEN_FORWARD_TARGET_OR_LABEL_INFORMATION_WOULD_CROSS_A_GOVERNED_PARTITION_BOUNDARY
+
+EXACT_FOLD_GEOMETRY =
+DEFERRED_TO_C6_E
+
+EXACT_PARTITION_BOUNDARIES =
+DEFERRED_TO_C6_E
+```
+
+C6-E later instantiates the exact chronological partition geometry and embargo
+implementation.
 
 ## 9. Missingness and reconstruction representation
 
@@ -726,12 +958,100 @@ which an embargo is required.
 - `ACCEPTED_REQUIREMENT` [S11, S12]: reconstruction/missingness handling must
   be explicit and silent imputation is prohibited.
 
-### Deferred detail
+### C6-C technical definition — expected-slot missingness and reconstruction
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-C must define field-level and row-level
-missingness codes, expected-slot classifications, reconstruction states,
-permitted versus prohibited reconstruction operations, unresolved-gap
-representation, and exact fail-closed handling.
+`C6_C_DETAIL_DEFINED` — absence is interpreted only after the applicable
+calendar/session expected-slot validation has been established. The minimum
+row/slot chronology classification is:
+
+```text
+OBSERVED_UNIQUE
+EXPECTED_SLOT_MISSING
+NOT_EXPECTED_CLOSED_SESSION
+DUPLICATE_SLOT_CONFLICT
+UNRESOLVED_CALENDAR
+```
+
+`OBSERVED_UNIQUE` requires exactly one valid governed observation for the
+expected security × slot. `EXPECTED_SLOT_MISSING` means the official calendar
+requires a slot but no valid unique governed observation resolves it.
+`NOT_EXPECTED_CLOSED_SESSION` means the applicable official calendar defines
+no regular-session slot. `DUPLICATE_SLOT_CONFLICT` preserves the section-6
+duplicate conflict. `UNRESOLVED_CALENDAR` means expected-slot status itself
+cannot be established fail-closed.
+
+Field-level validation must distinguish at least:
+
+```text
+VALUE_PRESENT
+SOURCE_NULL_OR_MISSING
+OPTIONAL_SOURCE_FIELD_NOT_SUPPLIED
+INVALID_OR_UNUSABLE_VALUE
+STRUCTURALLY_NOT_APPLICABLE
+```
+
+None of those non-present states may be silently converted into a valid
+numerical observation.
+
+For market bars:
+
+```text
+MISSING_EXPECTED_BAR =
+EXPLICIT_UNRESOLVED_MISSINGNESS
+```
+
+A missing expected bar is not zero volume, unchanged price, delisting,
+ineligibility, market closure, or a valid flat bar.
+
+The following reconstruction operations are prohibited:
+
+```text
+FORWARD_FILL =
+PROHIBITED_FOR_MISSING_MARKET_BAR_OHLCV
+
+BACKWARD_FILL_FROM_FUTURE =
+PROHIBITED
+
+LINEAR_OR_OTHER_PRICE_INTERPOLATION =
+PROHIBITED
+
+SYNTHETIC_OHLC_TO_HIDE_GAP =
+PROHIBITED
+
+SYNTHETIC_ZERO_VOLUME_BAR =
+PROHIBITED
+
+CROSS_SESSION_CARRY =
+PROHIBITED
+
+PADDING_A_TRUNCATED_FINAL_BAR =
+PROHIBITED
+
+CREATING_A_BAR_FOR_A_CLOSED_SESSION =
+PROHIBITED
+```
+
+Automatic alternate-provider substitution is not authorized. A gap may be
+resolved only through separately governed source evidence that preserves
+source/provenance identity and satisfies the applicable semantic and PIT
+requirements. Until then, the gap remains explicit.
+
+The minimum reconstruction-state representation is:
+
+```text
+ORIGINAL_OBSERVATION
+GOVERNED_SOURCE_RESOLUTION
+UNRESOLVED_MISSINGNESS
+```
+
+No reconstruction state may conceal synthetic financial values. C6-C defines
+representation and fail-closed chronology validation only; it does not execute
+reconstruction or dataset acceptance.
+
+```text
+MISSINGNESS_ACCEPTANCE_THRESHOLD =
+DEFERRED_TO_C6_F
+```
 
 C6-A does not choose an imputation or reconstruction algorithm.
 
@@ -831,8 +1151,50 @@ deterministic transformation specification. `primary_listing_exchange` and
 `median_60_session_dollar_volume` are stored when established by the governed
 source material; absence is never silently converted into a failing value.
 
-`C6_DETAIL_TO_BE_DEFINED` — C6-C must define the exact formation-cutoff and
-PIT evidence-availability encoding.
+### C6-C technical definition — formation cutoff and PIT evidence availability
+
+`C6_C_DETAIL_DEFINED` — formation chronology validation is derived from the
+existing `formation_time_utc`, the applicable official exchange calendar, the
+immediately preceding completed official regular session, governed PIT
+evidence, and the existing source/effective/as-of fields and lineage.
+
+C6-C defines the validation-level value:
+
+```text
+FORMATION_INFORMATION_CUTOFF_UTC =
+OFFICIAL_CLOSE_INSTANT_OF_THE_IMMEDIATELY_PRECEDING_COMPLETED_REGULAR_SESSION
+```
+
+`FORMATION_INFORMATION_CUTOFF_UTC` is a derived chronology-validation value
+and is not a new C6-B persisted schema field.
+
+For the first formation at the 2024-09-03 regular-session open, this cutoff is
+the official close instant of the completed 2024-08-30 regular session. For
+each scheduled monthly reformation, it is derived from the immediately
+preceding completed official regular session.
+
+Eligibility and ranking evidence is usable only when governed historical
+availability is established no later than the applicable
+`FORMATION_INFORMATION_CUTOFF_UTC`. Lookback calculations use only completed
+regular sessions permitted by that cutoff. Formation-morning information after
+the preceding completed session is excluded.
+
+Future corporate actions must not alter earlier eligibility. For a hard
+terminal event, a security is not removed before the event becomes effective,
+and the event is not used before its historical availability is established.
+Historical-universe state therefore respects both effective-time and
+availability conditions.
+
+The accepted membership mechanics remain unchanged:
+
+```text
+MID_CYCLE_BACKFILL =
+NONE
+```
+
+Nothing in this C6-C definition changes the accepted ranking rule, 60-security
+selection rule, 50-to-59 underfill handling, below-50 review state, tie-break
+rule, or the separate 75-security source-reconciliation note.
 
 ## 11. Common PPO/SAC/RecurrentPPO observation/state contract
 
@@ -1304,7 +1666,10 @@ C6-A does not freeze this document.
 
 ## 21. Explicit exclusions / non-authorization boundary
 
-C6 remains specification/freeze work only; C6-B is schema, identity, lineage, and provenance specification only.
+C6 remains specification/freeze work only. C6-B is complete and published
+for schema, identity, lineage, and provenance. C6-C is chronology, leakage,
+calendar/session, PIT-availability, and missingness/reconstruction
+specification only.
 
 The following remain prohibited:
 
@@ -1317,7 +1682,7 @@ data_download = NOT_AUTHORIZED
 
 dataset_generation = NOT_AUTHORIZED
 dataset_acceptance_execution = NOT_AUTHORIZED
-feature_generation = NOT_AUTHORIZED_BY_C6_B
+feature_generation = NOT_AUTHORIZED_BY_C6_C
 
 RL_model_implementation = NOT_AUTHORIZED
 
@@ -1339,6 +1704,7 @@ deployment = NOT_AUTHORIZED
 
 candidate_set_expansion = NOT_AUTHORIZED
 host_or_compute_authorization = NOT_AUTHORIZED
+C6_D_OR_LATER_EXECUTION = NOT_AUTHORIZED
 C7_or_later_execution = NOT_AUTHORIZED
 
 C5_REOPEN = NO
@@ -1346,8 +1712,10 @@ CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
 The explicit C6 exclusions are controlled by S1/S2. The additional
-`feature_generation = NOT_AUTHORIZED_BY_C6_B` line records the narrower C6-B
-schema/identity/provenance task boundary and creates no broader C6 rule.
+`feature_generation = NOT_AUTHORIZED_BY_C6_C` line records that C6-C may define
+feature-availability and lagging chronology without authorizing feature
+computation or feature-generation execution. It creates no broader C6
+authorization.
 
 ## 22. Open C6 specification items by later work package
 
@@ -1377,19 +1745,30 @@ data has been generated or accepted.
 
 ### C6-C — Chronology, leakage, calendar, and missingness
 
-`C6_DETAIL_TO_BE_DEFINED`:
+`C6_C_DETAIL_DEFINED` — the bounded C6-C specification items are defined and
+routed as follows:
 
-- exact PIT/as-of availability representation;
-- event-effective-time representation;
-- chronology and no-lookahead checks;
-- horizon-overlap and embargo applicability;
-- calendar-version and expected-slot identity;
-- UTC/local-session field contract;
-- DST and early-close validation;
-- cross-exchange calendar divergence handling;
-- missingness codes and expected-slot classifications;
-- reconstruction-state representation; and
-- permitted/prohibited reconstruction rules.
+- PIT/as-of availability representation — sections 8 and 10;
+- event-effective-time representation — section 8;
+- chronology/no-lookahead checks — sections 6 and 8;
+- horizon-overlap/embargo applicability — section 8;
+- calendar-version/expected-slot identity — section 7;
+- UTC/local-session representation — section 7;
+- DST/early-close validation — section 7;
+- cross-exchange calendar divergence — section 7;
+- missingness/expected-slot classifications — section 9;
+- reconstruction-state representation — section 9;
+- permitted/prohibited reconstruction — section 9;
+- duplicate security × timestamp handling — sections 6 and 9; and
+- formation-cutoff/PIT enforcement — sections 8 and 10.
+
+`C6_C_OPEN_ITEMS = NONE_AT_THIS_DRAFT_SPECIFICATION_LEVEL`.
+
+This means only the bounded C6-C chronology, leakage, calendar/session,
+PIT-availability, and missingness/reconstruction specification surface is
+defined for Managing review. It does not mean the full C6 dataset contract is
+frozen, C6-D has begun, a dataset exists, dataset acceptance has occurred, or
+any model work is authorized.
 
 ### C6-D — RL state, recurrent, action, and economic representation
 
@@ -1459,12 +1838,14 @@ must identify or establish a canonical source before freeze if a separate
   execution, model implementation/training, and final-holdout access remain
   unauthorized during this specification/freeze scope.
 
-C6-A is complete, published, and effective. C6-B adds bounded technical
-definitions for Managing review. Neither C6-A completion nor this C6-B draft
-equals C6 completion.
+C6-A and C6-B are complete, published, and effective. C6-B is not
+reopened. C6-C is the authorized active bounded draft specification for
+chronology, leakage, calendar/session, PIT availability, and
+missingness/reconstruction. Neither the completed earlier work packages nor
+this active C6-C draft equals C6 completion.
 
-C6 cannot be represented as complete or frozen merely because the skeleton and
-C6-B definitions exist.
+C6 cannot be represented as complete or frozen merely because C6-A and C6-B
+are published/effective and the bounded C6-C draft definitions exist.
 
 `C6_DETAIL_TO_BE_DEFINED` — the exact acceptance/review/freeze evidence package
 must be resolved in the later authorized C6 work before C6 completion can be
@@ -1472,8 +1853,10 @@ considered.
 
 ```text
 C6_A_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
-C6_B_DOCUMENT_STATUS = DRAFT_FOR_MANAGING_REVIEW
+C6_B_STATUS = COMPLETE__PUBLISHED__EFFECTIVE
+C6_B_REOPEN = NO
 C6_B_DETAILS_ADDED = YES
+C6_C_STATUS = AUTHORIZED__ACTIVE_BOUNDED_DRAFT_SPECIFICATION
 C6_DATASET_CONTRACT = NOT_FROZEN
 DATASET_GENERATION = NOT_AUTHORIZED
 FINAL_HOLDOUT_ACCESS = NOT_AUTHORIZED
