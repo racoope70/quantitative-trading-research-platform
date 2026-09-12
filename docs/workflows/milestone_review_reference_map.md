@@ -44,7 +44,7 @@ Git history and the working tree verify implementation and completion evidence. 
 | C4 — Selected Code Migration, Adaptation, and Verification | Migrate approved technical assets into the canonical environment using offline verification and the provider boundary below | C3 environment accepted and C4 scope authorized | Selected migration, adaptation, offline tests, provenance, and audit accepted |
 | C5 — Data Source, Calendar, and Initial Universe Decision | Evaluate and accept provider strategy, licensing, permitted use, calendars, and universe criteria | C4 technical foundation accepted and C5 authorized | Data-source, calendar, and universe decision accepted and audited |
 | C6 — Dataset Contract Freeze | Define raw and processed dataset requirements before generation | C5 completed; post-C5/pre-C6 RL research-design alignment accepted; C6 separately authorized | Dataset contracts frozen and independently audited |
-| C7 — Dataset Generation and Acceptance | Generate and validate the governed dataset | GOV-DEC-0017 revised universe contract effective; actual primary universe frozen and hashed; identical primary-universe requirement verified; C7 separately authorized | Dataset passes contract, provenance, and acceptance audit |
+| C7 — Dataset Generation and Acceptance | Generate and validate the governed dataset | C6 contracts accepted; data access authorized; GOV-DEC-0017 revised universe contract effective; actual primary universe frozen and hashed; identical primary-universe requirement verified; C7 separately authorized | Dataset passes contract, provenance, and acceptance audit |
 | C8 — Bounded RL Candidate Implementation Readiness | Assess implementation readiness and compatibility for the predeclared PPO, SAC, and RecurrentPPO set under the common continuous target-position/exposure formulation without forcing an unready candidate forward | C7 dataset accepted and C8 separately authorized | Candidate-specific readiness dispositions accepted; incompatible or unready candidates may stop under predeclared conditions; no training or final-holdout access is implied |
 | C9 — Bounded RL Training, Validation, Comparison, Qualification, and Freeze | Train and validate only applicable ready members of the predeclared PPO, SAC, and RecurrentPPO set using common non-final evaluation controls | C8 readiness dispositions accepted and C9 training separately authorized | Each applicable candidate reaches `QUALIFIED_AND_FROZEN`, `REJECTED`, `NO_CANDIDATE`, `INCONCLUSIVE`, or `NOT_APPLICABLE_WHERE_PREDECLARED_CONDITIONS_FAIL`; shared final holdout untouched |
 | C10 — RF Participation-Gate Ablation | Test Random Forest participation gating as an incremental-value architectural hypothesis against paired ungated control(s) using Option B+ foundation routing | C9 has accepted candidate dispositions; at least one qualified/frozen RL foundation is eligible under the fixed PPO→SAC→RecurrentPPO priority; focused RF readiness passes; C10 separately authorized | Accepted RF-gating terminal disposition recorded without post-hoc foundation selection; shared final holdout untouched |
@@ -58,6 +58,10 @@ The revised C7 entry prerequisites are:
 
 ```text
 C7_PRECONDITIONS =
+C6_CONTRACTS_ACCEPTED
++
+DATA_ACCESS_AUTHORIZED
++
 REVISED_UNIVERSE_CONTRACT_EFFECTIVE
 +
 ACTUAL_PRIMARY_UNIVERSE_FROZEN_AND_HASHED
