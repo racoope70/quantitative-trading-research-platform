@@ -150,7 +150,7 @@ information available through the completed 2024-08-30 regular session. There
 is no forced N, top-N membership truncation, or minimum-security-count gate.
 
 The independently accepted certified distinct count is now 30, with its certified-set
-SHA-256 recorded in `CURRENT_CERTIFIED_DISTINCT_SET_SHA256` above. This later
+SHA-256 recorded in `CURRENT_CERTIFIED_SET_SHA256` above. This later
 certification result does not rewrite GOV-DEC-0017's historical decision-time
 count. The actual primary universe has not yet been frozen. Massive remains
 deferred.
