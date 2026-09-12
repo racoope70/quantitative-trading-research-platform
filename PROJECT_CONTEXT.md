@@ -74,7 +74,7 @@ CURRENT_CERTIFIED_DISTINCT_COUNT = 30
 CURRENT_CERTIFIED_SET_SHA256 =
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
 CURRENT_CERTIFIED_SET_STATUS =
-INDEPENDENTLY_ACCEPTED__PRIMARY_UNIVERSE_NOT_YET_FROZEN
+ACCEPTED__PRIMARY_UNIVERSE_NOT_YET_FROZEN
 ACTUAL_PRIMARY_UNIVERSE_FROZEN = NO
 MASSIVE_PURCHASE = DEFERRED
 
@@ -149,11 +149,11 @@ formation under the pre-specified frozen eligibility rules, using only
 information available through the completed 2024-08-30 regular session. There
 is no forced N, top-N membership truncation, or minimum-security-count gate.
 
-The independently accepted certified distinct count is now 30, with its certified-set
-SHA-256 recorded in `CURRENT_CERTIFIED_SET_SHA256` above. This later
-certification result does not rewrite GOV-DEC-0017's historical decision-time
-count. The actual primary universe has not yet been frozen. Massive remains
-deferred.
+GOV-DEC-0017 itself did not change the certified count. A subsequent accepted
+certification review established the current certified distinct count as 30.
+The accepted certified-set SHA-256 is
+78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7.
+The actual primary universe has not yet been frozen. Massive remains deferred.
 
 Dataset generation, dataset acceptance execution, model implementation or
 training, final-holdout access, paper trading, live trading, and deployment
