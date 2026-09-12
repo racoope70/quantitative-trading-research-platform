@@ -1,0 +1,231 @@
+# Post-C6 Universe Design Supersession Decision
+
+## Decision record
+
+```text
+document_status = OWNER_AUTHORIZED_MATERIAL_DECISION
+document_role = MATERIAL_OWNER_UNIVERSE_DESIGN_DECISION
+intended_repository_path = docs/decisions/post_C6_universe_design_supersession_decision.md
+
+decision_id = GOV-DEC-0017
+title = POST-C6 UNIVERSE DESIGN SUPERSESSION
+decision_status = AUTHORIZED
+
+owner_decision =
+AUTHORIZE_LOCALIZED_SUPERSESSION_OF_TOP_120_UNIVERSE_REQUIREMENT
+
+managing_disposition =
+PASS__LOCALIZED_UNIVERSE_SUPERSESSION_ALIGNMENT_READY
+
+decision =
+SUPERSEDE_EXACT_120_SECURITY_REQUIREMENT
+
+effect =
+LOCALIZED_SEMANTIC_SUPERSESSION_ONLY
+
+C6_MATERIAL_REOPEN = NO
+C6_FROZEN_ARTIFACT_REWRITE = NO
+current_state_control = NO
+```
+
+## Revised primary-universe contract
+
+```text
+FINAL_PRIMARY_UNIVERSE =
+ALL_DISTINCT_SECURITIES_POSITIVELY_CERTIFIED_AS_ELIGIBLE
+AT_THE_FROZEN_2024_09_03_FORMATION
+UNDER_THE_PRE_SPECIFIED_FROZEN_ELIGIBILITY_RULES
+USING_ONLY_INFORMATION_AVAILABLE_THROUGH
+THE_2024_08_30_COMPLETED_REGULAR_SESSION
+
+FORMATION =
+2024-09-03_REGULAR_SESSION_OPEN
+
+INFORMATION_CUTOFF =
+COMPLETED_2024-08-30_REGULAR_SESSION
+
+NO_FORCED_N =
+YES
+
+NO_TOP_N_TRUNCATION =
+YES
+
+NO_MINIMUM_SECURITY_COUNT_GATE =
+YES
+
+LIQUIDITY_ELIGIBILITY_THRESHOLD =
+RETAINED_UNCHANGED
+
+LIQUIDITY_RANKING_ROLE =
+OPTIONAL_DIAGNOSTIC_OR_DETERMINISTIC_ORDERING_ONLY
+__NOT_MEMBERSHIP_TRUNCATION
+
+PRIMARY_UNIVERSE_FREEZE =
+REQUIRED_BEFORE_MODEL_COMPARISON
+
+POST_FREEZE_SECURITY_ADDITION =
+PROHIBITED
+
+POST_FREEZE_SECURITY_REMOVAL =
+ONLY_PRE_SPECIFIED_TERMINAL_EVENT_HANDLING
+
+TERMINAL_EVENT_REPLACEMENT_OR_BACKFILL =
+NO
+
+PRIMARY_UNIVERSE_SHARED_BY =
+PPO
+SAC
+RECURRENTPPO
+RF_GATED_VARIANTS
+XGB_GATED_VARIANTS
+```
+
+The same frozen primary universe must be used across all model families and
+gated variants. This decision does not itself perform the primary-universe
+freeze.
+
+## Breadth and current certified state
+
+```text
+BREADTH_OBJECTIVE =
+APPROXIMATELY_30_TO_80_IF_FEASIBLE
+__NOT_A_MINIMUM
+__NOT_A_STOPPING_TARGET
+__NOT_AN_EXECUTION_AUTHORIZATION
+
+CURRENT_CERTIFIED_DISTINCT_COUNT =
+20
+
+CERTIFIED_COUNT_CHANGED_BY_THIS_DECISION =
+NO
+
+ACTUAL_PRIMARY_UNIVERSE_FROZEN =
+NO
+
+MASSIVE_PURCHASE =
+DEFERRED
+
+C7 =
+NOT_AUTHORIZED
+```
+
+The current certified count remains scientifically usable for narrow,
+sample-specific model-comparison claims. This decision does not convert the
+breadth objective into a required sample size.
+
+## Explicit localized supersession
+
+```text
+SUPERSEDED =
+EXACT_120_SECURITY_REQUIREMENT
+CERTIFIED_RANK_120_FLOOR_AS_A_PREREQUISITE
+FINAL_RANK_120_CHAIN_AS_REQUIRED_UNIVERSE_OBJECT
+FIXED_60_RULE_IF_PRESENT
+BELOW_50_UNDERFILL_GATE_IF_PRESENT
+MONTHLY_PRIMARY_UNIVERSE_REFORMATION_FOR_FINAL_PRIMARY_COMPARISON_UNIVERSE
+EXHAUSTIVE_IDENTITY_WORK_SOLELY_REQUIRED_TO_PROVE_TOP_120_MEMBERSHIP
+```
+
+Historical references to those rules remain valid as historical evidence when
+clearly non-controlling or explicitly superseded.
+
+## Retained scientific controls
+
+```text
+NOT_SUPERSEDED =
+FORMATION_DATE
+INFORMATION_CUTOFF
+UNDERLYING_ELIGIBILITY_RULES
+LIQUIDITY_ELIGIBILITY_THRESHOLD
+POINT_IN_TIME_EXISTENCE
+FORMATION_PERIOD_LISTING_ELIGIBILITY
+DISTINCT_SHARE_CLASS_HANDLING
+NO_FUTURE_INFORMATION_BACKCASTING
+NO_AUTOMATIC_SUCCESSOR_PREDECESSOR_STITCHING
+TERMINAL_EVENT_CONTROLS
+COMMON_FINAL_UNTOUCHED_TEST
+
+FAIL_CLOSED_IF_UNRESOLVED_FACT_CAN_CHANGE =
+SECURITY_IDENTITY
+ELIGIBILITY
+RETURN_HISTORY
+SHARE_CLASS
+LISTING_STATUS_DURING_STUDY
+TERMINAL_EVENT_TREATMENT
+```
+
+No security may be added after the primary-universe freeze. A post-freeze
+removal is permitted only under pre-specified terminal-event handling, with no
+replacement or backfill.
+
+## C6 and C7 boundary
+
+```text
+C6_MATERIAL_REOPEN =
+NO
+
+C6_FROZEN_ARTIFACT_REWRITE =
+NO
+
+C6_DATASET_CONTRACT_BYTES =
+PRESERVE_UNCHANGED
+
+C7_AUTHORIZATION =
+NONE
+
+DATASET_GENERATION =
+NOT_AUTHORIZED
+
+FEATURE_GENERATION =
+NOT_AUTHORIZED
+
+MODEL_IMPLEMENTATION =
+NOT_AUTHORIZED
+
+MODEL_TRAINING =
+NOT_AUTHORIZED
+
+MODEL_QUALIFICATION =
+NOT_AUTHORIZED
+
+FINAL_HOLDOUT_ACCESS =
+NOT_AUTHORIZED
+
+PAPER_TRADING =
+NOT_AUTHORIZED
+
+LIVE_TRADING =
+NOT_AUTHORIZED
+
+DEPLOYMENT =
+NOT_AUTHORIZED
+```
+
+Before C7 may begin, all of the following must hold:
+
+```text
+C7_PRECONDITIONS =
+REVISED_UNIVERSE_CONTRACT_EFFECTIVE
++
+ACTUAL_PRIMARY_UNIVERSE_FROZEN_AND_HASHED
++
+IDENTICAL_PRIMARY_UNIVERSE_REQUIREMENT_VERIFIED
+```
+
+Those prerequisites do not themselves authorize C7.
+
+## Permanent document-role boundary
+
+`PROJECT_CONTEXT.md` remains the controlling source of truth for broad current
+lifecycle state, authorization boundaries, current non-authorization state,
+and authoritative pointers to material decisions.
+
+`docs/workflows/milestone_review_reference_map.md` remains a non-authorizing
+rich roadmap, governance, evidence, and navigation reference.
+
+`docs/workflows/future_validation_training_reference_map.md` remains a
+non-authorizing future guidance and sequencing reference and is not modified by
+this decision.
+
+No fourth governance controller or checkpoint tracker is created by
+GOV-DEC-0017.
