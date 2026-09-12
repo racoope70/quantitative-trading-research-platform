@@ -70,7 +70,11 @@ CURRENT_UNIVERSE_CONTRACT_RECORD =
 docs/decisions/post_C6_universe_design_supersession_decision.md
 EXACT_120_REQUIREMENT = SUPERSEDED
 NO_FORCED_N = YES
-CURRENT_CERTIFIED_DISTINCT_COUNT = 20
+CURRENT_CERTIFIED_DISTINCT_COUNT = 30
+CURRENT_CERTIFIED_SET_SHA256 =
+78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
+CURRENT_CERTIFIED_SET_STATUS =
+ACCEPTED__PRIMARY_UNIVERSE_NOT_YET_FROZEN
 ACTUAL_PRIMARY_UNIVERSE_FROZEN = NO
 MASSIVE_PURCHASE = DEFERRED
 
@@ -145,7 +149,10 @@ formation under the pre-specified frozen eligibility rules, using only
 information available through the completed 2024-08-30 regular session. There
 is no forced N, top-N membership truncation, or minimum-security-count gate.
 
-The certified distinct count remains 20 and was not changed by GOV-DEC-0017.
+GOV-DEC-0017 itself did not change the certified count. A subsequent accepted
+certification review established the current certified distinct count as 30.
+The accepted certified-set SHA-256 is
+78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7.
 The actual primary universe has not yet been frozen. Massive remains deferred.
 
 Dataset generation, dataset acceptance execution, model implementation or
