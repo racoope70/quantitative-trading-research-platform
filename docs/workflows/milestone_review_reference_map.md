@@ -2,8 +2,9 @@
 
 ```text
 document_status = ACTIVE_NON_AUTHORIZING_REFERENCE
-document_role = NON_AUTHORIZING_ROADMAP_AND_EVIDENCE_NAVIGATION
-authorization_effect = NONE
+document_role = NON_AUTHORIZING_RICH_ROADMAP_AND_EVIDENCE_REFERENCE
+NON_AUTHORIZING = YES
+authorization_effect = NONE_BY_ITSELF
 controlling_current_state_document = PROJECT_CONTEXT.md
 current_phase_status_source = PROJECT_CONTEXT.md
 ```
@@ -43,7 +44,7 @@ Git history and the working tree verify implementation and completion evidence. 
 | C4 — Selected Code Migration, Adaptation, and Verification | Migrate approved technical assets into the canonical environment using offline verification and the provider boundary below | C3 environment accepted and C4 scope authorized | Selected migration, adaptation, offline tests, provenance, and audit accepted |
 | C5 — Data Source, Calendar, and Initial Universe Decision | Evaluate and accept provider strategy, licensing, permitted use, calendars, and universe criteria | C4 technical foundation accepted and C5 authorized | Data-source, calendar, and universe decision accepted and audited |
 | C6 — Dataset Contract Freeze | Define raw and processed dataset requirements before generation | C5 completed; post-C5/pre-C6 RL research-design alignment accepted; C6 separately authorized | Dataset contracts frozen and independently audited |
-| C7 — Dataset Generation and Acceptance | Generate and validate the governed dataset | C6 contracts accepted and data access authorized | Dataset passes contract, provenance, and acceptance audit |
+| C7 — Dataset Generation and Acceptance | Generate and validate the governed dataset | C6 contracts accepted; data access authorized; GOV-DEC-0017 revised universe contract effective; actual primary universe frozen and hashed; identical primary-universe requirement verified; C7 separately authorized | Dataset passes contract, provenance, and acceptance audit |
 | C8 — Bounded RL Candidate Implementation Readiness | Assess implementation readiness and compatibility for the predeclared PPO, SAC, and RecurrentPPO set under the common continuous target-position/exposure formulation without forcing an unready candidate forward | C7 dataset accepted and C8 separately authorized | Candidate-specific readiness dispositions accepted; incompatible or unready candidates may stop under predeclared conditions; no training or final-holdout access is implied |
 | C9 — Bounded RL Training, Validation, Comparison, Qualification, and Freeze | Train and validate only applicable ready members of the predeclared PPO, SAC, and RecurrentPPO set using common non-final evaluation controls | C8 readiness dispositions accepted and C9 training separately authorized | Each applicable candidate reaches `QUALIFIED_AND_FROZEN`, `REJECTED`, `NO_CANDIDATE`, `INCONCLUSIVE`, or `NOT_APPLICABLE_WHERE_PREDECLARED_CONDITIONS_FAIL`; shared final holdout untouched |
 | C10 — RF Participation-Gate Ablation | Test Random Forest participation gating as an incremental-value architectural hypothesis against paired ungated control(s) using Option B+ foundation routing | C9 has accepted candidate dispositions; at least one qualified/frozen RL foundation is eligible under the fixed PPO→SAC→RecurrentPPO priority; focused RF readiness passes; C10 separately authorized | Accepted RF-gating terminal disposition recorded without post-hoc foundation selection; shared final holdout untouched |
@@ -52,6 +53,27 @@ Git history and the working tree verify implementation and completion evidence. 
 | C13 — Publication Release | Produce a publication- or portfolio-ready research package, including negative or inconclusive findings where applicable | C12 disposition accepted and publication scope authorized | Claims, reproducibility, and publication audit pass |
 | C14 — Controlled Paper Trading | Evaluate a promoted candidate in controlled paper operation | Candidate promoted and broker-readiness audit accepted | Operational and economic evidence independently reviewed |
 | C15 — Possible Live-Capital Consideration | Decide whether limited live-capital consideration is justified | Sustained paper evidence and separate risk-review authorization | Explicit live-capital disposition; no automatic deployment |
+
+The revised C7 entry prerequisites are:
+
+```text
+C7_PRECONDITIONS =
+C6_CONTRACTS_ACCEPTED
++
+DATA_ACCESS_AUTHORIZED
++
+REVISED_UNIVERSE_CONTRACT_EFFECTIVE
++
+ACTUAL_PRIMARY_UNIVERSE_FROZEN_AND_HASHED
++
+IDENTICAL_PRIMARY_UNIVERSE_REQUIREMENT_VERIFIED
+
+C7_AUTHORIZATION_EFFECT_BY_THIS_MAP =
+NONE
+```
+
+These prerequisites are roadmap conditions only. They neither establish that
+the actual primary universe is already frozen nor independently authorize C7.
 
 C1 through C5 phase-exit and authorization chain summary:
 
@@ -673,6 +695,24 @@ navigates to the Owner-accepted C5 completion evidence.
 The post-C5/pre-C6 RL-design alignment requirement is a boundary/navigation
 note only. It does not reopen C5, authorize that alignment work, authorize
 model development, or authorize C6.
+
+### GOV-DEC-0017 — Post-C6 universe design supersession navigation
+
+```text
+record_type = POST_C6_UNIVERSE_DESIGN_SUPERSESSION_DECISION
+record_path = docs/decisions/post_C6_universe_design_supersession_decision.md
+decision_id = GOV-DEC-0017
+owner_decision = AUTHORIZE_LOCALIZED_SUPERSESSION_OF_TOP_120_UNIVERSE_REQUIREMENT
+decision_effect = LOCALIZED_SEMANTIC_SUPERSESSION_ONLY
+authorization_effect = NONE_BY_THIS_MAP
+C6_material_reopen = NO
+C7_authorization_effect = NONE
+```
+
+This reference navigates to the Owner-authorized material decision. This map
+does not control its current lifecycle effect, freeze the actual primary
+universe, authorize data generation, or authorize C7. Broad current lifecycle
+and authorization state remain controlled by `PROJECT_CONTEXT.md`.
 
 ### 2v.DATA.01 — C5 provider strategy decision
 

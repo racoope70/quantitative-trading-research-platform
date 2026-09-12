@@ -65,6 +65,15 @@ CURRENT_C6_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 C6_REOPEN = NO
 C6_CURRENT_WORK = NONE
 
+CURRENT_UNIVERSE_CONTRACT = GOV-DEC-0017
+CURRENT_UNIVERSE_CONTRACT_RECORD =
+docs/decisions/post_C6_universe_design_supersession_decision.md
+EXACT_120_REQUIREMENT = SUPERSEDED
+NO_FORCED_N = YES
+CURRENT_CERTIFIED_DISTINCT_COUNT = 20
+ACTUAL_PRIMARY_UNIVERSE_FROZEN = NO
+MASSIVE_PURCHASE = DEFERRED
+
 dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
 
@@ -128,6 +137,16 @@ C5 remains completed and effective and is not reopened.
 C6 is completed and effective and is not reopened. The dataset contract is
 frozen and effective. There is no active major phase or current C6 execution
 authorization. C7 is not authorized.
+
+GOV-DEC-0017 is the effective localized semantic supersession of the prior
+exact-120 universe requirement. The current primary-universe contract uses all
+distinct securities positively certified as eligible at the frozen 2024-09-03
+formation under the pre-specified frozen eligibility rules, using only
+information available through the completed 2024-08-30 regular session. There
+is no forced N, top-N membership truncation, or minimum-security-count gate.
+
+The certified distinct count remains 20 and was not changed by GOV-DEC-0017.
+The actual primary universe has not yet been frozen. Massive remains deferred.
 
 Dataset generation, dataset acceptance execution, model implementation or
 training, final-holdout access, paper trading, live trading, and deployment
@@ -234,6 +253,20 @@ GOV-DEC-0016
 The frozen contract and freeze manifest remain immutable technical evidence.
 The completion decision does not authorize C7; GOV-DEC-0014 is no longer
 current execution authorization.
+
+The current post-C6 universe-design supersession is recorded in:
+
+```text
+CURRENT_UNIVERSE_CONTRACT =
+GOV-DEC-0017
+
+CURRENT_UNIVERSE_CONTRACT_RECORD =
+docs/decisions/post_C6_universe_design_supersession_decision.md
+```
+
+GOV-DEC-0017 supersedes the fixed exact-120 membership requirement without
+reopening C6 or rewriting the frozen C6 dataset contract. It does not freeze
+the actual primary universe and does not authorize C7.
 
 ## 5. High-level prospective research direction
 
