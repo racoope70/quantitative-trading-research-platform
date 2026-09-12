@@ -74,8 +74,9 @@ CURRENT_CERTIFIED_DISTINCT_COUNT = 30
 CURRENT_CERTIFIED_SET_SHA256 =
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
 CURRENT_CERTIFIED_SET_STATUS =
-ACCEPTED__PRIMARY_UNIVERSE_NOT_YET_FROZEN
-ACTUAL_PRIMARY_UNIVERSE_FROZEN = NO
+ACCEPTED__PRIMARY_UNIVERSE_FROZEN
+ACTUAL_PRIMARY_UNIVERSE_FROZEN = YES
+IDENTICAL_PRIMARY_UNIVERSE_REQUIREMENT_VERIFIED = YES
 MASSIVE_PURCHASE = DEFERRED
 
 dataset_contract_status = FROZEN__EFFECTIVE
@@ -153,7 +154,11 @@ GOV-DEC-0017 itself did not change the certified count. A subsequent accepted
 certification review established the current certified distinct count as 30.
 The accepted certified-set SHA-256 is
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7.
-The actual primary universe has not yet been frozen. Massive remains deferred.
+The actual primary universe is frozen at the accepted 30-security certified
+set. Its SHA-256 is
+78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7.
+The identical-primary-universe requirement is verified. Massive remains
+deferred. C7 remains unauthorized.
 
 Dataset generation, dataset acceptance execution, model implementation or
 training, final-holdout access, paper trading, live trading, and deployment
