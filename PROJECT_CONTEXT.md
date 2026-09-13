@@ -85,13 +85,40 @@ CURRENT_UNIVERSE_CONTRACT_RECORD =
 docs/decisions/post_C6_universe_design_supersession_decision.md
 EXACT_120_REQUIREMENT = SUPERSEDED
 NO_FORCED_N = YES
-CURRENT_CERTIFIED_DISTINCT_COUNT = 30
-CURRENT_CERTIFIED_SET_SHA256 =
+
+CURRENT_UNIVERSE_CORRECTIVE_DECISION =
+docs/decisions/post_C6_frozen_universe_corrective_blocker_alignment_decision.md
+
+CURRENT_UNIVERSE_CORRECTIVE_DECISION_ID =
+GOV-DEC-0019
+
+CORRECTIVE_REMEDIATION_ARCHITECTURE =
+ARCHITECTURE_B
+
+CURRENT_FROZEN_UNIVERSE_SCIENTIFIC_STATUS =
+BLOCKED__MATERIAL_ELIGIBILITY_CONTRADICTION_PENDING_CORRECTIVE_REMEDIATION
+
+FREEZE_ARTIFACT_EXISTS = YES
+FREEZE_SCIENTIFIC_USABILITY = BLOCKED
+
+HISTORICAL_FROZEN_UNIVERSE_COUNT = 30
+HISTORICAL_FROZEN_UNIVERSE_SHA256 =
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
-CURRENT_CERTIFIED_SET_STATUS =
-ACCEPTED__PRIMARY_UNIVERSE_FROZEN
-ACTUAL_PRIMARY_UNIVERSE_FROZEN = YES
-IDENTICAL_PRIMARY_UNIVERSE_REQUIREMENT_VERIFIED = YES
+
+HISTORICAL_IDENTICAL_PRIMARY_UNIVERSE_REQUIREMENT_VERIFIED = YES
+
+CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
+NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE_PENDING_CORRECTIVE_REFREEZE
+
+CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE_COUNT =
+UNDETERMINED_PENDING_POSITIVE_RECERTIFICATION
+
+CORRECTIVE_REMEDIATION_STATUS =
+ARCHITECTURE_ACCEPTED__EXECUTION_REQUIRES_SEPARATE_AUTHORIZATION
+
+PROVIDER_ACCESS_EXECUTION =
+HELD__UNIVERSE_BLOCKER
+
 MASSIVE_PURCHASE = DEFERRED
 
 dataset_contract_status = FROZEN__EFFECTIVE
@@ -166,21 +193,26 @@ information available through the completed 2024-08-30 regular session. There
 is no forced N, top-N membership truncation, or minimum-security-count gate.
 
 GOV-DEC-0017 itself did not change the certified count. A subsequent accepted
-certification review established the current certified distinct count as 30.
-The accepted certified-set SHA-256 is
+certification review and freeze recorded a 30-security historical freeze
+artifact with SHA-256
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7.
-The actual primary universe is frozen at the accepted 30-security certified
-set. Its SHA-256 is
-78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7.
-The identical-primary-universe requirement is verified. Massive remains
-deferred. C7 remains unauthorized.
+A later accepted eligibility-contradiction audit established that the frozen
+30 is not currently scientifically usable as the primary universe.
 
-A bounded post-C6 data-access establishment and acceptance workstream is
-currently authorized under GOV-DEC-0018. Only provider/account authentication,
-entitlement inspection, and minimal test retrieval necessary to establish
-access may occur. No paid provider purchase is authorized. C7 remains
-unauthorized. Dataset generation and all downstream scientific execution
-remain unauthorized.
+GOV-DEC-0019 records the Owner-accepted Architecture-B corrective design and
+the material current-state blocker. The historical 30-security membership and
+freeze manifest remain reproducible evidence, but freeze scientific usability
+is blocked. There is no scientifically usable current primary universe pending
+positive recertification and a separately authorized corrected refreeze. The
+scientifically usable primary-universe count is therefore undetermined.
+
+GOV-DEC-0018 remains a valid bounded data-access-establishment authorization
+record, but provider-access execution is held behind the universe blocker.
+Account authentication, entitlement inspection, and test market-data retrieval
+must not proceed while that hold is active. Data access remains pending
+establishment and acceptance. No paid provider purchase is authorized. C7,
+dataset generation, and all downstream scientific execution remain
+unauthorized.
 
 ```text
 current_lifecycle_state = C6_COMPLETED
@@ -221,6 +253,37 @@ NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE
 
 GOVERNED_DATA_SOURCE_TARGET =
 ALPACA_HISTORICAL_SIP_BARS__EXPLICIT_feed=sip
+
+CURRENT_UNIVERSE_CORRECTIVE_DECISION =
+docs/decisions/post_C6_frozen_universe_corrective_blocker_alignment_decision.md
+
+CURRENT_UNIVERSE_CORRECTIVE_DECISION_ID =
+GOV-DEC-0019
+
+CORRECTIVE_REMEDIATION_ARCHITECTURE =
+ARCHITECTURE_B
+
+CURRENT_FROZEN_UNIVERSE_SCIENTIFIC_STATUS =
+BLOCKED__MATERIAL_ELIGIBILITY_CONTRADICTION_PENDING_CORRECTIVE_REMEDIATION
+
+FREEZE_ARTIFACT_EXISTS = YES
+FREEZE_SCIENTIFIC_USABILITY = BLOCKED
+
+HISTORICAL_FROZEN_UNIVERSE_COUNT = 30
+HISTORICAL_FROZEN_UNIVERSE_SHA256 =
+78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
+
+CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
+NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE_PENDING_CORRECTIVE_REFREEZE
+
+CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE_COUNT =
+UNDETERMINED_PENDING_POSITIVE_RECERTIFICATION
+
+CORRECTIVE_REMEDIATION_STATUS =
+ARCHITECTURE_ACCEPTED__EXECUTION_REQUIRES_SEPARATE_AUTHORIZATION
+
+PROVIDER_ACCESS_EXECUTION =
+HELD__UNIVERSE_BLOCKER
 
 dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
@@ -308,6 +371,22 @@ GOV-DEC-0017 supersedes the fixed exact-120 membership requirement without
 reopening C6 or rewriting the frozen C6 dataset contract. It does not freeze
 the actual primary universe and does not authorize C7.
 
+The current corrective frozen-universe blocker alignment is recorded in:
+
+```text
+CURRENT_UNIVERSE_CORRECTIVE_DECISION =
+docs/decisions/post_C6_frozen_universe_corrective_blocker_alignment_decision.md
+
+CURRENT_UNIVERSE_CORRECTIVE_DECISION_ID =
+GOV-DEC-0019
+```
+
+GOV-DEC-0019 accepts Architecture B, preserves the defective 30-security freeze
+as historical evidence, blocks its current scientific use, and records the
+broad corrective boundary. It does not authorize eligibility recertification,
+external evidence acquisition, universe mutation, heterogeneity execution,
+expansion, corrected refreeze, or C7.
+
 The current bounded post-C6 data-access establishment authorization is
 recorded in:
 
@@ -317,10 +396,11 @@ docs/decisions/post_C6_data_access_establishment_authorization_decision.md
 POST_C6_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION_DECISION_ID =
 GOV-DEC-0018
 
-GOV-DEC-0018 authorizes only bounded data-access establishment and acceptance
-verification. It does not itself establish or accept data access, authorize a
-paid provider purchase, authorize C7, or authorize downstream scientific
-execution.
+GOV-DEC-0018 remains the bounded data-access establishment and acceptance
+authorization record, but its execution is operationally held behind the
+frozen-universe blocker recorded by GOV-DEC-0019. It does not itself establish
+or accept data access, authorize a paid provider purchase, authorize C7, or
+authorize downstream scientific execution.
 
 ## 5. High-level prospective research direction
 
@@ -347,6 +427,9 @@ AUTHORIZED__BOUNDED_ONLY
 DATA_ACCESS_AUTHORIZED =
 NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE
 
+PROVIDER_ACCESS_EXECUTION =
+HELD__UNIVERSE_BLOCKER
+
 GOVERNED_DATA_SOURCE_TARGET =
 ALPACA_HISTORICAL_SIP_BARS__EXPLICIT_feed=sip
 
@@ -364,11 +447,13 @@ C7_authorization = NONE
 ```
 
 C6 contract specification, independent review, and freeze are complete.
-A bounded post-C6 data-access establishment and acceptance workstream is
-currently authorized under GOV-DEC-0018. C7 remains unauthorized.
+GOV-DEC-0018 remains the bounded post-C6 data-access establishment and
+acceptance authorization record, but provider-access execution is held by the
+current frozen-universe scientific blocker recorded in GOV-DEC-0019. C7
+remains unauthorized.
 
-Only provider/account authentication, entitlement inspection, and minimal test
-retrieval necessary to establish access are authorized. No paid provider
+While the hold is active, provider/account authentication, entitlement
+inspection, and test market-data retrieval must not proceed. No paid provider
 purchase is authorized. Dataset generation, dataset acceptance execution,
 feature generation, model implementation, model training, gate training,
 backtesting, final-holdout access, paper trading, live trading, and deployment
@@ -387,9 +472,12 @@ Use:
 - `docs/decisions/C6_authorization_decision.md` for the historical record of
   the Owner-authorized bounded C6 dataset-contract specification, review, and
   freeze scope;
+- `docs/decisions/post_C6_frozen_universe_corrective_blocker_alignment_decision.md`
+  for the Owner-accepted Architecture-B corrective blocker decision and
+  current frozen-universe scientific-usability boundary;
 - `docs/decisions/post_C6_data_access_establishment_authorization_decision.md`
-  for the current bounded Owner-authorized data-access establishment and
-  acceptance scope;
+  for the bounded Owner-authorized data-access establishment and acceptance
+  scope that remains operationally held behind the universe blocker;
 - `docs/workflows/milestone_review_reference_map.md` for non-authorizing
   roadmap, governance, evidence, and historical navigation;
 - `docs/workflows/future_validation_training_reference_map.md` for
