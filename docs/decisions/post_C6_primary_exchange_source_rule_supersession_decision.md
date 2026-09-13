@@ -1,0 +1,413 @@
+# Post-C6 Primary-Exchange Source-Rule Supersession Decision
+
+## Decision record
+
+```text
+document_status =
+OWNER_AUTHORIZED_MATERIAL_DECISION
+
+document_role =
+MATERIAL_OWNER_PRIMARY_EXCHANGE_SOURCE_RULE_SUPERSESSION_DECISION
+
+current_state_control =
+NO
+
+decision_id =
+GOV-DEC-0020
+
+owner_decision =
+AUTHORIZE_C5_PRIMARY_EXCHANGE_SOURCE_RULE_SUPERSESSION
+__ALLOW_NYSE_GROUP_EQUITY_SECURITY_MASTER_PRIMARY_MARKET
+__AS_NAMED_SEMANTICALLY_EQUIVALENT_ALTERNATIVE
+
+decision_effect =
+LOCALIZED_PRIMARY_EXCHANGE_EVIDENCE_SOURCE_EXCLUSIVITY_SUPERSESSION_ONLY
+
+canonical_effectiveness =
+EFFECTIVE_ONLY_AFTER_ACCEPTED_RECORDING_ON_CANONICAL_MAIN
+
+local_branch_or_staging_alone_makes_rule_canonically_effective =
+NO
+```
+
+This decision records the Owner-authorized localized scientific-rule
+supersession for historical primary-exchange evidence.
+
+It does not itself acquire primary-exchange evidence, access a provider,
+reclassify any security, change the current 23-security primary-exchange
+disposition, mutate universe membership, reopen C5 or C6, or authorize C7.
+
+`PROJECT_CONTEXT.md` remains the controlling source of truth for broad current
+lifecycle state, authorization boundaries, current non-authorization state,
+and authoritative pointers to material decisions.
+
+## Historical rule preserved as historical evidence
+
+The accepted historical C5 rule remains preserved in
+`docs/decisions/C5_historical_universe_eligibility_decision.md` as historical
+substantive decision evidence:
+
+```text
+PRIMARY_EXCHANGE_PIT_SOURCE =
+NYSE_DAILY_TAQ_MASTER
+
+PRIMARY_EXCHANGE_FIELD =
+Listed Exchange
+
+PRIMARY_EXCHANGE_FIELD_SEMANTICS =
+LISTING_EXCHANGE_OR_PRIMARY_LISTING_MARKET
+
+SEC_SECURITY_EXCHANGE_NAME_ESTABLISHES_PRIMARY_EXCHANGE =
+NO
+```
+
+GOV-DEC-0020 does not rewrite or erase that historical record.
+
+## Superseding primary-exchange source rule
+
+```text
+PRIMARY_EXCHANGE_SCIENTIFIC_REQUIREMENT_STATUS =
+PRESERVE
+
+PRIMARY_EXCHANGE_PIT_SOURCE_OR_ARCHITECTURE =
+EITHER_OF_THE_FOLLOWING_NAMED_SEMANTICALLY_EQUIVALENT_SOURCES
+
+SOURCE_1 =
+NYSE_DAILY_TAQ_MASTER
+
+SOURCE_1_FIELD =
+Listed Exchange
+
+SOURCE_2 =
+NYSE_GROUP_EQUITY_SECURITY_MASTER
+
+SOURCE_2_FIELD =
+Primary Market
+
+REQUIRED_SCIENTIFIC_FACT =
+HISTORICAL_SECURITY_SPECIFIC_OR_SHARE_CLASS_SPECIFIC_PRIMARY_LISTING_MARKET
+
+PERMITTED_NORMALIZED_OUTCOMES =
+NYSE
+NYSE_AMERICAN
+NASDAQ
+OTHER_OR_INELIGIBLE
+```
+
+This decision supersedes only the exclusivity component of the historical
+TAQ-only source rule.
+
+It does not weaken or supersede the scientific requirement to establish the
+historical security-specific or share-class-specific primary listing market.
+
+## Preserved scientific controls
+
+```text
+FORMATION_POINT =
+2024-09-03_REGULAR_SESSION_OPEN
+
+INFORMATION_CUTOFF =
+COMPLETED_2024-08-30_REGULAR_SESSION
+
+EXACT_SECURITY_IDENTITY_REQUIRED =
+YES
+
+EXACT_SHARE_CLASS_REQUIRED_WHERE_APPLICABLE =
+YES
+
+ISSUER_NAME_ONLY_MATCHING =
+INSUFFICIENT
+
+CURRENT_STATE_BACKCAST =
+PROHIBITED
+
+UNACCEPTED_PREDECESSOR_SUCCESSOR_STITCHING =
+PROHIBITED
+
+AUTOMATIC_ELIGIBILITY_FAVORING_TIE_BREAK =
+PROHIBITED
+```
+
+If a source value is missing, unknown, ambiguous, class-mismatched, or cannot
+be reconciled to the accepted exact security identity:
+
+```text
+PRIMARY_EXCHANGE_STATUS =
+UNRESOLVED
+```
+
+## NYSE Group Security Master cutoff-timing control
+
+```text
+SECURITY_MASTER_TIMING_CONTROL =
+USE_ONLY_A_HISTORICAL_SECURITY_MASTER_STATE_OR_EFFECTIVE_EVENT_CHAIN
+THAT_IS_ADMISSIBLE_UNDER_THE_EXISTING_INFORMATION_CUTOFF
+
+CURRENT_OR_LATEST_SECURITY_MASTER_BACKCAST =
+PROHIBITED
+
+POST_CUTOFF_INFORMATION_USED_TO_CREATE_FORMATION_PASS =
+PROHIBITED
+```
+
+If the governed primary-listing state cannot be established without
+inadmissible post-cutoff information:
+
+```text
+PRIMARY_EXCHANGE_STATUS =
+UNRESOLVED
+```
+
+The completed 2024-08-30 regular-session information cutoff is not extended by
+this decision.
+
+## Source-disagreement control
+
+```text
+IF
+TAQ_MASTER_LISTED_EXCHANGE
+AND
+NYSE_GROUP_SECURITY_MASTER_PRIMARY_MARKET
+ARE_BOTH_ADMISSIBLE_FOR_THE_SAME_EXACT_SECURITY_OR_SHARE_CLASS
+AND
+THEY_AGREE
+THEN
+AGREEMENT_CONFIRMED
+
+IF
+THEY_DISAGREE
+THEN
+PRIMARY_EXCHANGE_STATUS =
+UNRESOLVED__RETURN_FOR_REVIEW
+
+IF
+AN_ADMISSIBLE_SOURCE_CONFLICTS_WITH_AUTHORITATIVE_EFFECTIVE_DATED
+SECURITY_IDENTITY_OR_LISTING_EVENT_EVIDENCE
+THEN
+PRIMARY_EXCHANGE_STATUS =
+UNRESOLVED__RETURN_FOR_REVIEW
+```
+
+No automatic tie-break may favor eligibility.
+
+## Reproducibility and provenance control
+
+Any later separately authorized primary-exchange evidence acquisition must
+preserve, as applicable:
+
+```text
+EXACT_PRODUCT_NAME
+
+SPECIFICATION_OR_LAYOUT_VERSION
+
+HISTORICAL_FILE_DATE
+
+FILE_GENERATION_OR_EFFECTIVE_SESSION_DATE
+
+EXACT_SECURITY_ROW_IDENTIFIER
+
+MATCHED_SYMBOL
+
+MATCHED_SHARE_CLASS
+
+MATCHED_SECURITY_IDENTIFIER_WHERE_AVAILABLE
+
+PRIMARY_MARKET_OR_LISTED_EXCHANGE_RAW_VALUE
+
+NORMALIZED_PRIMARY_MARKET_VALUE
+
+SOURCE_ARTIFACT_HASH_OR_EQUIVALENT_IMMUTABLE_PROVENANCE
+```
+
+If the exact evidence used cannot be reconstructed:
+
+```text
+PRIMARY_EXCHANGE_STATUS =
+UNRESOLVED
+```
+
+This provenance requirement defines future evidentiary controls only. It does
+not authorize evidence acquisition now.
+
+## Historical-document relationship
+
+```text
+C5_HISTORICAL_ELIGIBILITY_DECISION =
+PRESERVED_AS_HISTORICAL_DECISION_EVIDENCE
+
+C6_DATASET_CONTRACT =
+PRESERVED_AS_FROZEN_HISTORICAL_TECHNICAL_EVIDENCE
+
+C5_REOPEN =
+NO
+
+C6_REOPEN =
+NO
+```
+
+Any TAQ-exclusive statement in those historical records is interpreted through
+GOV-DEC-0020 after GOV-DEC-0020 becomes canonically effective.
+
+The historical C5 decision and frozen C6 dataset contract are not edited merely
+to restate this supersession.
+
+## Current 23-security state
+
+```text
+PRIMARY_EXCHANGE_23_RECLASSIFIED_BY_THIS_DECISION =
+NO
+
+PRIMARY_EXCHANGE_PASS_COUNT_CHANGED_BY_THIS_DECISION =
+NO
+
+PRIMARY_EXCHANGE_FAIL_COUNT_CHANGED_BY_THIS_DECISION =
+NO
+
+PRIMARY_EXCHANGE_UNRESOLVED_COUNT_CHANGED_BY_THIS_DECISION =
+NO
+```
+
+The current 23 securities remain unresolved for primary exchange until
+separately authorized evidence acquisition is performed and accepted.
+
+The accepted 252-session-history and security-identity findings are not
+re-adjudicated by this transaction.
+
+## Non-authorization boundaries
+
+```text
+PRIMARY_EXCHANGE_EVIDENCE_ACQUISITION_AUTHORIZED =
+NO
+
+NYSE_SECURITY_MASTER_ACCESS_AUTHORIZED =
+NO
+
+NYSE_TAQ_ACCESS_AUTHORIZED =
+NO
+
+PROVIDER_ACCOUNT_CREATION_AUTHORIZED =
+NO
+
+PROVIDER_AUTHENTICATION_AUTHORIZED =
+NO
+
+PURCHASE_AUTHORIZED =
+NO
+
+PAYMENT_AUTHORIZED =
+NO
+
+PRIMARY_EXCHANGE_RECLASSIFICATION_AUTHORIZED =
+NO
+
+FULL_ELIGIBILITY_RECERTIFICATION_AUTHORIZED =
+NO
+
+PRICE_REVALIDATION_AUTHORIZED =
+NO
+
+LIQUIDITY_REVALIDATION_AUTHORIZED =
+NO
+
+UNIVERSE_MUTATION_AUTHORIZED =
+NO
+
+SECURITY_REMOVAL_AUTHORIZED =
+NO
+
+SECURITY_ADDITION_AUTHORIZED =
+NO
+
+BACKFILL_AUTHORIZED =
+NO
+
+PROVISIONAL_SET_CONSTRUCTION_AUTHORIZED =
+NO
+
+HETEROGENEITY_EXECUTION_AUTHORIZED =
+NO
+
+REPRESENTATIVENESS_EXECUTION_AUTHORIZED =
+NO
+
+EXPANSION_AUTHORIZED =
+NO
+
+REFREEZE_AUTHORIZED =
+NO
+
+DATASET_GENERATION_AUTHORIZED =
+NO
+
+FEATURE_GENERATION_AUTHORIZED =
+NO
+
+MODEL_WORK_AUTHORIZED =
+NO
+
+FINAL_HOLDOUT_ACCESS_AUTHORIZED =
+NO
+
+PAPER_TRADING_AUTHORIZED =
+NO
+
+LIVE_TRADING_AUTHORIZED =
+NO
+
+DEPLOYMENT_AUTHORIZED =
+NO
+
+C7_AUTHORIZED =
+NO
+```
+
+GOV-DEC-0018 remains operationally held behind the universe blocker.
+
+## Permanent document-role boundary
+
+```text
+PROJECT_CONTEXT.md =
+BROAD_CURRENT_STATE_AND_AUTHORIZATION_CONTROLLER
+
+GOV-DEC-0020 =
+MATERIAL_SCIENTIFIC_RULE_SUPERSESSION_RECORD
++
+NOT_CURRENT_STATE_CONTROLLER
+
+C5_HISTORICAL_DECISION =
+HISTORICAL_SUBSTANTIVE_DECISION_EVIDENCE
+
+C6_DATASET_CONTRACT =
+FROZEN_HISTORICAL_TECHNICAL_EVIDENCE
+
+MILESTONE_REVIEW_REFERENCE_MAP =
+NON_AUTHORIZING_REFERENCE_MAP
+
+FUTURE_VALIDATION_AND_TRAINING_REFERENCE_MAP =
+NON_AUTHORIZING_FUTURE_GUIDANCE
+
+FOURTH_GOVERNANCE_CONTROLLER_CREATED =
+NO
+
+CURRENT_CHECKPOINT_TRACKER =
+NONE
+```
+
+## Canonical-effect boundary
+
+```text
+COMMIT_BY_THIS_RECORDING_STEP =
+NO
+
+PUSH_BY_THIS_RECORDING_STEP =
+NO
+
+PR_BY_THIS_RECORDING_STEP =
+NO
+
+CANONICAL_EFFECT_BEFORE_ACCEPTED_RECORDING_ON_MAIN =
+NO
+```
+
+The rule becomes canonically effective only after the separately reviewed and
+accepted recording reaches canonical `main`.
