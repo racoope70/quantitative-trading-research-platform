@@ -3127,12 +3127,16 @@ jobs:
                   if not Path(path).is_file():
                       raise SystemExit(f"C6_COMPLETED requires {path}")
 
-              project_all_lines = Path("PROJECT_CONTEXT.md").read_text(encoding="utf-8").splitlines()
-              expected_context = {
+              project_all_lines = Path(
+                  "PROJECT_CONTEXT.md"
+              ).read_text(
+                  encoding="utf-8"
+              ).splitlines()
+
+              common_expected_context = {
                   "current_lifecycle_state": "C6_COMPLETED",
                   "active_major_phase": "NONE",
                   "phase_status": "COMPLETED",
-                  "authorization_effect": "NONE",
                   "C6_completion_decision": "docs/decisions/C6_completion_decision.md",
                   "C6_completion_decision_id": "GOV-DEC-0016",
                   "C6_completion_effect": "EFFECTIVE",
@@ -3152,13 +3156,208 @@ jobs:
                   "C5_completion_effect": "EFFECTIVE",
                   "C5_REOPEN": "NO",
                   "project_status": "IN_DEVELOPMENT",
-                  "deployment": "NOT_AUTHORIZED"
+                  "deployment": "NOT_AUTHORIZED",
               }
-              for key, value in expected_context.items():
-                  require_exact_logical_assignment("PROJECT_CONTEXT C6_COMPLETED", project_all_lines, key, value)
-              for key in ("C6_authorization_effect", "current_authorized_workstream", "C6_AUTHORIZATION"):
-                  if logical_assignment_values(project_all_lines, key):
-                      raise SystemExit(f"C6_COMPLETED retains stale current authorization: {key}")
+
+              for (
+                  key,
+                  value,
+              ) in common_expected_context.items():
+                  require_exact_logical_assignment(
+                      "PROJECT_CONTEXT C6_COMPLETED",
+                      project_all_lines,
+                      key,
+                      value,
+                  )
+
+              authorization_effect_values = set(
+                  logical_assignment_values(
+                      project_all_lines,
+                      "authorization_effect",
+                  )
+              )
+
+              historical_c6_completed_family = (
+                  authorization_effect_values
+                  == {"NONE"}
+              )
+
+              gov_dec_0018_bounded_family = (
+                  authorization_effect_values
+                  == {
+                      "BOUNDED_DATA_ACCESS_ESTABLISHMENT_AND_ACCEPTANCE_ONLY"
+                  }
+              )
+
+              matched_family_count = sum(
+                  (
+                      historical_c6_completed_family,
+                      gov_dec_0018_bounded_family,
+                  )
+              )
+
+              if matched_family_count == 0:
+                  raise SystemExit(
+                      "C6_COMPLETED authorization state does not match "
+                      "a supported family; authorization_effect="
+                      f"{sorted(authorization_effect_values)!r}"
+                  )
+
+              if matched_family_count > 1:
+                  raise SystemExit(
+                      "C6_COMPLETED authorization state matches multiple "
+                      "supported families; validation is ambiguous."
+                  )
+
+              if historical_c6_completed_family:
+                  require_exact_logical_assignment(
+                      "PROJECT_CONTEXT historical C6_COMPLETED",
+                      project_all_lines,
+                      "authorization_effect",
+                      "NONE",
+                  )
+
+                  for key in (
+                      "CURRENT_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION",
+                      "DATA_ACCESS_AUTHORIZED",
+                      "GOVERNED_DATA_SOURCE_TARGET",
+                  ):
+                      if logical_assignment_values(
+                          project_all_lines,
+                          key,
+                      ):
+                          raise SystemExit(
+                              "Historical C6_COMPLETED retains bounded "
+                              "post-C6 current authorization state: "
+                              f"{key}"
+                          )
+
+                  print(
+                      "Historical C6_COMPLETED authorization family passed."
+                  )
+
+              if gov_dec_0018_bounded_family:
+                  bounded_context = {
+                      "authorization_effect": (
+                          "BOUNDED_DATA_ACCESS_ESTABLISHMENT_"
+                          "AND_ACCEPTANCE_ONLY"
+                      ),
+                      (
+                          "POST_C6_DATA_ACCESS_ESTABLISHMENT_"
+                          "AUTHORIZATION_DECISION"
+                      ): (
+                          "docs/decisions/"
+                          "post_C6_data_access_establishment_"
+                          "authorization_decision.md"
+                      ),
+                      (
+                          "POST_C6_DATA_ACCESS_ESTABLISHMENT_"
+                          "AUTHORIZATION_DECISION_ID"
+                      ): "GOV-DEC-0018",
+                      (
+                          "CURRENT_DATA_ACCESS_ESTABLISHMENT_"
+                          "AUTHORIZATION"
+                      ): "AUTHORIZED__BOUNDED_ONLY",
+                      "DATA_ACCESS_AUTHORIZED": (
+                          "NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE"
+                      ),
+                      "GOVERNED_DATA_SOURCE_TARGET": (
+                          "ALPACA_HISTORICAL_SIP_BARS__"
+                          "EXPLICIT_feed=sip"
+                      ),
+                  }
+
+                  for (
+                      key,
+                      value,
+                  ) in bounded_context.items():
+                      require_exact_logical_assignment(
+                          "PROJECT_CONTEXT GOV-DEC-0018 bounded state",
+                          project_all_lines,
+                          key,
+                          value,
+                      )
+
+                  data_access_decision_path = Path(
+                      "docs/decisions/"
+                      "post_C6_data_access_establishment_"
+                      "authorization_decision.md"
+                  )
+
+                  if not data_access_decision_path.is_file():
+                      raise SystemExit(
+                          "GOV-DEC-0018 bounded state requires "
+                          f"{data_access_decision_path}"
+                      )
+
+                  data_access_decision_lines = (
+                      data_access_decision_path.read_text(
+                          encoding="utf-8"
+                      ).splitlines()
+                  )
+
+                  bounded_decision_expected = {
+                      "decision_id": "GOV-DEC-0018",
+                      "current_state_control": "NO",
+                      (
+                          "DATA_ACCESS_ESTABLISHMENT_AUTHORIZED"
+                      ): "YES__BOUNDED_ONLY",
+                      "DATA_ACCESS_AUTHORIZED": (
+                          "NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE"
+                      ),
+                      "GOVERNED_DATA_SOURCE_TARGET": (
+                          "ALPACA_HISTORICAL_SIP_BARS"
+                      ),
+                      "ALPACA_FEED_REQUIREMENT": "EXPLICIT_feed=sip",
+                      "C7_AUTHORIZATION": "NONE",
+                      "DATASET_GENERATION": "NOT_AUTHORIZED",
+                      "FEATURE_GENERATION": "NOT_AUTHORIZED",
+                      "MODEL_IMPLEMENTATION": "NOT_AUTHORIZED",
+                      "MODEL_TRAINING": "NOT_AUTHORIZED",
+                      "FINAL_HOLDOUT_ACCESS": "NOT_AUTHORIZED",
+                      "NEW_PAID_PROVIDER_PURCHASE": "NOT_AUTHORIZED",
+                      "CURRENT_CHECKPOINT_TRACKER": "NONE",
+                      (
+                          "PROJECT_CONTEXT_CURRENT_STATE_CONTROL"
+                      ): "YES",
+                      (
+                          "DECISION_RECORD_CURRENT_STATE_CONTROL"
+                      ): "NO",
+                      (
+                          "FOURTH_GOVERNANCE_CONTROLLER_CREATED"
+                      ): "NO",
+                  }
+
+                  for (
+                      key,
+                      value,
+                  ) in bounded_decision_expected.items():
+                      require_exact_logical_assignment(
+                          "GOV-DEC-0018",
+                          data_access_decision_lines,
+                          key,
+                          value,
+                      )
+
+                  print(
+                      "GOV-DEC-0018 bounded post-C6 "
+                      "authorization family passed."
+                  )
+
+              for key in (
+                  "C6_authorization_effect",
+                  "current_authorized_workstream",
+                  "C6_AUTHORIZATION",
+              ):
+                  if logical_assignment_values(
+                      project_all_lines,
+                      key,
+                  ):
+                      raise SystemExit(
+                          "C6_COMPLETED retains stale current "
+                          f"authorization: {key}"
+                      )
+
               required_lines["PROJECT_CONTEXT.md"] = [
                   "current_lifecycle_state = C6_COMPLETED",
                   "CURRENT_CHECKPOINT_TRACKER = NONE",
