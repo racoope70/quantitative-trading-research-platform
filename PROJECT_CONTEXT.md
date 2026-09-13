@@ -15,7 +15,7 @@ AUTHORITATIVE_POINTERS_TO_MATERIAL_DECISIONS
 current_lifecycle_state = C6_COMPLETED
 active_major_phase = NONE
 phase_status = COMPLETED
-authorization_effect = NONE
+authorization_effect = BOUNDED_DATA_ACCESS_ESTABLISHMENT_AND_ACCEPTANCE_ONLY
 
 working_repository_name = quantitative-trading-research-platform
 repository_visibility = PUBLIC
@@ -64,6 +64,21 @@ C6_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
 CURRENT_C6_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 C6_REOPEN = NO
 C6_CURRENT_WORK = NONE
+
+POST_C6_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION_DECISION =
+docs/decisions/post_C6_data_access_establishment_authorization_decision.md
+
+POST_C6_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION_DECISION_ID =
+GOV-DEC-0018
+
+CURRENT_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION =
+AUTHORIZED__BOUNDED_ONLY
+
+DATA_ACCESS_AUTHORIZED =
+NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE
+
+GOVERNED_DATA_SOURCE_TARGET =
+ALPACA_HISTORICAL_SIP_BARS__EXPLICIT_feed=sip
 
 CURRENT_UNIVERSE_CONTRACT = GOV-DEC-0017
 CURRENT_UNIVERSE_CONTRACT_RECORD =
@@ -160,15 +175,18 @@ set. Its SHA-256 is
 The identical-primary-universe requirement is verified. Massive remains
 deferred. C7 remains unauthorized.
 
-Dataset generation, dataset acceptance execution, model implementation or
-training, final-holdout access, paper trading, live trading, and deployment
+A bounded post-C6 data-access establishment and acceptance workstream is
+currently authorized under GOV-DEC-0018. Only provider/account authentication,
+entitlement inspection, and minimal test retrieval necessary to establish
+access may occur. No paid provider purchase is authorized. C7 remains
+unauthorized. Dataset generation and all downstream scientific execution
 remain unauthorized.
 
 ```text
 current_lifecycle_state = C6_COMPLETED
 active_major_phase = NONE
 phase_status = COMPLETED
-authorization_effect = NONE
+authorization_effect = BOUNDED_DATA_ACCESS_ESTABLISHMENT_AND_ACCEPTANCE_ONLY
 
 C5_completion_effect = EFFECTIVE
 C5_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
@@ -194,6 +212,16 @@ C6_LIFECYCLE_CLOSURE = COMPLETE__EFFECTIVE
 CURRENT_C6_EXECUTION_AUTHORIZATION = NONE_AFTER_COMPLETION
 C6_REOPEN = NO
 C6_CURRENT_WORK = NONE
+
+CURRENT_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION =
+AUTHORIZED__BOUNDED_ONLY
+
+DATA_ACCESS_AUTHORIZED =
+NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE
+
+GOVERNED_DATA_SOURCE_TARGET =
+ALPACA_HISTORICAL_SIP_BARS__EXPLICIT_feed=sip
+
 dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
 current_model_candidate = NONE
@@ -280,6 +308,20 @@ GOV-DEC-0017 supersedes the fixed exact-120 membership requirement without
 reopening C6 or rewriting the frozen C6 dataset contract. It does not freeze
 the actual primary universe and does not authorize C7.
 
+The current bounded post-C6 data-access establishment authorization is
+recorded in:
+
+POST_C6_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION_DECISION =
+docs/decisions/post_C6_data_access_establishment_authorization_decision.md
+
+POST_C6_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION_DECISION_ID =
+GOV-DEC-0018
+
+GOV-DEC-0018 authorizes only bounded data-access establishment and acceptance
+verification. It does not itself establish or accept data access, authorize a
+paid provider purchase, authorize C7, or authorize downstream scientific
+execution.
+
 ## 5. High-level prospective research direction
 
 The accepted prospective research direction is bounded RL research using PPO,
@@ -299,6 +341,15 @@ evaluation is authorized.
 ## 6. Current dataset, model, and execution boundary
 
 ```text
+CURRENT_DATA_ACCESS_ESTABLISHMENT_AUTHORIZATION =
+AUTHORIZED__BOUNDED_ONLY
+
+DATA_ACCESS_AUTHORIZED =
+NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE
+
+GOVERNED_DATA_SOURCE_TARGET =
+ALPACA_HISTORICAL_SIP_BARS__EXPLICIT_feed=sip
+
 dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
 
@@ -313,13 +364,15 @@ C7_authorization = NONE
 ```
 
 C6 contract specification, independent review, and freeze are complete.
-No active post-C6 execution workstream exists. C7 requires a separate
-Owner/Admin decision.
+A bounded post-C6 data-access establishment and acceptance workstream is
+currently authorized under GOV-DEC-0018. C7 remains unauthorized.
 
-Provider activity, data acquisition, dataset generation, dataset acceptance
-execution, model implementation, model training, gate training, backtesting,
-final-holdout access, paper
-trading, live trading, and deployment remain unauthorized.
+Only provider/account authentication, entitlement inspection, and minimal test
+retrieval necessary to establish access are authorized. No paid provider
+purchase is authorized. Dataset generation, dataset acceptance execution,
+feature generation, model implementation, model training, gate training,
+backtesting, final-holdout access, paper trading, live trading, and deployment
+remain unauthorized.
 
 ## 7. Navigation
 
@@ -334,6 +387,9 @@ Use:
 - `docs/decisions/C6_authorization_decision.md` for the historical record of
   the Owner-authorized bounded C6 dataset-contract specification, review, and
   freeze scope;
+- `docs/decisions/post_C6_data_access_establishment_authorization_decision.md`
+  for the current bounded Owner-authorized data-access establishment and
+  acceptance scope;
 - `docs/workflows/milestone_review_reference_map.md` for non-authorizing
   roadmap, governance, evidence, and historical navigation;
 - `docs/workflows/future_validation_training_reference_map.md` for
