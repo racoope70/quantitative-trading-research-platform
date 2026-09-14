@@ -105,6 +105,9 @@ HISTORICAL_FROZEN_UNIVERSE_COUNT = 30
 HISTORICAL_FROZEN_UNIVERSE_SHA256 =
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
 
+HISTORICAL_FROZEN_UNIVERSE_SCIENTIFIC_USABILITY =
+BLOCKED
+
 HISTORICAL_IDENTICAL_PRIMARY_UNIVERSE_REQUIREMENT_VERIFIED = YES
 
 CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
@@ -112,6 +115,57 @@ NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE_PENDING_CORRECTIVE_REFREEZE
 
 CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE_COUNT =
 UNDETERMINED_PENDING_POSITIVE_RECERTIFICATION
+
+CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE =
+GOV-DEC-0021
+
+CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE_RECORD =
+docs/decisions/post_C6_primary_exchange_evidence_architecture_proportionality_supersession_decision.md
+
+PRIMARY_EXCHANGE_EVIDENCE_ACQUISITION =
+COMPLETE__PASS
+
+PRIMARY_EXCHANGE_CLASSIFICATION =
+COMPLETE__PASS
+
+PRIMARY_EXCHANGE_PASS_COUNT =
+23
+
+PRIMARY_EXCHANGE_FAIL_COUNT =
+0
+
+PRIMARY_EXCHANGE_UNRESOLVED_COUNT =
+0
+
+PRIMARY_EXCHANGE_CLASSIFICATION_COMPLETION_RECORD =
+docs/reports/post_C6_primary_exchange_classification_completion.md
+
+FULL_ELIGIBILITY_RECERTIFICATION =
+NOT_PERFORMED
+
+PRICE_REVALIDATION =
+NOT_PERFORMED
+
+LIQUIDITY_REVALIDATION =
+NOT_PERFORMED
+
+PROVISIONAL_CORRECTED_SET =
+NOT_CONSTRUCTED
+
+HETEROGENEITY_EXECUTION =
+NOT_PERFORMED
+
+CORRECTED_REFREEZE =
+NOT_PERFORMED
+
+DATASET_GENERATION =
+NOT_AUTHORIZED
+
+FINAL_HOLDOUT_ACCESS =
+NOT_AUTHORIZED
+
+C7_AUTHORIZATION =
+NONE
 
 CORRECTIVE_REMEDIATION_STATUS =
 ARCHITECTURE_ACCEPTED__EXECUTION_REQUIRES_SEPARATE_AUTHORIZATION
@@ -273,11 +327,65 @@ HISTORICAL_FROZEN_UNIVERSE_COUNT = 30
 HISTORICAL_FROZEN_UNIVERSE_SHA256 =
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
 
+HISTORICAL_FROZEN_UNIVERSE_SCIENTIFIC_USABILITY =
+BLOCKED
+
 CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
 NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE_PENDING_CORRECTIVE_REFREEZE
 
 CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE_COUNT =
 UNDETERMINED_PENDING_POSITIVE_RECERTIFICATION
+
+CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE =
+GOV-DEC-0021
+
+CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE_RECORD =
+docs/decisions/post_C6_primary_exchange_evidence_architecture_proportionality_supersession_decision.md
+
+PRIMARY_EXCHANGE_EVIDENCE_ACQUISITION =
+COMPLETE__PASS
+
+PRIMARY_EXCHANGE_CLASSIFICATION =
+COMPLETE__PASS
+
+PRIMARY_EXCHANGE_PASS_COUNT =
+23
+
+PRIMARY_EXCHANGE_FAIL_COUNT =
+0
+
+PRIMARY_EXCHANGE_UNRESOLVED_COUNT =
+0
+
+PRIMARY_EXCHANGE_CLASSIFICATION_COMPLETION_RECORD =
+docs/reports/post_C6_primary_exchange_classification_completion.md
+
+FULL_ELIGIBILITY_RECERTIFICATION =
+NOT_PERFORMED
+
+PRICE_REVALIDATION =
+NOT_PERFORMED
+
+LIQUIDITY_REVALIDATION =
+NOT_PERFORMED
+
+PROVISIONAL_CORRECTED_SET =
+NOT_CONSTRUCTED
+
+HETEROGENEITY_EXECUTION =
+NOT_PERFORMED
+
+CORRECTED_REFREEZE =
+NOT_PERFORMED
+
+DATASET_GENERATION =
+NOT_AUTHORIZED
+
+FINAL_HOLDOUT_ACCESS =
+NOT_AUTHORIZED
+
+C7_AUTHORIZATION =
+NONE
 
 CORRECTIVE_REMEDIATION_STATUS =
 ARCHITECTURE_ACCEPTED__EXECUTION_REQUIRES_SEPARATE_AUTHORIZATION
@@ -387,6 +495,25 @@ broad corrective boundary. It does not authorize eligibility recertification,
 external evidence acquisition, universe mutation, heterogeneity execution,
 expansion, corrected refreeze, or C7.
 
+The current primary-exchange evidence architecture and accepted exact-23
+classification are recorded in:
+
+```text
+CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE =
+GOV-DEC-0021
+
+CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE_RECORD =
+docs/decisions/post_C6_primary_exchange_evidence_architecture_proportionality_supersession_decision.md
+
+PRIMARY_EXCHANGE_CLASSIFICATION_COMPLETION_RECORD =
+docs/reports/post_C6_primary_exchange_classification_completion.md
+```
+
+GOV-DEC-0021 controls the current primary-exchange evidence architecture.
+The completion report records the Managing-accepted 23 PASS / 0 FAIL /
+0 UNRESOLVED classification result but is not a current-state controller and
+does not itself authorize downstream scientific execution.
+
 The current bounded post-C6 data-access establishment authorization is
 recorded in:
 
@@ -475,6 +602,11 @@ Use:
 - `docs/decisions/post_C6_frozen_universe_corrective_blocker_alignment_decision.md`
   for the Owner-accepted Architecture-B corrective blocker decision and
   current frozen-universe scientific-usability boundary;
+- `docs/decisions/post_C6_primary_exchange_evidence_architecture_proportionality_supersession_decision.md`
+  for the current GOV-DEC-0021 primary-exchange evidence architecture;
+- `docs/reports/post_C6_primary_exchange_classification_completion.md`
+  for the Managing-accepted exact-23 primary-exchange classification completion
+  record;
 - `docs/decisions/post_C6_data_access_establishment_authorization_decision.md`
   for the bounded Owner-authorized data-access establishment and acceptance
   scope that remains operationally held behind the universe blocker;
