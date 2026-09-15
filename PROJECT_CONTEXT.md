@@ -162,7 +162,13 @@ LIQUIDITY_REVALIDATION =
 COMPLETE__19_CLASSIFIED__4_UNRESOLVED_PROVIDER_MISSINGNESS
 
 PROVISIONAL_CORRECTED_SET =
-NOT_CONSTRUCTED
+CONSTRUCTED__UNFROZEN
+
+PROVISIONAL_CORRECTED_ELIGIBLE_COUNT =
+3
+
+PROVISIONAL_CORRECTED_SET_RECORD =
+docs/reports/post_C6_unfrozen_provisional_corrected_eligible_set.md
 
 HETEROGENEITY_EXECUTION =
 NOT_PERFORMED
@@ -272,7 +278,10 @@ is blocked. Full eligibility recertification of the exact-23 corrective work
 population is complete and Owner-accepted: 3 cases are positively recertified
 eligible, 16 are decisively ineligible, and 4 remain unresolved because of
 provider missingness. This result does not construct a current primary
-universe. A provisional corrected set has not been constructed and a corrected
+universe. An unfrozen provisional corrected eligible set has now been constructed
+and Owner-accepted with 3 positively recertified eligible cases; 4 provider-
+missingness cases remain unresolved. This does not create a scientifically usable
+current primary universe. Heterogeneity has not been executed and a corrected
 refreeze has not been performed.
 
 GOV-DEC-0018 remains a valid bounded data-access-establishment authorization
@@ -397,7 +406,13 @@ LIQUIDITY_REVALIDATION =
 COMPLETE__19_CLASSIFIED__4_UNRESOLVED_PROVIDER_MISSINGNESS
 
 PROVISIONAL_CORRECTED_SET =
-NOT_CONSTRUCTED
+CONSTRUCTED__UNFROZEN
+
+PROVISIONAL_CORRECTED_ELIGIBLE_COUNT =
+3
+
+PROVISIONAL_CORRECTED_SET_RECORD =
+docs/reports/post_C6_unfrozen_provisional_corrected_eligible_set.md
 
 HETEROGENEITY_EXECUTION =
 NOT_PERFORMED
