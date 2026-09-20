@@ -178,13 +178,34 @@ AVAILABLE_ELIGIBLE_CANDIDATE_POOL_SHA256 =
 aed6f9e137b52948ebd4c2385c84b5a2b39e2ddd8c7be90fe1f30fa8415cb7c7
 
 PREDECLARED_FROZEN_EXPERIMENTAL_UNIVERSE_SELECTION_PROTOCOL =
-OWNER_ACCEPTED__TARGET_42__NOT_EXECUTED
+OWNER_ACCEPTED__TARGET_42__EXECUTED__SELECTED_UNFROZEN
 
 PRE_FREEZE_SELECTION_INPUT =
 ACCEPTED__COMPLETE__REPRODUCIBLE
 
 PRE_FREEZE_SELECTION_INPUT_SHA256 =
 46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821
+
+SELECTED_EXPERIMENTAL_UNIVERSE_COUNT =
+42
+
+SELECTED_EXPERIMENTAL_UNIVERSE_STATUS =
+SELECTED__UNFROZEN
+
+SELECTED_EXPERIMENTAL_UNIVERSE_MEMBERSHIP_ARTIFACT =
+docs/reports/post_C6_selected_experimental_universe_42_membership.txt
+
+SELECTED_EXPERIMENTAL_UNIVERSE_MEMBERSHIP_SHA256 =
+43a42ddf4e4ac40730be7457904be588f4cf26bc333650a301090c925097041f
+
+CHARACTERIZATION_PROTOCOL_STATUS =
+OWNER_ACCEPTED__RECORDED__EXECUTION_NOT_AUTHORIZED
+
+HETEROGENEITY_CHARACTERIZATION =
+NOT_PERFORMED
+
+REFERENCE_RELATIVE_ALIGNMENT_EXECUTION =
+NOT_AUTHORIZED
 
 HETEROGENEITY_CHARACTERIZATION_REQUIRED_BEFORE_CORRECTED_REFREEZE =
 YES
@@ -196,13 +217,13 @@ CORRECTED_REFREEZE =
 NOT_PERFORMED
 
 ACTUAL_42_SECURITY_SELECTION =
-NOT_PERFORMED
+PERFORMED__ACCEPTED
 
 CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
-NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE__SELECTED_42_UNFROZEN__CHARACTERIZATION_AND_FREEZE_NOT_YET_PERFORMED
 
 CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE =
-NO__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+NO__SELECTED_42_UNFROZEN__CHARACTERIZATION_AND_FREEZE_NOT_YET_PERFORMED
 
 UNIVERSE_FREEZE =
 NOT_PERFORMED
@@ -220,7 +241,7 @@ C7_AUTHORIZATION =
 NONE
 
 PROVIDER_ACCESS_EXECUTION =
-HELD__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+HELD__CHARACTERIZATION_AND_FREEZE_NOT_YET_PERFORMED
 
 MASSIVE_PURCHASE = DEFERRED
 
@@ -309,25 +330,28 @@ positively certified eligible securities as the available eligible candidate
 pool. The 619-security pool is unfrozen and must not be described as the
 complete formation-date eligible population.
 
-For current experimental-universe selection purposes, the Owner accepted a
-predeclared deterministic target-42 protocol using sector-first capped
-square-root allocation, global exchange and liquidity marginal balancing, one
-security per issuer, and a lexicographic predeclared-hash set tie-break. That
-protocol has not been executed. The complete 619-row nonselecting pre-freeze
-selection input is accepted and reproducible, with SHA-256
+For current experimental-universe selection purposes, the Owner accepted and
+separately authorized execution of the predeclared deterministic target-42
+protocol using sector-first capped square-root allocation, global exchange and
+liquidity marginal balancing, one security per issuer, and a lexicographic
+predeclared-hash set tie-break. The resulting 42-security membership has been
+Managing-reviewed and Owner-accepted as SELECTED__UNFROZEN, with canonical
+membership SHA-256
+43a42ddf4e4ac40730be7457904be588f4cf26bc333650a301090c925097041f. The complete 619-row nonselecting input remains accepted and
+reproducible, with SHA-256
 46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821.
-No actual 42-security selection or universe freeze has been performed, so
-there is no scientifically usable current primary universe. Architecture B's
-requirement for heterogeneity characterization before the eventual corrected
-refreeze remains in force. A separately authorized deterministic selection may
-occur before characterization; selection itself does not perform or waive the
-later characterization requirement.
+Heterogeneity characterization has not been executed and no corrected universe
+freeze has been performed, so there is still no scientifically usable current
+primary universe. Architecture B's characterization-before-corrected-refreeze
+requirement remains in force. The Owner-accepted 42-member characterization
+design is durably recorded, but characterization and reference-relative
+alignment execution remain unauthorized.
 
 GOV-DEC-0018 remains a valid bounded data-access-establishment authorization
-record, but provider-access execution remains held until experimental-universe
-selection and freeze are separately performed. Account authentication,
-entitlement inspection, and test market-data retrieval must not proceed while
-that hold is active. Data access remains pending
+record, but provider-access execution remains held while the selected 42 is
+unfrozen and required characterization remains incomplete. Account
+authentication, entitlement inspection, and test market-data retrieval must
+not proceed while that hold is active. Data access remains pending
 establishment and acceptance. No paid provider purchase is authorized. C7,
 dataset generation, and all downstream scientific execution remain
 unauthorized.
@@ -428,13 +452,34 @@ AVAILABLE_ELIGIBLE_CANDIDATE_POOL_SHA256 =
 aed6f9e137b52948ebd4c2385c84b5a2b39e2ddd8c7be90fe1f30fa8415cb7c7
 
 PREDECLARED_FROZEN_EXPERIMENTAL_UNIVERSE_SELECTION_PROTOCOL =
-OWNER_ACCEPTED__TARGET_42__NOT_EXECUTED
+OWNER_ACCEPTED__TARGET_42__EXECUTED__SELECTED_UNFROZEN
 
 PRE_FREEZE_SELECTION_INPUT =
 ACCEPTED__COMPLETE__REPRODUCIBLE
 
 PRE_FREEZE_SELECTION_INPUT_SHA256 =
 46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821
+
+SELECTED_EXPERIMENTAL_UNIVERSE_COUNT =
+42
+
+SELECTED_EXPERIMENTAL_UNIVERSE_STATUS =
+SELECTED__UNFROZEN
+
+SELECTED_EXPERIMENTAL_UNIVERSE_MEMBERSHIP_ARTIFACT =
+docs/reports/post_C6_selected_experimental_universe_42_membership.txt
+
+SELECTED_EXPERIMENTAL_UNIVERSE_MEMBERSHIP_SHA256 =
+43a42ddf4e4ac40730be7457904be588f4cf26bc333650a301090c925097041f
+
+CHARACTERIZATION_PROTOCOL_STATUS =
+OWNER_ACCEPTED__RECORDED__EXECUTION_NOT_AUTHORIZED
+
+HETEROGENEITY_CHARACTERIZATION =
+NOT_PERFORMED
+
+REFERENCE_RELATIVE_ALIGNMENT_EXECUTION =
+NOT_AUTHORIZED
 
 HETEROGENEITY_CHARACTERIZATION_REQUIRED_BEFORE_CORRECTED_REFREEZE =
 YES
@@ -446,13 +491,13 @@ CORRECTED_REFREEZE =
 NOT_PERFORMED
 
 ACTUAL_42_SECURITY_SELECTION =
-NOT_PERFORMED
+PERFORMED__ACCEPTED
 
 CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
-NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE__SELECTED_42_UNFROZEN__CHARACTERIZATION_AND_FREEZE_NOT_YET_PERFORMED
 
 CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE =
-NO__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+NO__SELECTED_42_UNFROZEN__CHARACTERIZATION_AND_FREEZE_NOT_YET_PERFORMED
 
 UNIVERSE_FREEZE =
 NOT_PERFORMED
@@ -470,7 +515,7 @@ C7_AUTHORIZATION =
 NONE
 
 PROVIDER_ACCESS_EXECUTION =
-HELD__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+HELD__CHARACTERIZATION_AND_FREEZE_NOT_YET_PERFORMED
 
 dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
@@ -634,7 +679,7 @@ DATA_ACCESS_AUTHORIZED =
 NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE
 
 PROVIDER_ACCESS_EXECUTION =
-HELD__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+HELD__CHARACTERIZATION_AND_FREEZE_NOT_YET_PERFORMED
 
 GOVERNED_DATA_SOURCE_TARGET =
 ALPACA_HISTORICAL_SIP_BARS__EXPLICIT_feed=sip
@@ -655,8 +700,8 @@ C7_authorization = NONE
 C6 contract specification, independent review, and freeze are complete.
 GOV-DEC-0018 remains the bounded post-C6 data-access establishment and
 acceptance authorization record, but provider-access execution remains held
-until the accepted experimental-universe selection protocol is executed and a
-universe freeze is separately completed. C7 remains unauthorized.
+while the selected 42-security set is unfrozen and required characterization
+has not yet been completed. C7 remains unauthorized.
 
 While the hold is active, provider/account authentication, entitlement
 inspection, and test market-data retrieval must not proceed. No paid provider
