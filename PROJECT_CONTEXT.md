@@ -83,8 +83,44 @@ ALPACA_HISTORICAL_SIP_BARS__EXPLICIT_feed=sip
 CURRENT_UNIVERSE_CONTRACT = GOV-DEC-0017
 CURRENT_UNIVERSE_CONTRACT_RECORD =
 docs/decisions/post_C6_universe_design_supersession_decision.md
+
+GOV_DEC_0017_STATUS =
+EFFECTIVE_WITH_LOCALIZED_LATER_SUPERSESSION
+
+GOV_DEC_0017_RETAINED_CONTROLS =
+FORMATION_POINT
++
+INFORMATION_CUTOFF
++
+UNDERLYING_C5_ELIGIBILITY_RULES
++
+POINT_IN_TIME_EXISTENCE
++
+FORMATION_PERIOD_LISTING_ELIGIBILITY
++
+EXACT_SHARE_CLASS_HANDLING
++
+NO_FUTURE_INFORMATION_BACKCASTING
++
+NO_AUTOMATIC_SUCCESSOR_PREDECESSOR_STITCHING
++
+TERMINAL_EVENT_CONTROLS
++
+COMMON_IDENTICAL_UNIVERSE_ACROSS_MODEL_FAMILIES
++
+COMMON_FINAL_UNTOUCHED_HOLDOUT
+
 EXACT_120_REQUIREMENT = SUPERSEDED
-NO_FORCED_N = YES
+
+GOV_DEC_0017_SUPERSEDED_FOR_CURRENT_EXPERIMENTAL_UNIVERSE_SELECTION =
+ALL_ELIGIBLE_SECURITIES_AS_FINAL_PRIMARY_UNIVERSE_MEMBERSHIP_RULE
++
+NO_FORCED_N_FOR_FINAL_EXPERIMENTAL_UNIVERSE
++
+NO_TOP_N_OR_FIXED_N_TRUNCATION_FOR_FINAL_EXPERIMENTAL_UNIVERSE
+
+CURRENT_EXPERIMENTAL_UNIVERSE_SELECTION_RULE =
+OWNER_ACCEPTED_TARGET_42_PREDECLARED_PROTOCOL
 
 CURRENT_UNIVERSE_CORRECTIVE_DECISION =
 docs/decisions/post_C6_frozen_universe_corrective_blocker_alignment_decision.md
@@ -106,10 +142,10 @@ C5_ELIGIBILITY_RULES =
 docs/decisions/C5_historical_universe_eligibility_decision.md
 
 FORMATION_POINT =
-2024_09_03_REGULAR_SESSION_OPEN
+2024-09-03_REGULAR_SESSION_OPEN
 
 INFORMATION_CUTOFF =
-COMPLETED_2024_08_30_REGULAR_SESSION
+COMPLETED_2024-08-30_REGULAR_SESSION
 
 CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE =
 GOV-DEC-0021
@@ -149,6 +185,15 @@ ACCEPTED__COMPLETE__REPRODUCIBLE
 
 PRE_FREEZE_SELECTION_INPUT_SHA256 =
 46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821
+
+HETEROGENEITY_CHARACTERIZATION_REQUIRED_BEFORE_CORRECTED_REFREEZE =
+YES
+
+HETEROGENEITY_EXECUTION =
+NOT_PERFORMED
+
+CORRECTED_REFREEZE =
+NOT_PERFORMED
 
 ACTUAL_42_SECURITY_SELECTION =
 NOT_PERFORMED
@@ -243,12 +288,13 @@ C6 is completed and effective and is not reopened. The dataset contract is
 frozen and effective. There is no active major phase or current C6 execution
 authorization. C7 is not authorized.
 
-GOV-DEC-0017 is the effective localized semantic supersession of the prior
-exact-120 universe requirement. The current primary-universe contract uses all
-distinct securities positively certified as eligible at the frozen 2024-09-03
-formation under the pre-specified frozen eligibility rules, using only
-information available through the completed 2024-08-30 regular session. There
-is no forced N, top-N membership truncation, or minimum-security-count gate.
+GOV-DEC-0017 remains effective for its retained point-in-time, eligibility,
+security-identity, terminal-event, common-universe, and shared-final-holdout
+controls. Its former all-eligible / no-forced-N final experimental-universe
+membership rule is locally superseded for current experimental-universe
+selection by the later Owner-accepted deterministic target-42 protocol. The
+619 positively certified securities are the available eligible candidate pool;
+they are not themselves the frozen experimental universe.
 
 The historical 30-security freeze and the later exact-23 / three-security
 corrective evidence remain accepted historical evidence for what they
@@ -271,7 +317,11 @@ protocol has not been executed. The complete 619-row nonselecting pre-freeze
 selection input is accepted and reproducible, with SHA-256
 46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821.
 No actual 42-security selection or universe freeze has been performed, so
-there is no scientifically usable current primary universe.
+there is no scientifically usable current primary universe. Architecture B's
+requirement for heterogeneity characterization before the eventual corrected
+refreeze remains in force. A separately authorized deterministic selection may
+occur before characterization; selection itself does not perform or waive the
+later characterization requirement.
 
 GOV-DEC-0018 remains a valid bounded data-access-establishment authorization
 record, but provider-access execution remains held until experimental-universe
@@ -342,10 +392,10 @@ C5_ELIGIBILITY_RULES =
 docs/decisions/C5_historical_universe_eligibility_decision.md
 
 FORMATION_POINT =
-2024_09_03_REGULAR_SESSION_OPEN
+2024-09-03_REGULAR_SESSION_OPEN
 
 INFORMATION_CUTOFF =
-COMPLETED_2024_08_30_REGULAR_SESSION
+COMPLETED_2024-08-30_REGULAR_SESSION
 
 CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE =
 GOV-DEC-0021
@@ -385,6 +435,15 @@ ACCEPTED__COMPLETE__REPRODUCIBLE
 
 PRE_FREEZE_SELECTION_INPUT_SHA256 =
 46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821
+
+HETEROGENEITY_CHARACTERIZATION_REQUIRED_BEFORE_CORRECTED_REFREEZE =
+YES
+
+HETEROGENEITY_EXECUTION =
+NOT_PERFORMED
+
+CORRECTED_REFREEZE =
+NOT_PERFORMED
 
 ACTUAL_42_SECURITY_SELECTION =
 NOT_PERFORMED
@@ -575,7 +634,7 @@ DATA_ACCESS_AUTHORIZED =
 NO__PENDING_ESTABLISHMENT_AND_ACCEPTANCE
 
 PROVIDER_ACCESS_EXECUTION =
-HELD__UNIVERSE_BLOCKER
+HELD__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
 
 GOVERNED_DATA_SOURCE_TARGET =
 ALPACA_HISTORICAL_SIP_BARS__EXPLICIT_feed=sip
