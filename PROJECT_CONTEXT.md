@@ -95,12 +95,6 @@ GOV-DEC-0019
 CORRECTIVE_REMEDIATION_ARCHITECTURE =
 ARCHITECTURE_B
 
-CURRENT_FROZEN_UNIVERSE_SCIENTIFIC_STATUS =
-BLOCKED__MATERIAL_ELIGIBILITY_CONTRADICTION_PENDING_CORRECTIVE_REMEDIATION
-
-FREEZE_ARTIFACT_EXISTS = YES
-FREEZE_SCIENTIFIC_USABILITY = BLOCKED
-
 HISTORICAL_FROZEN_UNIVERSE_COUNT = 30
 HISTORICAL_FROZEN_UNIVERSE_SHA256 =
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
@@ -108,28 +102,14 @@ HISTORICAL_FROZEN_UNIVERSE_SHA256 =
 HISTORICAL_FROZEN_UNIVERSE_SCIENTIFIC_USABILITY =
 BLOCKED
 
-HISTORICAL_IDENTICAL_PRIMARY_UNIVERSE_REQUIREMENT_VERIFIED = YES
+C5_ELIGIBILITY_RULES =
+docs/decisions/C5_historical_universe_eligibility_decision.md
 
-CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
-NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE_PENDING_CORRECTIVE_REFREEZE
+FORMATION_POINT =
+2024_09_03_REGULAR_SESSION_OPEN
 
-CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE =
-NO
-
-FULL_ELIGIBILITY_RECERTIFICATION =
-COMPLETE__OWNER_ACCEPTED
-
-POSITIVELY_RECERTIFIED_ELIGIBLE_COUNT =
-3
-
-DECISIVELY_INELIGIBLE_COUNT =
-16
-
-UNRESOLVED_PROVIDER_MISSINGNESS_COUNT =
-4
-
-FULL_ELIGIBILITY_RECERTIFICATION_COMPLETION_RECORD =
-docs/reports/post_C6_full_eligibility_recertification_completion.md
+INFORMATION_CUTOFF =
+COMPLETED_2024_08_30_REGULAR_SESSION
 
 CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE =
 GOV-DEC-0021
@@ -137,44 +117,53 @@ GOV-DEC-0021
 CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE_RECORD =
 docs/decisions/post_C6_primary_exchange_evidence_architecture_proportionality_supersession_decision.md
 
-PRIMARY_EXCHANGE_EVIDENCE_ACQUISITION =
-COMPLETE__PASS
+FORMATION_FRAME_STATUS =
+INCOMPLETE__OWNER_ACCEPTED_MATERIAL_LIMITATION
 
-PRIMARY_EXCHANGE_CLASSIFICATION =
-COMPLETE__PASS
+FORMATION_FRAME_COMPLETE_POPULATION_CLAIM =
+PROHIBITED
 
-PRIMARY_EXCHANGE_PASS_COUNT =
-23
+FORMATION_FRAME_EXACT_SECURITY_COUNT =
+14891
 
-PRIMARY_EXCHANGE_FAIL_COUNT =
-0
+POSITIVELY_CERTIFIED_AVAILABLE_ELIGIBLE_CANDIDATE_COUNT =
+619
 
-PRIMARY_EXCHANGE_UNRESOLVED_COUNT =
-0
+POSITIVELY_INELIGIBLE_COUNT =
+7110
 
-PRIMARY_EXCHANGE_CLASSIFICATION_COMPLETION_RECORD =
-docs/reports/post_C6_primary_exchange_classification_completion.md
+FAIL_CLOSED_UNRESOLVED_COUNT =
+7162
 
-PRICE_REVALIDATION =
-COMPLETE__19_CLASSIFIED__4_UNRESOLVED_PROVIDER_MISSINGNESS
+AVAILABLE_ELIGIBLE_CANDIDATE_POOL_STATUS =
+ACCEPTED__UNFROZEN__NOT_COMPLETE_FORMATION_POPULATION
 
-LIQUIDITY_REVALIDATION =
-COMPLETE__19_CLASSIFIED__4_UNRESOLVED_PROVIDER_MISSINGNESS
+AVAILABLE_ELIGIBLE_CANDIDATE_POOL_SHA256 =
+aed6f9e137b52948ebd4c2385c84b5a2b39e2ddd8c7be90fe1f30fa8415cb7c7
 
-PROVISIONAL_CORRECTED_SET =
-CONSTRUCTED__UNFROZEN
+PREDECLARED_FROZEN_EXPERIMENTAL_UNIVERSE_SELECTION_PROTOCOL =
+OWNER_ACCEPTED__TARGET_42__NOT_EXECUTED
 
-PROVISIONAL_CORRECTED_ELIGIBLE_COUNT =
-3
+PRE_FREEZE_SELECTION_INPUT =
+ACCEPTED__COMPLETE__REPRODUCIBLE
 
-PROVISIONAL_CORRECTED_SET_RECORD =
-docs/reports/post_C6_unfrozen_provisional_corrected_eligible_set.md
+PRE_FREEZE_SELECTION_INPUT_SHA256 =
+46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821
 
-HETEROGENEITY_EXECUTION =
+ACTUAL_42_SECURITY_SELECTION =
 NOT_PERFORMED
 
-CORRECTED_REFREEZE =
+CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
+NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+
+CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE =
+NO__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+
+UNIVERSE_FREEZE =
 NOT_PERFORMED
+
+PROVIDER_AND_SECURITY_MASTER_COMPLETENESS_SEARCH =
+STOPPED_BY_OWNER
 
 DATASET_GENERATION =
 NOT_AUTHORIZED
@@ -185,11 +174,8 @@ NOT_AUTHORIZED
 C7_AUTHORIZATION =
 NONE
 
-CORRECTIVE_REMEDIATION_STATUS =
-ARCHITECTURE_ACCEPTED__EXECUTION_REQUIRES_SEPARATE_AUTHORIZATION
-
 PROVIDER_ACCESS_EXECUTION =
-HELD__UNIVERSE_BLOCKER
+HELD__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
 
 MASSIVE_PURCHASE = DEFERRED
 
@@ -264,30 +250,34 @@ formation under the pre-specified frozen eligibility rules, using only
 information available through the completed 2024-08-30 regular session. There
 is no forced N, top-N membership truncation, or minimum-security-count gate.
 
-GOV-DEC-0017 itself did not change the certified count. A subsequent accepted
-certification review and freeze recorded a 30-security historical freeze
-artifact with SHA-256
-78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7.
-A later accepted eligibility-contradiction audit established that the frozen
-30 is not currently scientifically usable as the primary universe.
+The historical 30-security freeze and the later exact-23 / three-security
+corrective evidence remain accepted historical evidence for what they
+established, but they no longer describe the current experimental-universe
+selection state.
 
-GOV-DEC-0019 records the Owner-accepted Architecture-B corrective design and
-the material current-state blocker. The historical 30-security membership and
-freeze manifest remain reproducible evidence, but freeze scientific usability
-is blocked. Full eligibility recertification of the exact-23 corrective work
-population is complete and Owner-accepted: 3 cases are positively recertified
-eligible, 16 are decisively ineligible, and 4 remain unresolved because of
-provider missingness. This result does not construct a current primary
-universe. An unfrozen provisional corrected eligible set has now been constructed
-and Owner-accepted with 3 positively recertified eligible cases; 4 provider-
-missingness cases remain unresolved. This does not create a scientifically usable
-current primary universe. Heterogeneity has not been executed and a corrected
-refreeze has not been performed.
+The bounded point-in-time formation-frame construction established 14,891
+exact securities. Formation-frame completeness was not established. The Owner
+accepted that incompleteness as a material limitation, stopped further
+provider/security-master completeness research, and preserved the 619
+positively certified eligible securities as the available eligible candidate
+pool. The 619-security pool is unfrozen and must not be described as the
+complete formation-date eligible population.
+
+For current experimental-universe selection purposes, the Owner accepted a
+predeclared deterministic target-42 protocol using sector-first capped
+square-root allocation, global exchange and liquidity marginal balancing, one
+security per issuer, and a lexicographic predeclared-hash set tie-break. That
+protocol has not been executed. The complete 619-row nonselecting pre-freeze
+selection input is accepted and reproducible, with SHA-256
+46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821.
+No actual 42-security selection or universe freeze has been performed, so
+there is no scientifically usable current primary universe.
 
 GOV-DEC-0018 remains a valid bounded data-access-establishment authorization
-record, but provider-access execution is held behind the universe blocker.
-Account authentication, entitlement inspection, and test market-data retrieval
-must not proceed while that hold is active. Data access remains pending
+record, but provider-access execution remains held until experimental-universe
+selection and freeze are separately performed. Account authentication,
+entitlement inspection, and test market-data retrieval must not proceed while
+that hold is active. Data access remains pending
 establishment and acceptance. No paid provider purchase is authorized. C7,
 dataset generation, and all downstream scientific execution remain
 unauthorized.
@@ -341,12 +331,6 @@ GOV-DEC-0019
 CORRECTIVE_REMEDIATION_ARCHITECTURE =
 ARCHITECTURE_B
 
-CURRENT_FROZEN_UNIVERSE_SCIENTIFIC_STATUS =
-BLOCKED__MATERIAL_ELIGIBILITY_CONTRADICTION_PENDING_CORRECTIVE_REMEDIATION
-
-FREEZE_ARTIFACT_EXISTS = YES
-FREEZE_SCIENTIFIC_USABILITY = BLOCKED
-
 HISTORICAL_FROZEN_UNIVERSE_COUNT = 30
 HISTORICAL_FROZEN_UNIVERSE_SHA256 =
 78ec113c5b83ce03477c1529f80c6104819d7f3a70813dec6125fc24cdf8ade7
@@ -354,26 +338,14 @@ HISTORICAL_FROZEN_UNIVERSE_SHA256 =
 HISTORICAL_FROZEN_UNIVERSE_SCIENTIFIC_USABILITY =
 BLOCKED
 
-CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
-NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE_PENDING_CORRECTIVE_REFREEZE
+C5_ELIGIBILITY_RULES =
+docs/decisions/C5_historical_universe_eligibility_decision.md
 
-CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE =
-NO
+FORMATION_POINT =
+2024_09_03_REGULAR_SESSION_OPEN
 
-FULL_ELIGIBILITY_RECERTIFICATION =
-COMPLETE__OWNER_ACCEPTED
-
-POSITIVELY_RECERTIFIED_ELIGIBLE_COUNT =
-3
-
-DECISIVELY_INELIGIBLE_COUNT =
-16
-
-UNRESOLVED_PROVIDER_MISSINGNESS_COUNT =
-4
-
-FULL_ELIGIBILITY_RECERTIFICATION_COMPLETION_RECORD =
-docs/reports/post_C6_full_eligibility_recertification_completion.md
+INFORMATION_CUTOFF =
+COMPLETED_2024_08_30_REGULAR_SESSION
 
 CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE =
 GOV-DEC-0021
@@ -381,44 +353,53 @@ GOV-DEC-0021
 CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE_RECORD =
 docs/decisions/post_C6_primary_exchange_evidence_architecture_proportionality_supersession_decision.md
 
-PRIMARY_EXCHANGE_EVIDENCE_ACQUISITION =
-COMPLETE__PASS
+FORMATION_FRAME_STATUS =
+INCOMPLETE__OWNER_ACCEPTED_MATERIAL_LIMITATION
 
-PRIMARY_EXCHANGE_CLASSIFICATION =
-COMPLETE__PASS
+FORMATION_FRAME_COMPLETE_POPULATION_CLAIM =
+PROHIBITED
 
-PRIMARY_EXCHANGE_PASS_COUNT =
-23
+FORMATION_FRAME_EXACT_SECURITY_COUNT =
+14891
 
-PRIMARY_EXCHANGE_FAIL_COUNT =
-0
+POSITIVELY_CERTIFIED_AVAILABLE_ELIGIBLE_CANDIDATE_COUNT =
+619
 
-PRIMARY_EXCHANGE_UNRESOLVED_COUNT =
-0
+POSITIVELY_INELIGIBLE_COUNT =
+7110
 
-PRIMARY_EXCHANGE_CLASSIFICATION_COMPLETION_RECORD =
-docs/reports/post_C6_primary_exchange_classification_completion.md
+FAIL_CLOSED_UNRESOLVED_COUNT =
+7162
 
-PRICE_REVALIDATION =
-COMPLETE__19_CLASSIFIED__4_UNRESOLVED_PROVIDER_MISSINGNESS
+AVAILABLE_ELIGIBLE_CANDIDATE_POOL_STATUS =
+ACCEPTED__UNFROZEN__NOT_COMPLETE_FORMATION_POPULATION
 
-LIQUIDITY_REVALIDATION =
-COMPLETE__19_CLASSIFIED__4_UNRESOLVED_PROVIDER_MISSINGNESS
+AVAILABLE_ELIGIBLE_CANDIDATE_POOL_SHA256 =
+aed6f9e137b52948ebd4c2385c84b5a2b39e2ddd8c7be90fe1f30fa8415cb7c7
 
-PROVISIONAL_CORRECTED_SET =
-CONSTRUCTED__UNFROZEN
+PREDECLARED_FROZEN_EXPERIMENTAL_UNIVERSE_SELECTION_PROTOCOL =
+OWNER_ACCEPTED__TARGET_42__NOT_EXECUTED
 
-PROVISIONAL_CORRECTED_ELIGIBLE_COUNT =
-3
+PRE_FREEZE_SELECTION_INPUT =
+ACCEPTED__COMPLETE__REPRODUCIBLE
 
-PROVISIONAL_CORRECTED_SET_RECORD =
-docs/reports/post_C6_unfrozen_provisional_corrected_eligible_set.md
+PRE_FREEZE_SELECTION_INPUT_SHA256 =
+46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821
 
-HETEROGENEITY_EXECUTION =
+ACTUAL_42_SECURITY_SELECTION =
 NOT_PERFORMED
 
-CORRECTED_REFREEZE =
+CURRENT_PRIMARY_UNIVERSE_SCIENTIFIC_STATUS =
+NO_SCIENTIFICALLY_USABLE_CURRENT_PRIMARY_UNIVERSE__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+
+CURRENT_SCIENTIFICALLY_USABLE_PRIMARY_UNIVERSE =
+NO__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
+
+UNIVERSE_FREEZE =
 NOT_PERFORMED
+
+PROVIDER_AND_SECURITY_MASTER_COMPLETENESS_SEARCH =
+STOPPED_BY_OWNER
 
 DATASET_GENERATION =
 NOT_AUTHORIZED
@@ -429,11 +410,8 @@ NOT_AUTHORIZED
 C7_AUTHORIZATION =
 NONE
 
-CORRECTIVE_REMEDIATION_STATUS =
-ARCHITECTURE_ACCEPTED__EXECUTION_REQUIRES_SEPARATE_AUTHORIZATION
-
 PROVIDER_ACCESS_EXECUTION =
-HELD__UNIVERSE_BLOCKER
+HELD__SELECTION_AND_FREEZE_NOT_YET_PERFORMED
 
 dataset_contract_status = FROZEN__EFFECTIVE
 dataset_generation_status = NOT_AUTHORIZED
@@ -537,8 +515,8 @@ broad corrective boundary. It does not authorize eligibility recertification,
 external evidence acquisition, universe mutation, heterogeneity execution,
 expansion, corrected refreeze, or C7.
 
-The current primary-exchange evidence architecture and accepted exact-23
-classification are recorded in:
+The current primary-exchange evidence architecture and historical accepted
+exact-23 classification are recorded in:
 
 ```text
 CURRENT_PRIMARY_EXCHANGE_EVIDENCE_ARCHITECTURE =
@@ -617,9 +595,9 @@ C7_authorization = NONE
 
 C6 contract specification, independent review, and freeze are complete.
 GOV-DEC-0018 remains the bounded post-C6 data-access establishment and
-acceptance authorization record, but provider-access execution is held by the
-current frozen-universe scientific blocker recorded in GOV-DEC-0019. C7
-remains unauthorized.
+acceptance authorization record, but provider-access execution remains held
+until the accepted experimental-universe selection protocol is executed and a
+universe freeze is separately completed. C7 remains unauthorized.
 
 While the hold is active, provider/account authentication, entitlement
 inspection, and test market-data retrieval must not proceed. No paid provider
