@@ -1,0 +1,153 @@
+{
+  "accepted_evidence_reuse_first": true,
+  "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+  "canonical_commit": "9f61e40aeea71a722f9328ff09495cd20002b811",
+  "inputs": [
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 20943638,
+      "expected_sha256": "e2809dc6b8d42fa468bfee21470245cc09e5430af5c68cd883b1e4949c415590",
+      "name": "construction_package",
+      "path": "/Users/richardcooper/Downloads/reference_population_stage1_runner/reference_population_construction_complete_corrected_result_20260919T204611Z.zip",
+      "sha256": "e2809dc6b8d42fa468bfee21470245cc09e5430af5c68cd883b1e4949c415590",
+      "source_role": "ACCEPTED_INPUT",
+      "zip_member": null
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 405623,
+      "expected_sha256": null,
+      "name": "selection_package",
+      "path": "/Users/richardcooper/Downloads/target_42_complete_all_in_one_package.zip",
+      "sha256": "9b73adf8203422c5c9c9aa0a4f0e2c64d260f67be27c5f39d6ac8a5bda2c96d0",
+      "source_role": "OBSERVED_CONTAINER_OR_SUPPORTING_RECORD",
+      "zip_member": null
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 3276,
+      "expected_sha256": "43a42ddf4e4ac40730be7457904be588f4cf26bc333650a301090c925097041f",
+      "name": "selected_experimental_universe_42.txt",
+      "path": "/Users/richardcooper/Downloads/target_42_complete_all_in_one_package.zip",
+      "sha256": "43a42ddf4e4ac40730be7457904be588f4cf26bc333650a301090c925097041f",
+      "source_role": "ACCEPTED_INPUT",
+      "zip_member": "selected_experimental_universe_42.txt"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 151499,
+      "expected_sha256": "9350f3f8bac21bc755335b9fd99d779d250f447641b43956684b39b3833bc56e",
+      "name": "selected_experimental_universe_42.csv",
+      "path": "/Users/richardcooper/Downloads/target_42_complete_all_in_one_package.zip",
+      "sha256": "9350f3f8bac21bc755335b9fd99d779d250f447641b43956684b39b3833bc56e",
+      "source_role": "ACCEPTED_INPUT",
+      "zip_member": "selected_experimental_universe_42.csv"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 2158330,
+      "expected_sha256": "46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821",
+      "name": "pre_freeze_selection_input_619.csv",
+      "path": "/Users/richardcooper/Downloads/target_42_complete_all_in_one_package.zip",
+      "sha256": "46d8b36e43e5a70193e7fd6d273ff6672b21c37b4dc1932a7b643bd27aec8821",
+      "source_role": "ACCEPTED_INPUT",
+      "zip_member": "pre_freeze_selection_input_619.csv"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 467272,
+      "expected_sha256": "5de90b0ac567a1e488dce54b319e242939f6c139517be04423c32a4f3486c091",
+      "name": "pit_sic_bridge_619_v3.csv",
+      "path": "/Users/richardcooper/Downloads/target_42_complete_all_in_one_package.zip",
+      "sha256": "5de90b0ac567a1e488dce54b319e242939f6c139517be04423c32a4f3486c091",
+      "source_role": "ACCEPTED_INPUT",
+      "zip_member": "pit_sic_bridge_619_v3.csv"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 1369654,
+      "expected_sha256": "aed6f9e137b52948ebd4c2385c84b5a2b39e2ddd8c7be90fe1f30fa8415cb7c7",
+      "name": "positively_certified_eligible.csv",
+      "path": "/Users/richardcooper/Downloads/reference_population_stage1_runner/reference_population_construction_complete_corrected_result_20260919T204611Z.zip",
+      "sha256": "aed6f9e137b52948ebd4c2385c84b5a2b39e2ddd8c7be90fe1f30fa8415cb7c7",
+      "source_role": "ACCEPTED_INPUT",
+      "zip_member": "positively_certified_eligible.csv"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 54224,
+      "expected_sha256": null,
+      "name": "docs/workflows/milestone_review_reference_map.md",
+      "path": "https://github.com/racoope70/quantitative-trading-research-platform/blob/9f61e40aeea71a722f9328ff09495cd20002b811/docs/workflows/milestone_review_reference_map.md",
+      "sha256": "82ad4bd76b7bb862e52c0b2c9b3c679a1b0842008b3fe63f882e1ba0417e8403",
+      "source_role": "OBSERVED_CONTAINER_OR_SUPPORTING_RECORD",
+      "zip_member": null
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 3276,
+      "expected_sha256": null,
+      "name": "docs/reports/post_C6_selected_experimental_universe_42_membership.txt",
+      "path": "https://github.com/racoope70/quantitative-trading-research-platform/blob/9f61e40aeea71a722f9328ff09495cd20002b811/docs/reports/post_C6_selected_experimental_universe_42_membership.txt",
+      "sha256": "43a42ddf4e4ac40730be7457904be588f4cf26bc333650a301090c925097041f",
+      "source_role": "OBSERVED_CONTAINER_OR_SUPPORTING_RECORD",
+      "zip_member": null
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 31988,
+      "expected_sha256": null,
+      "name": "docs/reports/post_C6_predeclared_heterogeneity_protocol.md",
+      "path": "https://github.com/racoope70/quantitative-trading-research-platform/blob/9f61e40aeea71a722f9328ff09495cd20002b811/docs/reports/post_C6_predeclared_heterogeneity_protocol.md",
+      "sha256": "a2b81edc50e770a93112326ab63728ea8bc6254f558cf363822b4b90b32de852",
+      "source_role": "OBSERVED_CONTAINER_OR_SUPPORTING_RECORD",
+      "zip_member": null
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 11827,
+      "expected_sha256": null,
+      "name": "Owner execution handoff",
+      "path": "/Users/richardcooper/.codex/attachments/caecbe67-364c-4b06-a024-066e447d34a0/pasted-text.txt",
+      "sha256": "acbb97ac201a03c630017f5fffe098e3cbde2d4de23f11bcb69ce69ff42a414d",
+      "source_role": "OBSERVED_CONTAINER_OR_SUPPORTING_RECORD",
+      "zip_member": null
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 12333,
+      "expected_sha256": null,
+      "name": "Prior independent review (supporting, not a new audit)",
+      "path": "/Users/richardcooper/Downloads/independent_review_42.md",
+      "sha256": "7ac5422e06564ff866046783fc9ac099e8d56cfe1d68d05b5773bb439d730353",
+      "source_role": "OBSERVED_CONTAINER_OR_SUPPORTING_RECORD",
+      "zip_member": null
+    }
+  ],
+  "protocol_id": "EVID_POSTC6_SELECTED42_CHARACTERIZATION_PROTOCOL_001",
+  "rejected_same_name_input": [
+    {
+      "path": "/Users/richardcooper/Downloads/pre_freeze_selection_input_619.csv",
+      "reason": "HASH_DIFFERS_FROM_ACCEPTED_INPUT; exact accepted member recovered from named ZIP",
+      "sha256": "64a0f76420590721be5c42d8181a0148f589ec93e1a1d17fd20a48b85868c088",
+      "used": false
+    }
+  ],
+  "required_variables": {
+    "exchange": {
+      "accepted_source": "pre_freeze_selection_input_619.csv",
+      "evidence_id": "EVID_POSTC6_PREFREEZE_SELECTION_INPUT_619_001",
+      "field": "PIT_PRIMARY_EXCHANGE_FAMILY"
+    },
+    "liquidity": {
+      "accepted_source": "pre_freeze_selection_input_619.csv; reference ledger where numeric values present",
+      "evidence_id": "EVID_POSTC6_PREFREEZE_SELECTION_INPUT_619_001",
+      "field": "C5_TRAILING_60_SESSION_MEDIAN_DOLLAR_VOLUME"
+    },
+    "sector": {
+      "accepted_source": "pre_freeze_selection_input_619.csv; PIT bridge V3",
+      "evidence_id": "EVID_POSTC6_PREFREEZE_SELECTION_INPUT_619_001",
+      "field": "PIT_SECTOR_1987_SIC_DIVISION"
+    }
+  }
+}

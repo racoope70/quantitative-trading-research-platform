@@ -1,0 +1,1296 @@
+{
+  "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+  "checks": [
+    {
+      "check": "input_hash:pre_freeze_selection_input_619.csv",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "input_hash:positively_certified_eligible.csv",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "input_hash:selected_experimental_universe_42.txt",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "input_hash:selected_experimental_universe_42.csv",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "input_hash:pit_sic_bridge_619_v3.csv",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "42_rows_unique",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "619_rows_unique",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "reference_input_identical_IDs",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "42_subset",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exact_membership_serialization",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "42_detail_ids",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:HHI_ordered_pairs",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:effective_categories",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:max_share",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:maximum_share_categories",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_sum",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:count_total",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:category:B__MINING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_decimal:B__MINING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:category:C__CONSTRUCTION",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_decimal:C__CONSTRUCTION",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:category:D__MANUFACTURING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_decimal:D__MANUFACTURING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:category:E__TRANSPORTATION_COMMUNICATIONS_ELECTRIC_GAS_SANITARY_SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_decimal:E__TRANSPORTATION_COMMUNICATIONS_ELECTRIC_GAS_SANITARY_SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:category:F__WHOLESALE_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_decimal:F__WHOLESALE_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:category:G__RETAIL_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_decimal:G__RETAIL_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:category:H__FINANCE_INSURANCE_REAL_ESTATE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_decimal:H__FINANCE_INSURANCE_REAL_ESTATE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:category:I__SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:share_decimal:I__SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:decimal:hhi",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:decimal:effective_category_count",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:subject:decimal:maximum_category_share",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:HHI_ordered_pairs",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:effective_categories",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:max_share",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:maximum_share_categories",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_sum",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:count_total",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:category:B__MINING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_decimal:B__MINING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:category:C__CONSTRUCTION",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_decimal:C__CONSTRUCTION",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:category:D__MANUFACTURING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_decimal:D__MANUFACTURING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:category:E__TRANSPORTATION_COMMUNICATIONS_ELECTRIC_GAS_SANITARY_SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_decimal:E__TRANSPORTATION_COMMUNICATIONS_ELECTRIC_GAS_SANITARY_SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:category:F__WHOLESALE_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_decimal:F__WHOLESALE_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:category:G__RETAIL_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_decimal:G__RETAIL_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:category:H__FINANCE_INSURANCE_REAL_ESTATE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_decimal:H__FINANCE_INSURANCE_REAL_ESTATE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:category:I__SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:share_decimal:I__SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:decimal:hhi",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:decimal:effective_category_count",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:reference:decimal:maximum_category_share",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:TVD_distribution_overlap",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:TVD_decimal",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:signed_difference:B__MINING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:signed_difference:C__CONSTRUCTION",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:signed_difference:D__MANUFACTURING",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:signed_difference:E__TRANSPORTATION_COMMUNICATIONS_ELECTRIC_GAS_SANITARY_SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:signed_difference:F__WHOLESALE_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:signed_difference:G__RETAIL_TRADE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:signed_difference:H__FINANCE_INSURANCE_REAL_ESTATE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "sector:signed_difference:I__SERVICES",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:HHI_ordered_pairs",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:effective_categories",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:max_share",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:maximum_share_categories",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:share_sum",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:count_total",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:category:NASDAQ",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:share_decimal:NASDAQ",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:category:NYSE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:share_decimal:NYSE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:category:NYSE_AMERICAN",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:share_decimal:NYSE_AMERICAN",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:decimal:hhi",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:decimal:effective_category_count",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:subject:decimal:maximum_category_share",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:HHI_ordered_pairs",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:effective_categories",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:max_share",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:maximum_share_categories",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:share_sum",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:count_total",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:category:NASDAQ",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:share_decimal:NASDAQ",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:category:NYSE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:share_decimal:NYSE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:category:NYSE_AMERICAN",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:share_decimal:NYSE_AMERICAN",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:decimal:hhi",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:decimal:effective_category_count",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:reference:decimal:maximum_category_share",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:TVD_distribution_overlap",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:TVD_decimal",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:signed_difference:NASDAQ",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:signed_difference:NYSE",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "exchange:signed_difference:NYSE_AMERICAN",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "subject:positive_complete_liquidity",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "subject:minimum",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "subject:median",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "subject:maximum",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "subject:exact_range_ratio",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "subject:natural_log_range",
+      "detail": {
+        "absolute_error": 8.881784197001252e-16,
+        "independent_libm": 5.178656111696927,
+        "tolerance": "rel_tol=1e-14; abs_tol=1e-14; numerical validation only, not a scientific threshold"
+      },
+      "pass": true
+    },
+    {
+      "check": "reference:positive_complete_liquidity",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "reference:minimum",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "reference:median",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "reference:maximum",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "reference:exact_range_ratio",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "reference:natural_log_range",
+      "detail": {
+        "absolute_error": 0.0,
+        "independent_libm": 7.569425914270294,
+        "tolerance": "rel_tol=1e-14; abs_tol=1e-14; numerical validation only, not a scientific threshold"
+      },
+      "pass": true
+    },
+    {
+      "check": "all_42_percentiles_in_canonical_order",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_00156c3fe8a174df90f1c54dd6d8cb9f077b464c1f109e4636539f3130b8dd30",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_00156c3fe8a174df90f1c54dd6d8cb9f077b464c1f109e4636539f3130b8dd30",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_00fb6528fe244b75593635a36b2b78d706528dc11237099961711d6504d26bba",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_00fb6528fe244b75593635a36b2b78d706528dc11237099961711d6504d26bba",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_0dbf6c4f6aeba8867860d2883e64a570b107af4d79b38d4a813a666d50fe0380",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_0dbf6c4f6aeba8867860d2883e64a570b107af4d79b38d4a813a666d50fe0380",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_1659a323249aa5c6cdc4377fe3f7f8437ca684783fd85ac60620ae28c7c3cc1a",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_1659a323249aa5c6cdc4377fe3f7f8437ca684783fd85ac60620ae28c7c3cc1a",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_167176fb819aa37569ae5b28fb94344c9a4e979a6bc04eb4a55388e1d5095173",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_167176fb819aa37569ae5b28fb94344c9a4e979a6bc04eb4a55388e1d5095173",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_1b95a5a90c3e7da12b49b203db134b605b79ea5a3ebae64303d4ce6a8e8158be",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_1b95a5a90c3e7da12b49b203db134b605b79ea5a3ebae64303d4ce6a8e8158be",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_291c89f6ee47be9c54ba7f440a6d6f4ab411a04ba0afc032d80e1e7409064890",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_291c89f6ee47be9c54ba7f440a6d6f4ab411a04ba0afc032d80e1e7409064890",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_2c28a8a48ceb4d10e3b536c7d28e6372147d05327bb7e45378928ae52c7b7f2f",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_2c28a8a48ceb4d10e3b536c7d28e6372147d05327bb7e45378928ae52c7b7f2f",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_2f9cd6db2540d22719bc47ac58d44408f9fdfc7d2eedf7977371677e11ac4ca2",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_2f9cd6db2540d22719bc47ac58d44408f9fdfc7d2eedf7977371677e11ac4ca2",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_30b2501d4e844ed69f70c2ae376b479c60286e3ce46eaec8656bc0bdf48cb710",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_30b2501d4e844ed69f70c2ae376b479c60286e3ce46eaec8656bc0bdf48cb710",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_32fe39b2c0025c46e325a6b024639dcf209ef2cc4239c6729a5873f652164fd5",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_32fe39b2c0025c46e325a6b024639dcf209ef2cc4239c6729a5873f652164fd5",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_46fd7613232c3e3a0d12b70a65f8adcf6cc566522991dc75d860ecf5bb6c9ef0",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_46fd7613232c3e3a0d12b70a65f8adcf6cc566522991dc75d860ecf5bb6c9ef0",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_4f30bd4a7bddc07f4b7bb78fde0e43e893679ac0158ce2627dda692e2c766061",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_4f30bd4a7bddc07f4b7bb78fde0e43e893679ac0158ce2627dda692e2c766061",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_586aad1f6bb1ca2fa149117a91b131b416c01177ef27f63900c4fbb848460551",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_586aad1f6bb1ca2fa149117a91b131b416c01177ef27f63900c4fbb848460551",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_6cfb331c1d0fd0a49834c54dc1bae580a2b8ffd3620e3a27846d09a297e0ed63",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_6cfb331c1d0fd0a49834c54dc1bae580a2b8ffd3620e3a27846d09a297e0ed63",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_7edf199b0846da8e56fe690c852c9b189c36b91c84493b85d23a337c7108c468",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_7edf199b0846da8e56fe690c852c9b189c36b91c84493b85d23a337c7108c468",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_83db6660463836a049160ca0fcf1f6ebe95a724d660a0515176129ecac97301e",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_83db6660463836a049160ca0fcf1f6ebe95a724d660a0515176129ecac97301e",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_8b207be2c5188749fc8d2cbe95104111f421bde77b3a4ade0c24916f3eb866e7",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_8b207be2c5188749fc8d2cbe95104111f421bde77b3a4ade0c24916f3eb866e7",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_9821ca8d3c1d0049eed704b543312fff67a519ae887f4548c10ccc39c3347acf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_9821ca8d3c1d0049eed704b543312fff67a519ae887f4548c10ccc39c3347acf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_9858b94173a616d8414d2a02d1a7863d8312f9b7ff9a9495b363c485f862dd70",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_9858b94173a616d8414d2a02d1a7863d8312f9b7ff9a9495b363c485f862dd70",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_9b750a69057bc122583fd8f2f1652491220678fef4b8ff0fd593ce0e1cf5655d",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_9b750a69057bc122583fd8f2f1652491220678fef4b8ff0fd593ce0e1cf5655d",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_a04f6c7499025f09a4358d6ad8b1d36420e0dcdfbc2e58502d6f023dc261095c",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_a04f6c7499025f09a4358d6ad8b1d36420e0dcdfbc2e58502d6f023dc261095c",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_a6448b54a4b22a91fd0719284750a8d4f991b5a253a3efe247b5fe7c44fc1164",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_a6448b54a4b22a91fd0719284750a8d4f991b5a253a3efe247b5fe7c44fc1164",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_b0ae38e816c4f53feb6ce3e5b33233ab15206585f077a9050bf3f029ab51d7eb",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_b0ae38e816c4f53feb6ce3e5b33233ab15206585f077a9050bf3f029ab51d7eb",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_b81d2c7d4c253501c9a61e99693c794ad4e6106c4976a1f8ec88520855230498",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_b81d2c7d4c253501c9a61e99693c794ad4e6106c4976a1f8ec88520855230498",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_beac58567c710970b0997a1b15ef77295782552193f27400ace04cf8e5e27daf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_beac58567c710970b0997a1b15ef77295782552193f27400ace04cf8e5e27daf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_c7298d3e28f2240345a04a83faf55a7f37725e67128da4a677e1b916236f26bf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_c7298d3e28f2240345a04a83faf55a7f37725e67128da4a677e1b916236f26bf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_c9da136d3dde3e4e6c04aaaa2fdf798ce6dd97320839e842fc6ef14d87729e5b",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_c9da136d3dde3e4e6c04aaaa2fdf798ce6dd97320839e842fc6ef14d87729e5b",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_cc950ed9eb5cb9bcdbe9d3766f18f493c12eddc602cb820b0c73b748f47856a8",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_cc950ed9eb5cb9bcdbe9d3766f18f493c12eddc602cb820b0c73b748f47856a8",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_ccd09e1fdad1a5072f5a149093fa620d47df67e2d599475edc13c7fb76c9fb20",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_ccd09e1fdad1a5072f5a149093fa620d47df67e2d599475edc13c7fb76c9fb20",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_cd1439c08cbd961f8b474320d9e6ca63f3373c9481f5cc235559e35a87a9cb4c",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_cd1439c08cbd961f8b474320d9e6ca63f3373c9481f5cc235559e35a87a9cb4c",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_cfb8080c587eba490b8da374e5384daffc543d75cb75dffd7254011826037536",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_cfb8080c587eba490b8da374e5384daffc543d75cb75dffd7254011826037536",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_d4ed31082494189b27a4651e035ecedb826af25e9a18cd8cb0d3f21e09484ce3",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_d4ed31082494189b27a4651e035ecedb826af25e9a18cd8cb0d3f21e09484ce3",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_d50030c4e4f86901aecac99ee56abd14c8281a9dbe6be7741eea4bac747f0f5e",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_d50030c4e4f86901aecac99ee56abd14c8281a9dbe6be7741eea4bac747f0f5e",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_dabc304c9e28dcf19370453049eee69325bbbc9db0fa9963d1669725e6cd35a4",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_dabc304c9e28dcf19370453049eee69325bbbc9db0fa9963d1669725e6cd35a4",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_dbd07fc78cffd7ac7774ad3e7a8e273a820c0f25368fa0650df0efc8ca359862",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_dbd07fc78cffd7ac7774ad3e7a8e273a820c0f25368fa0650df0efc8ca359862",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_e4c014a237861fec16836bed09a3935eac053d9e445b47a98ad016955b138a17",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_e4c014a237861fec16836bed09a3935eac053d9e445b47a98ad016955b138a17",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_e744e3d4ce16cf132b55b3768987d1d5c414ba09db81ceb710150d65dc470c2f",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_e744e3d4ce16cf132b55b3768987d1d5c414ba09db81ceb710150d65dc470c2f",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_ecb7fe1799be552d268430e4aea8844fc2b0c2830ef1b3c017fbdcefe7c2e2cc",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_ecb7fe1799be552d268430e4aea8844fc2b0c2830ef1b3c017fbdcefe7c2e2cc",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_f14b80a9f3a3008dd664cd29a0c9865f8c21c972875b83b2809d30f17f450504",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_f14b80a9f3a3008dd664cd29a0c9865f8c21c972875b83b2809d30f17f450504",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_f1cd9c42e82ef41c7e6633693b58b96cb36d7067b381c203984d5aaf8d0ed12a",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_f1cd9c42e82ef41c7e6633693b58b96cb36d7067b381c203984d5aaf8d0ed12a",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "empirical_percentile:R5WSI_SHA256_f9e9c64ab6c0476eec2c973f4c7e1fa358cd95e8479665848370b5be10edcaa5",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "percentile_decimal:R5WSI_SHA256_f9e9c64ab6c0476eec2c973f4c7e1fa358cd95e8479665848370b5be10edcaa5",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "median_of_all_42_empirical_percentiles",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_no_membership_mutation",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_00156c3fe8a174df90f1c54dd6d8cb9f077b464c1f109e4636539f3130b8dd30",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_00fb6528fe244b75593635a36b2b78d706528dc11237099961711d6504d26bba",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_0dbf6c4f6aeba8867860d2883e64a570b107af4d79b38d4a813a666d50fe0380",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_1659a323249aa5c6cdc4377fe3f7f8437ca684783fd85ac60620ae28c7c3cc1a",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_167176fb819aa37569ae5b28fb94344c9a4e979a6bc04eb4a55388e1d5095173",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_1b95a5a90c3e7da12b49b203db134b605b79ea5a3ebae64303d4ce6a8e8158be",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_291c89f6ee47be9c54ba7f440a6d6f4ab411a04ba0afc032d80e1e7409064890",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_2c28a8a48ceb4d10e3b536c7d28e6372147d05327bb7e45378928ae52c7b7f2f",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_2f9cd6db2540d22719bc47ac58d44408f9fdfc7d2eedf7977371677e11ac4ca2",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_30b2501d4e844ed69f70c2ae376b479c60286e3ce46eaec8656bc0bdf48cb710",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_32fe39b2c0025c46e325a6b024639dcf209ef2cc4239c6729a5873f652164fd5",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_46fd7613232c3e3a0d12b70a65f8adcf6cc566522991dc75d860ecf5bb6c9ef0",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_4f30bd4a7bddc07f4b7bb78fde0e43e893679ac0158ce2627dda692e2c766061",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_586aad1f6bb1ca2fa149117a91b131b416c01177ef27f63900c4fbb848460551",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_6cfb331c1d0fd0a49834c54dc1bae580a2b8ffd3620e3a27846d09a297e0ed63",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_7edf199b0846da8e56fe690c852c9b189c36b91c84493b85d23a337c7108c468",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_83db6660463836a049160ca0fcf1f6ebe95a724d660a0515176129ecac97301e",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_8b207be2c5188749fc8d2cbe95104111f421bde77b3a4ade0c24916f3eb866e7",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_9821ca8d3c1d0049eed704b543312fff67a519ae887f4548c10ccc39c3347acf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_9858b94173a616d8414d2a02d1a7863d8312f9b7ff9a9495b363c485f862dd70",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_9b750a69057bc122583fd8f2f1652491220678fef4b8ff0fd593ce0e1cf5655d",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_a04f6c7499025f09a4358d6ad8b1d36420e0dcdfbc2e58502d6f023dc261095c",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_a6448b54a4b22a91fd0719284750a8d4f991b5a253a3efe247b5fe7c44fc1164",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_b0ae38e816c4f53feb6ce3e5b33233ab15206585f077a9050bf3f029ab51d7eb",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_b81d2c7d4c253501c9a61e99693c794ad4e6106c4976a1f8ec88520855230498",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_beac58567c710970b0997a1b15ef77295782552193f27400ace04cf8e5e27daf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_c7298d3e28f2240345a04a83faf55a7f37725e67128da4a677e1b916236f26bf",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_c9da136d3dde3e4e6c04aaaa2fdf798ce6dd97320839e842fc6ef14d87729e5b",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_cc950ed9eb5cb9bcdbe9d3766f18f493c12eddc602cb820b0c73b748f47856a8",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_ccd09e1fdad1a5072f5a149093fa620d47df67e2d599475edc13c7fb76c9fb20",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_cd1439c08cbd961f8b474320d9e6ca63f3373c9481f5cc235559e35a87a9cb4c",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_cfb8080c587eba490b8da374e5384daffc543d75cb75dffd7254011826037536",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_d4ed31082494189b27a4651e035ecedb826af25e9a18cd8cb0d3f21e09484ce3",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_d50030c4e4f86901aecac99ee56abd14c8281a9dbe6be7741eea4bac747f0f5e",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_dabc304c9e28dcf19370453049eee69325bbbc9db0fa9963d1669725e6cd35a4",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_dbd07fc78cffd7ac7774ad3e7a8e273a820c0f25368fa0650df0efc8ca359862",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_e4c014a237861fec16836bed09a3935eac053d9e445b47a98ad016955b138a17",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_e744e3d4ce16cf132b55b3768987d1d5c414ba09db81ceb710150d65dc470c2f",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_ecb7fe1799be552d268430e4aea8844fc2b0c2830ef1b3c017fbdcefe7c2e2cc",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_f14b80a9f3a3008dd664cd29a0c9865f8c21c972875b83b2809d30f17f450504",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_f1cd9c42e82ef41c7e6633693b58b96cb36d7067b381c203984d5aaf8d0ed12a",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "output_attributes_and_pointers:R5WSI_SHA256_f9e9c64ab6c0476eec2c973f4c7e1fa358cd95e8479665848370b5be10edcaa5",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "all_producer_preflight_checks_pass",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "no_missing_required_inputs",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "declared_provenance_gap_preserved",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "reported_row_order_invariance",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "source_unchanged:construction_package",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "source_unchanged:selection_package",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "source_unchanged:Owner execution handoff",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "source_unchanged:Prior independent review (supporting, not a new audit)",
+      "detail": null,
+      "pass": true
+    }
+  ],
+  "checks_count": 255,
+  "exact_arithmetic_checks": "Fraction identities must match exactly; no tolerance.",
+  "failed": [],
+  "failed_count": 0,
+  "floating_point_checks": "Decimal rendering rel_tol=1e-15; log_range independent libm rel_tol/abs_tol=1e-14; numerical checks only.",
+  "independence": "Separate script, no producer imports; direct input re-read; alternate arithmetic formulations. This is technical validation by the same executor, not a separate Managing/Admin scientific review.",
+  "validation_result": "PASS",
+  "validator_script_sha256": "b8b5eae7486253fd2d4bd8769318641be5f726ec5e384deedacfe0970e448e1c"
+}

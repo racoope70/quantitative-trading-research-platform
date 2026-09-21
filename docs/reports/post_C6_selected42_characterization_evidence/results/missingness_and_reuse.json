@@ -1,0 +1,35 @@
+{
+  "accepted_selection_input_reuse": [
+    {
+      "accepted_liquidity_usd": "1510276381.88",
+      "note": "Accepted selection-input value reused. Prior raw-source numeric provenance not independently reverified.",
+      "selected": false,
+      "source_pointer": "ACCEPTED_EXACT23_FULL_ELIGIBILITY_RECERTIFICATION::MANUAL_22::BRK.B::C5_TRAILING_60_SESSION_MEDIAN_DOLLAR_VOLUME=1510276381.88",
+      "stable_security_id": "R5WSI_SHA256_0a3aa27ff9ab69b41ecdf6b49d9366443b8d63f19304b1903ca37f6e305bb8d3",
+      "symbol": "BRK.B"
+    },
+    {
+      "accepted_liquidity_usd": "32176200.11",
+      "note": "Accepted selection-input value reused. Prior raw-source numeric provenance not independently reverified.",
+      "selected": false,
+      "source_pointer": "ACCEPTED_EXACT23_FULL_ELIGIBILITY_RECERTIFICATION::REM103_050::HEI.A::C5_TRAILING_60_SESSION_MEDIAN_DOLLAR_VOLUME=32176200.11",
+      "stable_security_id": "R5WSI_SHA256_27273213f24b55083ef591da932487d7d8d4f7399c7ea9cb0448611fec02bfcf",
+      "symbol": "HEI.A"
+    },
+    {
+      "accepted_liquidity_usd": "21304731.98",
+      "note": "Accepted selection-input value reused. Prior raw-source numeric provenance not independently reverified.",
+      "selected": false,
+      "source_pointer": "ACCEPTED_EXACT23_FULL_ELIGIBILITY_RECERTIFICATION::HIDP_B_005::LANC::C5_TRAILING_60_SESSION_MEDIAN_DOLLAR_VOLUME=21304731.98",
+      "stable_security_id": "R5WSI_SHA256_93397db00fb56b42dddbc039e30f43626f1afc71cf9ee6965c895bf68ac465c7",
+      "symbol": "LANC"
+    }
+  ],
+  "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+  "legacy_sector_container_reference_count": 608,
+  "raw_source_recertification": "NOT_PERFORMED",
+  "reference_construction_numeric_blank_count": 3,
+  "reference_required_input_missing_count": 0,
+  "required_input_missing_count": 0,
+  "subject_required_input_missing_count": 0
+}
