@@ -1,0 +1,21 @@
+{
+  "HHI": "sum((category_count/N)^2)",
+  "TVD": "0.5*sum(abs(subject_share-reference_share))",
+  "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+  "category_order": "Canonical identifiers sorted lexicographically; union of observed subject/reference sectors; exchange includes accepted NYSE_AMERICAN zero category.",
+  "effective_category_count": "1/HHI",
+  "empirical_percentile": "count(reference_liquidity <= subject_liquidity)/619; subject included in reference; ties use <=.",
+  "fraction_serialization": "Exact reduced rational and 60-significant-digit decimal rendering; display rounding only after metric computation.",
+  "imputation": "NONE",
+  "liquidity": "Exact accepted C5 trailing-60-completed-session median daily dollar volume. Decimal strings parsed exactly; no new daily-bar computation.",
+  "liquidity_log_range": "Natural log(max/min), Decimal precision=80. Input values and exact max/min rational preserved; only transcendental evaluation is approximate.",
+  "liquidity_median": "Middle order statistic for odd N; exact arithmetic mean of two middle values for even N.",
+  "market_cap": "NOT_REQUIRED__NOT_COMPUTED",
+  "maximum_category_share": "max(category_count/N)",
+  "output_encoding": "UTF-8; CSV LF line endings; JSON sorted keys, two-space indentation, final LF.",
+  "percentile_median": "Exact mean of the 21st and 22nd of 42 sorted member percentile fractions.",
+  "scalar_composite_score": "NONE",
+  "subject_order": "Exact canonical 42-membership order (sorted stable security IDs). No rank-based selection or reselection.",
+  "thresholds": "NONE",
+  "weighting": "One equal weight per exact security, subject n=42 and reference n=619; no issuer aggregation."
+}

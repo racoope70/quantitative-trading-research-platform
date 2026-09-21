@@ -1,0 +1,121 @@
+{
+  "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+  "categorical": {
+    "exchange": {
+      "reference": {
+        "effective_category_count": {
+          "decimal": "1.95011731414233437329818150355505112453621469760434851206987",
+          "exact_fraction": "383161/196481"
+        },
+        "hhi": {
+          "decimal": "0.512789662831029254021155597777435594958777119800814801088837",
+          "exact_fraction": "196481/383161"
+        },
+        "maximum_category_share": {
+          "decimal": "0.579967689822294022617124394184168012924071082390953150242326",
+          "exact_fraction": "359/619"
+        },
+        "maximum_share_categories": [
+          "NYSE"
+        ],
+        "n": 619,
+        "observed_category_count": 2
+      },
+      "subject": {
+        "effective_category_count": {
+          "decimal": "1.96",
+          "exact_fraction": "49/25"
+        },
+        "hhi": {
+          "decimal": "0.510204081632653061224489795918367346938775510204081632653061",
+          "exact_fraction": "25/49"
+        },
+        "maximum_category_share": {
+          "decimal": "0.571428571428571428571428571428571428571428571428571428571429",
+          "exact_fraction": "4/7"
+        },
+        "maximum_share_categories": [
+          "NYSE"
+        ],
+        "n": 42,
+        "observed_category_count": 2
+      },
+      "total_variation_distance": {
+        "decimal": "0.00853911839372259404569582275559658435264251096238172167089776",
+        "exact_fraction": "37/4333"
+      }
+    },
+    "sector": {
+      "reference": {
+        "effective_category_count": {
+          "decimal": "3.77435306401883428391303919540569559778165233409182698464297",
+          "exact_fraction": "383161/101517"
+        },
+        "hhi": {
+          "decimal": "0.264946067057973019174707237949582551460091188821409277040200",
+          "exact_fraction": "101517/383161"
+        },
+        "maximum_category_share": {
+          "decimal": "0.428109854604200323101777059773828756058158319870759289176090",
+          "exact_fraction": "265/619"
+        },
+        "maximum_share_categories": [
+          "D__MANUFACTURING"
+        ],
+        "n": 619,
+        "observed_category_count": 8
+      },
+      "subject": {
+        "effective_category_count": {
+          "decimal": "7.17073170731707317073170731707317073170731707317073170731707",
+          "exact_fraction": "294/41"
+        },
+        "hhi": {
+          "decimal": "0.139455782312925170068027210884353741496598639455782312925170",
+          "exact_fraction": "41/294"
+        },
+        "maximum_category_share": {
+          "decimal": "0.190476190476190476190476190476190476190476190476190476190476",
+          "exact_fraction": "4/21"
+        },
+        "maximum_share_categories": [
+          "D__MANUFACTURING"
+        ],
+        "n": 42,
+        "observed_category_count": 8
+      },
+      "total_variation_distance": {
+        "decimal": "0.284214170320793907223632587122086314331871682437110546965151",
+        "exact_fraction": "2463/8666"
+      }
+    }
+  },
+  "liquidity": {
+    "median_empirical_reference_percentile": {
+      "decimal": "0.549273021001615508885298869143780290791599353796445880452342",
+      "exact_fraction": "340/619"
+    },
+    "percentile_definition": "COUNT(reference_value <= subject_value) / 619; includes subject securities in reference; ties use <=; median is median of the 42 member percentiles.",
+    "reference": {
+      "maximum_over_minimum_exact": "7781601321260/4015217457",
+      "maximum_usd": "38908006606.3",
+      "median_usd": "74613039.77",
+      "median_usd_exact": "7461303977/100",
+      "minimum_usd": "20076087.285",
+      "n": 619,
+      "natural_log_range": "7.5694259142702941129236501326204086960821879334097755445599735797499542227761386"
+    },
+    "subject": {
+      "maximum_over_minimum_exact": "377578886743/2127874101",
+      "maximum_usd": "3775788867.43",
+      "median_usd": "86396912.0975",
+      "median_usd_exact": "34558764839/400",
+      "minimum_usd": "21278741.01",
+      "n": 42,
+      "natural_log_range": "5.1786561116969265903930796645100362601052847071498952493446301087031510135462349"
+    }
+  },
+  "protocol_id": "EVID_POSTC6_SELECTED42_CHARACTERIZATION_PROTOCOL_001",
+  "reference_n": 619,
+  "subject_n": 42
+}

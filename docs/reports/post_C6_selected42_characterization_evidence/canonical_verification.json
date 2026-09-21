@@ -1,0 +1,32 @@
+{
+  "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+  "task_id": "POSTC6_SELECTED42_CHARACTERIZATION_EXECUTION",
+  "canonical_commit": "9f61e40aeea71a722f9328ff09495cd20002b811",
+  "canonical_verification_utc": "2026-09-20T15:14:46Z",
+  "canonical_state_matches_admin_pin": true,
+  "execution_authorization_attachment": "/Users/richardcooper/.codex/attachments/caecbe67-364c-4b06-a024-066e447d34a0/pasted-text.txt",
+  "protocol_id": "EVID_POSTC6_SELECTED42_CHARACTERIZATION_PROTOCOL_001",
+  "protocol_conflict": "NONE__CURRENT_42_PROTOCOL_EXPLICITLY_SUPERSEDES_PRIOR_THREE_SECURITY_SUBJECT_RULES; CURRENT_OWNER_AUTHORIZATION_SUPPLIES_EXECUTION_AUTHORITY",
+  "snapshots": [
+    {
+      "repository_path": "docs/workflows/milestone_review_reference_map.md",
+      "snapshot": "protocol_snapshots/milestone_review_reference_map.md",
+      "git_blob_sha": "2a5973e2c85ab888baa913684ace379546eaf270",
+      "url": "https://github.com/racoope70/quantitative-trading-research-platform/blob/9f61e40aeea71a722f9328ff09495cd20002b811/docs/workflows/milestone_review_reference_map.md"
+    },
+    {
+      "repository_path": "docs/reports/post_C6_selected_experimental_universe_42_membership.txt",
+      "snapshot": "protocol_snapshots/canonical_membership_42.txt",
+      "git_blob_sha": "e61a713a5dd2469962815e9dd31d136c6a101d3e",
+      "url": "https://github.com/racoope70/quantitative-trading-research-platform/blob/9f61e40aeea71a722f9328ff09495cd20002b811/docs/reports/post_C6_selected_experimental_universe_42_membership.txt"
+    },
+    {
+      "repository_path": "docs/reports/post_C6_predeclared_heterogeneity_protocol.md",
+      "snapshot": "protocol_snapshots/historical_three_security_protocol.md",
+      "git_blob_sha": "15e883aac05454c8962cfb9365ea722c5f052e85",
+      "url": "https://github.com/racoope70/quantitative-trading-research-platform/blob/9f61e40aeea71a722f9328ff09495cd20002b811/docs/reports/post_C6_predeclared_heterogeneity_protocol.md"
+    }
+  ],
+  "provenance_limitation": "LATEST_7110_7162_ROW_LEVEL_TRANSITION=NOT_INDEPENDENTLY_RECONSTRUCTED",
+  "interpretation": "DESCRIPTIVE_ONLY; NO_MEMBERSHIP_CHANGE; NO_FREEZE; NO_C7; NO_MODEL_WORK; NO_HOLDOUT"
+}

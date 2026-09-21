@@ -1,0 +1,131 @@
+{
+  "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+  "files": [
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 2963,
+      "path": "README.md",
+      "sha256": "1eb272c34d17d39e715d8359c27beb9451a1a6e1b28b55bce7053b270a49e2aa"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 18456,
+      "path": "build_package.py",
+      "sha256": "7a04a4e68b054ee00676c2e497c74e1b8b919dbbf21834d59200c3d5c7011f99"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 2170,
+      "path": "canonical_verification.json",
+      "sha256": "c6e2dadd052899e4713ffec38547511240788f69f8499dab6171f44463caff24"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 12244,
+      "path": "characterization_report.md",
+      "sha256": "c1e34ea05315abca665ffd69243d12a36fdcda4526f47f9b8d6bf6aa5702f01b"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 16993,
+      "path": "characterize.py",
+      "sha256": "f085b53d62a83fad84436d2f73c1415ef6b2ce019e50710079e0e76284b9a293"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 4656,
+      "path": "final_return.json",
+      "sha256": "2ce28efcc77a0fb46d6561893ea3d7a834ebb2bd3671257125ccb7acca215eae"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 3276,
+      "path": "protocol_snapshots/canonical_membership_42.txt",
+      "sha256": "43a42ddf4e4ac40730be7457904be588f4cf26bc333650a301090c925097041f"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 31988,
+      "path": "protocol_snapshots/historical_three_security_protocol.md",
+      "sha256": "a2b81edc50e770a93112326ab63728ea8bc6254f558cf363822b4b90b32de852"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 54224,
+      "path": "protocol_snapshots/milestone_review_reference_map.md",
+      "sha256": "82ad4bd76b7bb862e52c0b2c9b3c679a1b0842008b3fe63f882e1ba0417e8403"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 2385,
+      "path": "provenance_and_limitations.md",
+      "sha256": "e8454f8c76f29d9761a8459a4d78b061946c6eeaf8f1a04173cca7e0754cfba8"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 1697,
+      "path": "results/calculation_definitions.json",
+      "sha256": "dd33741367ed33f175551fa5d70f3a1a3bbc6d9493e6dbf88bbb7b1db6fa7115"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 3010,
+      "path": "results/categorical_comparison.csv",
+      "sha256": "afb004d68cf257cbb0296573cd8043318179b40a1238d0827c42df77901f22b8"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 952,
+      "path": "results/execution_summary.json",
+      "sha256": "8cef721546fbd9bcf0207babfcaa45f24425eebdc006fdba354c319ab349ccbc"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 83328,
+      "path": "results/fixed_42_characterization_inputs.csv",
+      "sha256": "a5f76e424f8dd0d33fe4cc32a0acd6884079515393e154279f404daf0ca04e9d"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 7422,
+      "path": "results/input_identity_manifest.json",
+      "sha256": "4c6e52c0e20f1a09c72535b3c4d0d6eaacfce7b979170c57c8d3e04ddc95702c"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 11423,
+      "path": "results/member_liquidity_percentiles.csv",
+      "sha256": "f03b9bc31c721029aca4f6b9c3465ad9337dc8730b65d699280fadb69e12e079"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 4254,
+      "path": "results/metrics.json",
+      "sha256": "a67c088851975a95d7210334d28d405d325fd802f7b3f135477c4d1367037962"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 1855,
+      "path": "results/missingness_and_reuse.json",
+      "sha256": "b3f27bfb49bf725dcb78ce5945c6ce936db537e77f5130d00dabd028609021aa"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 1199654,
+      "path": "results/preflight_validation.json",
+      "sha256": "51fc8838c0c3b302c21469026365ee5663367b80edf23bb10872fd5fdb63a058"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 8656,
+      "path": "validate_independently.py",
+      "sha256": "b8b5eae7486253fd2d4bd8769318641be5f726ec5e384deedacfe0970e448e1c"
+    },
+    {
+      "artifact_class": "NEW_CHARACTERIZATION_OUTPUT",
+      "bytes": 37295,
+      "path": "validation_results.json",
+      "sha256": "45542ec9616464bf6afa1e21a7ad09dd7771b8e972ac57c21c4616e6eb6e4b59"
+    }
+  ]
+}
