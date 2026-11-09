@@ -942,6 +942,8 @@ Exact chronology should be verified through Git history, accepted decisions, mat
 
 Git history and VS Code confirm technical implementation state. They do not control authorization.
 
+[Batch0004 PRIMARY S05 — October 15, 2026 historical REAL execution evidence (nonauthorizing)](../history/batch0004_s05_2026_10_15_historical_real_execution_evidence.md)
+
 ## 13. Accepted scientific evidence registry
 
 ```text
