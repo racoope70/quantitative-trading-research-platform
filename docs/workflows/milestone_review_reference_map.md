@@ -942,6 +942,14 @@ Exact chronology should be verified through Git history, accepted decisions, mat
 
 Git history and VS Code confirm technical implementation state. They do not control authorization.
 
+### 2026-11-09 — Model B research, controlled stop and Owner policy adoption
+
+- [Consolidated research findings](../reports/QTRP_Deep_Research_Consolidated_Findings_2026-11-09.md): historical snapshot; its pending independent-review statement describes the report time, not the status after the completed proportionality review and Owner decision below.
+- [Bounded synthetic integration closure](../reports/QTRP_Model_B_Controlled_Stop_Closure_2026-11-09.md): accepted controlled stop before implementation; no 25-record scientific processing, validation or acceptance was executed.
+- [Owner Model B decision](../decisions/post_C6_model_b_owner_controlled_automation_decision.md): following the completed proportionality review, the Owner explicitly adopted Model B — Owner-Controlled Automation, accepting reduced protection against malicious or compromised same-privilege execution while preserving scientific and authorization controls. Existing implementation controls remain effective.
+
+These entries record decision chronology and evidence; this map grants no authority. Consult [PROJECT_CONTEXT.md](../../PROJECT_CONTEXT.md) for broad current lifecycle and authorization state and the linked Owner decision for its bounded policy effect.
+
 ## 13. Accepted scientific evidence registry
 
 ```text
