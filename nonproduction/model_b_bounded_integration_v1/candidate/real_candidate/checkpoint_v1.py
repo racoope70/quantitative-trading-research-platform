@@ -12,7 +12,7 @@ from trusted_stage.staging_v1 import require, safe_read, sha, canonical
 
 ATTEMPT='BATCH0004_S05_PRIMARY_REAL_SIZE25_V1_A361F621CBA64AC4AAC19AACFAEF778F'
 STOP='CONTROLLED_STOP__RETURN_TO_MANAGING'
-PHASE_RECOVERY_SOURCE_SHA256 = '60ce8dd5af3d40d93a2f8c357f5b6074af0b4ee1eeb59e06752caac6ed585ce6'
+PHASE_RECOVERY_SOURCE_SHA256 = 'c00c215876270594c4a3b197c62a19f288ff6f3e8be40e80709bd4ab29cf97be'
 
 def source_digest(obj):return sha(canonical(obj)[:-1])
 

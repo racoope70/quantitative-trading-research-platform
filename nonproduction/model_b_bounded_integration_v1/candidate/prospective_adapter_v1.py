@@ -141,6 +141,29 @@ def primary_filesystem_guard(roots, ledger):
 HISTORICAL_ADAPTER_SHA256='1887b13a4bf4546f5f375f0b4ec306c8d773847ec674b8e1d3d33bfd98fb7424'
 PROSPECTIVE_ATTEMPT='BATCH0004_S05_PRIMARY_REAL_SIZE25_V1_A361F621CBA64AC4AAC19AACFAEF778F'
 
+def prospective_attempt_layout(*, history, checkpoint_identity, expected_checkpoint_identity,
+        checkpoint_sequence, work_root, unit_id='U0012', attempt_no=None, working_directory=None):
+    """Verified ancestry determines the sole permitted ordinal and destination.
+
+    Facts only: neither this helper nor a synthetic use grants REAL authority.
+    """
+    import recovery_two_attempt_v3 as recovery
+    ensure(type(history) is list and len(history) in (9,10),'PROSPECTIVE_HISTORY_COUNT_REQUIRED')
+    recovery.verify_attempt_lineage({'attempts':history,'attempt_count':len(history)},history)
+    count=len(history);ordinal=count+1
+    ensure(unit_id=='U0012' and type(checkpoint_sequence) is int
+           and checkpoint_sequence==(54 if count==10 else 52)
+           and type(checkpoint_identity) is str and len(checkpoint_identity)==64
+           and set(checkpoint_identity)<=set('0123456789abcdef')
+           and checkpoint_identity==expected_checkpoint_identity,'PROSPECTIVE_CHECKPOINT_OR_UNIT_MISMATCH')
+    ensure(attempt_no is None or (type(attempt_no) is int and attempt_no==ordinal),
+           'PROSPECTIVE_EXACT_ONE_UNIT_ATTEMPT_REQUIRED')
+    work=Path(work_root)/'PRIMARY'/'U0012'/f'A{ordinal:04d}'
+    ensure(working_directory is None or Path(working_directory)==work/'input',
+           'PROSPECTIVE_ATTEMPT_DIRECTORY_MISMATCH')
+    return {'historical_attempt_count':count,'attempt_ordinal':ordinal,
+        'working_directory':work/'input','evidence_root':work/'v3_executor_raw_evidence'}
+
 
 def verify_prospective_context(adapter, *, phase='STATIC'):
     """Exact bounded callable and existing trusted context, never a launch grant."""
@@ -150,10 +173,24 @@ def verify_prospective_context(adapter, *, phase='STATIC'):
     ensure(adapter.role=='PRIMARY' and adapter.attempt_identity==PROSPECTIVE_ATTEMPT,
            'PROSPECTIVE_EXACT_ROLE_OR_ATTEMPT_REQUIRED')
     ensure(adapter.execution_context is not None,'PROSPECTIVE_EXECUTION_CONTEXT_REQUIRED')
-    work=adapter.work_root/'PRIMARY'/'U0012'/'A0010'
+    context=adapter.execution_context
+    ensure(type(context) is executor_v1.ExecutionContext,'PROSPECTIVE_EXECUTION_CONTEXT_REQUIRED')
+    t=context.transaction
+    import recovery_two_attempt_v3 as recovery
+    ensure(type(t) is recovery.ControlledStopRecovery,'PROSPECTIVE_VERIFIED_RECOVERY_REQUIRED')
+    count=len(t._historical_attempts)
+    expected=recovery.A11_CASE if count==10 else recovery.REAL_CASE
+    ensure(t.case==expected and t.case==t.expected_case and
+           t._historical_attempts==expected['historical_attempts'] and
+           context._historical_attempt_count==count,'PROSPECTIVE_CASE_HISTORY_MISMATCH')
+    layout=prospective_attempt_layout(history=t._historical_attempts,
+        checkpoint_identity=t.case['checkpoint_manifest_sha256'],
+        expected_checkpoint_identity=expected['checkpoint_manifest_sha256'],
+        checkpoint_sequence=54 if count==10 else 52,work_root=adapter.work_root,
+        working_directory=context.working_directory)
     return executor_v1.verify_runtime_context(adapter.execution_context,phase=phase,
-        working_directory=work/'input',prompt=unit_prompt('PRIMARY'),
-        codex_path=adapter.codex_path,evidence_root=work/'v3_executor_raw_evidence',role='PRIMARY')
+        working_directory=layout['working_directory'],prompt=unit_prompt('PRIMARY'),
+        codex_path=adapter.codex_path,evidence_root=layout['evidence_root'],role='PRIMARY')
 
 
 class V3CodexUnitAdapter:
@@ -214,8 +251,15 @@ class V3CodexUnitAdapter:
 
     def execute(self,role,unit_id,input_rows,attempt_no,prior_contexts):
         if self.real_source:
-            ensure(role=='PRIMARY' and unit_id=='U0012' and type(attempt_no) is int and attempt_no==10,
-                   'PROSPECTIVE_EXACT_ONE_UNIT_ATTEMPT_REQUIRED')
+            t=self.execution_context.transaction
+            ensure(role=='PRIMARY' and len(prior_contexts)==len(set(prior_contexts)),
+                   'PROSPECTIVE_ROLE_OR_PRIOR_CONTEXT_MISMATCH')
+            prospective_attempt_layout(history=t._historical_attempts,
+                checkpoint_identity=t.case['checkpoint_manifest_sha256'],
+                expected_checkpoint_identity=t.expected_case['checkpoint_manifest_sha256'],
+                checkpoint_sequence=54 if len(t._historical_attempts)==10 else 52,
+                work_root=self.work_root,unit_id=unit_id,attempt_no=attempt_no,
+                working_directory=self.execution_context.working_directory)
             verify_prospective_context(self,phase='EXECUTING')
             from real_candidate.activation_v1 import production_activation
             production_activation(self.execution_context.transaction,phase='EXECUTING')

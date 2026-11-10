@@ -75,15 +75,15 @@ def run_model_b_synthetic(expected_sha256,expected_length,*,directory,transactio
     owner.publication.model_b_root(stage_root)
     require(proof_path.supervisor.mode=='NONPRODUCTION_TEST' and
             binding.execution_mode=='SYNTHETIC_NONPRODUCTION','MODEL_B_CANNOT_AUTHORIZE_REAL')
+    executor.configure_capture(binding=binding,checkpoint=checkpoint,input_path=input_path,stage_root=stage_root)
     consumed=owner.consume_model_b(expected_sha256,expected_length,directory=directory,
         t=transaction,executor=executor,path=proof_path,binding=binding,frame=input_path,release_root=release_root)
     transaction.bind_v7_verifier(proof_path,binding=binding,checkpoint=checkpoint,
         input_path=input_path,input_sha256=binding.unit_input_sha256,release_root=release_root)
-    observation=proof_path.supervisor.observe(input_file=input_path,
-        pinned_input_sha256=binding.unit_input_sha256,test_only=True)
-    stage,proof,receipt=proof_path.issue(capture=observation,input_path=input_path,
-        input_sha256=binding.unit_input_sha256,stage_root=stage_root,binding=binding,checkpoint=checkpoint)
     outcome=transaction.run_exact_unit_nonproduction(executor)
+    observation=next(iter(proof_path.supervisor._observed.values())) if proof_path.supervisor._observed else None
+    candidate=proof_path._candidate
+    stage,proof,receipt=candidate[1:] if candidate is not None else (None,None,None)
     return {'outcome':outcome,'capture':observation,'stage':stage,'proof':proof,'receipt':receipt,
         'consumption_sha256':consumed,'real_authority':False}
 

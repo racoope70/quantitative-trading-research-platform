@@ -362,7 +362,8 @@ def owner_terminal_action(args):
     return subprocess.run([*sudo, *command], env=environment, close_fds=True).returncode
 
 MODEL_B_SCOPE = 'MODEL_B_SYNTHETIC_EXACT_ONE_UNIT_V1'
-MODEL_B_ROOT = Path('/private/tmp/QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1')
+MODEL_B_TASK = 'QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1'
+MODEL_B_ROOT = Path('/private/tmp/QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1')
 MODEL_B_LOADED_SOURCE_SHA256 = digest(Path(__file__).read_bytes())
 
 def model_b_root(path):
@@ -379,7 +380,7 @@ def model_b_root(path):
 def validate_model_b_document(raw):
     doc = json.loads(raw)
     need(raw == canonical(doc) and set(doc) ==
-         {'schema','scope','consumer_uid','target_authorization','fixture_binding'},
+         {'schema','scope','consumer_uid','target_authorization','fixture_binding','execution_binding'},
          'MODEL_B_CANONICAL_AUTHORIZATION_REQUIRED')
     need(doc['schema'] == SCHEMA and doc['scope'] == MODEL_B_SCOPE
          and type(doc['consumer_uid']) is int and doc['consumer_uid'] == 501,
@@ -401,7 +402,41 @@ def validate_model_b_document(raw):
              'MODEL_B_REQUIRED_IDENTITY')
     model_b_root(t['checkpoint_root'])
     need(type(doc['fixture_binding']) is dict, 'MODEL_B_SOURCE_BINDING_REQUIRED')
+    cfg=t.get('configuration')
+    need(type(cfg) is dict and cfg.get('execution_configuration_complete') is True
+         and cfg.get('environment')=='SYNTHETIC_NONPRODUCTION'
+         and cfg.get('real_execution_authorized') is False
+         and digest(canonical(cfg))==t['configuration_sha256'], 'MODEL_B_COMPLETE_CONFIGURATION_REQUIRED')
+    effects=doc['execution_binding']
+    need(type(effects) is dict and effects.get('environment')=='SYNTHETIC_NONPRODUCTION'
+         and effects.get('real_execution_authorized') is False
+         and effects.get('target_sha256')==digest(canonical(t))
+         and effects.get('configuration_sha256')==t['configuration_sha256']
+         and effects.get('attempt_ordinal')==11 and effects.get('historical_attempt_count')==10
+         and effects.get('unit_id')=='U0012' and effects.get('max_new_units')==1
+         and effects.get('u0013_prohibited') is True, 'MODEL_B_PHYSICAL_EFFECT_BINDING_REQUIRED')
     return doc
+
+def model_b_sync_directory(directory):
+    directory=model_b_root(directory)
+    fd=os.open(directory,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+    try: os.fsync(fd)
+    finally: os.close(fd)
+
+def model_b_unique_record(path, raw):
+    """Exclusive durable append; retain incomplete records to prohibit retry."""
+    path=model_b_root(path)
+    fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+    try: write_all(fd,raw);os.fsync(fd)
+    finally: os.close(fd)
+    model_b_sync_directory(path.parent)
+    fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW)
+    try: need(read_snapshot(fd,len(raw),501,0o600)==raw,'MODEL_B_RECORD_READBACK_FAILED')
+    finally: os.close(fd)
+
+def model_b_completion(pin, length):
+    return canonical({'scope':MODEL_B_SCOPE,'authorization_sha256':pin,
+        'authorization_length':length,'publication_complete':True,'real_authority':False})
 
 def publish_model_b(candidate, expected_sha256, expected_length, *, approval_fd, directory):
     """Owner process supplies an exact approval over a read-only anonymous pipe.
@@ -425,8 +460,9 @@ def publish_model_b(candidate, expected_sha256, expected_length, *, approval_fd,
     a = json.loads(approval)
     need(approval == canonical(a) and set(a) == {'task_id','sha256','length','owner_pid'},
          'MODEL_B_OWNER_APPROVAL_SCHEMA')
-    need(a['task_id'] == 'QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1'
+    need(a['task_id'] == MODEL_B_TASK
          and a['sha256'] == expected_sha256 and a['length'] == expected_length
+         and type(a['length']) is int and a['length']>0
          and type(a['owner_pid']) is int and a['owner_pid'] == os.getppid()
          and a['owner_pid'] != os.getpid(), 'MODEL_B_EXPLICIT_OWNER_APPROVAL_MISMATCH')
     candidate = model_b_root(candidate)
@@ -436,15 +472,12 @@ def publish_model_b(candidate, expected_sha256, expected_length, *, approval_fd,
     need(digest(raw) == expected_sha256, 'MODEL_B_CANDIDATE_DIGEST_MISMATCH')
     validate_model_b_document(raw)
     directory.mkdir(mode=0o700,exist_ok=False)
-    target = directory/'authorization.json'
-    fd = os.open(target,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
-    try: write_all(fd,raw); os.fsync(fd)
-    finally: os.close(fd)
-    dfd=os.open(directory,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
-    try: os.fsync(dfd)
-    finally: os.close(dfd)
-    need(target.read_bytes() == raw,'MODEL_B_PUBLICATION_READBACK_FAILED')
+    model_b_sync_directory(directory.parent)
+    model_b_unique_record(directory/'authorization.json',raw)
+    completion=model_b_completion(expected_sha256,expected_length)
+    model_b_unique_record(directory/'publication_complete.json',completion)
     return {'scope':MODEL_B_SCOPE,'sha256':expected_sha256,'length':expected_length,
+            'completion_sha256':digest(completion),
             'owner_pid':a['owner_pid'],'publisher_pid':os.getpid(),'real_authority':False}
 
 def main():

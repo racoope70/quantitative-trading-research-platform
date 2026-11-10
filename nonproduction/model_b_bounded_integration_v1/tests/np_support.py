@@ -117,8 +117,9 @@ def components(c,label,fault='ok'):
     from real_candidate.policy_b_proof_v1 import PolicyBProofPath,PolicyBCapturedFixtureExecutor
     from trusted_stage.staging_v1 import UnitBinding
     directory,engine,t,frame,checkpoint=make_engine(c,label)
+    cwd=directory/'work/PRIMARY/U0012/A0011/input';cwd.mkdir(parents=True)
     supervisor=ControlledLocalCapture(executable=Path(PYTHON),executable_sha256=sha(Path(PYTHON).read_bytes()),
-        argv=('-I','-c',child_source(fault)),cwd=directory,env={'PATH':'/usr/bin:/bin','LC_ALL':'C','PYTHONDONTWRITEBYTECODE':'1'},
+        argv=('-I','-c',child_source(fault)),cwd=cwd,env={'PATH':'/usr/bin:/bin','LC_ALL':'C','PYTHONDONTWRITEBYTECODE':'1'},
         adapter_sha256=sha((ROOT/'candidate/real_candidate/policy_b_proof_v1.py').read_bytes()),
         mode='NONPRODUCTION_TEST',allow_test_fixture=True,child_capture_budget_seconds=0.05 if fault=='timeout' else 5)
     source=ROOT/'candidate/dependencies/synthetic_fixture'

@@ -390,7 +390,7 @@ class ControlledLocalCapture:
         else:
             require(execution_context is None and self._allow_test and self.mode=='NONPRODUCTION_TEST',
                     'TEST_FIXTURE_ONLY_SINK')
-            if Path(__file__).resolve()==Path('/private/tmp/QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1/candidate/real_candidate/capture_v1.py'):
+            if Path(__file__).resolve()==Path('/private/tmp/QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1/candidate/real_candidate/capture_v1.py'):
                 import owner_authorization as owner
                 owner.verify_model_b_authority(self,claim_launch=True)
             permit=self._fixture_permit
@@ -421,7 +421,7 @@ class ControlledLocalCapture:
                 self._verify_real_authority(c)  # final independent check at Popen
                 self._fresh()
                 require(not self._real_capture_started,'REAL_CAPTURE_ALREADY_USED')
-            elif Path(__file__).resolve()==Path('/private/tmp/QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1/candidate/real_candidate/capture_v1.py'):
+            elif Path(__file__).resolve()==Path('/private/tmp/QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1/candidate/real_candidate/capture_v1.py'):
                 import owner_authorization as owner
                 owner.verify_model_b_authority(self)  # fresh readback at the actual spawn boundary
             self.check_prelaunch()  # final check: expired verification cannot launch

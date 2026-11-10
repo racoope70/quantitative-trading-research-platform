@@ -36,13 +36,16 @@ if not normalized.exists():
     normalized.write_bytes(canonical({d:{row['reason_code']:{'rank':row['rank'],'category':row['category']}
         for row in entries} for d,entries in reasons.items()}))
 
-# Update only the prospective capture pin, not the historical predecessor.
+# Refresh prospective dependency pins; preserve all historical predecessor fields.
 p=ROOT/'candidate/recovery_compatibility_bounded_v4.json'
 binding=json.loads(p.read_bytes())
-binding['prospective_source_sha256']['real_candidate/capture_v1.py']=sha((ROOT/'candidate/real_candidate/capture_v1.py').read_bytes())
+for name in binding['prospective_source_sha256']:
+    binding['prospective_source_sha256'][name]=sha((ROOT/'candidate'/name).read_bytes())
 p.write_bytes(canonical(binding));binding_sha=sha(p.read_bytes())
 p=ROOT/'candidate/recovery_bounded_v4.py';text=p.read_text()
 text,n=re.subn(r"^COMPATIBILITY_BINDING_SHA256 = '[0-9a-f]{64}'$",'COMPATIBILITY_BINDING_SHA256 = '+repr(binding_sha),text,flags=re.M);assert n==1
+text,n=re.subn(r'^REAL_EXECUTOR_INTERFACE_SHA256 = [\'\"][0-9a-f]{64}[\'\"]$',
+    'REAL_EXECUTOR_INTERFACE_SHA256 = '+repr(sha((ROOT/'candidate/prospective_adapter_v1.py').read_bytes())),text,flags=re.M);assert n==1
 p.write_text(text)
 p=ROOT/'candidate/real_candidate/checkpoint_v1.py';text=p.read_text()
 text,n=re.subn(r"^PHASE_RECOVERY_SOURCE_SHA256 = '[0-9a-f]{64}'$",'PHASE_RECOVERY_SOURCE_SHA256 = '+repr(sha((ROOT/'candidate/recovery_bounded_v4.py').read_bytes())),text,flags=re.M);assert n==1
@@ -50,6 +53,14 @@ p.write_text(text)
 descriptor=canonical(release_v1.make_descriptor(ROOT))
 (ROOT/release_v1.MANIFEST_FILE).write_bytes(descriptor)
 (ROOT/release_v1.PIN_FILE).write_text(sha(descriptor)+'\n')
+# These are derivative compatibility identities; historical A10 pins stay intact.
+# Owner source is excluded from the descriptor, avoiding a self-hash cycle.
+p=ROOT/'candidate/owner_authorization.py';text=p.read_text()
+for key,value in [('COMPATIBILITY_RELEASE_SHA',sha(descriptor)),('COMPATIBILITY_BINDING_SHA',binding_sha)]:
+    text,n=re.subn(r'^'+key+r" = '[0-9a-f]{64}'$",key+' = '+repr(value),text,flags=re.M);assert n==1
+match=re.search(r'^COMPATIBILITY_SOURCE_PINS = (.+)$',text,re.M);assert match
+pins=ast.literal_eval(match.group(1));pins={name:sha((ROOT/'candidate'/name).read_bytes()) for name in pins}
+text=text[:match.start(1)]+repr(pins)+text[match.end(1):];p.write_text(text)
 closure={p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for folder in ('accepted','candidate')
     for p in (ROOT/folder).rglob('*') if p.is_file()}
 p=ROOT/'composition.py';text=p.read_text()

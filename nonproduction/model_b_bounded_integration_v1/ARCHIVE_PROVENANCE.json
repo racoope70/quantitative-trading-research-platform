@@ -1,38 +1,199 @@
 {
+  "accepted_A11_delta": {
+    "changed_from_published_baseline": 16,
+    "files": [
+      {
+        "baseline_sha256": "8c689f632f068344c70deeaa1be04863107ef17c869ddaeea45580f941fd05b2",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 7245,
+        "mode": "0644",
+        "path": "REAL_RUNTIME_BOUNDED_RELEASE_MANIFEST_V4.json",
+        "sha256": "0b12fe4dd4dc07fe1e3163a0f6b4e8d3745ade96bd68757149bd577052962bd9"
+      },
+      {
+        "baseline_sha256": "981560d6962905599a80b602c13958538a4585584737ad598303cf7449a95366",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 65,
+        "mode": "0644",
+        "path": "REAL_RUNTIME_BOUNDED_RELEASE_MANIFEST_V4.sha256",
+        "sha256": "4cb1679aee9a9a5fe6b2aef40c57d838f012cc52c8ced1b35649061d2c1177c9"
+      },
+      {
+        "baseline_sha256": "7a60082791b5338fe583850b0f63782bf305b700689550f8f0348ffed22c9bb0",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 64119,
+        "mode": "0644",
+        "path": "candidate/owner_authorization.py",
+        "sha256": "ac6302e3a9ae1b804f879fb2fb0ba7914d4d2d52786878259f3f752e8a87b8fa"
+      },
+      {
+        "baseline_sha256": "b797828283fb56c67249cc2bfc98fd34b44f48521ac28a1a0f0c2addb2e2df9f",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 29561,
+        "mode": "0644",
+        "path": "candidate/owner_publication.py",
+        "sha256": "996cee63f8b23b5685d7fd8beafcb38dadaef48208a0f28532720b4cdb3c4471"
+      },
+      {
+        "baseline_sha256": "f7c89bd4e497086b91f2dc26310680dcf373a04be4e20b4bbfe92372e18241bb",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 25406,
+        "mode": "0644",
+        "path": "candidate/prospective_adapter_v1.py",
+        "sha256": "2315601c2f83fa18107257025ec94ef85d65b12c7a38e4a2c44066d77d3723ac"
+      },
+      {
+        "baseline_sha256": "10acaefde145c0cc931b53ddf2d6ef1fa2ab352b378c79196969c91fb6e1dfc0",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 8946,
+        "mode": "0644",
+        "path": "candidate/real_candidate/activation_v1.py",
+        "sha256": "6b473d6b272088ac635ff0981a4a82f88e634d75e3a47fc6730ceb49261bc385"
+      },
+      {
+        "baseline_sha256": "eb1cbc3107e0c24aa3ace511b89139b46d7d278c13e07e365bfc6027c470e512",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 34541,
+        "mode": "0644",
+        "path": "candidate/real_candidate/capture_v1.py",
+        "sha256": "c96e082ccbea70da28efac448583566b70ac3fbba74a2fd5292462801442cb6b"
+      },
+      {
+        "baseline_sha256": "beeded794cf68264f99c1174221a0cc8f6c344b7dadcbebc1eea179ce838239c",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 16211,
+        "mode": "0644",
+        "path": "candidate/real_candidate/checkpoint_v1.py",
+        "sha256": "b6f73e6c5b5f000c89cc665e75006f37c2ff6fa24be85e867b16a2f0d4d4aa3e"
+      },
+      {
+        "baseline_sha256": "e88d99cfbcfd429e794f234575b1918b95ee71c1afe441dc31bb827ad63013f5",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 23933,
+        "mode": "0644",
+        "path": "candidate/real_candidate/policy_b_proof_v1.py",
+        "sha256": "5f082cf22f78d886cb143b622988a9e8a22b4581e46c85160b941ddae7b8d553"
+      },
+      {
+        "baseline_sha256": "60ce8dd5af3d40d93a2f8c357f5b6074af0b4ee1eeb59e06752caac6ed585ce6",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 101826,
+        "mode": "0644",
+        "path": "candidate/recovery_bounded_v4.py",
+        "sha256": "c00c215876270594c4a3b197c62a19f288ff6f3e8be40e80709bd4ab29cf97be"
+      },
+      {
+        "baseline_sha256": "15d8e283bc5374ac405bd21720e478231864cfb243feff3dbab87a560b5dfe2a",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 25563,
+        "mode": "0644",
+        "path": "candidate/recovery_compatibility_bounded_v4.json",
+        "sha256": "f9879f8062e291121a8c9e4710c6358d647025c18b2689764840a23790e2d87c"
+      },
+      {
+        "baseline_sha256": "cd791145585a9840a842f7fcc958685c47a4308ef7107cf5abb122bc5a9e237e",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 71434,
+        "mode": "0644",
+        "path": "composition.py",
+        "sha256": "426b9d69bd5c8d41b288cc9c5005245b07e3ab75fce36b07810fbe04d10faece"
+      },
+      {
+        "baseline_sha256": "16098563043dd89e88c8e013f526a19f256161858dc5f5cd1abf3a7fabbb088f",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 9706,
+        "mode": "0644",
+        "path": "tests/np_support.py",
+        "sha256": "4f31e3373a64b25a3436ce6e19cbcfe949ae6b6d603129b428e7604cf1cea63e"
+      },
+      {
+        "baseline_sha256": "1105bab40366bed90536c35460f39a0caeb8c137d2c51399d2c0a4783da0bd51",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 5555,
+        "mode": "0644",
+        "path": "tests/prepare_capsule.py",
+        "sha256": "daa8868ff3cab8308530e35c3cb031de5daa0db9491714b0a0805d801abbec5d"
+      },
+      {
+        "baseline_sha256": null,
+        "classification": "NEW_IN_ACCEPTED_A11_IMPLEMENTATION",
+        "length": 16870,
+        "mode": "0644",
+        "path": "tests/test_a11_interfaces.py",
+        "sha256": "d1348d8b2c30db3ac6878de32f08ce8f0478eaeea12feb37cee277a60406c1f7"
+      },
+      {
+        "baseline_sha256": "9eaa1e088ec72631621abbc7fd221fc692ab8a4a6169c1fb93cca5b38db47131",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 11689,
+        "mode": "0644",
+        "path": "tests/test_model_b_integration.py",
+        "sha256": "7e7aa9899788b3762d523f26af126588926d8dd4ade06ce040bc0ed585582fa7"
+      },
+      {
+        "baseline_sha256": "95c8133b3fd230aa42bde2d603177cc732c34f5afba88cce5119d97c06c251cd",
+        "classification": "CHANGED_FROM_PUBLISHED_BASELINE",
+        "length": 4559,
+        "mode": "0644",
+        "path": "tests/test_restart_and_domains.py",
+        "sha256": "6c3d94b8237be7a333994d3d5fb4931da2d0a395b98437ba1626c5e587fd37a6"
+      },
+      {
+        "baseline_sha256": null,
+        "classification": "NEW_IN_ACCEPTED_A11_IMPLEMENTATION",
+        "length": 3735,
+        "mode": "0644",
+        "path": "tests/verify_a11_replay.py",
+        "sha256": "d67196d6275dbd5b064c2dcb0f77269d09910757d8c19850a3cda4aa1c5459f9"
+      }
+    ],
+    "new_in_accepted_A11_implementation": 2,
+    "unchanged_from_published_baseline": 54
+  },
   "accepted_evidence_archive": {
-    "archival_reference": "MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_EVIDENCE.zip",
-    "crc32": "982e87f4",
+    "archival_reference": "MODEL_B_A11_INTERFACE_CORRECTION_EVIDENCE.zip",
+    "crc32": "d986b3fe",
     "custody": "EXTERNAL_ACCEPTED_EVIDENCE__NOT_INCLUDED_IN_THIS_GIT_ARCHIVE",
-    "length": 5529402,
-    "member_count": 2211,
-    "sha256": "bfa11a1bafa57ecc4ab24f38be9b18356b83000fe55e14302e45f9f1c7a39011"
+    "length": 7113435,
+    "member_count": 2612,
+    "sha256": "0030669ff425f82cb48b86aa1de1fbe7555699916f2409cb4b6c12e0b87a9379"
   },
   "accepted_implementation_diff": {
-    "comparison_base": "Accepted B53 source capsule; not the repository base commit",
+    "changed_file_count": 18,
+    "comparison_base": "Published 70-file Model B archive at parent engineering commit; excludes archival provenance manifest",
     "evidence_zip_member": "evidence/COMPLETE_IMPLEMENTATION.diff",
-    "length": 769326,
-    "sha256": "3381502dbc7f34314f08a08e0d1b6ce3364e767568789c5a6d670ee82c26e368"
+    "length": 152981,
+    "sha256": "df4ef200a6465fd7c561947110f583b769d3aae539481d5cc1f514a522649f30"
   },
   "accepted_predecessor": {
-    "capsule_id": "QTRP_BATCH0004_C06_B53_OS_SEPARATION_HANDOFF_NP_V1",
-    "derived_source_pin_inventory_sha256": "04bf4446c4afabb2d29c44f505f9946d22f3a3a1287f4847c3db086af9c76e84",
-    "receipt_name": "FINAL_RETURN_FOR_MAIN.json",
-    "receipt_sha256": "10e0739b0bc98ed3baf99d0ee7a85802c1d6fb7c5114b39539cfc9f4f7e2ef1e",
-    "source_control_file_count": 58,
-    "source_pin_receipt": {
-      "evidence_zip_member": "evidence/PREFLIGHT_AND_SOURCE_IDENTITIES.json",
-      "sha256": "3f369fb78519e703f7dd908bdc2447c1cf3ff91df4eb0312391667b24ebb8b2f"
-    }
+    "accepted_evidence_archive": {
+      "archival_reference": "MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_EVIDENCE.zip",
+      "crc32": "982e87f4",
+      "custody": "EXTERNAL_ACCEPTED_EVIDENCE__NOT_INCLUDED_IN_THIS_GIT_ARCHIVE",
+      "length": 5529402,
+      "member_count": 2211,
+      "sha256": "bfa11a1bafa57ecc4ab24f38be9b18356b83000fe55e14302e45f9f1c7a39011"
+    },
+    "accepted_implementation_diff": {
+      "comparison_base": "Accepted B53 source capsule; not the repository base commit",
+      "evidence_zip_member": "evidence/COMPLETE_IMPLEMENTATION.diff",
+      "length": 769326,
+      "sha256": "3381502dbc7f34314f08a08e0d1b6ce3364e767568789c5a6d670ee82c26e368"
+    },
+    "archival_manifest_sha256": "8da69822fc7e0f97c551cf3b8849d4af365d9772c130e6e5b23c9c0c46f6930d",
+    "capsule_id": "QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1",
+    "engineering_commit": "d884ac2506c05486fbddc84288f4c0dee38a2c05",
+    "source_file_count": 70
   },
   "accepted_synthetic_integration": {
     "evidence_classification": "CODEX_REPORTED",
-    "evidence_sha256": "dc18a97707ed00912e200ede92bdcaa4e5a3ae7053cfe43114a78a3c22cdc883",
-    "evidence_zip_member": "evidence/TECHNICAL_RESULT.json",
+    "evidence_sha256": "ea65b5b143aff8b55066e00361ddaa19cb33f88a43552e038cd517578d633364",
+    "evidence_zip_member": "evidence/FINAL_FOCUSED_TEST_SUMMARY.json",
     "integration_rerun_during_archival_preparation": false,
-    "passed": 33,
+    "passed": 51,
     "result": "PASS",
-    "review_attribution": "Accepted by MAIN and ADMIN as stated in the controlling archival-preparation task. New archival observations remain CODEX_REPORTED pending MAIN independent review.",
-    "total": 33
+    "review_attribution": "Accepted prior NONPRODUCTION correction per OWNER_AUTHORIZATION=BOUNDED_NONPRODUCTION_ENGINEERING_PRESERVATION and ADMIN_DISPOSITION=ADMIN_ACCEPT__MODEL_B_A11_NONPRODUCTION_CORRECTION_PASS in the controlling task. New archival observations remain CODEX_REPORTED pending MAIN independent review.",
+    "total": 51
   },
   "authority": {
     "archival_reference_only": true,
@@ -42,12 +203,12 @@
     "statement": "This archival provenance record grants no scientific access, authorization publication or consumption, deployment, checkpoint mutation, REAL execution, Attempt 11 or U0013 activity."
   },
   "current_dependency_closure": {
-    "derived_path_to_sha256_inventory_sha256": "0f63765eca81c4e713ab2c1b53813ee88c2675cfe323aced9bfe36cc22c66920",
+    "derived_path_to_sha256_inventory_sha256": "fb0577ce54c5d33c8ce4516c383870e6efdcfe30a26e91e31b19b2c8c8ed0f6a",
     "file_count": 61,
     "selection": "All archived source files under accepted/ and candidate/",
     "source_field": "_NONPRODUCTION_SOURCE_CLOSURE",
     "source_file": "composition.py",
-    "source_sha256": "cd791145585a9840a842f7fcc958685c47a4308ef7107cf5abb122bc5a9e237e"
+    "source_sha256": "426b9d69bd5c8d41b288cc9c5005245b07e3ab75fce36b07810fbe04d10faece"
   },
   "derived_inventory_encoding": "UTF-8 JSON object with relative paths mapped to SHA-256 strings; sorted keys, compact separators, no ASCII escaping, trailing LF. These are Codex-derived verification digests, not independently supplied historical trust anchors.",
   "files": [
@@ -55,13 +216,13 @@
       "length": 7245,
       "mode": "0644",
       "path": "REAL_RUNTIME_BOUNDED_RELEASE_MANIFEST_V4.json",
-      "sha256": "8c689f632f068344c70deeaa1be04863107ef17c869ddaeea45580f941fd05b2"
+      "sha256": "0b12fe4dd4dc07fe1e3163a0f6b4e8d3745ade96bd68757149bd577052962bd9"
     },
     {
       "length": 65,
       "mode": "0644",
       "path": "REAL_RUNTIME_BOUNDED_RELEASE_MANIFEST_V4.sha256",
-      "sha256": "981560d6962905599a80b602c13958538a4585584737ad598303cf7449a95366"
+      "sha256": "4cb1679aee9a9a5fe6b2aef40c57d838f012cc52c8ced1b35649061d2c1177c9"
     },
     {
       "length": 1403,
@@ -304,22 +465,22 @@
       "sha256": "4afebb18b53fa0985dabcf10b56d08427334096c3223fc5b1a7a9698aa79884c"
     },
     {
-      "length": 60073,
+      "length": 64119,
       "mode": "0644",
       "path": "candidate/owner_authorization.py",
-      "sha256": "7a60082791b5338fe583850b0f63782bf305b700689550f8f0348ffed22c9bb0"
+      "sha256": "ac6302e3a9ae1b804f879fb2fb0ba7914d4d2d52786878259f3f752e8a87b8fa"
     },
     {
-      "length": 27695,
+      "length": 29561,
       "mode": "0644",
       "path": "candidate/owner_publication.py",
-      "sha256": "b797828283fb56c67249cc2bfc98fd34b44f48521ac28a1a0f0c2addb2e2df9f"
+      "sha256": "996cee63f8b23b5685d7fd8beafcb38dadaef48208a0f28532720b4cdb3c4471"
     },
     {
-      "length": 22448,
+      "length": 25406,
       "mode": "0644",
       "path": "candidate/prospective_adapter_v1.py",
-      "sha256": "f7c89bd4e497086b91f2dc26310680dcf373a04be4e20b4bbfe92372e18241bb"
+      "sha256": "2315601c2f83fa18107257025ec94ef85d65b12c7a38e4a2c44066d77d3723ac"
     },
     {
       "length": 0,
@@ -328,22 +489,22 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
-      "length": 8928,
+      "length": 8946,
       "mode": "0644",
       "path": "candidate/real_candidate/activation_v1.py",
-      "sha256": "10acaefde145c0cc931b53ddf2d6ef1fa2ab352b378c79196969c91fb6e1dfc0"
+      "sha256": "6b473d6b272088ac635ff0981a4a82f88e634d75e3a47fc6730ceb49261bc385"
     },
     {
-      "length": 34531,
+      "length": 34541,
       "mode": "0644",
       "path": "candidate/real_candidate/capture_v1.py",
-      "sha256": "eb1cbc3107e0c24aa3ace511b89139b46d7d278c13e07e365bfc6027c470e512"
+      "sha256": "c96e082ccbea70da28efac448583566b70ac3fbba74a2fd5292462801442cb6b"
     },
     {
       "length": 16211,
       "mode": "0644",
       "path": "candidate/real_candidate/checkpoint_v1.py",
-      "sha256": "beeded794cf68264f99c1174221a0cc8f6c344b7dadcbebc1eea179ce838239c"
+      "sha256": "b6f73e6c5b5f000c89cc665e75006f37c2ff6fa24be85e867b16a2f0d4d4aa3e"
     },
     {
       "length": 13005,
@@ -370,10 +531,10 @@
       "sha256": "faf83af7402808844154435dc02e735e04530d4184a2082ef78db62a39a92ca0"
     },
     {
-      "length": 20612,
+      "length": 23933,
       "mode": "0644",
       "path": "candidate/real_candidate/policy_b_proof_v1.py",
-      "sha256": "e88d99cfbcfd429e794f234575b1918b95ee71c1afe441dc31bb827ad63013f5"
+      "sha256": "5f082cf22f78d886cb143b622988a9e8a22b4581e46c85160b941ddae7b8d553"
     },
     {
       "length": 6573,
@@ -412,10 +573,10 @@
       "sha256": "9293273b70b153adea9034e60d98de900cbcb91f56a3fe2c367c1acd7d4a844e"
     },
     {
-      "length": 101684,
+      "length": 101826,
       "mode": "0644",
       "path": "candidate/recovery_bounded_v4.py",
-      "sha256": "60ce8dd5af3d40d93a2f8c357f5b6074af0b4ee1eeb59e06752caac6ed585ce6"
+      "sha256": "c00c215876270594c4a3b197c62a19f288ff6f3e8be40e80709bd4ab29cf97be"
     },
     {
       "length": 14084,
@@ -427,19 +588,19 @@
       "length": 25563,
       "mode": "0644",
       "path": "candidate/recovery_compatibility_bounded_v4.json",
-      "sha256": "15d8e283bc5374ac405bd21720e478231864cfb243feff3dbab87a560b5dfe2a"
+      "sha256": "f9879f8062e291121a8c9e4710c6358d647025c18b2689764840a23790e2d87c"
     },
     {
-      "length": 67102,
+      "length": 71434,
       "mode": "0644",
       "path": "composition.py",
-      "sha256": "cd791145585a9840a842f7fcc958685c47a4308ef7107cf5abb122bc5a9e237e"
+      "sha256": "426b9d69bd5c8d41b288cc9c5005245b07e3ab75fce36b07810fbe04d10faece"
     },
     {
-      "length": 9637,
+      "length": 9706,
       "mode": "0644",
       "path": "tests/np_support.py",
-      "sha256": "16098563043dd89e88c8e013f526a19f256161858dc5f5cd1abf3a7fabbb088f"
+      "sha256": "4f31e3373a64b25a3436ce6e19cbcfe949ae6b6d603129b428e7604cf1cea63e"
     },
     {
       "length": 498,
@@ -448,22 +609,34 @@
       "sha256": "1bedb4fd9e238b208eb2efc5e95f94aea473a14e82168060874aa76cfc48c855"
     },
     {
-      "length": 4634,
+      "length": 5555,
       "mode": "0644",
       "path": "tests/prepare_capsule.py",
-      "sha256": "1105bab40366bed90536c35460f39a0caeb8c137d2c51399d2c0a4783da0bd51"
+      "sha256": "daa8868ff3cab8308530e35c3cb031de5daa0db9491714b0a0805d801abbec5d"
     },
     {
-      "length": 11716,
+      "length": 16870,
+      "mode": "0644",
+      "path": "tests/test_a11_interfaces.py",
+      "sha256": "d1348d8b2c30db3ac6878de32f08ce8f0478eaeea12feb37cee277a60406c1f7"
+    },
+    {
+      "length": 11689,
       "mode": "0644",
       "path": "tests/test_model_b_integration.py",
-      "sha256": "9eaa1e088ec72631621abbc7fd221fc692ab8a4a6169c1fb93cca5b38db47131"
+      "sha256": "7e7aa9899788b3762d523f26af126588926d8dd4ade06ce040bc0ed585582fa7"
     },
     {
-      "length": 4586,
+      "length": 4559,
       "mode": "0644",
       "path": "tests/test_restart_and_domains.py",
-      "sha256": "95c8133b3fd230aa42bde2d603177cc732c34f5afba88cce5119d97c06c251cd"
+      "sha256": "6c3d94b8237be7a333994d3d5fb4931da2d0a395b98437ba1626c5e587fd37a6"
+    },
+    {
+      "length": 3735,
+      "mode": "0644",
+      "path": "tests/verify_a11_replay.py",
+      "sha256": "d67196d6275dbd5b064c2dcb0f77269d09910757d8c19850a3cda4aa1c5459f9"
     },
     {
       "length": 874,
@@ -472,19 +645,94 @@
       "sha256": "7054568168817e78539dfbd2d7dd1b64158bff784fad16fe40116da73ad6c650"
     }
   ],
-  "preparation_task_id": "QTRP_MODEL_B_ENGINEERING_PRESERVATION_PREPARATION_V1",
+  "parent_engineering_commit": "d884ac2506c05486fbddc84288f4c0dee38a2c05",
+  "preparation_task_id": "QTRP_MODEL_B_A11_IMPLEMENTATION_PRESERVATION_V1",
   "provenance_file_excluded_from_source_inventory": "ARCHIVE_PROVENANCE.json",
+  "published_baseline_provenance": {
+    "accepted_evidence_archive": {
+      "archival_reference": "MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_EVIDENCE.zip",
+      "crc32": "982e87f4",
+      "custody": "EXTERNAL_ACCEPTED_EVIDENCE__NOT_INCLUDED_IN_THIS_GIT_ARCHIVE",
+      "length": 5529402,
+      "member_count": 2211,
+      "sha256": "bfa11a1bafa57ecc4ab24f38be9b18356b83000fe55e14302e45f9f1c7a39011"
+    },
+    "accepted_implementation_diff": {
+      "comparison_base": "Accepted B53 source capsule; not the repository base commit",
+      "evidence_zip_member": "evidence/COMPLETE_IMPLEMENTATION.diff",
+      "length": 769326,
+      "sha256": "3381502dbc7f34314f08a08e0d1b6ce3364e767568789c5a6d670ee82c26e368"
+    },
+    "accepted_predecessor": {
+      "capsule_id": "QTRP_BATCH0004_C06_B53_OS_SEPARATION_HANDOFF_NP_V1",
+      "derived_source_pin_inventory_sha256": "04bf4446c4afabb2d29c44f505f9946d22f3a3a1287f4847c3db086af9c76e84",
+      "receipt_name": "FINAL_RETURN_FOR_MAIN.json",
+      "receipt_sha256": "10e0739b0bc98ed3baf99d0ee7a85802c1d6fb7c5114b39539cfc9f4f7e2ef1e",
+      "source_control_file_count": 58,
+      "source_pin_receipt": {
+        "evidence_zip_member": "evidence/PREFLIGHT_AND_SOURCE_IDENTITIES.json",
+        "sha256": "3f369fb78519e703f7dd908bdc2447c1cf3ff91df4eb0312391667b24ebb8b2f"
+      }
+    },
+    "accepted_synthetic_integration": {
+      "evidence_classification": "CODEX_REPORTED",
+      "evidence_sha256": "dc18a97707ed00912e200ede92bdcaa4e5a3ae7053cfe43114a78a3c22cdc883",
+      "evidence_zip_member": "evidence/TECHNICAL_RESULT.json",
+      "integration_rerun_during_archival_preparation": false,
+      "passed": 33,
+      "result": "PASS",
+      "review_attribution": "Accepted by MAIN and ADMIN as stated in the controlling archival-preparation task. New archival observations remain CODEX_REPORTED pending MAIN independent review.",
+      "total": 33
+    },
+    "authority": {
+      "archival_reference_only": true,
+      "protected_access_granted": false,
+      "real_authorization_granted": false,
+      "real_execution_granted": false,
+      "statement": "This archival provenance record grants no scientific access, authorization publication or consumption, deployment, checkpoint mutation, REAL execution, Attempt 11 or U0013 activity."
+    },
+    "current_dependency_closure": {
+      "derived_path_to_sha256_inventory_sha256": "0f63765eca81c4e713ab2c1b53813ee88c2675cfe323aced9bfe36cc22c66920",
+      "file_count": 61,
+      "selection": "All archived source files under accepted/ and candidate/",
+      "source_field": "_NONPRODUCTION_SOURCE_CLOSURE",
+      "source_file": "composition.py",
+      "source_sha256": "cd791145585a9840a842f7fcc958685c47a4308ef7107cf5abb122bc5a9e237e"
+    },
+    "derived_inventory_encoding": "UTF-8 JSON object with relative paths mapped to SHA-256 strings; sorted keys, compact separators, no ASCII escaping, trailing LF. These are Codex-derived verification digests, not independently supplied historical trust anchors.",
+    "preparation_task_id": "QTRP_MODEL_B_ENGINEERING_PRESERVATION_PREPARATION_V1",
+    "provenance_file_excluded_from_source_inventory": "ARCHIVE_PROVENANCE.json",
+    "purpose": "BYTE_PRESERVING_SOURCE_ARCHIVE__NOT_A_DEPLOYMENT",
+    "qualification_boundary": {
+      "execution_portability_qualified": false,
+      "inherited_source_path_references": "Preserved unchanged because exact accepted source bytes and location guards are part of the qualified artifact.",
+      "original_qualification": "Exact original task-scoped fixed-path capsule under cooperative, noncompromised, unprivileged Model B assumptions.",
+      "statement": "Git archival relocation preserves source bytes; it does not qualify execution from this checkout or authorize alteration of imports, paths, configuration, manifests or tests."
+    },
+    "repository_base_sha": "b9e80b66419549275d22fa9de900cdaff84cb24e",
+    "schema": "QTRP_MODEL_B_SOURCE_ARCHIVE_PROVENANCE_V1",
+    "schema_version": 1,
+    "source_capsule_id": "QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1",
+    "source_file_count": 70,
+    "source_inventory_reference": {
+      "commit": "d884ac2506c05486fbddc84288f4c0dee38a2c05",
+      "length": 18748,
+      "path": "nonproduction/model_b_bounded_integration_v1/ARCHIVE_PROVENANCE.json",
+      "sha256": "8da69822fc7e0f97c551cf3b8849d4af365d9772c130e6e5b23c9c0c46f6930d"
+    },
+    "status": "NONPRODUCTION_SYNTHETIC_ONLY"
+  },
   "purpose": "BYTE_PRESERVING_SOURCE_ARCHIVE__NOT_A_DEPLOYMENT",
   "qualification_boundary": {
     "execution_portability_qualified": false,
     "inherited_source_path_references": "Preserved unchanged because exact accepted source bytes and location guards are part of the qualified artifact.",
-    "original_qualification": "Exact original task-scoped fixed-path capsule under cooperative, noncompromised, unprivileged Model B assumptions.",
-    "statement": "Git archival relocation preserves source bytes; it does not qualify execution from this checkout or authorize alteration of imports, paths, configuration, manifests or tests."
+    "original_qualification": "Accepted A11 correction in its original fixed-path capsule, under cooperative, noncompromised, unprivileged Model B assumptions.",
+    "statement": "Incremental Git preservation retains accepted source bytes and modes. The accepted 51/51 NONPRODUCTION checks were performed in the original fixed-path capsule; they do not qualify this checkout, current REAL checkpoint compatibility or REAL Attempt 11 readiness. No archived code was executed during preservation."
   },
-  "repository_base_sha": "b9e80b66419549275d22fa9de900cdaff84cb24e",
+  "repository_base_sha": "d884ac2506c05486fbddc84288f4c0dee38a2c05",
   "schema": "QTRP_MODEL_B_SOURCE_ARCHIVE_PROVENANCE_V1",
   "schema_version": 1,
-  "source_capsule_id": "QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1",
-  "source_file_count": 70,
+  "source_capsule_id": "QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1",
+  "source_file_count": 72,
   "status": "NONPRODUCTION_SYNTHETIC_ONLY"
 }

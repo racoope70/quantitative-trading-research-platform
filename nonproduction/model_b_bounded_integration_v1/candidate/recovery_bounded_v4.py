@@ -31,7 +31,7 @@ from real_candidate.policy_b_proof_v1 import PolicyBProofPath,PolicyBPredecessor
 
 # Hash identities of the accepted exact interface implementations. No duck typing.
 REAL_CHECKPOINT_INTERFACE_SHA256 = "fde7d910ece9fb24254ab76af1376633d1002560c74846b570040b59d859c6c1"
-REAL_EXECUTOR_INTERFACE_SHA256 = 'f7c89bd4e497086b91f2dc26310680dcf373a04be4e20b4bbfe92372e18241bb'
+REAL_EXECUTOR_INTERFACE_SHA256 = '2315601c2f83fa18107257025ec94ef85d65b12c7a38e4a2c44066d77d3723ac'
 HISTORICAL_EXECUTOR_INTERFACE_SHA256 = "1887b13a4bf4546f5f375f0b4ec306c8d773847ec674b8e1d3d33bfd98fb7424"
 ACTIVE_V6_CHECKPOINT_SHA256 = "083c5c163dd7549fdc06d9def95d1af1bb648f248ca7f0327173b5ccf6f34d27"
 ACTIVE_V6_EXECUTOR_SHA256 = "b22efb727152980dd434fe4ba007e55f8cbac66a76dab42443ee93e461b8848b"
@@ -241,7 +241,7 @@ def case_and_mode_sha(case,mode_contract):
 
 # Compatibility evidence is not execution authorization. All REAL mutation and
 # dispatch entry points below remain hard disabled in this correction release.
-COMPATIBILITY_BINDING_SHA256 = '15d8e283bc5374ac405bd21720e478231864cfb243feff3dbab87a560b5dfe2a'
+COMPATIBILITY_BINDING_SHA256 = 'f9879f8062e291121a8c9e4710c6358d647025c18b2689764840a23790e2d87c'
 REAL_ACTIVATION_GATE_STATE = 'HARD_DISABLED'
 
 def compatibility_binding():
@@ -1316,8 +1316,11 @@ class ControlledStopRecovery:
                 consumer,snapshot=self._v7_consumer
                 need(type(consumer[0]) is PolicyBProofPath and self._v7_consumer_snapshot(consumer)==snapshot,
                      'POLICY_B_NP_CONSUMER_DRIFT')
-                consumer[0].verify_prepared()
-                need(consumer[0]._candidate[0].invocation_id not in consumer[7],'POLICY_B_NP_STALE_CAPTURE')
+                if executor._capture_request is not None:
+                    executor.verify_capture_request()
+                else:
+                    consumer[0].verify_prepared()
+                    need(consumer[0]._candidate[0].invocation_id not in consumer[7],'POLICY_B_NP_STALE_CAPTURE')
                 self._fresh_pre_mutation_guard()
             except Exception as exc:
                 self._dispatched=True;self._v7_used=True

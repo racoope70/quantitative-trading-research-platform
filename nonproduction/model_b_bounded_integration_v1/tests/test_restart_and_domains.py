@@ -22,7 +22,7 @@ fixture=sorted((n.ROOT/'fixtures').glob('incomplete_*'))[-1]
 raw=(fixture/'authority/authorization.json').read_bytes();doc=publication.validate_model_b_document(raw)
 reject('MODEL_B_DOCUMENT_REJECTED_BY_EXISTING_REAL_INERT_PUBLICATION_VALIDATOR',lambda:publication.validate_owner_document(raw))
 candidate=fixture/'authority.candidate.json'
-rd,wr=os.pipe();os.write(wr,n.canonical({'task_id':'QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1',
+rd,wr=os.pipe();os.write(wr,n.canonical({'task_id':publication.MODEL_B_TASK,
     'sha256':n.sha(raw),'length':len(raw),'owner_pid':os.getpid()}));os.close(wr)
 reject('SAME_EXECUTOR_PROCESS_CANNOT_APPROVE_ITS_OWN_PUBLICATION',lambda:publication.publish_model_b(candidate,n.sha(raw),len(raw),approval_fd=rd,directory=fixture/'self_publication'))
 assert not (fixture/'self_publication').exists()

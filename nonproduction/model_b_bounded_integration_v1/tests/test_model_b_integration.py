@@ -29,7 +29,7 @@ def publish(x,name='authority',doc=None):
     candidate=x['directory']/(name+'.candidate.json');candidate.write_bytes(raw);candidate.chmod(0o600)
     directory=x['directory']/name
     rd,wr=os.pipe()
-    os.write(wr,n.canonical({'task_id':'QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1',
+    os.write(wr,n.canonical({'task_id':publication.MODEL_B_TASK,
         'sha256':n.sha(raw),'length':len(raw),'owner_pid':os.getpid()}));os.close(wr)
     try:
         result=subprocess.run([n.PYTHON,'-I','-B',str(n.ROOT/'tests/owner_publish.py'),str(rd),str(candidate),str(directory),n.sha(raw),str(len(raw))],

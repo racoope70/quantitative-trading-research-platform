@@ -59,7 +59,7 @@ class PolicyBProofPath:
                       synthetic_engine.verify().state['attempt_identity'].startswith('SYNTHETIC_POLICY_B_') and
                       (synthetic_engine.input_hashes['neutral_semantic_evidence.jsonl']==
                         '61d687a415611aa75db955485db36e90e70b0fae2b2cdd10518c6a3659c1f496' or
-                       (Path(__file__).resolve()==Path('/private/tmp/QTRP_MODEL_B_BOUNDED_NONPRODUCTION_INTEGRATION_V1/candidate/real_candidate/policy_b_proof_v1.py')
+                       (Path(__file__).resolve()==Path('/private/tmp/QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1/candidate/real_candidate/policy_b_proof_v1.py')
                         and synthetic_engine.state['attempt_identity'].startswith('SYNTHETIC_POLICY_B_MODEL_B_')
                         and synthetic_engine.evidence==validator._read_sources()[1])),
                       'POLICY_B_EXACT_SYNTHETIC_CONTEXT_REQUIRED')
@@ -276,7 +276,24 @@ class PolicyBCapturedFixtureExecutor:
     def __init__(self,path):
         s.require(type(path) is PolicyBProofPath and path.synthetic_engine is not None,
                   'POLICY_B_FIXTURE_REQUIRES_SYNTHETIC_ENGINE')
-        self.path=path;self.calls=0
+        self.path=path;self.calls=0;self._capture_request=None;self.capture_failure=None
+    def configure_capture(self,*,binding,checkpoint,input_path,stage_root):
+        import owner_publication as publication
+        publication.model_b_root(input_path);publication.model_b_root(stage_root)
+        request=(binding,checkpoint,Path(input_path),Path(stage_root))
+        s.require(self.calls==0 and (self._capture_request is None or self._capture_request==request),
+                  'MODEL_B_CAPTURE_REQUEST_SUBSTITUTION')
+        self._capture_request=request
+    def verify_capture_request(self):
+        s.require(type(self._capture_request) is tuple and self.path._candidate is None
+                  and self.calls==0 and not self.path.supervisor._observed,
+                  'MODEL_B_CAPTURE_ALREADY_USED_OR_UNCONFIGURED')
+        b,cp,frame,stage=self._capture_request
+        s.require(b is self.path.binding and cp is self.path.predecessor and frame==self.path.frame
+                  and stage==self.path.transaction.engine.root.parent/'stage',
+                  'MODEL_B_CAPTURE_REQUEST_DRIFT')
+        self.path._check_checkpoint(cp);self.path.configuration_bytes()
+        return True
     def configuration_bytes(self):
         self.path.supervisor._fresh();sources=self.path._fresh_sources()
         return s.canonical({'domain':'SYNTHETIC_POLICY_B_CAPTURE_FORWARDING_ONLY',
@@ -287,8 +304,37 @@ class PolicyBCapturedFixtureExecutor:
         s.require(self.calls==0 and role=='PRIMARY' and unit_id=='U0012' and
                   attempt_no==len(t._historical_attempts)+1 and s.canonical(input_rows)==s.safe_read(self.path.frame),
                   'POLICY_B_FIXTURE_EXACT_ONE_UNIT_ONLY')
+        if self._capture_request is not None:
+            self.verify_capture_request()
+            b,cp,frame,stage_root=self._capture_request
+            from prospective_adapter_v1 import prospective_attempt_layout
+            prospective_attempt_layout(history=t._historical_attempts,
+                checkpoint_identity=cp.identity,expected_checkpoint_identity=t.case['checkpoint_manifest_sha256'],
+                checkpoint_sequence=cp.sequence,work_root=self.path.supervisor.cwd.parents[3],
+                unit_id=unit_id,attempt_no=attempt_no,working_directory=self.path.supervisor.cwd)
+            o=self.path.supervisor.observe(input_file=frame,pinned_input_sha256=b.unit_input_sha256,
+                timeout_seconds=self.path.supervisor.child_capture_budget_seconds,test_only=True)
+            self.calls+=1
+            try:
+                self.path.issue(capture=o,input_path=frame,input_sha256=b.unit_input_sha256,
+                    stage_root=stage_root,binding=b,checkpoint=cp)
+            except Exception as exc:
+                # Forward failed operational facts for existing attempt accounting.
+                # A missing proof can never accept or freeze a scientific result.
+                self.capture_failure=type(exc).__name__+':'+str(exc)
+                return {'process_started':True,'return_code':o.exit_code,'termination_state':o.termination,
+                    'timeout_status':o.timeout,'context_id':o.invocation_id,'agent_message':'',
+                    'raw_stdout':o.stdout.decode('utf8',errors='replace'),
+                    'raw_stderr':o.stderr.decode('utf8',errors='replace'),
+                    'stdout_sha256':o.stdout_sha256,'stderr_sha256':o.stderr_sha256,
+                    'raw_output_sha256':o.raw_output_sha256,'executor_sha256':o.executable_sha256,
+                    'config_sha256':o.config_sha256,'capture_source_sha256':o.capture_source_sha256,
+                    'validation_failure':True,'synthetic_only':True,'provenance_mode':'SYNTHETIC',
+                    'codex_subprocess_started':False,'real_codex_subprocess_started':False}
         self.path.verify_prepared();o,stage,proof,receipt=self.path._candidate
         s.require(o.invocation_id not in prior_contexts,'POLICY_B_FIXTURE_STALE_CONTEXT')
-        t._fresh_pre_dispatch_guard();self.calls+=1;t.submit_v7_evidence(o,stage,proof,receipt)
+        t._fresh_pre_dispatch_guard()
+        if self._capture_request is None:self.calls+=1
+        t.submit_v7_evidence(o,stage,proof,receipt)
         return {**self.path.result(o),'synthetic_only':True,'provenance_mode':'SYNTHETIC',
                 'codex_subprocess_started':False,'real_codex_subprocess_started':False}
