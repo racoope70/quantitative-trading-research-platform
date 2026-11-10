@@ -1,0 +1,32 @@
+{
+  "actual_real_runtime_case_mode_binding_sha256": null,
+  "case_bound_recovery_unit": "U0012",
+  "fresh_mode_check_after_sidecar_append_and_before_dispatch": true,
+  "fresh_mode_check_before_mutation": true,
+  "historical_real_capable_v1_sha256": "e064f043826c6ef0377d17cb3763ae7b26adc9e000846691173e431548399f64",
+  "historical_recovery_case_binding_sha256": "942551d0a5a4b1a67df58d9fc017e839ef130c4b28557c5bedd99d50903bc8a1",
+  "max_new_units": 1,
+  "mode_binding_occurs_before_sidecar_mutation": true,
+  "mode_contract_fields": [
+    "execution_mode",
+    "engine_mode",
+    "adapter_mode",
+    "authorization_mode",
+    "expected_provenance_mode",
+    "engine_class",
+    "adapter_class",
+    "engine_configuration_sha256",
+    "adapter_configuration_sha256"
+  ],
+  "mode_contract_sha256": "SHA256(canonical_json(mode_contract))",
+  "mode_schema_sha256": "fa0fe30e6793986acaeb4f3d764b22c1e3ca93ccd00c5d79b92b27a2bc7b01cc",
+  "real_execution_authorized": false,
+  "real_mode_requires_frozen_codex_runner": true,
+  "real_u0012_retry_authorized": false,
+  "runtime_case_mode_binding": "SHA256(canonical_json({case_sha256,mode_contract_sha256}))",
+  "schema_version": "BATCH0004_U0012_RECOVERY_CASE_MODE_BINDING_DESCRIPTOR_V2",
+  "sidecar_authorization_event_binds_full_mode_contract": true,
+  "synthetic_mock_real_provenance_forbidden": true,
+  "task_id": "POST_C6_Q1_2027_D1_BODY_BATCH0004_PRIMARY_S05_REAL_CAPABLE_RECOVERY_MODE_BINDING_V2",
+  "trusted_real_activation_required_if_real": true
+}

@@ -1,0 +1,36 @@
+{
+  "actual_input_binding": {
+    "length_bytes": 12206,
+    "sha256": "7cabe8e58c9b4f0ef8eb1aa14bbe189aede74bffff159e78054a2d5d932267f8",
+    "source_sections": [
+      "AcceptedValidatorReceipt.FULL_CLASS",
+      "AcceptedRealValidatorHarness.__init__",
+      "AcceptedRealValidatorHarness.validate_observed_fixture",
+      "AcceptedRealValidatorHarness.verify_receipt",
+      "RealBoundaryProofIssuer.issue",
+      "RealBoundaryProofIssuer.verify"
+    ]
+  },
+  "complete_source": {
+    "length_bytes": 32691,
+    "path": "real_trust_boundary/real_boundary_v1.py",
+    "sha256": "65fb889c82881c25b47ec6758681b1f496b164c2c3792c48a060ced5de71bfe8"
+  },
+  "fresh_prelaunch_identity": {
+    "length_bytes": 7564,
+    "sha256": "b9d00750be4fd495a7b32da50f5e5b865e7b288191d2c5618381713fe05c0a56",
+    "source_sections": [
+      "ControlledFixtureSupervisor.__init__",
+      "ControlledFixtureSupervisor._fresh_execution_material",
+      "ControlledFixtureSupervisor.observe",
+      "ControlledFixtureSupervisor.verify_capture"
+    ]
+  },
+  "real_proof_issuer_integration": {
+    "length_bytes": 9458,
+    "sha256": "04653e67da2f77c717bb9d0e93ca78164df18863ac4c6902e9d836d181fe41fb",
+    "source_sections": [
+      "RealBoundaryProofIssuer.FULL_CLASS"
+    ]
+  }
+}

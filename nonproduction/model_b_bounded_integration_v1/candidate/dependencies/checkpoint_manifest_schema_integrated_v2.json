@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Batch0004 size25 bounded live-integration checkpoint (real execution DISABLED)",
+  "schema_version": "BATCH0004_SIZE25_CHECKPOINT_MANIFEST_INTEGRATION_V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_sha256",
+    "batch_id",
+    "task_id",
+    "role",
+    "partition_size",
+    "partition_count",
+    "partition_rule",
+    "partition_rule_identity_sha256",
+    "partition_manifest_sha256",
+    "semantic_rule_identity_sha256",
+    "reason_precedence_identity_sha256",
+    "neutral_input_sha256",
+    "attempt_identity",
+    "units",
+    "checkpoint_sequence",
+    "checkpoint_timestamp",
+    "first_unfinished_unit",
+    "global_state",
+    "pause_reason",
+    "stop_reason",
+    "aggregate_sha256",
+    "previous_checkpoint_sha256",
+    "checkpoint_manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "BATCH0004_SIZE25_CHECKPOINT_MANIFEST_INTEGRATION_V2"
+    },
+    "schema_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "batch_id": {
+      "const": "BATCH_0004"
+    },
+    "task_id": {
+      "const": "POST_C6_Q1_2027_D1_BODY_BATCH0004_SIZE25_REAL_PARTITION_MANIFEST_AND_LIVE_INTEGRATION_BUILD_V1"
+    },
+    "role": {
+      "enum": [
+        "PRIMARY",
+        "INDEPENDENT"
+      ]
+    },
+    "partition_size": {
+      "const": 25
+    },
+    "partition_count": {
+      "const": 20
+    },
+    "partition_rule": {
+      "const": "SORT_AUTHORIZED_POSITION_ASCENDING__CONTIGUOUS_FIXED_SIZE_25"
+    },
+    "partition_rule_identity_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "partition_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "semantic_rule_identity_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "reason_precedence_identity_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "neutral_input_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "attempt_identity": {
+      "type": "string",
+      "minLength": 8
+    },
+    "units": {
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unit_id",
+          "position_start",
+          "position_end",
+          "identity_list_sha256",
+          "state",
+          "attempt_count",
+          "attempts",
+          "frozen_output_sha256",
+          "executor_attempt_manifest_sha256",
+          "frozen_context_id"
+        ],
+        "properties": {
+          "unit_id": {
+            "type": "string",
+            "pattern": "^U[0-9]{4}$"
+          },
+          "position_start": {
+            "type": "integer",
+            "minimum": 1501,
+            "maximum": 2000
+          },
+          "position_end": {
+            "type": "integer",
+            "minimum": 1501,
+            "maximum": 2000
+          },
+          "identity_list_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "state": {
+            "enum": [
+              "PENDING",
+              "EXECUTING",
+              "VALIDATED",
+              "FROZEN"
+            ]
+          },
+          "attempt_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "attempts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "attempt_number",
+                "context_id",
+                "status",
+                "manifest_sha256"
+              ],
+              "properties": {
+                "attempt_number": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "context_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "status": {
+                  "type": "string"
+                },
+                "manifest_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
+              }
+            }
+          },
+          "frozen_output_sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "executor_attempt_manifest_sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "frozen_context_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "checkpoint_sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "checkpoint_timestamp": {
+      "type": "string"
+    },
+    "first_unfinished_unit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "global_state": {
+      "enum": [
+        "RUNNING",
+        "PAUSED_EXTERNAL_AVAILABILITY",
+        "CONTROLLED_STOP__RETURN_TO_MANAGING",
+        "COMPLETE_NONPRODUCTION__READY_FOR_MANAGING"
+      ]
+    },
+    "pause_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "stop_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "previous_checkpoint_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "checkpoint_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "aggregate_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}
