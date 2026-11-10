@@ -362,8 +362,8 @@ def owner_terminal_action(args):
     return subprocess.run([*sudo, *command], env=environment, close_fds=True).returncode
 
 MODEL_B_SCOPE = 'MODEL_B_SYNTHETIC_EXACT_ONE_UNIT_V1'
-MODEL_B_TASK = 'QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1'
-MODEL_B_ROOT = Path('/private/tmp/QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1')
+MODEL_B_TASK = 'QTRP_MODEL_B_A11_REAL_CONTRACT_NONPRODUCTION_QUALIFICATION_V1'
+MODEL_B_ROOT = Path('/private/tmp/QTRP_MODEL_B_A11_REAL_CONTRACT_NONPRODUCTION_QUALIFICATION_V1')
 MODEL_B_LOADED_SOURCE_SHA256 = digest(Path(__file__).read_bytes())
 
 def model_b_root(path):

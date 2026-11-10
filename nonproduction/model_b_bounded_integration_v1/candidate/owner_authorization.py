@@ -23,9 +23,9 @@ PROSPECTIVE_SOURCE_PINS = {'owner_publication.py': '6783256282e150076288454d5dec
 SUPERSEDING_RELEASE_SHA = '7151bbbbd4b41dccdceff20d48abd445ed882e7682a7efef7f670594b35f1c1b'
 PROSPECTIVE_BINDING_SHA = 'b4dce0c0d76d7ae2608ca06de17c97ebd3ca91fd0e3924a0f93b3837a86b1cca'
 MANIFEST_FILE = 'REAL_RUNTIME_BOUNDED_RELEASE_MANIFEST_V4.json'
-COMPATIBILITY_SOURCE_PINS = {'owner_publication.py': '996cee63f8b23b5685d7fd8beafcb38dadaef48208a0f28532720b4cdb3c4471', 'prospective_adapter_v1.py': '2315601c2f83fa18107257025ec94ef85d65b12c7a38e4a2c44066d77d3723ac', 'real_candidate/activation_v1.py': '6b473d6b272088ac635ff0981a4a82f88e634d75e3a47fc6730ceb49261bc385', 'real_candidate/capture_v1.py': 'c96e082ccbea70da28efac448583566b70ac3fbba74a2fd5292462801442cb6b', 'real_candidate/checkpoint_v1.py': 'b6f73e6c5b5f000c89cc665e75006f37c2ff6fa24be85e867b16a2f0d4d4aa3e', 'real_candidate/engine_v1.py': '64cccf083cd036d78345b2b96971353c135b300afcaa20c670bc8dbde0a26e60', 'real_candidate/executor_v1.py': '7254dba7a9cd153d3f8aea2ff4605ae5631541297fdb4071c75cea71f5cde07c', 'real_candidate/policy_b_events_v1.py': '52e0448e6c4a2b69301346cb7741e889b501d50092b1c184d79233338e1ad1d2', 'real_candidate/policy_b_proof_v1.py': '5f082cf22f78d886cb143b622988a9e8a22b4581e46c85160b941ddae7b8d553', 'real_candidate/policy_b_validation_v1.py': '6dba4b8796c6437cf5f8f94fbd4c10d0e6eda5e36f546f816ce0f4742ca4371e', 'real_candidate/proof_issuer_v1.py': 'b79ad20faf776c2b838f2edbca2a19ef8704284d9bb530e87cbadcf3ea1b1bb8', 'real_candidate/proof_path_v1.py': '4471adbadbc03e788bde4d0bf24dca5627631e1e987779ab379257b0b8cfad34', 'real_candidate/real_binding_v1.py': 'b41d5a33f1bfda759c7549936f0340c77aa1a85329ce304e96190de549a8ff0e', 'real_candidate/release_v1.py': '50e735a712dcf0a7a44ba75cd9d99823c89c7404bc97acf7f071303627347cd3', 'real_candidate/validation_v1.py': '9293273b70b153adea9034e60d98de900cbcb91f56a3fe2c367c1acd7d4a844e', 'recovery_bounded_v4.py': 'c00c215876270594c4a3b197c62a19f288ff6f3e8be40e80709bd4ab29cf97be', 'membership_readonly.py': '4afebb18b53fa0985dabcf10b56d08427334096c3223fc5b1a7a9698aa79884c'}
-COMPATIBILITY_RELEASE_SHA = '0b12fe4dd4dc07fe1e3163a0f6b4e8d3745ade96bd68757149bd577052962bd9'
-COMPATIBILITY_BINDING_SHA = 'f9879f8062e291121a8c9e4710c6358d647025c18b2689764840a23790e2d87c'
+COMPATIBILITY_SOURCE_PINS = {'owner_publication.py': 'ce9cef754186226d6bf2e6651d4a8a45a503f5ebf3af14b119481d3780fe1642', 'prospective_adapter_v1.py': '2315601c2f83fa18107257025ec94ef85d65b12c7a38e4a2c44066d77d3723ac', 'real_candidate/activation_v1.py': '6b473d6b272088ac635ff0981a4a82f88e634d75e3a47fc6730ceb49261bc385', 'real_candidate/capture_v1.py': '90179e4d829a5fb4a39b1344358b86d5e47bca20d2bd6621a7fac6ec46323f02', 'real_candidate/checkpoint_v1.py': '19bd44bc529ea370f805cd7f03d0ac54d64793b6b132a24311dc940ad8e534d7', 'real_candidate/engine_v1.py': '64cccf083cd036d78345b2b96971353c135b300afcaa20c670bc8dbde0a26e60', 'real_candidate/executor_v1.py': '6c69496f1ec6aed0f37a19cf7cc0780f6ffced49e2d400622bab3bcbe8fb55c7', 'real_candidate/policy_b_events_v1.py': '52e0448e6c4a2b69301346cb7741e889b501d50092b1c184d79233338e1ad1d2', 'real_candidate/policy_b_proof_v1.py': 'ecea353388b056fda0518491b296fbea9d1baa44304781662fef9f2b6c65342f', 'real_candidate/policy_b_validation_v1.py': '6dba4b8796c6437cf5f8f94fbd4c10d0e6eda5e36f546f816ce0f4742ca4371e', 'real_candidate/proof_issuer_v1.py': 'b79ad20faf776c2b838f2edbca2a19ef8704284d9bb530e87cbadcf3ea1b1bb8', 'real_candidate/proof_path_v1.py': '4471adbadbc03e788bde4d0bf24dca5627631e1e987779ab379257b0b8cfad34', 'real_candidate/real_binding_v1.py': 'b41d5a33f1bfda759c7549936f0340c77aa1a85329ce304e96190de549a8ff0e', 'real_candidate/release_v1.py': '50e735a712dcf0a7a44ba75cd9d99823c89c7404bc97acf7f071303627347cd3', 'real_candidate/validation_v1.py': '9293273b70b153adea9034e60d98de900cbcb91f56a3fe2c367c1acd7d4a844e', 'recovery_bounded_v4.py': '2624c60b1ed7d75221789faa8e0bfed9fbe7d78ed6451f961c503a67d6a1a645', 'membership_readonly.py': '4afebb18b53fa0985dabcf10b56d08427334096c3223fc5b1a7a9698aa79884c'}
+COMPATIBILITY_RELEASE_SHA = '34d995d63c924ae9397406636d3b1f6e1e17e3c83dbc5973163fcb9c4b2176c8'
+COMPATIBILITY_BINDING_SHA = 'a0fb4907a1cdada02c4cc500cfdc5c840363fb08bd4794510d0404c49b75545e'
 
 def _superseding_target(reference, *, candidate_nonproduction=False, prospective_a11=False,
                         expected_configuration_sha256=None):
@@ -707,6 +707,14 @@ def activate_real(transaction=None,*,phase='RESERVED'):
     from real_candidate.activation_v1 import production_activation
     return production_activation(transaction,phase=phase)
 
+def model_b_frame_identity(frame):
+    """Disposable NP frame identity; never observes a REAL scientific object."""
+    import stat
+    frame=publication.model_b_root(frame);s=frame.lstat()
+    need(stat.S_ISREG(s.st_mode) and s.st_nlink==1 and s.st_uid==501,
+         'MODEL_B_INPUT_FRAME_TYPE_OR_OWNER_DRIFT')
+    return {'device':s.st_dev,'inode':s.st_ino,'size':s.st_size,'mtime_ns':s.st_mtime_ns,'links':s.st_nlink}
+
 def model_b_document(t, executor, path, binding, frame, release_root):
     """Independent exact expected facts; no authority is returned by derivation."""
     import checkpoint_resume_activation_trusted_v1 as core
@@ -774,6 +782,8 @@ def model_b_document(t, executor, path, binding, frame, release_root):
             'stage_root':str(t.engine.root.parent/'stage'),'checkpoint_root':str(t.engine.root),
             'recovery_journal':str(journal)},
         'max_new_units':1,'u0013_prohibited':True,'real_activation':'HARD_DISABLED'}
+    if supervisor.input_delivery=='FILE_IDENTITY_FRAME':
+        operands['input']['file_identity']=model_b_frame_identity(frame)
     cfg=composition.model_b_technical_configuration(operands)
     target={'environment':'SYNTHETIC_NONPRODUCTION','real_execution_authorized':False,
         'unit_id':'U0012','attempt_id':binding.attempt_id,'attempt_ordinal':11,
@@ -836,7 +846,7 @@ def consume_model_b(expected_sha,expected_length,*,directory,t,executor,path,bin
     path.supervisor._model_b_owner_context=t
     return digest(consumed)
 
-def verify_model_b_authority(supervisor,*,claim_launch=False):
+def verify_model_b_authority(supervisor,*,claim_launch=False,input_file=None,input_sha256=None):
     """Fresh checks at capture and proof boundaries; exclusive one-shot claim."""
     t=getattr(supervisor,'_model_b_owner_context',None)
     need(t is not None and getattr(t,'_model_b_owner_context',None) is not None,
@@ -845,6 +855,9 @@ def verify_model_b_authority(supervisor,*,claim_launch=False):
     directory,pin,length,tx,executor,path,binding,frame,release_root=context
     need(tx is t and path.supervisor is supervisor and t._real_owner_context is None,
          'MODEL_B_OWNER_CONTEXT_SUBSTITUTION')
+    if input_file is not None or input_sha256 is not None:
+        need(input_file is not None and publication.model_b_root(input_file)==frame
+             and input_sha256==binding.unit_input_sha256,'MODEL_B_ACTUAL_CAPTURE_FRAME_SUBSTITUTION')
     raw=_model_b_read(directory/'authorization.json',pin,length)
     completion=publication.model_b_completion(pin,length)
     _model_b_read(directory/'publication_complete.json',digest(completion),len(completion))

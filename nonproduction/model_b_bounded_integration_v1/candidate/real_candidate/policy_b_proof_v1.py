@@ -59,7 +59,7 @@ class PolicyBProofPath:
                       synthetic_engine.verify().state['attempt_identity'].startswith('SYNTHETIC_POLICY_B_') and
                       (synthetic_engine.input_hashes['neutral_semantic_evidence.jsonl']==
                         '61d687a415611aa75db955485db36e90e70b0fae2b2cdd10518c6a3659c1f496' or
-                       (Path(__file__).resolve()==Path('/private/tmp/QTRP_MODEL_B_A11_AUTHORIZATION_INTERFACE_CORRECTION_V1/candidate/real_candidate/policy_b_proof_v1.py')
+                       (Path(__file__).resolve()==Path('/private/tmp/QTRP_MODEL_B_A11_REAL_CONTRACT_NONPRODUCTION_QUALIFICATION_V1/candidate/real_candidate/policy_b_proof_v1.py')
                         and synthetic_engine.state['attempt_identity'].startswith('SYNTHETIC_POLICY_B_MODEL_B_')
                         and synthetic_engine.evidence==validator._read_sources()[1])),
                       'POLICY_B_EXACT_SYNTHETIC_CONTEXT_REQUIRED')

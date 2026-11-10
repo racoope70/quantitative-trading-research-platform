@@ -27,6 +27,10 @@ MAX_CAPTURE_BYTES = 16 * 1024 * 1024
 OWNER_STORAGE_HEADROOM_BYTES = 2_000_000_000
 FROZEN_EXECUTOR_SHA256 = 'fe3079dd77d47099b80500f666e6549dfb0ee96ee209df368bb3d1559a65b1f0'
 FROZEN_EXECUTOR_PATH = Path('/Users/richardcooper/Downloads/batch0004_PRIMARY_S05_V2_REAL_RUNTIME_DEPLOYMENT_BINDING_V1/two_attempt_recovery_compatibility_v1/dependencies/reference/v6_accepted/frozen_v3_orchestrator_reference.py')
+# This isolated derivative uses the same immutable, hash-checked source already
+# in its accepted closure. Historical/REAL source locations remain unchanged.
+if Path(__file__).absolute() == Path('/private/tmp/QTRP_MODEL_B_A11_REAL_CONTRACT_NONPRODUCTION_QUALIFICATION_V1/candidate/real_candidate/executor_v1.py'):
+    FROZEN_EXECUTOR_PATH = Path(__file__).absolute().parents[2] / 'accepted/accepted_recovery/reference/v6_accepted/frozen_v3_orchestrator_reference.py'
 _frozen_module = None
 
 
@@ -530,6 +534,9 @@ def verify_runtime_context(context, *, phase='STATIC', working_directory=None, p
         require(c.supervisor.mode == 'NONPRODUCTION_TEST' and c.supervisor._allow_test,
                 'NONPRODUCTION_CONTEXT_CANNOT_PROMOTE')
         require(phase == 'STATIC', 'NONPRODUCTION_CONTEXT_HAS_NO_OWNER_AUTHORITY')
+        import owner_authorization as owner
+        facts.update(frame_path=str(c.frame),frame_length=c.frame.stat().st_size,
+                     frame_file_identity=owner.model_b_frame_identity(c.frame))
     else:
         from .proof_path_v1 import BoundProofPath
         from .policy_b_proof_v1 import PolicyBProofPath

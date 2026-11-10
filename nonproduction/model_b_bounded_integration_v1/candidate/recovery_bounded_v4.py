@@ -241,7 +241,7 @@ def case_and_mode_sha(case,mode_contract):
 
 # Compatibility evidence is not execution authorization. All REAL mutation and
 # dispatch entry points below remain hard disabled in this correction release.
-COMPATIBILITY_BINDING_SHA256 = 'f9879f8062e291121a8c9e4710c6358d647025c18b2689764840a23790e2d87c'
+COMPATIBILITY_BINDING_SHA256 = 'a0fb4907a1cdada02c4cc500cfdc5c840363fb08bd4794510d0404c49b75545e'
 REAL_ACTIVATION_GATE_STATE = 'HARD_DISABLED'
 
 def compatibility_binding():
