@@ -98,8 +98,7 @@ Key navigation:
 - [Project Context](PROJECT_CONTEXT.md) — authoritative broad lifecycle and authorization state.
 - [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md) — non-authorizing roadmap, governance, evidence, and historical navigation.
 - [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — non-authorizing future validation, training, evaluation, and holdout guidance.
-- [Batch0004 engineering and scientific report](docs/reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md) — accepted milestone history, evidence boundaries, and limitations.
-- [Engineering Reliability Retrospective](docs/case_studies/batch0004_execution_reliability_retrospective.md) — documented execution safeguards, failure analysis, and retained controlled-stop disposition.
+- [Engineering Reliability Retrospective](docs/case_studies/batch0004_execution_reliability_retrospective.md) — execution integrity, failure investigation, regression verification, and engineering lessons learned.
 
 Files and reference maps do not independently authorize execution.
 
