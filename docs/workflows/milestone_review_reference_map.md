@@ -42,8 +42,6 @@ Git history and the working tree verify implementation and completion evidence. 
 | Which Owner decision or curated `2v` evidence applies? | [Curated decision and evidence lookup](#8-canonical-c0-c1-c2-c3-c4-and-c5-curated-lookup) |
 | Which accepted C6/universe scientific evidence applies? | [Scientific evidence index](#13-accepted-scientific-evidence-registry); follow its recorded source decisions and reports |
 | What is planned for ML/RL validation and the final holdout? | [Future Validation and Training Reference Map](future_validation_training_reference_map.md) |
-| What happened on Batch0004 U0012 Attempts 1–11? | [Engineering Reliability Retrospective](../case_studies/batch0004_execution_reliability_retrospective.md), Section 2 |
-| What do the M1–M12 milestones establish? | [Historical Recovery and Attempt 11 Report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md), Section 3 |
 
 ### Reference identifier key
 
@@ -51,8 +49,6 @@ Git history and the working tree verify implementation and completion evidence. 
 |---|---|
 | `2v.GOV.*`, `2v.DATA.*`, etc. | Curated decision/material-record lookup |
 | `EVID_POSTC6_*` | Accepted scientific evidence record (full text retained below) |
-| `E1`–`E10` | Source citations scoped to the engineering retrospective |
-| `F1`–`F5` | Source citations scoped to the historical recovery report |
 
 These are navigation and evidence identifiers, not new controls or authorizations.
 
@@ -965,8 +961,6 @@ Exact chronology should be verified through Git history, accepted decisions, mat
 
 Git history and VS Code confirm technical implementation state. They do not control authorization.
 
-[Batch0004 PRIMARY S05 — October 15, 2026 historical REAL execution evidence (nonauthorizing)](../history/batch0004_s05_2026_10_15_historical_real_execution_evidence.md)
-
 ## 13. Accepted scientific evidence registry
 
 ```text
@@ -1442,16 +1436,3 @@ REOPEN_CONDITIONS = MATERIAL_CONTRADICTION / NEW_REQUIRED_FACT / SCIENTIFIC_RULE
 ```
 
 </details>
-
-## 14. Batch0004 U0012 — accepted recovery treatment and Attempt 11 history
-
-This section is **nonauthorizing historical navigation**; `PROJECT_CONTEXT.md` remains the broad controlling lifecycle and authorization source. The accepted Owner narrow-treatment decision applies only to original Batch0004 / Primary / S05 / U0012 / Attempt 11. Historical P4/P10 remain `UNRESOLVED__RECONSTRUCTION_CLOSED`; scientific integrity requirements remain in force. The exact original decision record is not identified on the reviewed remote branch and must not be invented.
-
-| Need | Primary historical reference |
-|---|---|
-| M1–M12 milestones, decision limits and final disposition | [Historical Recovery and Attempt 11 Report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md) |
-| Attempts 1–11, causes, corrections, verification, outcome and lessons | [Engineering Reliability Retrospective](../case_studies/batch0004_execution_reliability_retrospective.md) |
-
-**Accepted outcome:** A0011 remains in permanent `CONTROLLED_STOP`. The native exit-code-1 cause remains unresolved; terminal finalization is incomplete; 275 historical records remain accepted with zero newly accepted. The 33/33-tested NONPRODUCTION finalization correction is not installed.
-
-No Attempt 11 replay, Attempt 12, U0013 or new REAL execution is authorized by these historical references.
