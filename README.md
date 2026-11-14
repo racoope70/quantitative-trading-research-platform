@@ -3,11 +3,6 @@
 ![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux%20x86__64-lightgrey)
 [![Tests](https://github.com/racoope70/quantitative-trading-research-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/racoope70/quantitative-trading-research-platform/actions/workflows/tests.yml)
-![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)
-
-> **Status: Current canonical research platform — in development**
->
-> No model is currently qualified for deployment.
 
 ## Mission
 
@@ -15,6 +10,29 @@ Build a canonical, reproducible, leakage-controlled quantitative research
 platform for machine learning and reinforcement learning applications. The
 platform supports controlled progression to paper trading and possible later
 deployment under separate authorization.
+
+## Platform milestones
+
+The platform has progressed beyond initial design, with completed scientific-
+infrastructure milestones and documented engineering validation:
+
+- **Research data contract:** The C6 model-family-neutral dataset specification
+  was reviewed and frozen for future separately authorized research.
+- **Experimental universe:** A 42-security primary universe was selected,
+  characterized, and frozen under a predeclared protocol. The available
+  formation-population limitations remain recorded.
+- **Reliability engineering:** The Batch0004 workflow implements deterministic
+  25-record processing units, checkpoint and provenance controls, replay
+  safeguards, and fail-closed execution behavior, with verified engineering
+  findings and unresolved limitations documented in the supporting reports.
+- **Verification and transparency:** Focused NONPRODUCTION qualification and
+  accepted engineering reviews document both demonstrated controls and
+  unresolved execution limitations, without treating a stopped attempt as
+  scientific success.
+
+The milestone map, technical report, and engineering retrospective provide
+supporting findings and limitations without turning this README into an
+execution log.
 
 ## Research program
 
@@ -49,6 +67,13 @@ rather than being duplicated in this project-orientation document.
 
 ## Research progression
 
+QTRP grew out of successive research iterations rather than a single implementation.
+Early ML/RL experiments led to more structured chronological validation;
+later modular PPO and execution research showed why promising intermediate
+results still require rigorous model qualification and operational safeguards.
+The current platform brings those lessons together in a reproducible,
+evidence-driven research architecture.
+
 1. **Exploration — [`exploratory-daytrading`](https://github.com/racoope70/exploratory-daytrading)**  
    Historical exploratory ML/RL research, feature engineering, model experimentation, and early evaluation work.
 
@@ -61,7 +86,7 @@ rather than being duplicated in this project-orientation document.
 4. **Current canonical research platform — this repository**  
    Current research platform focused on reproducibility, leakage control, data provenance, chronological evaluation, fair RL model comparison, supervised-gating research, and final-holdout integrity.
 
-This progression reflects an evolution in research methodology and engineering discipline. Historical repositories provide research evidence and engineering lineage, but they are not runtime dependencies or sources of current authorization.
+These earlier repositories preserve independent historical research evidence; they are not runtime dependencies, sources of current authorization, or proof that historical models meet the current qualification standard.
 
 ## Governance and navigation
 
@@ -73,5 +98,21 @@ Key navigation:
 - [Project Context](PROJECT_CONTEXT.md) — authoritative broad lifecycle and authorization state.
 - [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md) — non-authorizing roadmap, governance, evidence, and historical navigation.
 - [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — non-authorizing future validation, training, evaluation, and holdout guidance.
+- [Batch0004 engineering and scientific report](docs/reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md) — accepted milestone history, evidence boundaries, and limitations.
+- [Engineering Reliability Retrospective](docs/case_studies/batch0004_execution_reliability_retrospective.md) — documented execution safeguards, failure analysis, and retained controlled-stop disposition.
 
 Files and reference maps do not independently authorize execution.
+
+## Research status and limitations
+
+Completed data-contract, universe, and engineering milestones form a research
+foundation; they do not establish a qualified trading model. Model training,
+final-holdout evaluation, paper trading, and deployment remain separately
+governed. The latest Batch0004 U0012 attempt remains in a documented controlled
+stop, with no new scientifically accepted records.
+
+![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)
+
+> **Status: Current canonical research platform — in development**
+>
+> No model is currently qualified for deployment.

@@ -1,8 +1,8 @@
 # Batch0004 U0012 — Engineering Reliability Retrospective
 
-**Status:** DRAFT FOR MANAGING REVIEW · **Disposition:** permanent retained CONTROLLED_STOP (terminal incomplete)\
+**Status:** Published historical engineering retrospective · **Disposition:** permanent retained CONTROLLED_STOP (terminal incomplete)\
 **Project:** Quantitative Trading Research Platform (QTRP)\
-**Proposed repository location:** `docs/case_studies/batch0004_execution_reliability_retrospective.md`\
+**Repository location:** `docs/case_studies/batch0004_execution_reliability_retrospective.md`\
 **Scope:** Batch0004 / Primary / S05 / U0012, Attempts 1–11\
 **Evidence cutoff:** 2026-11-14; final retained-stop disposition incorporated from accepted nonprotected handoff\
 **Document role:** Nonauthorizing engineering case study, not a recovery procedure, scientific acceptance record, or lifecycle controller.
@@ -25,7 +25,7 @@ The Owner-approved narrow recovery treatment later closed *blanket historical P4
 
 ## 2. Attempt chronology — symptoms versus confirmed causes
 
-**Evidence standard:** The nonprotected consolidated M1–M12 history and research synthesis substantiate eleven attempts and an aggregate failure taxonomy. They **do not provide an authenticated one-to-one attribution** of every category to Attempts 1–10. Accordingly, an empty attribution below means *not established from material reviewed for this draft*, not that the attempt lacked evidence elsewhere. The precise symptom, cause, and fix must not be reconstructed by guesswork.
+**Evidence standard:** The nonprotected consolidated M1–M12 history and research synthesis substantiate eleven attempts and an aggregate failure taxonomy. They **do not provide an authenticated one-to-one attribution** of every category to Attempts 1–10. Accordingly, an empty attribution below means *not established from material reviewed for this report*, not that the attempt lacked evidence elsewhere. The precise symptom, cause, and fix must not be reconstructed by guesswork.
 
 | Attempt | Observed symptom or disposition | Confirmed root cause | Corrective action / disposition | Evidence status |
 |---|---|---|---|---|
@@ -36,7 +36,7 @@ The Owner-approved narrow recovery treatment later closed *blanket historical P4
 | **A0005** | Unsuccessful historical U0012 attempt; individual symptom not established here | Not established | Same evidence limitation | **Historical aggregate only** [E1, E2] |
 | **A0006** | Unsuccessful historical U0012 attempt; individual symptom not established here | Not established | Same evidence limitation | **Historical aggregate only** [E1, E2] |
 | **A0007** | Unsuccessful historical U0012 attempt; individual symptom not established here | Not established | Same evidence limitation | **Historical aggregate only** [E1, E2] |
-| **A0008** | **Event/message-cardinality rejection** reported by a prior controlled-stop review | Underlying producer cause not independently established in source material used for this draft | Rejection preserved; no accepted new unit. No specific production correction independently attributed | **Prior review reported; receipt not reauthenticated here** [E3] |
+| **A0008** | **Event/message-cardinality rejection** reported by a prior controlled-stop review | Underlying producer cause not independently established in source material used for this report | Rejection preserved; no accepted new unit. No specific production correction independently attributed | **Prior review reported; receipt not reauthenticated here** [E3] |
 | **A0009** | Unsuccessful historical U0012 attempt; individual symptom not established here | Not established | No numbered-attempt-specific correction supportable | **Historical aggregate only** [E1, E2] |
 | **A0010** | Unsuccessful historical U0012 attempt; individual symptom not established here | Not established | No numbered-attempt-specific correction supportable | **Historical aggregate only** [E1, E2] |
 | **A0011** | Actual Owner-authorized REAL attempt started; native subprocess **exit code 1**; **CONTROLLED_STOP**; zero new accepted records | **Native exit-code cause UNRESOLVED.** Separate post-record finalization guard defect identified | Preserve A0011/checkpoint56; no replay. Isolated finalization correction qualified **33/33 synthetic PASS** but remains uninstalled; selected control linkage later attested PASS, and terminal journal remains incomplete | **Owner/MANAGING accepted outcome; source-trace classification for guard; selected custody subsequently attested PASS; native cause unresolved** [E1, E4, E6–E10] |
@@ -116,11 +116,11 @@ The terminal journal event is **absent in accepted prior evidence** and was **no
 
 This map separates directly reviewed **nonauthorizing** documents from Owner/MANAGING-provided acceptance and historical claims. It is not permission to read protected artifacts or reopen historical producer investigation.
 
-| ID | Source / evidence basis | Directly examined for this draft? | Supports / does not support |
+| ID | Source / evidence basis | Directly examined for this report? | Supports / does not support |
 |---|---|---|---|
-| **E1** | Prepared consolidated M1–M12 report: `docs/reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md` (MANAGING accepted substantive content; prepared, not published) | **Yes**, local prepared Markdown copy | Accepted milestones, ten prior attempts, Attempt 11 controlled stop, checkpoint56, zero new records, evidence limitations. **Does not** provide per-attempt A0001–A0010 diagnoses or authenticated original Mac receipts. |
+| **E1** | Prepared consolidated M1–M12 report: `docs/reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md` (MANAGING accepted substantive content; available on this working branch) | **Yes**, local prepared Markdown copy | Accepted milestones, ten prior attempts, Attempt 11 controlled stop, checkpoint56, zero new records, evidence limitations. **Does not** provide per-attempt A0001–A0010 diagnoses or authenticated original Mac receipts. |
 | **E2** | `QTRP_Deep_Research_Consolidated_Findings_2026-11-09(1).md`, nonauthorizing research synthesis | **Yes**, supplied local Markdown | Aggregate Attempts 1–10 taxonomy, essential invariants and architecture lessons. **Does not** independently establish a numbered-attempt cause or constitute an adopted recovery architecture. |
-| **E3** | Earlier reported independent Attempt 8 controlled-stop review (`BATCH0004_PRIMARY_S05_U0012_ATTEMPT8_CONTROLLED_STOP_EVIDENCE_REVIEW`) | **No** original review receipt reauthenticated for this draft | Historically reported event-cardinality rejection; attribution and producer cause require the accepted original nonprotected review if promoted beyond reported status. No search or protected read undertaken. |
+| **E3** | Earlier reported independent Attempt 8 controlled-stop review (`BATCH0004_PRIMARY_S05_U0012_ATTEMPT8_CONTROLLED_STOP_EVIDENCE_REVIEW`) | **No** original review receipt reauthenticated for this report | Historically reported event-cardinality rejection; attribution and producer cause require the accepted original nonprotected review if promoted beyond reported status. No search or protected read undertaken. |
 | **E4** | Current MANAGING retrospective directive and accepted post-A0011 NONPRODUCTION correction outcome | **Yes**, as Owner/MANAGING-supplied instruction, **not** as local source/receipt authentication | Finalization guard classification, MANAGING-accepted 33/33 synthetic PASS, checkpoint56/A0011 and unresolved native exit code. **Does not** prove protected recovery or scientific PASS. |
 | **E5** | Current MANAGING preliminary classification of eleven historical failures | **Yes**, as supplied instruction | Broad output/validation, timeout, cardinality, Policy B and executable-lookup taxonomy. **Does not** assign these categories to individual earlier attempt numbers. |
 | **E6** | Handoff `evidence/01_A11_REAL_ATTEMPT11_CONTROLLED_STOP_EVIDENCE.zip` (original execution, consumed authority, checkpoint56 reported state) | **Yes**, selected nonprotected canonical receipts; archive integrity in handoff manifest | Exact observed native exit 1, A0011 controlled stop, 0 new records, terminal incomplete; source host observations remain attributed. |
@@ -131,7 +131,7 @@ This map separates directly reviewed **nonauthorizing** documents from Owner/MAN
 
 ### Attempt-level evidence index
 
-| Attempt(s) | Cited basis | Evidence-confidence ceiling in this draft | What would be needed for a stronger claim |
+| Attempt(s) | Cited basis | Evidence-confidence ceiling in this report | What would be needed for a stronger claim |
 |---|---|---|---|
 | **A0001–A0007** | E1, E2, E5 | Historical unsuccessful-attempt status and **aggregate** failure taxonomy only | Already-accepted, classified NONPROTECTED attempt-level disposition/receipt for the exact number |
 | **A0008** | E1, E3 | Reported prior review of cardinality rejection; primary report not directly checked | Original accepted nonprotected controlled-stop review for exact assertion and severity |
@@ -140,10 +140,11 @@ This map separates directly reviewed **nonauthorizing** documents from Owner/MAN
 
 **Explicitly unresolved claims:** Individual failure-category assignments and root causes for most Attempts 1–10; original Attempt 8 review reauthentication; exact native exit-code-1 cause; native RC1 cause; full historical-chain custody outside the selected attestation; absent terminal-journal completion; success of any future separately authorized REAL continuation. These are **evidence gaps**, not new demands for broad historical reconstruction.
 
-**Publication restraint:** Before public inclusion, confirm that cited receipt identifiers and any technical details are suitable for publication. No credentials, local private paths, protected record bodies, raw executor streams, or sensitive authorization contents are included in this draft.
+**Public-content boundary:** No credentials, local private paths, protected record bodies, raw executor streams, or sensitive authorization contents are included in this report. Preserve these restrictions in future edits.
 
 ---
 
-**Current disposition:** `DRAFT_ONLY__PERMANENT_CONTROLLED_STOP_RETAINED__NATIVE_RC1_UNRESOLVED__TERMINAL_INCOMPLETE__NOT_PUBLISHED`\
+**Document status:** Published historical engineering retrospective; nonauthorizing.
+**Final accepted scientific disposition:** `ACCEPT_A11_PERMANENT_CONTROLLED_STOP__TERMINAL_INCOMPLETE_DISCLOSED__NATIVE_RC1_UNRESOLVED__CURRENT_RECOVERY_WORKSTREAM_CLOSED`\
 **Current controls:** `C06=CONTROLLED_STOP`; `HISTORICAL_P4/P10=UNRESOLVED__RECONSTRUCTION_CLOSED`; `FURTHER_REAL_AUTHORIZED=NO`; `U0013=PROHIBITED`.\
 **Future editorial action:** Replace `[E3]` and aggregate-only attempt entries only if already accepted, classified nonprotected evidence becomes available. Sections 7–8 now record the accepted permanent stopped disposition; do not recast it as a repaired native execution or restart P4/P10 reconstruction.
