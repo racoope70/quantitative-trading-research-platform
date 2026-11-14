@@ -1396,3 +1396,16 @@ SUPERSEDES = EVID_POSTC6_SELECTED_UNFROZEN_42_001_FOR_CURRENT_FREEZE_STATUS
 SUPERSEDED_BY = NONE
 REOPEN_CONDITIONS = MATERIAL_CONTRADICTION / NEW_REQUIRED_FACT / SCIENTIFIC_RULE_CHANGE / EXPLICIT_OWNER_DECISION
 ```
+
+## 14. Batch0004 U0012 — accepted recovery treatment and Attempt 11 history
+
+This section is **nonauthorizing historical navigation**; `PROJECT_CONTEXT.md` remains the broad controlling lifecycle and authorization source. The accepted Owner narrow-treatment decision applies only to original Batch0004 / Primary / S05 / U0012 / Attempt 11. Historical P4/P10 remain `UNRESOLVED__RECONSTRUCTION_CLOSED`; scientific integrity requirements remain in force. The exact original decision record is not identified on the reviewed remote branch and must not be invented.
+
+- [Consolidated historical recovery and M1–M12 report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md) — historical decision boundaries, scoped evidence, limitations and current controlled stop.
+- **M9 / M10:** Earlier failed prelaunch remains a controlled stop; later qualified prelaunch passed, with an independently reviewed inert-candidate identity and still-separate Owner REAL authorization.
+- **M11:** The Owner authorized original Attempt 11; publication and single-use consumption passed, but the native executor exited `1` and REAL U0012 reached `CONTROLLED_STOP` with zero new accepted records.
+- **M12 / final disposition:** Checkpoint56/A0011 **selected-control custody/linkage PASS** (11 attempts); original A0011 permanently retained `CONTROLLED_STOP`. The terminal journal remains incomplete, native RC1 is unresolved, and the isolated 33/33 NONPRODUCTION guard correction is uninstalled.
+
+- [Execution reliability retrospective](../case_studies/batch0004_execution_reliability_retrospective.md) — evidence-qualified Attempts 1–11 engineering lessons and permanent retained stop; not a recovery procedure or scientific authorization.
+
+No Attempt 11 replay, Attempt 12, U0013 or new REAL execution is authorized by these historical references.

@@ -552,6 +552,18 @@ C7_authorization = NONE
 CURRENT_CHECKPOINT_TRACKER = NONE
 ```
 
+Separately from the C6/fixed-42 research lifecycle, the Owner-authorized
+Batch0004 Primary S05 U0012 Attempt 11 reached a REAL `CONTROLLED_STOP`. Its
+single-use authorization was consumed, no new scientific records were accepted,
+and terminal finalization remains incomplete. The original Attempt 11 recovery
+workstream is closed with a permanent retained stop—not journal completion,
+scientific acceptance or a resolved native exit-code-1 cause. Checkpoint sequence 56 and A0011
+are reported operational state, **not** a change to C6 lifecycle or the 275
+historically accepted scientific records. Further REAL execution and U0013 remain
+unauthorized. See the [nonauthorizing consolidated milestone report](docs/reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md)
+for the accepted historical P4/P10 narrow treatment, M1–M12 chronology, evidence
+classifications and unresolved native execution cause.
+
 ## 4. Authoritative material-decision pointers
 
 C5 completion and closure are recorded in:
