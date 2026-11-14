@@ -33,6 +33,29 @@ For project orientation, use this map as follows:
 
 Git history and the working tree verify implementation and completion evidence. They do not independently authorize work.
 
+### Quick lookup — what do I need for this task?
+
+| Question | Find the answer |
+|---|---|
+| What lifecycle state or authorization applies? | [Project Context](../../PROJECT_CONTEXT.md) (controlling current state) |
+| What are the phase requirements and entry/exit conditions? | [Major phase flow](#3-major-phase-flow) |
+| Which Owner decision or curated `2v` evidence applies? | [Curated decision and evidence lookup](#8-canonical-c0-c1-c2-c3-c4-and-c5-curated-lookup) |
+| Which accepted C6/universe scientific evidence applies? | [Scientific evidence index](#13-accepted-scientific-evidence-registry); follow its recorded source decisions and reports |
+| What is planned for ML/RL validation and the final holdout? | [Future Validation and Training Reference Map](future_validation_training_reference_map.md) |
+| What happened on Batch0004 U0012 Attempts 1–11? | [Engineering Reliability Retrospective](../case_studies/batch0004_execution_reliability_retrospective.md), Section 2 |
+| What do the M1–M12 milestones establish? | [Historical Recovery and Attempt 11 Report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md), Section 3 |
+
+### Reference identifier key
+
+| ID type | Purpose |
+|---|---|
+| `2v.GOV.*`, `2v.DATA.*`, etc. | Curated decision/material-record lookup |
+| `EVID_POSTC6_*` | Accepted scientific evidence record (full text retained below) |
+| `E1`–`E10` | Source citations scoped to the engineering retrospective |
+| `F1`–`F5` | Source citations scoped to the historical recovery report |
+
+These are navigation and evidence identifiers, not new controls or authorizations.
+
 ## 3. Major phase flow
 
 | Phase | Purpose | Entry gate | Exit gate |
@@ -956,6 +979,27 @@ This registry records accepted scientific evidence identities and supersession
 relationships. It does not authorize selection, freeze, characterization,
 dataset generation, model work, final-holdout access, or C7.
 
+### Accepted evidence ID index
+
+| Record | Accepted evidence subject |
+|---|---|
+| `EVID_POSTC6_FORMATION_FRAME_CONSTRUCTION_001` | 14,891 constructed securities; population-completeness limitation |
+| `EVID_POSTC6_AVAILABLE_ELIGIBLE_POOL_619_001` | 619 certified available candidates; pool is not a frozen universe |
+| `EVID_POSTC6_FROZEN_UNIVERSE_SELECTION_PROTOCOL_42_001` | Accepted predeclared 42-security selection protocol and criteria |
+| `EVID_POSTC6_PREFREEZE_SELECTION_INPUT_619_001` | Accepted prefreeze selection inputs |
+| `EVID_POSTC6_LEGACY_THREE_SECURITY_SELECTION_STATE_001` | Historical three-security selection evidence |
+| `EVID_POSTC6_SELECTED_UNFROZEN_42_001` | Historical selected 42 before current freeze |
+| `EVID_POSTC6_SELECTED42_CHARACTERIZATION_PROTOCOL_001` | Accepted characterization methodology |
+| `EVID_POSTC6_SELECTED42_CHARACTERIZATION_COMPLETE_001` | Completed characterization, findings and limitations |
+| `EVID_POSTC6_FIXED42_FREEZE_001` | Accepted fixed-42 identity and freeze status |
+
+The complete original evidence records remain below, including the accepted
+selection protocol, scientific limitations, artifact references, identity hashes
+and supersession relationships. Expand only when those details are needed.
+
+<details>
+<summary>Show full accepted scientific evidence records</summary>
+
 ### EVID_POSTC6_FORMATION_FRAME_CONSTRUCTION_001
 
 ```text
@@ -1397,15 +1441,17 @@ SUPERSEDED_BY = NONE
 REOPEN_CONDITIONS = MATERIAL_CONTRADICTION / NEW_REQUIRED_FACT / SCIENTIFIC_RULE_CHANGE / EXPLICIT_OWNER_DECISION
 ```
 
+</details>
+
 ## 14. Batch0004 U0012 — accepted recovery treatment and Attempt 11 history
 
 This section is **nonauthorizing historical navigation**; `PROJECT_CONTEXT.md` remains the broad controlling lifecycle and authorization source. The accepted Owner narrow-treatment decision applies only to original Batch0004 / Primary / S05 / U0012 / Attempt 11. Historical P4/P10 remain `UNRESOLVED__RECONSTRUCTION_CLOSED`; scientific integrity requirements remain in force. The exact original decision record is not identified on the reviewed remote branch and must not be invented.
 
-- [Consolidated historical recovery and M1–M12 report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md) — historical decision boundaries, scoped evidence, limitations and current controlled stop.
-- **M9 / M10:** Earlier failed prelaunch remains a controlled stop; later qualified prelaunch passed, with an independently reviewed inert-candidate identity and still-separate Owner REAL authorization.
-- **M11:** The Owner authorized original Attempt 11; publication and single-use consumption passed, but the native executor exited `1` and REAL U0012 reached `CONTROLLED_STOP` with zero new accepted records.
-- **M12 / final disposition:** Checkpoint56/A0011 **selected-control custody/linkage PASS** (11 attempts); original A0011 permanently retained `CONTROLLED_STOP`. The terminal journal remains incomplete, native RC1 is unresolved, and the isolated 33/33 NONPRODUCTION guard correction is uninstalled.
+| Need | Primary historical reference |
+|---|---|
+| M1–M12 milestones, decision limits and final disposition | [Historical Recovery and Attempt 11 Report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md) |
+| Attempts 1–11, causes, corrections, verification, outcome and lessons | [Engineering Reliability Retrospective](../case_studies/batch0004_execution_reliability_retrospective.md) |
 
-- [Execution reliability retrospective](../case_studies/batch0004_execution_reliability_retrospective.md) — evidence-qualified Attempts 1–11 engineering lessons and permanent retained stop; not a recovery procedure or scientific authorization.
+**Accepted outcome:** A0011 remains in permanent `CONTROLLED_STOP`. The native exit-code-1 cause remains unresolved; terminal finalization is incomplete; 275 historical records remain accepted with zero newly accepted. The 33/33-tested NONPRODUCTION finalization correction is not installed.
 
 No Attempt 11 replay, Attempt 12, U0013 or new REAL execution is authorized by these historical references.

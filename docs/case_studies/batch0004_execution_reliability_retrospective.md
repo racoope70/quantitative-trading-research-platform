@@ -15,7 +15,7 @@ The engineering response progressively separated **execution authority**, **scie
 
 An isolated NONPRODUCTION correction of that finalization defect has been accepted by MANAGING, with **33/33 focused synthetic checks PASS**. The later authorized selected-control attestation **passed for checkpoint56/A0011 linkage**; it did not restore the absent terminal journal event, explain native exit code 1, or authorize another REAL attempt. The original recovery workstream is **closed in permanent retained CONTROLLED_STOP**, not completed scientific continuation.
 
-## 1. Engineering objective and scientific reliability requirements
+## 1. Engineering objective
 
 The objective was not merely to produce output for U0012. It was to resume the original scientifically accepted lineage without disturbing U0001–U0011, preserve deterministic 25-record processing, and accept a new unit only when its input, producer/event capture, validation, output, and recovery state were consistent with the accepted scientific contracts.
 
@@ -23,7 +23,7 @@ The safety model combined bounded runtime and source/configuration identities, c
 
 The Owner-approved narrow recovery treatment later closed *blanket historical P4/P10 reconstruction* as a prerequisite for the **specific original Attempt 11 continuation**. Historical P4/P10 remain `UNRESOLVED__RECONSTRUCTION_CLOSED`; this decision did not authenticate missing historical producer events, waive scientific integrity, or grant reusable REAL authority.
 
-## 2. Attempt chronology — symptoms versus confirmed causes
+## 2. Attempts 1–11 — chronological failures and observed symptoms
 
 **Evidence standard:** The nonprotected consolidated M1–M12 history and research synthesis substantiate eleven attempts and an aggregate failure taxonomy. They **do not provide an authenticated one-to-one attribution** of every category to Attempts 1–10. Accordingly, an empty attribution below means *not established from material reviewed for this report*, not that the attempt lacked evidence elsewhere. The precise symptom, cause, and fix must not be reconstructed by guesswork.
 
@@ -43,7 +43,17 @@ The Owner-approved narrow recovery treatment later closed *blanket historical P4
 
 **Reported failure categories across Attempts 1–10, without unsupported attempt assignment:** output/validation conflicts; producer/schema and event-lifecycle issues; timeouts; message-cardinality rejection; Policy B rejection; parser/internal-command faults; and executable-lookup failure. This is a **historical taxonomy**, not eleven independently verified diagnoses [E2, E5]. Specific pairs of symptom → cause → correction remain unclaimed where per-attempt nonprotected receipts are unavailable.
 
-## 3. Major engineering challenges and diagnostic lessons
+## 3. Root-cause investigation
+
+### Attempt 11: native versus finalization causes
+
+**Native execution failure:** The exact Model B Owner authorization was published and consumed, the native child started, and the child exited with status **1**. The underlying cause has **not** been independently established. The REAL attempt ended in `CONTROLLED_STOP`, with **zero** new accepted scientific records and no U0013 activity [E1].
+
+**Post-record finalization failure:** The state subsequently reported checkpoint sequence **56** and recorded attempt **A0011**. A missing terminal journal event and `ENGINE_ATTEMPT_ALREADY_EXISTS` were reported. Source-trace evidence identified an *attempt-absence guard being reused after the attempt had already been recorded*—a defective finalization-phase predicate. MANAGING accepted a **bounded, isolated NONPRODUCTION correction** supported by **33/33 focused synthetic PASS** [E4].
+
+**Causal boundary:** The identified finalization defect explains an observed *finalization rejection*, not the preceding native subprocess exit code 1. Neither the correction nor its synthetic tests establishes completed REAL terminal recovery. No checkpoint rollback, journal rewrite, replay, new REAL execution, or science acceptance is authorized here.
+
+### Diagnostic findings and evidence limits
 
 **Observability versus correctness.** A generic guard classification or outer process status is insufficient to establish why an executor failed. Failure receipts must preserve an actionable, nondisclosing reason and the exact phase that rejected the operation. The earlier prelaunch history included an unsuccessful qualification, whereas a later authorized qualification passed; the failure cannot be retroactively relabeled a pass.
 
@@ -55,7 +65,7 @@ The Owner-approved narrow recovery treatment later closed *blanket historical P4
 
 **Engineering qualification is scoped.** Synthetic tests demonstrate behavior on fixtures; accepted installation and prelaunch qualifications establish specified readiness properties. None substitutes for a successful native executor, completed terminal journal, verified recovery custody, or independently accepted scientific results.
 
-## 4. Reliability improvements and their limits
+## 4. Engineering corrections
 
 | Area | Engineering improvement or accepted practice | Demonstrated limit |
 |---|---|---|
@@ -69,33 +79,7 @@ The Owner-approved narrow recovery treatment later closed *blanket historical P4
 
 The engineering objective is **reliable fail-closed behavior with an auditable route to eventual completion**, not maximizing the number of mechanisms or declaring success whenever safeguards reject unsafe progress.
 
-## 5. Attempt 11: two distinct failures
-
-**Native execution failure:** The exact Model B Owner authorization was published and consumed, the native child started, and the child exited with status **1**. The underlying cause has **not** been independently established. The REAL attempt ended in `CONTROLLED_STOP`, with **zero** new accepted scientific records and no U0013 activity [E1].
-
-**Post-record finalization failure:** The state subsequently reported checkpoint sequence **56** and recorded attempt **A0011**. A missing terminal journal event and `ENGINE_ATTEMPT_ALREADY_EXISTS` were reported. Source-trace evidence identified an *attempt-absence guard being reused after the attempt had already been recorded*—a defective finalization-phase predicate. MANAGING accepted a **bounded, isolated NONPRODUCTION correction** supported by **33/33 focused synthetic PASS** [E4].
-
-**Causal boundary:** The identified finalization defect explains an observed *finalization rejection*, not the preceding native subprocess exit code 1. Neither the correction nor its synthetic tests establishes completed REAL terminal recovery. No checkpoint rollback, journal rewrite, replay, new REAL execution, or science acceptance is authorized here.
-
-## 6. Lessons learned and opportunities for simplification
-
-The most transferable lesson is to **separate the questions being answered**. Authority answers *may this exact operation occur?*; capture and Policy B answer *did the processor produce admissible evidence?*; checkpoint/journal controls answer *what state was durably recorded?*; scientific acceptance answers *is this new unit accepted?* A defect in one does not prove a defect in another.
-
-Future bounded engineering should keep a small, explicit transition table for attempt creation, child execution, exit disposition, evidence staging, scientific acceptance, and terminal recording. Guards should be phase-specific: a valid “attempt must not exist” predicate before registration must not inadvertently block finalizing that now-recorded attempt. A focused regression test should cover that transition and failure/restart paths, while protected qualification remains separately authorized.
-
-The system also benefits from concise machine-checkable receipts with actionable nondisclosing failure codes, strict input/output identities, and explicit distinction between *verified*, *host-reported*, and *unresolved*. Reuse accepted qualified components and existing Model B safeguards; avoid rebuilding historical proofs, multiplying review layers, or inventing new orchestration frameworks without a demonstrated defect. **Simplification is not relaxation of scientific or security boundaries.**
-
-## 7. Final recovery disposition — permanent retained CONTROLLED_STOP
-
-**Accepted disposition (2026-11-14):** `ACCEPT_A11_PERMANENT_CONTROLLED_STOP__TERMINAL_INCOMPLETE_DISCLOSED__NATIVE_RC1_UNRESOLVED__CURRENT_RECOVERY_WORKSTREAM_CLOSED` [E6–E10]. The phrase *recovery workstream closed* means **retain the original stopped state without another unauthorized operation**. It does **not** mean native execution was repaired, the terminal journal was finalized, or the U0012 unit was scientifically accepted.
-
-The original one-shot Owner authorization was published, durably consumed and is nonreusable. The native A0011 process exited **1**. Checkpoint **56** and recorded **A0011** remain: a later authorized selected-control attestation verified the checkpoint head/snapshot/A0011 linkage and **11 recorded attempts**, using three selected bodies/four reads (26,908 bytes), zero retries and no scientific payload reads [E6, E8]. The attestation establishes only its selected control/custody claims; it does not verify the whole historic scientific chain or the terminal event.
-
-A subsequent authorized native diagnostic authenticated the selected manifest and stderr but found **`INCONCLUSIVE / UNKNOWN / NO_KNOWN_SIGNATURE`**. The native exit-code-1 root cause is **not established**. The diagnostic had one wrapper and one worker invocation, zero retries, and two protected reads totaling 14,149 bytes; no raw stderr was disclosed in this case study [E9]. The identified `ENGINE_ATTEMPT_ALREADY_EXISTS` post-record guard defect is a **separate** issue. Its 33/33 synthetic NONPRODUCTION correction was accepted but **not installed**, and no completed REAL finalization followed [E7].
-
-The terminal journal event is **absent in accepted prior evidence** and was **not** reverified as part of the selected checkpoint attestation. Existing finalization requires original process-local transaction/authorization authority; the accepted bounded feasibility review found **no qualified safe new-caller cold-finalization path**, so fabricating an event or replaying the consumed authorization is not an acceptable resolution [E10]. The scientific record remains **275 accepted historical records, zero newly accepted records**. Attempt 11 is permanently retained in `CONTROLLED_STOP`; no Attempt 11 replay, Attempt 12, U0013 or other REAL continuation is authorized.
-
-## 8. Verification results and final outcomes — accepted scope
+## 5. Verification and regression testing
 
 | Verification / operation | Final evidence-qualified status | What it does **not** establish |
 |---|---|---|
@@ -111,6 +95,24 @@ The terminal journal event is **absent in accepted prior evidence** and was **no
 | Continued scientific/REAL authority | 275 prior accepted records preserved; 0 new accepted; further REAL **not authorized**, U0013 **prohibited** [E6–E10] | Permission to start another attempt |
 
 **Evidence boundary:** MAIN reviewed and integrity-checked the supplied nonprotected handoff and selected archival receipts, not live Mac-host protected artifacts. Their observed process and state facts remain `CODEX_DIRECT_HOST_OBSERVATION` or accepted Owner/MANAGING findings except for the precise nonprotected bytes directly inspected by MAIN. This retrospective does not represent independent full-state reattestation, and it is not a recovery procedure or authority instrument.
+
+## 6. Final resolution — permanent retained CONTROLLED_STOP
+
+**Accepted disposition (2026-11-14):** `ACCEPT_A11_PERMANENT_CONTROLLED_STOP__TERMINAL_INCOMPLETE_DISCLOSED__NATIVE_RC1_UNRESOLVED__CURRENT_RECOVERY_WORKSTREAM_CLOSED` [E6–E10]. The phrase *recovery workstream closed* means **retain the original stopped state without another unauthorized operation**. It does **not** mean native execution was repaired, the terminal journal was finalized, or the U0012 unit was scientifically accepted.
+
+The original one-shot Owner authorization was published, durably consumed and is nonreusable. The native A0011 process exited **1**. Checkpoint **56** and recorded **A0011** remain: a later authorized selected-control attestation verified the checkpoint head/snapshot/A0011 linkage and **11 recorded attempts**, using three selected bodies/four reads (26,908 bytes), zero retries and no scientific payload reads [E6, E8]. The attestation establishes only its selected control/custody claims; it does not verify the whole historic scientific chain or the terminal event.
+
+A subsequent authorized native diagnostic authenticated the selected manifest and stderr but found **`INCONCLUSIVE / UNKNOWN / NO_KNOWN_SIGNATURE`**. The native exit-code-1 root cause is **not established**. The diagnostic had one wrapper and one worker invocation, zero retries, and two protected reads totaling 14,149 bytes; no raw stderr was disclosed in this case study [E9]. The identified `ENGINE_ATTEMPT_ALREADY_EXISTS` post-record guard defect is a **separate** issue. Its 33/33 synthetic NONPRODUCTION correction was accepted but **not installed**, and no completed REAL finalization followed [E7].
+
+The terminal journal event is **absent in accepted prior evidence** and was **not** reverified as part of the selected checkpoint attestation. Existing finalization requires original process-local transaction/authorization authority; the accepted bounded feasibility review found **no qualified safe new-caller cold-finalization path**, so fabricating an event or replaying the consumed authorization is not an acceptable resolution [E10]. The scientific record remains **275 accepted historical records, zero newly accepted records**. Attempt 11 is permanently retained in `CONTROLLED_STOP`; no Attempt 11 replay, Attempt 12, U0013 or other REAL continuation is authorized.
+
+## 7. Lessons learned
+
+The most transferable lesson is to **separate the questions being answered**. Authority answers *may this exact operation occur?*; capture and Policy B answer *did the processor produce admissible evidence?*; checkpoint/journal controls answer *what state was durably recorded?*; scientific acceptance answers *is this new unit accepted?* A defect in one does not prove a defect in another.
+
+Future bounded engineering should keep a small, explicit transition table for attempt creation, child execution, exit disposition, evidence staging, scientific acceptance, and terminal recording. Guards should be phase-specific: a valid “attempt must not exist” predicate before registration must not inadvertently block finalizing that now-recorded attempt. A focused regression test should cover that transition and failure/restart paths, while protected qualification remains separately authorized.
+
+The system also benefits from concise machine-checkable receipts with actionable nondisclosing failure codes, strict input/output identities, and explicit distinction between *verified*, *host-reported*, and *unresolved*. Reuse accepted qualified components and existing Model B safeguards; avoid rebuilding historical proofs, multiplying review layers, or inventing new orchestration frameworks without a demonstrated defect. **Simplification is not relaxation of scientific or security boundaries.**
 
 ## Appendix A — Source and evidence mapping
 
@@ -147,4 +149,4 @@ This map separates directly reviewed **nonauthorizing** documents from Owner/MAN
 **Document status:** Published historical engineering retrospective; nonauthorizing.
 **Final accepted scientific disposition:** `ACCEPT_A11_PERMANENT_CONTROLLED_STOP__TERMINAL_INCOMPLETE_DISCLOSED__NATIVE_RC1_UNRESOLVED__CURRENT_RECOVERY_WORKSTREAM_CLOSED`\
 **Current controls:** `C06=CONTROLLED_STOP`; `HISTORICAL_P4/P10=UNRESOLVED__RECONSTRUCTION_CLOSED`; `FURTHER_REAL_AUTHORIZED=NO`; `U0013=PROHIBITED`.\
-**Future editorial action:** Replace `[E3]` and aggregate-only attempt entries only if already accepted, classified nonprotected evidence becomes available. Sections 7–8 now record the accepted permanent stopped disposition; do not recast it as a repaired native execution or restart P4/P10 reconstruction.
+**Future editorial action:** Replace `[E3]` and aggregate-only attempt entries only if already accepted, classified nonprotected evidence becomes available. Sections 5–6 now record the accepted permanent stopped disposition; do not recast it as a repaired native execution or restart P4/P10 reconstruction.
