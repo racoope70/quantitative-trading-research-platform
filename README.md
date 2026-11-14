@@ -80,7 +80,7 @@ evidence-driven research architecture.
 4. **Current canonical research platform — this repository**  
    Current research platform focused on reproducibility, leakage control, data provenance, chronological evaluation, fair RL model comparison, supervised-gating research, and final-holdout integrity.
 
-The three earlier repositories document historical research and are not runtime dependencies of the current platform.
+The three earlier repositories document historical research and are not runtime dependencies of the current platform. Their historical results do not establish qualification under the current evaluation standards.
 
 ## Governance and navigation
 
