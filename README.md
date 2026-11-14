@@ -13,26 +13,20 @@ deployment under separate authorization.
 
 ## Platform milestones
 
-The platform has progressed beyond initial design, with completed scientific-
-infrastructure milestones and documented engineering validation:
+The platform has achieved the following scientific and engineering milestones, 
+supported by documented validation:
 
 - **Research data contract:** The C6 model-family-neutral dataset specification
   was reviewed and frozen for future separately authorized research.
 - **Experimental universe:** A 42-security primary universe was selected,
   characterized, and frozen under a predeclared protocol. The available
   formation-population limitations remain recorded.
-- **Reliability engineering:** The Batch0004 workflow implements deterministic
-  25-record processing units, checkpoint and provenance controls, replay
-  safeguards, and fail-closed execution behavior, with verified engineering
-  findings and unresolved limitations documented in the supporting reports.
+- **Reliability engineering:** The Batch0004 workflow implements deterministic 25-record
+  processing units, checkpoint and provenance controls, replay safeguards, and fail-closed execution behavior.
 - **Verification and transparency:** Focused NONPRODUCTION qualification and
   accepted engineering reviews document both demonstrated controls and
   unresolved execution limitations, without treating a stopped attempt as
   scientific success.
-
-The milestone map, technical report, and engineering retrospective provide
-supporting findings and limitations without turning this README into an
-execution log.
 
 ## Research program
 
@@ -68,9 +62,9 @@ rather than being duplicated in this project-orientation document.
 ## Research progression
 
 QTRP grew out of successive research iterations rather than a single implementation.
-Early ML/RL experiments led to more structured chronological validation;
-later modular PPO and execution research showed why promising intermediate
-results still require rigorous model qualification and operational safeguards.
+Early ML/RL experiments evolved into structured chronological validation, followed by 
+modular PPO and execution research. These iterations reinforced the importance of rigorous 
+model qualification and operational safeguards.
 The current platform brings those lessons together in a reproducible,
 evidence-driven research architecture.
 
@@ -86,7 +80,7 @@ evidence-driven research architecture.
 4. **Current canonical research platform — this repository**  
    Current research platform focused on reproducibility, leakage control, data provenance, chronological evaluation, fair RL model comparison, supervised-gating research, and final-holdout integrity.
 
-These earlier repositories preserve independent historical research evidence; they are not runtime dependencies, sources of current authorization, or proof that historical models meet the current qualification standard.
+The three earlier repositories document historical research and are not runtime dependencies of the current platform. Their historical results do not establish qualification under the current evaluation standards.
 
 ## Governance and navigation
 
@@ -104,9 +98,10 @@ Files and reference maps do not independently authorize execution.
 
 ## Research status and limitations
 
-Completed data-contract, universe, and engineering milestones form a research
-foundation; they do not establish a qualified trading model. Model training,
-final-holdout evaluation, paper trading, and deployment remain separately
+Completed data-contract, universe, and engineering milestones establish the research foundation. 
+However, these accomplishments do not yet demonstrate a qualified trading model.
+
+Model training, final-holdout evaluation, paper trading, and deployment remain separately
 governed. The latest Batch0004 U0012 attempt remains in a documented controlled
 stop, with no new scientifically accepted records.
 
