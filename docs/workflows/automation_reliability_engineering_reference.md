@@ -1,14 +1,6 @@
 # QTRP Automation Reliability Engineering Approach
 
-```text
-document_role = NONAUTHORIZING_PROSPECTIVE_ENGINEERING_REFERENCE
-engineering_philosophy = ESTABLISHED_GUIDANCE
-engineering_gap_assessment = REQUIRED__NOT_YET_COMPLETED
-technical_implementation_plan = PROVISIONAL__PENDING_ASSESSMENT
-specific_code_corrections = NOT_YET_SELECTED
-engineering_readiness = NOT_ESTABLISHED
-authorization_effect = NONE
-```
+**Document status:** Nonauthorizing prospective engineering guidance. The Engineering Gap Assessment is pending; implementation decisions and engineering readiness are not established. This reference grants no execution or protected-data access authorization.
 
 ## 1. Purpose and boundaries
 
@@ -60,15 +52,7 @@ The assessment output should be **one evidence-backed implementation recommendat
 
 ## 4. Engineering Approach and Completion Criteria
 
-```mermaid
-flowchart TD
-    A["Understand the engineering philosophy"] --> B["Assess existing architecture and gaps"]
-    B --> C["Implement justified corrections under authorization"]
-    C --> D["Test successful and failed NONPRODUCTION execution paths"]
-    D --> E["Verify engineering readiness"]
-```
-
-The separately authorized assessment produces an evidence-based technical plan before corrections are selected. Engineering readiness requires focused test evidence and independent engineering review. Any REAL continuation requires a separate Owner decision; successful NONPRODUCTION testing does not authorize it.
+Begin with a separately authorized Engineering Gap Assessment of the existing architecture and demonstrated gaps. Use its evidence to select proportionate corrections, then conduct authorized NONPRODUCTION engineering and test both successful and failed execution paths. Independent engineering review should evaluate the results and unresolved limitations before any separate Owner decision on REAL continuation. Successful NONPRODUCTION testing does not grant REAL authorization.
 
 Use existing MAIN → MANAGING → OWNER routing, with ADMIN for escalated architectural, governance, or scientific review. The assessment and later implementation require their own applicable authorizations; this reference supplies none. Report unresolved failures and terminal incompleteness rather than relabeling them as success.
 
