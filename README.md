@@ -93,6 +93,7 @@ Key navigation:
 - [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md) — non-authorizing roadmap, governance, evidence, and historical navigation.
 - [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — non-authorizing future validation, training, evaluation, and holdout guidance.
 - [Engineering Reliability Retrospective](docs/case_studies/batch0004_execution_reliability_retrospective.md) — execution integrity, failure investigation, regression verification, and engineering lessons learned.
+- [Automation Reliability Engineering Reference](docs/workflows/automation_reliability_engineering_reference.md) — prospective engineering philosophy, reliability assessment, integration testing, and simplification guidance.
 
 Files and reference maps do not independently authorize execution.
 
