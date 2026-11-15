@@ -16,18 +16,9 @@ This reference preserves the **QTRP Automation Reliability Engineering Approach*
 
 The philosophy is established guidance; the implementation plan is **provisional pending assessment**. No specific code corrections, installed changes, or readiness finding are approved by this document. An assessment must produce a concrete, bounded engineering recommendation rather than another open-ended research or governance program.
 
-## 2. Existing authorities and supporting references
+## 2. Supporting references
 
-Use existing documents for their established roles rather than reproducing their contents:
-
-- [Project Context](../../PROJECT_CONTEXT.md) — controlling broad current lifecycle and authorization state; not a task or checkpoint tracker.
-- [Milestone Review Reference Map](milestone_review_reference_map.md) — nonauthorizing historical roadmap, decisions, evidence, and navigation.
-- [Future Validation and Training Reference Map](future_validation_training_reference_map.md) — nonauthorizing prospective **scientific** methodology and sequencing.
-- [Engineering Reliability Retrospective](../case_studies/batch0004_execution_reliability_retrospective.md) — nonauthorizing historical engineering findings, corrections, limitations, and lessons.
-- [Attempt 11 Recovery and Milestones Report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md) — nonauthorizing historical recovery and evidence record.
-- [AGENTS.md](../../AGENTS.md) — standing Codex operating and safety instructions; not per-task permission.
-
-This reference adds only **prospective engineering philosophy, assessment requirements, and a high-level route to qualification**. It does not change the J2 document roles or introduce a new evidence registry, approval gate, decision ledger, or governance layer.
+[Project Context](../../PROJECT_CONTEXT.md) controls current lifecycle and authorization state, while [AGENTS.md](../../AGENTS.md) provides standing Codex instructions. Historical engineering findings and recovery evidence remain in the [Engineering Reliability Retrospective](../case_studies/batch0004_execution_reliability_retrospective.md) and [Attempt 11 Recovery and Milestones Report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md). Scientific guidance and evidence navigation remain in the [Future Validation and Training Reference Map](future_validation_training_reference_map.md) and [Milestone Review Reference Map](milestone_review_reference_map.md).
 
 ## 3. Engineering philosophy
 
@@ -59,9 +50,9 @@ The next substantive engineering assignment, **only when separately authorized**
 
 **A. Existing architecture.** Map the directly relevant execution, event-capture, diagnostic, authorization, checkpoint, scientific-validation, and finalization interfaces. Distinguish *implemented*, *directly verified*, *historically reported*, *incomplete*, and *reusable* capabilities. Do not equate source-code presence with successful runtime behavior.
 
-**B. Failure coverage.** Compare previous component, synthetic integration, and qualified prelaunch results against the paths not demonstrated. Identify evidence-supported gaps relevant to the unresolved native exit code 1 and the **separate** post-record finalization rejection; do not retrospectively assign unproven root causes.
+**B. Failure coverage.** Compare previous component and integration tests against critical execution paths and potential failure modes. Identify what was demonstrated, what remains untested, and which gaps materially affect reliability. Do not assign root causes without supporting evidence.
 
-**C. Required corrections.** Recommend the smallest technically justified changes, with the supporting defect or requirement, affected interfaces, preserved invariants, and expected observable improvement. First evaluate whether existing components and the isolated NONPRODUCTION guard correction can be reused. Select no implementation architecture without this analysis.
+**C. Required corrections.** Identify the smallest engineering changes supported by implementation and test evidence. Reuse existing mechanisms where possible, preserve established controls, and justify corrections based on reliability, simplicity, and maintainability.
 
 **D. Test strategy.** Define successful and unsuccessful NONPRODUCTION tests covering the complete synthetic 25-record lifecycle where feasible, native-process failures, execution-stage diagnostics, scientific rejection, replay protection, checkpoint integrity, registration and finalization, and crash recovery. Specify what each test establishes and its limitations. Use only synthetic representations of protected recovery state.
 
@@ -71,15 +62,7 @@ The next substantive engineering assignment, **only when separately authorized**
 
 The assessment output should be **one evidence-backed implementation recommendation** with bounded scope, focused acceptance tests, remaining uncertainties, and genuine Owner decisions. It must not begin technical corrections merely because this reference exists.
 
-## 5. Historical boundary: reuse without reopening
-
-The accepted original U0012 Attempt 11 recovery workstream remains in permanent retained `CONTROLLED_STOP`. Earlier U0001–U0011 account for **275 accepted scientific records**, with **zero** new records from Attempt 11. The native exit-code-1 cause is unresolved; checkpoint56/A0011 selected linkage passed only within the attested scope; the terminal journal remains incomplete.
-
-The distinct post-record `ENGINE_ATTEMPT_ALREADY_EXISTS` guard defect received an isolated **33/33 NONPRODUCTION PASS** correction that is **not installed**. No qualified safe cold-finalization path was established for the original Attempt 11. Its single-use Model B authorization was consumed and cannot be replayed. Historical P4/P10 reconstruction was closed under narrow treatment **without historical PASS**. No Attempt 12 or U0013 REAL execution is authorized.
-
-Consult the retrospective and consolidated report for evidence, provenance, and detailed qualifications. Do not reconstruct the historical attempt, backfill its journal, inspect protected scientific results, or infer a native root cause from the finalization defect.
-
-## 6. Prospective path and completion discipline
+## 5. Prospective path and completion discipline
 
 **Established philosophy → authorized focused Engineering Gap Assessment → evidence-based technical plan → separately authorized bounded NONPRODUCTION corrections → decisive integration and fault-injection tests → independent engineering review → separate Owner decision on any REAL continuation.**
 
