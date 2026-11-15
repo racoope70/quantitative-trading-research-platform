@@ -1,3 +1,4 @@
+
 # QTRP — Standing Codex Instructions
 
 Scope: this repository only. These are persistent operating instructions, not a task authorization, scientific-access grant, or instruction to execute work. Follow the current Owner-authorized task and applicable higher-priority controls. Do not infer permission from this file.
@@ -15,9 +16,29 @@ Scope: this repository only. These are persistent operating instructions, not a 
 - Identify the controlling Owner/ADMIN decision and its exact scope before any sensitive operation. Scope includes the approved files/data, operation, verifier, access mode, scientific purpose, lifecycle range, and any single-use or count limits.
 - Reuse an existing, unconsumed authorization when all relevant dimensions of the proposed operation remain within its approved scope. Do not ask for a fresh approval solely because the same approved check occurs at another already-authorized stage.
 - Do not reuse consumed single-use authorizations, revive closed diagnostics, extend a lifecycle boundary, infer additional scientific access, or treat accepted historical examples as active permission.
-- Continue directly dependent, behavior-preserving, bounded nonproduction engineering and targeted validation when the current task already authorizes them: identify → correct → regression-test → rerun the directly affected nonproduction path → continue.
-- For authorized bounded NONPRODUCTION engineering, inspect directly related interfaces and dependencies and resolve reasonably discoverable in-scope routine defects before returning, rather than stopping after the first defect. Keep corrections and focused regression tests within the approved mutation surface and bounded retry limits; stop when qualification passes, a substantiated blocker is reached, or additional work requires authorization. Do not retry indefinitely. Consolidate related findings and necessary Owner decisions into one coherent return. One Owner terminal action at a time does not mean one engineering defect at a time.
-- Escalate genuine scope expansion, ambiguity, new protected-data access, scientific-independence concerns, acceptance-methodology changes, immutable-state mutation, material security changes, or REAL/production execution or publication lacking specific Owner authority. Avoid speculative new governance, redundant approvals, and unrelated redesign.
+
+### Bounded Autonomous NONPRODUCTION Engineering
+
+For explicitly authorized NONPRODUCTION engineering tasks, follow:
+
+**INSPECT → IDENTIFY → CORRECT → REGRESSION TEST → RERUN → CONTINUE**
+
+- Inspect directly related interfaces and dependencies to identify reasonably discoverable in-scope defects rather than stopping at the first defect.
+- Correct routine implementation and integration defects autonomously within the authorized mutation surface.
+- Reuse existing code, tests, and accepted contracts. Avoid unnecessary frameworks, orchestration, or governance.
+- Run focused synthetic, integration, and regression tests. Continue bounded corrections until the task passes, a substantiated blocker is established, or an authorization boundary is reached. Do not retry indefinitely.
+- Preserve scientific integrity, protected data, authorization controls, runtime identities, evidence, and repository safeguards.
+- Do not expand protected-data access, alter scientific/security contracts, mutate unauthorized installed runtimes, or initiate REAL execution.
+- Consolidate related findings and return one coherent result through the established MAIN → MANAGING → OWNER review and decision process, with Codex reporting through its assigned coordinator when applicable.
+
+**One Owner terminal action at a time does not mean one engineering defect at a time.**
+
+This instruction grants no independent execution or mutation authority. All work remains limited to the current authorized task and applicable repository controls.
+
+### Escalation boundaries
+
+- Escalate genuine scope expansion, ambiguity, new protected-data access, scientific-independence concerns, acceptance-methodology changes, immutable-state mutation, material security changes, or REAL/production execution or publication lacking specific Owner authority.
+- Avoid speculative new governance, redundant approvals, and unrelated redesign.
 
 ## 3. REAL execution, evidence, and fail-closed controls
 
@@ -37,7 +58,7 @@ These repository-relative links point to the established documents. Consult the 
 
 Use local repository files and accepted current task evidence; do not assume a remote main version overrides uncommitted, accepted local state. If references appear inconsistent with a newer controlling Owner/ADMIN decision, flag the discrepancy rather than silently updating state or inventing authorization.
 
-Do not promote a reference map, old report, prior task, or this AGENTS.md to an authorization source. Do not change any governance/reference document unless the current task explicitly authorizes that change.
+Do not promote a reference map, old report, prior task, or this `AGENTS.md` to an authorization source. Do not change any governance/reference document unless the current task explicitly authorizes that change.
 
 Use the current MAIN → MANAGING → OWNER routing for review and material decisions; ADMIN receives escalated governance or scientific decisions. Preserve the established separation of roles.
 
@@ -56,7 +77,7 @@ Use the current MAIN → MANAGING → OWNER routing for review and material deci
 - Use the exact interpreter required by the accepted contract for QTRP-owned Python components and applicable tests. Do not create, replace, or switch Python environments unless the active task authorizes it. Do not automatically extend QTRP's host Python 3.12 interpreter requirement to autonomous Codex inner commands unless an applicable accepted contract explicitly requires it.
 - Edit only files required for the active task. Do not make opportunistic cleanup, formatting, documentation, dependency, or refactoring changes outside scope.
 - Run focused tests when appropriate for the files and behavior changed. If tests are not applicable, state why rather than running unrelated suites.
-- Before any authorized commit, inspect the intended diff and verify the staged set with git status --short and git diff --cached --name-only. If an intended file is unexpectedly ignored or unstaged, stop and report the condition rather than forcing it with git add -f.
+- Before any authorized commit, inspect the intended diff and verify the staged set with `git status --short` and `git diff --cached --name-only`. If an intended file is unexpectedly ignored or unstaged, stop and report the condition rather than forcing it with git add -f.
 - Do not push, tag, or publish repository changes unless the active Owner-authorized task explicitly permits it.
 
 ## 7. Per-task authority
