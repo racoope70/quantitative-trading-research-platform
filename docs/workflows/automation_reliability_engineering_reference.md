@@ -16,11 +16,7 @@ This reference preserves the **QTRP Automation Reliability Engineering Approach*
 
 The philosophy is established guidance; the implementation plan is **provisional pending assessment**. No specific code corrections, installed changes, or readiness finding are approved by this document. An assessment must produce a concrete, bounded engineering recommendation rather than another open-ended research or governance program.
 
-## 2. Supporting references
-
-[Project Context](../../PROJECT_CONTEXT.md) controls current lifecycle and authorization state, while [AGENTS.md](../../AGENTS.md) provides standing Codex instructions. Historical engineering findings and recovery evidence remain in the [Engineering Reliability Retrospective](../case_studies/batch0004_execution_reliability_retrospective.md) and [Attempt 11 Recovery and Milestones Report](../reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md). Scientific guidance and evidence navigation remain in the [Future Validation and Training Reference Map](future_validation_training_reference_map.md) and [Milestone Review Reference Map](milestone_review_reference_map.md).
-
-## 3. Engineering philosophy
+## 2. Engineering philosophy
 
 The objective is to replace repeated reactive debugging with a holistic, evidence-based review of the existing automation lifecycle. Understand how the implemented components work together before selecting corrections. Prioritize reliable execution, actionable diagnostics, safe terminal outcomes, maintainability, and genuine simplification.
 
@@ -35,7 +31,7 @@ The objective is to replace repeated reactive debugging with a holistic, evidenc
 
 These principles guide evaluation; they do **not** dictate a particular logging framework, state-machine redesign, test harness, or code correction before the assessment.
 
-## 4. Required Engineering Gap Assessment
+## 3. Required Engineering Gap Assessment
 
 The next substantive engineering assignment, **only when separately authorized**, must inspect the existing implementation and permitted evidence and return six bounded deliverables. The six questions form a QTRP-specific assessment structure applying established engineering practices—not a new formal industry framework or six additional governance gates.
 
@@ -62,10 +58,18 @@ The next substantive engineering assignment, **only when separately authorized**
 
 The assessment output should be **one evidence-backed implementation recommendation** with bounded scope, focused acceptance tests, remaining uncertainties, and genuine Owner decisions. It must not begin technical corrections merely because this reference exists.
 
-## 5. Prospective path and completion discipline
+## 4. Engineering Approach and Completion Criteria
 
-**Established philosophy → authorized focused Engineering Gap Assessment → evidence-based technical plan → separately authorized bounded NONPRODUCTION corrections → decisive integration and fault-injection tests → independent engineering review → separate Owner decision on any REAL continuation.**
+```mermaid
+flowchart TD
+    A["Understand the engineering philosophy"] --> B["Assess existing architecture and gaps"]
+    B --> C["Implement justified corrections under authorization"]
+    C --> D["Test successful and failed NONPRODUCTION execution paths"]
+    D --> E["Verify engineering readiness"]
+```
 
-Use existing MAIN → MANAGING → OWNER routing, with ADMIN for escalated architectural, governance, or scientific review. The assessment and later implementation require their own applicable authorizations; this document supplies none. Future engineering acceptance must establish only what its direct tests and permitted evidence support, with unresolved failures and terminal incompleteness disclosed rather than relabeled as success.
+The separately authorized assessment produces an evidence-based technical plan before corrections are selected. Engineering readiness requires focused test evidence and independent engineering review. Any REAL continuation requires a separate Owner decision; successful NONPRODUCTION testing does not authorize it.
 
-Do not create additional standing documents, task trackers, approval procedures, or broad review layers to implement this reference. Keep work execution-forward and proportionate to demonstrated gaps.
+Use existing MAIN → MANAGING → OWNER routing, with ADMIN for escalated architectural, governance, or scientific review. The assessment and later implementation require their own applicable authorizations; this reference supplies none. Report unresolved failures and terminal incompleteness rather than relabeling them as success.
+
+Keep work execution-forward and proportionate to demonstrated gaps. Do not create additional standing documents, trackers, approval procedures, or broad review layers.
