@@ -5,19 +5,26 @@ QTRP defines a provider-neutral, reproducible research-data architecture for chr
 ## Logical data flow
 
 ```mermaid
-flowchart TD
-    A[Market-data and reference providers] --> B[Provider-specific adapter boundary]
-    B --> C[Governed raw-data layer]
-    C --> D[Validation and point-in-time preparation]
-    D --> E[Canonical processed datasets]
-    E --> F[Deterministic feature definitions and transformations]
-    F --> G[Versioned research inputs]
-    G --> H[ML / RL research]
-    H --> I[Chronological evaluation]
-    X[Artifact identity, provenance, integrity, and controlled publication] -.-> C
-    X -.-> E
-    X -.-> G
-    X -.-> I
+flowchart LR
+    subgraph PIPE["Core research data pipeline"]
+        direction TB
+        A[Market-data and reference providers] --> B[Provider-specific adapter boundary]
+        B --> C[Governed raw-data layer]
+        C --> D[Validation and point-in-time preparation]
+        D --> E[Canonical processed datasets]
+        E --> F[Deterministic feature definitions and transformations]
+        F --> G[Versioned research inputs]
+        G --> H[ML / RL research]
+        H --> I[Chronological evaluation]
+    end
+
+    subgraph CONTROLS["Cross-cutting responsibilities"]
+        direction TB
+        X1["Immutable identities"] ~~~ X2["Provenance and lineage"]
+        X2 ~~~ X3["Checksums and integrity"]
+        X3 ~~~ X4["Controlled publication"]
+        X4 ~~~ X5["Execution evidence"]
+    end
 ```
 
 Arrows express **logical data dependencies**, not current executable integration. The cross-cutting artifact responsibilities apply to the relevant outputs and evidence; they are not a separate market-data processing stage.
