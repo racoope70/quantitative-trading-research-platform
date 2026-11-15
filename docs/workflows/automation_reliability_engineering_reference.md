@@ -63,7 +63,7 @@ The next substantive engineering assignment, **only when separately authorized**
 
 **C. Required corrections.** Recommend the smallest technically justified changes, with the supporting defect or requirement, affected interfaces, preserved invariants, and expected observable improvement. First evaluate whether existing components and the isolated NONPRODUCTION guard correction can be reused. Select no implementation architecture without this analysis.
 
-**D. Test strategy.** Define decisive success and failure cases using authorized NONPRODUCTION data: a complete synthetic 25-record lifecycle where feasible; native-process termination; last-confirmed-stage diagnostics; scientific rejection; replay rejection; checkpoint continuity; registration/finalization ordering; and crash/restart terminal-state behavior. State what each test proves and does not prove. Use only synthetic representations of protected recovery state.
+**D. Test strategy.** Define successful and unsuccessful NONPRODUCTION tests covering the complete synthetic 25-record lifecycle where feasible, native-process failures, execution-stage diagnostics, scientific rejection, replay protection, checkpoint integrity, registration and finalization, and crash recovery. Specify what each test establishes and its limitations. Use only synthetic representations of protected recovery state.
 
 **E. Complexity assessment.** Classify existing mechanisms as *retain*, *simplify*, *consolidate*, *remove*, or *needs evidence*. Justify any new component against a demonstrated need that existing mechanisms cannot satisfy. Avoid speculative redesign and duplicated governance.
 
