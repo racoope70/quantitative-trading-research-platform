@@ -82,16 +82,19 @@ evidence-driven research architecture.
 
 The three earlier repositories document historical research and are not runtime dependencies of the current platform. Their historical results do not establish qualification under the current evaluation standards.
 
-## Governance and navigation
+## Documentation and navigation
 
 `PROJECT_CONTEXT.md` is the authoritative source for broad current lifecycle
 and authorization state.
 
-Key navigation:
+### Project governance and research roadmap
 
 - [Project Context](PROJECT_CONTEXT.md) — authoritative broad lifecycle and authorization state.
 - [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md) — non-authorizing roadmap, governance, evidence, and historical navigation.
 - [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — non-authorizing future validation, training, evaluation, and holdout guidance.
+### Technical architecture and engineering
+
+- [Data Architecture Overview](docs/architecture/data_architecture_overview.md) — logical research-data flow, engineering rationale, and implementation maturity.
 - [Engineering Reliability Retrospective](docs/case_studies/batch0004_execution_reliability_retrospective.md) — execution integrity, failure investigation, regression verification, and engineering lessons learned.
 - [Automation Reliability Engineering Reference](docs/workflows/automation_reliability_engineering_reference.md) — prospective engineering philosophy, reliability assessment, integration testing, and simplification guidance.
 
