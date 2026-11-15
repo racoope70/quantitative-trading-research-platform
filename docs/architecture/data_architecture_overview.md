@@ -43,10 +43,13 @@ Dependencies run from governed configuration/data toward features, models, and e
 
 ## Authoritative references
 
-- [Project Context](../../PROJECT_CONTEXT.md) — controlling current state and authorization boundaries.
-- [C2 Repository Skeleton and Boundaries](C2_canonical_repository_skeleton_and_boundaries.md) — subsystem ownership and dependency direction.
-- [C5 Provider Strategy Decision](../decisions/C5_provider_strategy_decision.md) — provider-neutral contract versus source-specific scientific semantics.
-- [C6 Dataset Contract](C6_dataset_contract.md) and [C6 Completion Decision](../decisions/C6_completion_decision.md) — frozen schemas, chronology, identities, leakage controls, and completion status.
-- [Data](../../src/quantitative_trading_research/data/README.md), [Features](../../src/quantitative_trading_research/features/README.md), and [Artifacts](../../src/quantitative_trading_research/artifacts/README.md) — subsystem-specific responsibility boundaries.
+- [Project Context](../../PROJECT_CONTEXT.md) — Current project status and authorization boundaries.
+- [C2 Repository Skeleton and Boundaries](C2_canonical_repository_skeleton_and_boundaries.md) — Subsystem responsibilities and dependencies.
+- [C5 Provider Strategy Decision](../decisions/C5_provider_strategy_decision.md) — Provider neutrality and source-specific semantics.
+- [C6 Dataset Contract](C6_dataset_contract.md) — Frozen schemas, chronology, identity, and leakage controls.
+- [C6 Completion Decision](../decisions/C6_completion_decision.md) — Contract completion and closure.
+- [Data Subsystem](../../src/quantitative_trading_research/data/README.md) — Acquisition and preparation boundaries.
+- [Features Subsystem](../../src/quantitative_trading_research/features/README.md) — Deterministic transformation boundaries.
+- [Artifacts Subsystem](../../src/quantitative_trading_research/artifacts/README.md) — Identity, integrity, and publication boundaries.
 
 This overview explains existing architecture; it grants no new authorization.
