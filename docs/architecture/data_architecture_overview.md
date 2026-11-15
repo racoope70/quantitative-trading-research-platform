@@ -5,7 +5,7 @@ QTRP defines a provider-neutral, reproducible research-data architecture for chr
 ## Logical data flow
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph PIPE["Core research data pipeline"]
         direction TB
         A[Market-data and reference providers] --> B[Provider-specific adapter boundary]
@@ -25,6 +25,9 @@ flowchart LR
         X3 ~~~ X4["Controlled publication"]
         X4 ~~~ X5["Execution evidence"]
     end
+
+    %% Invisible layout connector; no data-flow relationship is implied.
+    PIPE ~~~ CONTROLS
 ```
 
 Arrows express **logical data dependencies**, not current executable integration. The cross-cutting artifact responsibilities apply to the relevant outputs and evidence; they are not a separate market-data processing stage.
