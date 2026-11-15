@@ -1,12 +1,12 @@
 # QTRP Automation Reliability Engineering Approach
 
-**Document status:** Nonauthorizing prospective engineering guidance. The Engineering Gap Assessment is pending; implementation decisions and engineering readiness are not established. This reference grants no execution or protected-data access authorization.
+**Document status:** Nonauthorizing engineering guidance. The Engineering Gap Assessment is complete, and Implementation V1 is Owner-accepted within bounded NONPRODUCTION scope. Installed REAL-runtime compatibility, scientific acceptance, source integration, deployment readiness, protected access, and REAL execution authorization are not established by these results or this reference.
 
 ## 1. Purpose and boundaries
 
-This reference preserves the **QTRP Automation Reliability Engineering Approach**: a project-specific application of lightweight Systems Engineering and Site Reliability Engineering (SRE) practices. Its focus is evidence-based failure analysis, observability, durable execution-state management, and targeted NONPRODUCTION fault-injection testing. It guides engineering judgment before corrections are selected, rather than establishing a new formal industry framework. It is not an implementation specification, current-work tracker, lifecycle controller, authorization instrument, or substitute for code and evidence inspection.
+This reference preserves the **QTRP Automation Reliability Engineering Approach**: a project-specific application of lightweight Systems Engineering and Site Reliability Engineering (SRE) practices. Its focus is evidence-based failure analysis, observability, durable execution-state management, and targeted NONPRODUCTION fault-injection testing. It guides evidence-based engineering judgment, rather than establishing a new formal industry framework. It is not an implementation specification, current-work tracker, lifecycle controller, authorization instrument, or substitute for code and evidence inspection.
 
-The philosophy is established guidance; the implementation plan is **provisional pending assessment**. No specific code corrections, installed changes, or readiness finding are approved by this document. An assessment must produce a concrete, bounded engineering recommendation rather than another open-ended research or governance program.
+The philosophy remains established guidance. The separately authorized Engineering Gap Assessment and bounded NONPRODUCTION Implementation V1 have been completed and accepted within their demonstrated scope. This document grants no authority to install those corrections, alter the canonical source or REAL runtime, consume authorization, access protected data, or begin readiness work.
 
 ## 2. Engineering philosophy
 
@@ -21,11 +21,11 @@ The objective is to replace repeated reactive debugging with a holistic, evidenc
 7. **Separate kinds of success.** A successful synthetic run is engineering evidence, not scientific acceptance, REAL authorization, provider readiness, paper-trading approval, or deployment qualification.
 8. **Preserve protected boundaries.** Maintain scientific blindness, frozen-result and final-holdout protections, safe evidence handling, exact single-use authorization, replay rejection, and existing fail-closed conditions.
 
-These principles guide evaluation; they do **not** dictate a particular logging framework, state-machine redesign, test harness, or code correction before the assessment.
+These principles continue to guide future permitted evaluation; they do **not** require a particular logging framework, state-machine redesign, test harness, or additional code correction.
 
-## 3. Required Engineering Gap Assessment
+## 3. Completed Engineering Gap Assessment — reusable method
 
-The next substantive engineering assignment, **only when separately authorized**, must inspect the existing implementation and permitted evidence and return six bounded deliverables. The six questions form a QTRP-specific assessment structure applying established engineering practices—not a new formal industry framework or six additional governance gates.
+The separately authorized Engineering Gap Assessment is **complete and accepted**. Its six bounded questions are preserved below as a reusable description of the method applied, not as a pending assignment, a new formal industry framework, or six additional governance gates.
 
 | Assessment | Senior engineering question |
 |---|---|
@@ -48,11 +48,19 @@ The next substantive engineering assignment, **only when separately authorized**
 
 **F. Readiness conditions.** Define objective evidence for engineering acceptance, including actual exercised code/runtime identities, positive and negative lifecycle outcomes, protected-boundary compliance, and trustworthy terminal/unknown-state reporting. Identify residual uncertainties and requirements for independent engineering review. Explicitly separate engineering correctness, scientific acceptance, authorization, and deployment readiness; any future REAL-readiness decision remains the Owner's separately governed decision.
 
-The assessment output should be **one evidence-backed implementation recommendation** with bounded scope, focused acceptance tests, remaining uncertainties, and genuine Owner decisions. It must not begin technical corrections merely because this reference exists.
+The completed assessment informed one bounded, evidence-backed NONPRODUCTION implementation recommendation. Future work still requires its own applicable authorization; this reference cannot initiate corrections.
 
-## 4. Engineering Approach and Completion Criteria
+## 4. Completed engineering evidence and continuing boundaries
 
-Begin with a separately authorized Engineering Gap Assessment of the existing architecture and demonstrated gaps. Use its evidence to select proportionate corrections, then conduct authorized NONPRODUCTION engineering and test both successful and failed execution paths. Independent engineering review should evaluate the results and unresolved limitations before any separate Owner decision on REAL continuation. Successful NONPRODUCTION testing does not grant REAL authorization.
+The Engineering Gap Assessment identified a post-registration attempt-absence guard conflict, incomplete prior full native-lifecycle and terminal-failure evidence, and an unresolved original A0011 native exit-code-1 cause. Following independent review, the Owner accepted bounded NONPRODUCTION Implementation V1; **27/27 selected final-source synthetic cases PASS**, including an actual trusted synthetic Python subprocess, a complete synthetic 25-record success path, rejected invalid synthetic output, competing admission/replay protection, checkpoint/journal consistency, handled failure and interruption/restart behavior.
+
+The accepted NONPRODUCTION corrections are **C1**: place the attempt-absence guard at initial construction so read-only post-registration verification remains valid; **C2**: reject an existing attempt before irreversible admission/authorization consumption or native dispatch; and **C3**: classify OS process-creation rejection versus successful child creation from validated capture timing evidence. The earlier isolated C1 guard qualification also passed 33/33 synthetic checks; it is distinct from Implementation V1's 27/27 final-source suite.
+
+**Failure distinction:** A handled native failure with valid process-local finalization authority can record a durable controlled stop. An unexpected interruption or loss of such authority preserves the last trustworthy state and may leave terminal finalization **incomplete**; neither situation permits an invented success or reconstructed consumed authority.
+
+Source-promotion preparation is closed under Owner-selected `OPTION_A__RETAIN_ACCEPTED_NONPRODUCTION_CAPSULE` (`CLOSED_WITH_ACCEPTED_PARTIAL_TARGET_RECONCILIATION`). The accepted capsule remains a qualified prospective **NONPRODUCTION reference** with C1–C3 already present. No separate canonical integration target, source promotion, installed REAL compatibility, publication, or deployment readiness was established. The original A0011 native return-code-1 cause remains unresolved.
+
+See [Automation Reliability Engineering V1 completion](../reports/automation_reliability_engineering_v1_completion.md) for the bounded technical record and evidence identities. Engineering acceptance is distinct from scientific acceptance, source integration, deployment readiness, protected-data access and REAL authorization. Future Batch0004 U0012 A0012 readiness engineering remains **deferred/not authorized**; no work begins automatically from this reference.
 
 Use existing MAIN → MANAGING → OWNER routing, with ADMIN for escalated architectural, governance, or scientific review. The assessment and later implementation require their own applicable authorizations; this reference supplies none. Report unresolved failures and terminal incompleteness rather than relabeling them as success.
 
