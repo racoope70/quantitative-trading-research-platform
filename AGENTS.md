@@ -56,6 +56,16 @@ These repository-relative links point to the established documents. Consult the 
 - [Milestone Review Reference Map](docs/workflows/milestone_review_reference_map.md) — Non-authorizing roadmap, governance/evidence/decision history, and curated 2V navigation. Consult for phase history, milestone evidence, and decision lookup.
 - [Future Validation and Training Reference Map](docs/workflows/future_validation_training_reference_map.md) — Non-authorizing prospective scientific sequencing, training, evaluation, and holdout guidance. Consult for future scientific planning, without treating future guidance as currently authorized activity.
 
+### Source and evidence discovery
+
+Before searching for or reconstructing project source/evidence,
+consult `docs/workflows/source_evidence_locator.md` and its
+accepted provenance references.
+
+Verify current identity and access authorization before use.
+Do not infer permission to inspect protected artifacts or
+search additional locations from the locator alone.
+
 Use local repository files and accepted current task evidence; do not assume a remote main version overrides uncommitted, accepted local state. If references appear inconsistent with a newer controlling Owner/ADMIN decision, flag the discrepancy rather than silently updating state or inventing authorization.
 
 Do not promote a reference map, old report, prior task, or this `AGENTS.md` to an authorization source. Do not change any governance/reference document unless the current task explicitly authorizes that change.
