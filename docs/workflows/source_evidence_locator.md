@@ -35,7 +35,8 @@
 ## Accepted milestone boundaries and usage
 
 - `PHASE_A = PASS`; `PHASE_B = PASS`; `FIVE_SOURCE_BASELINE = PASS__ACCEPTED`; `SOURCE_RECOVERY = CLOSED_WITHIN_ACCEPTED_EVIDENCE_SCOPE`.
-- `PHASE_C_ENGINEERING = PENDING`; `TEN_INTERFACE_COMPATIBILITY_ASSESSMENT = NOT_AUTHORIZED`; `BEHAVIORAL_COMPATIBILITY = NOT_TESTED`; `GATE_0C = NOT_REACHED`.
+- **Historical snapshot at the 2026-11-16 source-baseline acceptance (not current Phase C status):** `PHASE_C_ENGINEERING = PENDING`; `TEN_INTERFACE_COMPATIBILITY_ASSESSMENT = NOT_AUTHORIZED`; `BEHAVIORAL_COMPATIBILITY = NOT_TESTED`; `GATE_0C = NOT_REACHED`.
+- **Later accepted status as of 2026-11-21:** See [current Batch0004/U0012 context](../../PROJECT_CONTEXT.md#batch0004--primary-s05--u0012-automation-continuation--accepted-state-2026-11-21) and the [bounded native engineering milestone](../reports/automation_reliability_engineering_v1_completion.md); later synthetic engineering did not authorize Gate 0C, REAL A0012 or U0013.
 - `REAL_A0012 = NOT_AUTHORIZED`; `U0013 = PROHIBITED`; A0011 recovery authority remains consumed/nonreusable.
 - Source identity authentication and reference staging **are not** executable integration, behavioral compatibility, current scientific validity, live source availability, REAL authorization, or production readiness.
 - Consult the accepted evidence and exact Owner authorization before any later source access, source modifications, testing, or gate progression. Do not repeat accepted source recovery absent specific contradictory evidence.

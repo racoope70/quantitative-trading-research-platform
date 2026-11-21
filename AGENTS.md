@@ -47,6 +47,10 @@ This instruction grants no independent execution or mutation authority. All work
 - Do not weaken scientific validation, success-only command-status checks, proof/recovery logic, reason precedence, or acceptance criteria to make an execution pass.
 - Preserve completed units and frozen accepted evidence. Never treat a controlled stop as scientific acceptance; never retry a consumed attempt or advance to a new unit without the applicable authorization.
 - Use source- and evidence-backed conclusions. Clearly separate independently verified evidence, Codex direct host observations, Owner-reported facts, and unresolved facts. Do not represent a source capability or current configuration as proof of an unobserved historical event.
+- Treat Owner-accepted scientific-sufficiency decisions as binding within their exact source, unit, attempt, and lifecycle scopes. Do not impose stronger historical scientific requirements without a controlling contract, material contradictory evidence, or explicit Owner approval.
+- Reuse accepted historical science and lineage. Missing current checkpoint, preparation, or authorization evidence is an unresolved operating-state issue, not automatic invalidation of historical scientific acceptance. No blanket P10 authentication, broad S04 recertification, full historical scientific reconstruction, or Option B population admission is automatically required for original-lineage U0012.
+- Original Attempt 11 Option A four-object/accepted-lineage sufficiency is specific to its approved binding; do not extend it to a later attempt or changed instance without exact evidence and controlling authority.
+- Retain the current P4 requirement for an independently acceptable recovery declaration and applicable custody, exact predecessor/preparation identity, Policy B validation, required persistence/checkpoint/terminal integrity, one-use authorization and restart/replay protection. Do not weaken existing integrity guards without separate authority.
 
 ## 4. Project reference-document boundaries and navigation (J2)
 
