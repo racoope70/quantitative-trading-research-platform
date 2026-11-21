@@ -46,3 +46,11 @@ The subsequent read-only source-promotion reconciliation verified accepted refer
 - Engineering acceptance, scientific acceptance, source integration, deployment readiness and single-use REAL authorization are **distinct**. U0013 remains prohibited. Proposed `BATCH0004_U0012_A0012_PROSPECTIVE_READINESS_V1` is deferred and **not authorized** by this documentation completion.
 
 This record is a concise retrospective companion to the [nonauthorizing engineering approach](../workflows/automation_reliability_engineering_reference.md). It provides no new implementation, publication or operating authority.
+
+## Later Phase C connected synthetic batch milestone — 2026-11-20
+
+The separately Owner-accepted `QTRP_ONE_CONNECTED_SYNTHETIC_25_RECORD_BATCH_NP_V1` milestone demonstrated **PASS within the tested isolated NONPRODUCTION scope**: one genuine synthetic Python child executed via `run_codex_executor`, with 25 ordered records, Policy B scientific validation, staged proof, required native persistence, independent recovery, checkpoint advancement, verified terminal and replay rejection. N01–N04 **PASS within their tested limits**, covering required persistence failure, scientific/proof rejection, incomplete checkpoint/result/terminal state and fresh-interpreter replay denial. Nine test-group executions produced eight passing groups and one retained initial test-injection error subsequently corrected; no unresolved test failures.
+
+**Accepted NP source revision:** `92e74bca2370fc836b14128f94d30a82163a6d9ddd9e5a7bf7b1dbe256248643`. **Accepted Owner-private evidence ZIP SHA-256:** `5df6b58a2ec9c04691c7dc54ca870b61bc5012b224c4f38224dd0dc3c2d32af3`. These identities reference private evidence; no source, runtime, protected data or custody contents are published here.
+
+**Limits:** The V3 adapter and actual REAL provider were **not** connected-qualified; deterministic injected faults do not prove arbitrary crash durability. D03 target/history, D01 selected deployment/runtime and D02 current preparation-instance equality remain **OUTSTANDING**. Gate 0C and REAL A0012 remain **NOT AUTHORIZED**; U0013 is **PROHIBITED**. This retrospective note does not supersede earlier C1–C3 evidence or grant source promotion, installation or execution authority.
