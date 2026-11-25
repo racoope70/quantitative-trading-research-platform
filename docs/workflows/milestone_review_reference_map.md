@@ -38,6 +38,7 @@ Git history and the working tree verify implementation and completion evidence. 
 | Question | Find the answer |
 |---|---|
 | What lifecycle state or authorization applies? | [Project Context](../../PROJECT_CONTEXT.md) (controlling current state) |
+| Which accepted A0012 D3 and D1 engineering milestones apply? | [Accepted automation milestones](#accepted-a0012-automation-milestones--2026-11-24) and the [technical completion report](../reports/automation_reliability_engineering_v1_completion.md#accepted-d3-operating-configuration-and-d1-identity-engineering--2026-11-24) |
 | What are the phase requirements and entry/exit conditions? | [Major phase flow](#3-major-phase-flow) |
 | Which Owner decision or curated `2v` evidence applies? | [Curated decision and evidence lookup](#8-canonical-c0-c1-c2-c3-c4-and-c5-curated-lookup) |
 | Which accepted C6/universe scientific evidence applies? | [Scientific evidence index](#13-accepted-scientific-evidence-registry); follow its recorded source decisions and reports |
@@ -960,6 +961,30 @@ C6_authorization_effect = NONE
 Exact chronology should be verified through Git history, accepted decisions, material reports, audits, release tags where applicable, and immutable historical links.
 
 Git history and VS Code confirm technical implementation state. They do not control authorization.
+
+### Accepted A0012 automation milestones — 2026-11-24
+
+Within the existing independent original-lineage U0012 engineering scope,
+R1–R7 NONPRODUCTION qualification is accepted at **20/20**; D3 operating
+configuration is **CLOSED**, with bounded actual UID502 separation and accepted
+case compatibility; post-D3 qualification is accepted at **16/16**; and D1
+prospective REAL-format identity engineering is accepted and **CLOSED at 21/21**
+inside NONPRODUCTION. Historical UID501 protections are preserved.
+
+The [technical completion report](../reports/automation_reliability_engineering_v1_completion.md#accepted-d3-operating-configuration-and-d1-identity-engineering--2026-11-24)
+consolidates exact source/archive identities, preservation and qualification
+limits. The [Project Context operating roles](../../PROJECT_CONTEXT.md#operating-roles)
+identify Codex as MAIN_ENGINEER, ChatGPT as MANAGING and OWNER as final authority;
+Codex returns directly to MANAGING without a separate MAIN ChatGPT handoff.
+
+The D1 policy remains proposed; authoritative allocation coverage and exclusive
+issuance control remain unresolved. `NO_TUPLE`; `RESERVATION = NOT_ISSUED`;
+current D2 P4 remains conditional and unissued. Actual provider qualification and
+REAL admission/release/source/state conformance remain unestablished. D02 stays
+closed, original Attempt 11 stays permanently stopped, and the original 275
+records and Source64 remain immutable. Gate 0C/REAL A0012 remain unauthorized;
+U0013 remains prohibited. These accepted engineering milestones preserve the
+existing roadmap, completed C6, and separate C7-and-later scientific gates.
 
 ## 13. Accepted scientific evidence registry
 

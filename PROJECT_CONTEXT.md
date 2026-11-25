@@ -310,6 +310,17 @@ navigation, governance, and evidence reference.
 The Future Validation and Training Reference Map remains non-authorizing future
 guidance and sequencing reference material.
 
+### Operating roles
+
+| Role | Responsibility |
+| --- | --- |
+| OWNER | Final authority for material decisions, allocation issuance, privileged authorization and REAL execution. |
+| MANAGING | ChatGPT technical coordinator, independent reviewer, acceptance reviewer and escalation point. |
+| MAIN_ENGINEER | Codex; implements and corrects routine technical work within the current exact authorization and returns to MANAGING. |
+
+No separate MAIN ChatGPT handoff is required. Repository review, scientific
+independence, evidence integrity and authorization controls remain effective.
+
 ## 3. Current lifecycle and authorization state
 
 C5 remains completed and effective and is not reopened.
@@ -566,6 +577,8 @@ classifications and unresolved native execution cause.
 
 ### Batch0004 / Primary S05 / U0012 automation continuation — accepted state (2026-11-22)
 
+This dated snapshot is retained for provenance; the [2026-11-24 accepted state](#batch0004--primary-s05--u0012-accepted-d3-and-d1-milestones-2026-11-24) below records the subsequent closures and remaining holds.
+
 This bounded continuation is distinct from the completed C6/fixed-42 research lifecycle above. Retain original Attempt 11 as a permanent controlled stop with consumed, nonreusable authority; no new historical scientific records were accepted by that attempt.
 
 - **Scientific sufficiency:** Owner Option A accepts, **for its exact original Attempt 11 binding**, fresh identity of the four specified current objects plus previously accepted upstream S04 lineage/source assignment and unchanged bridge, preparation and deployment identities, subject to all accepted conditions. Do not automatically extend this to a later attempt. Full historical reconstruction, blanket P10 writer authentication, broad S04 recertification and Option B new-population admission are **not automatic prerequisites** for original-lineage continuation. Applicable current P4 recovery declaration/custody, Policy B and authorization/replay safeguards remain mandatory.
@@ -578,6 +591,13 @@ This bounded continuation is distinct from the completed C6/fixed-42 research li
 - **Boundaries:** The original 275 records and Source64 are immutable; original Attempt 11 is permanently controlled-stopped. Provider invocation, additional protected access, canonical REAL source/state mutation, REAL Owner issuance/consumption, Git publication, Gate 0C and REAL A0012 remain **NOT AUTHORIZED**; U0013 is **PROHIBITED**. No current REAL attestation or execution authority is supplied by this documentation.
 
 See the [technical completion report](docs/reports/automation_reliability_engineering_v1_completion.md) for bounded native test evidence, the [historical source locator](docs/workflows/source_evidence_locator.md) for accepted five-source identities, and the [Attempt 11 closure report](docs/reports/batch0004_u0012_attempt11_recovery_closure_and_milestones.md) for the historical operational stop and limits.
+
+### Batch0004 / Primary S05 / U0012 accepted D3 and D1 milestones (2026-11-24)
+
+- **Accepted engineering:** R1–R7 NONPRODUCTION engineering is accepted at **20/20**. D3 operating configuration is **CLOSED**, including bounded actual UID502 separation and accepted case compatibility; post-D3 qualification is accepted at **16/16**. Prospective D1 identity engineering is accepted and **CLOSED at 21/21**, exclusively inside NONPRODUCTION. Historical UID501 protections remain preserved. The accepted 69-file D1 derivative revision is `6168c3bdc79118186884625ac38a9ffd46dccafea956dacf0b22494e386145f0`; exact source, release, evidence and qualification limits are consolidated in the [technical completion report](docs/reports/automation_reliability_engineering_v1_completion.md#accepted-d3-operating-configuration-and-d1-identity-engineering--2026-11-24).
+- **Independent case and unresolved allocation:** `PRIMARY_S05_U0012_INDEPENDENT_V1` remains the approved namespace design. The D1 policy is **proposed**, with authoritative domain, complete USED/RESERVED/RETIRED inventory, alias coverage and exclusive issuance control unresolved. `NO_TUPLE`; `RESERVATION = NOT_ISSUED`. The current D2 P4 declaration remains **conditional and not issued**. Completed D3 OS configuration and NONPRODUCTION identity handling do not establish actual REAL admission, release designation, source/state conformance, installation or execution readiness. D01 actual-provider qualification remains unestablished; the earlier diagnostic allowance is exhausted.
+- **Scientific and lifecycle boundaries:** D02 remains `ACCEPTED_WITH_EXACT_LIMITS__CLOSED`. Original Attempt 11 remains permanently controlled-stopped with consumed, nonreusable authorization; the original 275 accepted records and Source64 remain immutable. The independent design retains reference-only predecessor treatment, genesis 0 / PENDING / zero local attempts, separate R/C/P custody and a fixed one-use journal. No historical checkpoint or consumed authority is inherited.
+- **Authorization boundaries:** Gate 0C and REAL A0012 remain **NOT AUTHORIZED**; U0013 remains **PROHIBITED**. This documentation supplies no provider invocation, protected access, REAL installation, state initialization, allocation reservation, or REAL authority issuance/consumption permission. C6 remains completed; the existing bounded data-establishment and acceptance authority retains its exact scope. C7 and later scientific phases remain separately governed, with the established roadmap and scientific requirements unchanged.
 
 ## 4. Authoritative material-decision pointers
 
