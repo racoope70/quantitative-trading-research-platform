@@ -90,7 +90,7 @@ RECURRENTPPO_COMPATIBILITY =
 REQUIRED
 
 C6_DATASET_CONTRACT =
-NOT_FROZEN
+FROZEN__EFFECTIVE
 ```
 
 The future contract must be capable of preserving:
