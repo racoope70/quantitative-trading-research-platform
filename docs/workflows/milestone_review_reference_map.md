@@ -39,6 +39,7 @@ Git history and the working tree verify implementation and completion evidence. 
 |---|---|
 | What lifecycle state or authorization applies? | [Project Context](../../PROJECT_CONTEXT.md) (controlling current state) |
 | Which accepted A0012 D3 and D1 engineering milestones apply? | [Accepted automation milestones](#accepted-a0012-automation-milestones--2026-11-24) and the [technical completion report](../reports/automation_reliability_engineering_v1_completion.md#accepted-d3-operating-configuration-and-d1-identity-engineering--2026-11-24) |
+| What final NONPRODUCTION engineering closure and limits apply? | [Final accepted engineering milestone](#accepted-final-a0012-nonproduction-engineering--2026-11-27) and the [technical completion report](../reports/automation_reliability_engineering_v1_completion.md#accepted-final-consolidated-nonproduction-engineering--2026-11-27) |
 | What are the phase requirements and entry/exit conditions? | [Major phase flow](#3-major-phase-flow) |
 | Which Owner decision or curated `2v` evidence applies? | [Curated decision and evidence lookup](#8-canonical-c0-c1-c2-c3-c4-and-c5-curated-lookup) |
 | Which accepted C6/universe scientific evidence applies? | [Scientific evidence index](#13-accepted-scientific-evidence-registry); follow its recorded source decisions and reports |
@@ -964,6 +965,8 @@ Git history and VS Code confirm technical implementation state. They do not cont
 
 ### Accepted A0012 automation milestones — 2026-11-24
 
+This dated entry retains the earlier policy/evidence status; the [final engineering closure](#accepted-final-a0012-nonproduction-engineering--2026-11-27) below records the subsequent acceptance.
+
 Within the existing independent original-lineage U0012 engineering scope,
 R1–R7 NONPRODUCTION qualification is accepted at **20/20**; D3 operating
 configuration is **CLOSED**, with bounded actual UID502 separation and accepted
@@ -985,6 +988,33 @@ closed, original Attempt 11 stays permanently stopped, and the original 275
 records and Source64 remain immutable. Gate 0C/REAL A0012 remain unauthorized;
 U0013 remains prohibited. These accepted engineering milestones preserve the
 existing roadmap, completed C6, and separate C7-and-later scientific gates.
+
+### Accepted final A0012 NONPRODUCTION engineering — 2026-11-27
+
+The Owner accepted and closed the consolidated original-lineage U0012 engineering
+milestone within its tested NONPRODUCTION limits: **59/59** reviewed interface
+qualification, followed by **32/32** targeted durable integration (16 physical
+persistence/replay/anchor, 12 source preload/origin and four affected regressions).
+These separately scoped results reuse dependencies and are not an additive
+independent test count. The final **73-file** revision is
+`f17a0264f7fb7fb0c1b0aab969c2b68ea67be0453c94ddf59aae690aae24cfe4`.
+The [technical completion report](../reports/automation_reliability_engineering_v1_completion.md#accepted-final-consolidated-nonproduction-engineering--2026-11-27)
+records exact source/archive identities, corrections and limits; the
+[source locator](source_evidence_locator.md#other-accepted-nonproduction-engineering-evidence)
+provides logical evidence navigation.
+
+The existing project-wide D1 policy design is **Owner-accepted**. Authoritative
+domain/alias/status coverage, collision absence, actual exclusive issuer control
+and the actual tuple remain unestablished: `NO_TUPLE`;
+`RESERVATION = NOT_ISSUED`; current P4 remains conditional and unissued. Later
+UID501 synthetic durability/role fixtures do not extend prior actual D3 OS
+observations or establish actual provider, REAL release/source/state/custody or
+authority conformance. D02 stays closed; original Attempt 11 stays permanently
+stopped with consumed authority; original 275 records and Source64 stay immutable.
+Gate 0C/REAL A0012 remain unauthorized; U0013 remains prohibited. This map remains
+nonauthorizing; OWNER, ChatGPT MANAGING and Codex MAIN_ENGINEER retain their
+existing roles. The rich roadmap, completed C6 and all future scientific phases
+and entry gates remain unchanged.
 
 ## 13. Accepted scientific evidence registry
 
